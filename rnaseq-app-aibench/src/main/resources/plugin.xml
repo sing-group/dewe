@@ -1,0 +1,63 @@
+<plugin start="true">
+	<uid>my-aibench-application</uid>
+	<name>my-aibench-application</name>
+	<version>1.0-SNAPSHOT</version>
+	
+	<lifecycleclass>org.sing_group.rnaseq.aibench.Lifecycle</lifecycleclass>
+
+	<dependencies>
+		<dependency uid="aibench.workbench"/>
+		<dependency uid="aibench.core"/>
+	</dependencies>
+	
+	<extensions>
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Bowtie2BuildIndex"
+		>
+			<operation-description
+				name="Build bowtie2 index"
+				uid="operations.bowtie2buildindex"
+				path="1@Genome"
+				shortcut="1"
+			/>
+		</extension>
+
+		<!--		
+		<extension uid="aibench.workbench" name="aibench.workbench.view">
+			<view
+				name="view name"
+				datatype="datatype-class"
+				class="view-class"
+				help="datatype-class"
+			/>		
+		</extension>
+		-->
+		
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view">
+		    <gui-operation
+				operation="operation-uid"
+				class="dialog-class"
+		    />
+		</extension>		
+		-->		
+
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view">
+			<icon-operation
+				operation="operation-uid"
+				icon="icons/icon.png"
+			/>
+			<big-icon-operation	
+				operation="operation-uid"
+				icon="icons/icon.png"
+			/>
+			<icon-datatype
+				datatype="datatype-class"
+				icon="icons/icon.png"
+			/>
+		</extension>
+		-->
+	</extensions>
+</plugin>
