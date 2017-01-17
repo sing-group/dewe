@@ -5,6 +5,7 @@ import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.DefaultBowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;
@@ -42,5 +43,10 @@ public class DefaultAppController implements AppController {
 	@Override
 	public Bowtie2Controller getBowtie2Controller() {
 		return this.bowtie2Controller;
+	}
+
+	@Override
+	public ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
+		return this.environment.getReferenceGenomeDatabaseManager();
 	}
 }

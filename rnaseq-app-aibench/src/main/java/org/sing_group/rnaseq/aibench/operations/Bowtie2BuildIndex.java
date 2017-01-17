@@ -4,9 +4,12 @@ import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.entities.Bowtie2ReferenceGenome;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -52,10 +55,16 @@ public class Bowtie2BuildIndex {
 		try {
 			String name = removeExtension(file) + "index";
 			DefaultAppController.getInstance().getBowtie2Controller().buildIndex(this.file, this.outputDir, name);
+			DefaultAppController.getInstance().getReferenceGenomeDatabaseManager().addReferenceGenome(
+				new Bowtie2ReferenceGenome(this.file, new File(outputDir, name).getAbsolutePath())
+			);
+			DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());
 		} catch (InterruptedException e) {
+			Workbench.getInstance().error(e, e.getMessage());
+		} catch (IOException e) {
 			Workbench.getInstance().error(e, e.getMessage());
 		}
 	}

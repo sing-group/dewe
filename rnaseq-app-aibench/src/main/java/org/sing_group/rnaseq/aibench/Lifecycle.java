@@ -16,10 +16,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
+import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent;
 import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.DefaultAppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 import es.uvigo.ei.aibench.TextAreaAppender;
 import es.uvigo.ei.aibench.workbench.MainWindow;
@@ -88,6 +90,17 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		} else {
 			Workbench.getInstance().error("Environment not available.");
 		}
+
+		this.updateReferenceGenomeManagerComponent();
+	}
+	
+	public void updateReferenceGenomeManagerComponent() {
+		ReferenceGenomeManagerComponent component = 
+			(ReferenceGenomeManagerComponent) Workbench.getInstance()
+				.getComponentAtSlot("referencegenomemanager");
+		component.setReferenceGenomeDatabaseManager(
+			DefaultReferenceGenomeDatabaseManager.getInstance()
+		);
 	}
 
 	private void configureFileChooser(AppEnvironment env) {

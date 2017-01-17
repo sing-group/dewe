@@ -8,12 +8,17 @@ import java.util.Properties;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.DefaultBowtie2Binaries;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 public class DefaultAppEnvironment implements AppEnvironment {
-
+	
+	public static final String PROP_DATABASES_DIR = "databases.directory";
+	public static final String PROP_REFERENCE_GENOME_FILE = "genomes.db";
+	
 	private File propertiesFile;
 	private Properties defaultProperties;
 	private DefaultBowtie2Binaries bowtie2Binaries;
+	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
 		throws FileNotFoundException, IOException {
@@ -25,7 +30,9 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		}
 
 		for (String property : new String[] {
-				Bowtie2Binaries.BASE_DIRECTORY_PROP }) {
+				Bowtie2Binaries.BASE_DIRECTORY_PROP,
+				PROP_DATABASES_DIR 
+		}) {
 			if (!this.hasProperty(property)) {
 				throw new IllegalStateException(
 					"Missing property in configuration file: " + property);
@@ -35,6 +42,36 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		this.bowtie2Binaries = new DefaultBowtie2Binaries(
 			this.getProperty(Bowtie2Binaries.BASE_DIRECTORY_PROP)
 		);
+		
+		try {
+			this.initReferenceGenomeDatabaseManager();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void initReferenceGenomeDatabaseManager() throws IOException, ClassNotFoundException {
+		referenceGenomeDatabaseManager = DefaultReferenceGenomeDatabaseManager.getInstance();
+		
+		File referenceGenomeDatabasefile = getReferenceGenomeDatabaseFile();
+		referenceGenomeDatabaseManager.setPersistenceStorageFile(referenceGenomeDatabasefile);
+		if(!referenceGenomeDatabasefile.exists()) {
+			referenceGenomeDatabaseManager.persistDatabase();
+		}
+		referenceGenomeDatabaseManager.loadDatabase();
+	}
+
+	private File getReferenceGenomeDatabaseFile() {
+		File databasesDir = getDatabasesDirectory();
+		return new File(databasesDir, PROP_REFERENCE_GENOME_FILE);
+	}
+
+	private File getDatabasesDirectory() {
+		File databasesDirectory = new File(getProperty(PROP_DATABASES_DIR));
+		if (!databasesDirectory.exists()) {
+			databasesDirectory.mkdirs();
+		}
+		return databasesDirectory;
 	}
 
 	@Override
@@ -56,5 +93,10 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public Bowtie2Binaries getBowtie2Binaries() {
 		return this.bowtie2Binaries;
+	}
+
+	@Override
+	public DefaultReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
+		return referenceGenomeDatabaseManager;
 	}
 }

@@ -25,6 +25,10 @@
 		<dependency>
    			<groupId>org.swinglabs.swingx</groupId>
    			<artifactId>swingx-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
+			<artifactId>GC4S</artifactId>
 		</dependency>		
 	</dependencies>
 </project>

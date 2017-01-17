@@ -59,5 +59,14 @@
 			/>
 		</extension>
 		-->
+		
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<component 
+				slotid="bottom" 
+				componentid="referencegenomemanager" 
+				name="Reference genomes" 
+				class="org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent"
+			/>
+		</extension>
 	</extensions>
 </plugin>
