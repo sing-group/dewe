@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeDatabaseListener;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
-import org.slf4j.LoggerFactory;
 
 public class ReferenceGenomeDatabaseTableModel 
 		extends DefaultTableModel
@@ -77,7 +76,6 @@ public class ReferenceGenomeDatabaseTableModel
 
 	@Override
 	public void referenceGenomeAdded() {
-		LoggerFactory.getLogger(getClass()).info("Reference genome added");
 		this.fireTableDataChanged();
 	}
 }

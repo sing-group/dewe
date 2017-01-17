@@ -1,5 +1,7 @@
 package org.sing_group.rnaseq.core.persistence.entities;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.Optional;
 
@@ -16,6 +18,22 @@ public class Bowtie2ReferenceGenome implements ReferenceGenome {
 	public Bowtie2ReferenceGenome(File file, String index) {
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = index;
+	}
+
+	public Bowtie2ReferenceGenome(File file, File indexFolder) {
+		this.referenceGenome = file;
+		this.referenceGenomeIndex = lookForIndex(indexFolder);
+	}
+
+	private String lookForIndex(File indexFolder) {
+		if(indexFolder.isDirectory()) {
+			Optional<File> firstIndexFile = asList(indexFolder.listFiles()).stream().filter(f -> f.getName().endsWith(INDEXES[0])).findAny();
+			if(firstIndexFile.isPresent()) {
+				return firstIndexFile.get().getAbsolutePath().replace(INDEXES[0], "");
+			}
+			throw new IllegalArgumentException("indexFolder must contain bowtie2 indexes");
+		}
+		throw new IllegalArgumentException("indexFolder must be a directory");
 	}
 
 	@Override
