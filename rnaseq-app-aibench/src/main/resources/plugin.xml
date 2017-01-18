@@ -35,6 +35,18 @@
 			/>
 		</extension>
 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignSamples"
+		>
+			<operation-description
+				name="Bowtie2 align samples"
+				uid="operations.bowtie2alignsamples"
+				path="1@Align"
+				shortcut="2"
+			/>
+		</extension>
+
 		<!--		
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
@@ -46,14 +58,12 @@
 		</extension>
 		-->
 		
-		<!--
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
-				operation="operation-uid"
-				class="dialog-class"
+				operation="operations.bowtie2alignsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow"
 		    />
 		</extension>		
-		-->		
 
 		<!--
 		<extension uid="aibench.workbench" name="aibench.workbench.view">

@@ -9,7 +9,7 @@ import java.io.IOException;
 import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.core.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGenome;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -56,7 +56,7 @@ public class Bowtie2BuildIndex {
 			String name = removeExtension(file) + "index";
 			DefaultAppController.getInstance().getBowtie2Controller().buildIndex(this.file, this.outputDir, name);
 			DefaultAppController.getInstance().getReferenceGenomeDatabaseManager().addReferenceGenome(
-				new Bowtie2ReferenceGenome(this.file, new File(outputDir, name).getAbsolutePath())
+				new DefaultBowtie2ReferenceGenome(this.file, new File(outputDir, name).getAbsolutePath())
 			);
 			DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
 			invokeLater(this::succeed);

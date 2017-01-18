@@ -27,7 +27,7 @@ public class DefaultBowtie2BinariesChecker implements Bowtie2BinariesChecker {
 	@Override
 	public void checkAll() throws BinaryCheckException {
 		this.checkBuildIndex();
-		this.checkAlign();
+		this.checkAlignReads();
 	}
 	
 	@Override
@@ -36,8 +36,8 @@ public class DefaultBowtie2BinariesChecker implements Bowtie2BinariesChecker {
 	}
 
 	@Override
-	public void checkAlign() throws BinaryCheckException {
-		checkCommand(this.binaries.getAlign());
+	public void checkAlignReads() throws BinaryCheckException {
+		checkCommand(this.binaries.getAlignReads());
 	}
 
 	protected static void checkCommand(String command) throws BinaryCheckException {

@@ -5,9 +5,9 @@ import static java.util.Arrays.asList;
 import java.io.File;
 import java.util.Optional;
 
-import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 
-public class Bowtie2ReferenceGenome implements ReferenceGenome {
+public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	private static final long serialVersionUID = 1L;
 	private static final String[] INDEXES = { ".1.bt2", ".2.bt2", ".3.bt2",
 		".4.bt2", ".rev.1.bt2", ".rev.2.bt2" };
@@ -15,12 +15,12 @@ public class Bowtie2ReferenceGenome implements ReferenceGenome {
 	private File referenceGenome;
 	private String referenceGenomeIndex;
 	
-	public Bowtie2ReferenceGenome(File file, String index) {
+	public DefaultBowtie2ReferenceGenome(File file, String index) {
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = index;
 	}
 
-	public Bowtie2ReferenceGenome(File file, File indexFolder) {
+	public DefaultBowtie2ReferenceGenome(File file, File indexFolder) {
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = lookForIndex(indexFolder);
 	}

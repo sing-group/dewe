@@ -7,5 +7,5 @@ public interface Bowtie2BinariesChecker
 	{
 	public void checkBuildIndex() throws BinaryCheckException;
 
-	public void checkAlign() throws BinaryCheckException;
+	public void checkAlignReads() throws BinaryCheckException;
 }

@@ -29,6 +29,6 @@
 		<dependency>
 			<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
 			<artifactId>GC4S</artifactId>
-		</dependency>		
+		</dependency>
 	</dependencies>
 </project>

@@ -6,5 +6,5 @@ public interface Bowtie2Binaries extends Binaries {
 
 	public abstract String getBuildIndex();
 
-	public abstract String getAlign();
+	public abstract String getAlignReads();
 }

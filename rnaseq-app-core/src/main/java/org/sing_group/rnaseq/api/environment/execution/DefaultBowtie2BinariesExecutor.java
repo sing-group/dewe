@@ -5,6 +5,7 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.DefaultBowtie2BinariesChecker;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,25 @@ public class DefaultBowtie2BinariesExecutor
 			this.binaries.getBuildIndex(),
 			genome.getAbsolutePath(),
 			new File(outDir, baseName).getAbsolutePath()
+		);
+	}
+
+	@Override
+	public ExecutionResult alignReads(Bowtie2ReferenceGenome genome,
+			File reads1, File reads2, File output)
+			throws ExecutionException, InterruptedException {
+		return executeCommand(
+			LOG,
+			this.binaries.getAlignReads(),
+			"--very-sensitive",
+			"-x",
+			genome.getReferenceGenomeIndex().get(),
+			"-1",
+			reads1.getAbsolutePath(),
+			"-2",
+			reads2.getAbsolutePath(),
+			"-S",
+			output.getAbsolutePath()
 		);
 	}
 }

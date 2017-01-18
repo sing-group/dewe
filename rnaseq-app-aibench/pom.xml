@@ -39,6 +39,10 @@
   			<artifactId>slf4j-log4j12</artifactId>
   		</dependency>
 		<dependency>
+			<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
+			<artifactId>GC4S</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>es.uvigo.ei.sing</groupId>
 			<artifactId>aibench-aibench</artifactId>
 			<scope>compile</scope>

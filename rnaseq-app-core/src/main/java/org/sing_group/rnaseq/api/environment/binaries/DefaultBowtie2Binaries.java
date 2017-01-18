@@ -52,7 +52,7 @@ public class DefaultBowtie2Binaries implements Bowtie2Binaries {
 	}
 
 	@Override
-	public String getAlign() {
+	public String getAlignReads() {
 		return this.cmdAlign;
 	}
 }
