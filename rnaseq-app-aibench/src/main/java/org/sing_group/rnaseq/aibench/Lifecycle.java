@@ -17,10 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent;
-import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
-import org.sing_group.rnaseq.api.environment.DefaultAppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.DefaultAppEnvironment;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 import es.uvigo.ei.aibench.TextAreaAppender;

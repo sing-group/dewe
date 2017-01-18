@@ -1,4 +1,4 @@
-package org.sing_group.rnaseq.api.environment.execution;
+package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.BufferedReader;
 import java.io.File;

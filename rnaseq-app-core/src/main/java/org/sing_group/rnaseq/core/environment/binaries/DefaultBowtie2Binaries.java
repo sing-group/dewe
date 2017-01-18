@@ -1,10 +1,11 @@
-package org.sing_group.rnaseq.api.environment.binaries;
+package org.sing_group.rnaseq.core.environment.binaries;
 
 import static org.sing_group.rnaseq.core.util.FileUtils.getAbsolutePath;
 
 import java.io.File;
 
-import org.sing_group.rnaseq.api.environment.DefaultBowtie2Environment;
+import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.core.environment.DefaultBowtie2Environment;
 
 public class DefaultBowtie2Binaries implements Bowtie2Binaries {
 

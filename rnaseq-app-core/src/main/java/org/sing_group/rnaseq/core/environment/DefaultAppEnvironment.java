@@ -1,4 +1,4 @@
-package org.sing_group.rnaseq.api.environment;
+package org.sing_group.rnaseq.core.environment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,8 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
-import org.sing_group.rnaseq.api.environment.binaries.DefaultBowtie2Binaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 public class DefaultAppEnvironment implements AppEnvironment {

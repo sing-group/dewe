@@ -1,7 +1,8 @@
-package org.sing_group.rnaseq.api.controller;
+package org.sing_group.rnaseq.core.controller;
 
 import java.io.File;
 
+import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;

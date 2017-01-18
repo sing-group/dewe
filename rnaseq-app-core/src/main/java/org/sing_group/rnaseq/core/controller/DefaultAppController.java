@@ -1,11 +1,13 @@
-package org.sing_group.rnaseq.api.controller;
+package org.sing_group.rnaseq.core.controller;
 
+import org.sing_group.rnaseq.api.controller.AppController;
+import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
-import org.sing_group.rnaseq.api.environment.execution.DefaultBowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
 
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;

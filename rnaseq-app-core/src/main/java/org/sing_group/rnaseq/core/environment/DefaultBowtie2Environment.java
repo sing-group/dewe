@@ -1,4 +1,6 @@
-package org.sing_group.rnaseq.api.environment;
+package org.sing_group.rnaseq.core.environment;
+
+import org.sing_group.rnaseq.api.environment.Bowtie2Environment;
 
 public class DefaultBowtie2Environment implements Bowtie2Environment {
 

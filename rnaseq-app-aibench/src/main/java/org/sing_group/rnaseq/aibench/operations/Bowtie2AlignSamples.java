@@ -5,9 +5,9 @@ import static org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParam
 
 import java.io.File;
 
-import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.core.controller.DefaultAppController;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;

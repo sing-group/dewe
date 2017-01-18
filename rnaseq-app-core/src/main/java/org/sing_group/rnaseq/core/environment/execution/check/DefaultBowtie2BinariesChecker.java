@@ -1,10 +1,12 @@
-package org.sing_group.rnaseq.api.environment.execution.check;
+package org.sing_group.rnaseq.core.environment.execution.check;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.api.environment.execution.check.Bowtie2BinariesChecker;
 
 public class DefaultBowtie2BinariesChecker implements Bowtie2BinariesChecker {
 

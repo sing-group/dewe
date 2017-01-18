@@ -1,11 +1,14 @@
-package org.sing_group.rnaseq.api.environment.execution;
+package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
-import org.sing_group.rnaseq.api.environment.execution.check.DefaultBowtie2BinariesChecker;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.core.environment.execution.check.DefaultBowtie2BinariesChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

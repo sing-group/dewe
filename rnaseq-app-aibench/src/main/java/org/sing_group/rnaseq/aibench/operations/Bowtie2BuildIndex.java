@@ -6,8 +6,8 @@ import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 import java.io.File;
 import java.io.IOException;
 
-import org.sing_group.rnaseq.api.controller.DefaultAppController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGenome;
 
