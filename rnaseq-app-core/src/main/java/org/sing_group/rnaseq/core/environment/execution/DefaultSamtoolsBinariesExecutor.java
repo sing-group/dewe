@@ -38,10 +38,10 @@ public class DefaultSamtoolsBinariesExecutor
 			LOG,
 			this.binaries.getSamToBam(),
 			"sort",
+			"--threads", "4",
 			"-o",
 			bam.getAbsolutePath(),
 			sam.getAbsolutePath()
 		);
 	}
-
 }
