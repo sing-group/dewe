@@ -9,8 +9,10 @@ import java.util.Properties;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 public class DefaultAppEnvironment implements AppEnvironment {
@@ -22,6 +24,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private Properties defaultProperties;
 	private DefaultBowtie2Binaries bowtie2Binaries;
 	private DefaultSamtoolsBinaries samtoolsBinaries;
+	private DefaultStringTieBinaries stringTieBinaries;
 	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
@@ -36,6 +39,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		for (String property : new String[] {
 				Bowtie2Binaries.BASE_DIRECTORY_PROP,
 				SamtoolsBinaries.BASE_DIRECTORY_PROP,
+				StringTieBinaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR 
 		}) {
 			if (!this.hasProperty(property)) {
@@ -49,6 +53,9 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		);
 		this.samtoolsBinaries = new DefaultSamtoolsBinaries(
 			this.getProperty(SamtoolsBinaries.BASE_DIRECTORY_PROP)
+		);
+		this.stringTieBinaries = new DefaultStringTieBinaries(
+			this.getProperty(StringTieBinaries.BASE_DIRECTORY_PROP)
 		);
 		
 		try {
@@ -106,6 +113,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public SamtoolsBinaries getSamtoolsBinaries() {
 		return this.samtoolsBinaries;
+	}
+	
+	@Override
+	public StringTieBinaries getStringTieBinaries() {
+		return this.stringTieBinaries;
 	}
 
 	@Override

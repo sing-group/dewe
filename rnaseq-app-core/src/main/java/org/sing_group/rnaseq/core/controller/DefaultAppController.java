@@ -3,21 +3,26 @@ package org.sing_group.rnaseq.core.controller;
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
+import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
 
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;
 	private AppEnvironment environment;
 	private DefaultBowtie2Controller bowtie2Controller;
 	private DefaultSamtoolsController samtoolsController;
+	private DefaultStringTieController stringTieController;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -32,6 +37,7 @@ public class DefaultAppController implements AppController {
 		this.environment = environment;
 		this.setBowtie2Controller();
 		this.setSamtoolsController();
+		this.setStringTieController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -46,6 +52,14 @@ public class DefaultAppController implements AppController {
 		this.samtoolsController = new DefaultSamtoolsController();
 		this.samtoolsController.setSamtoolsBinariesExecutor(
 			this.createSamtoolsBinariesExecutor(this.environment.getSamtoolsBinaries())
+		);
+		
+	}
+
+	private void setStringTieController() throws BinaryCheckException {
+		this.stringTieController = new DefaultStringTieController();
+		this.stringTieController.setStringTieBinariesExecutor(
+			this.createStringTieBinariesExecutor(this.environment.getStringTieBinaries())
 		);
 		
 	}
@@ -70,6 +84,18 @@ public class DefaultAppController implements AppController {
 	@Override
 	public SamtoolsController getSamtoolsController() {
 		return this.samtoolsController;
+	}
+
+	private StringTieBinariesExecutor createStringTieBinariesExecutor(
+		StringTieBinaries stringTieBinaries
+	) throws BinaryCheckException {
+		return new DefaultStringTieBinariesExecutor(stringTieBinaries);
+	}
+	
+	
+	@Override
+	public StringTieController getStringTieController() {
+		return this.stringTieController;
 	}
 
 	@Override

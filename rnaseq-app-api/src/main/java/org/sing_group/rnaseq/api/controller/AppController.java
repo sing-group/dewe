@@ -12,5 +12,7 @@ public interface AppController {
 
 	public abstract SamtoolsController getSamtoolsController();
 
+	public abstract StringTieController getStringTieController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }
