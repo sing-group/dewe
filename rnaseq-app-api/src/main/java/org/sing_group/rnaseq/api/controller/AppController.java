@@ -10,5 +10,7 @@ public interface AppController {
 
 	public abstract Bowtie2Controller getBowtie2Controller();
 
+	public abstract SamtoolsController getSamtoolsController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }
