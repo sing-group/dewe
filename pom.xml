@@ -105,8 +105,13 @@
 		<repository>
 			<id>sing-repository</id>
 			<name>SING repository</name>
-			<url>http://www.sing-group.org/maven2</url>
+			<url>http://maven.sing-group.org/repository/maven/</url>
 		</repository>
+		<repository>
+			<id>sing-repository-snapshots</id>
+			<name>SING repository</name>
+			<url>http://maven.sing-group.org/repository/maven-snapshots</url>
+		</repository>		
 	</repositories>
 	
 	<dependencyManagement>
