@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.aibench;
 
+import static es.uvigo.ei.aibench.workbench.inputgui.Common.MULTIPLE_FILE_CHOOSER;
 import static es.uvigo.ei.aibench.workbench.inputgui.Common.SINGLE_FILE_CHOOSER;
 import static es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction.ICON_24;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -109,5 +110,6 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 			defaultDirectory = env.getProperty("default.directory");
 		}
 		SINGLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));
+		MULTIPLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));
 	}
 }

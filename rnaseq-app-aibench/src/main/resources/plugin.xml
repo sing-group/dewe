@@ -50,8 +50,19 @@
 		>
 			<operation-description
 				name="Convert sam to sorted bam"
-				uid="operations.bowtie2alignsamples"
+				uid="operations.samtoolsconvertsamtobam"
 				path="3@Convert/1@Samtools"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.SamtoolsBatchConvertToBam"
+		>
+			<operation-description
+				name="Batch convert sam to sorted bam"
+				uid="operations.operations.samtoolsbatchvonvertsamtobam"
+				path="3@Convert/2@Samtools"
 			/>
 		</extension>
 
