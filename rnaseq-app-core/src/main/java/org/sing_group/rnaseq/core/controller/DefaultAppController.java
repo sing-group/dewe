@@ -2,18 +2,22 @@ package org.sing_group.rnaseq.core.controller;
 
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
+import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
 
@@ -23,6 +27,7 @@ public class DefaultAppController implements AppController {
 	private DefaultBowtie2Controller bowtie2Controller;
 	private DefaultSamtoolsController samtoolsController;
 	private DefaultStringTieController stringTieController;
+	private DefaultHtseqController htseqController;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -38,6 +43,7 @@ public class DefaultAppController implements AppController {
 		this.setBowtie2Controller();
 		this.setSamtoolsController();
 		this.setStringTieController();
+		this.setHtseqController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -62,6 +68,13 @@ public class DefaultAppController implements AppController {
 			this.createStringTieBinariesExecutor(this.environment.getStringTieBinaries())
 		);
 		
+	}
+
+	private void setHtseqController() throws BinaryCheckException {
+		this.htseqController = new DefaultHtseqController();
+		this.htseqController.setHtseqBinariesExecutor(
+			this.createHtseqBinariesExecutor(this.environment.getHtseqBinaries())
+		);
 	}
 
 	private Bowtie2BinariesExecutor createBowtie2BinariesExecutor(
@@ -91,16 +104,25 @@ public class DefaultAppController implements AppController {
 	) throws BinaryCheckException {
 		return new DefaultStringTieBinariesExecutor(stringTieBinaries);
 	}
-	
-	
+
+	private HtseqBinariesExecutor createHtseqBinariesExecutor(
+		HtseqBinaries htseqBinaries
+	) throws BinaryCheckException {
+		return new DefaultHtseqBinariesExecutor(htseqBinaries);
+	}
+
 	@Override
 	public StringTieController getStringTieController() {
 		return this.stringTieController;
+	}
+	
+	@Override
+	public HtseqController getHtseqController() {
+		return this.htseqController;
 	}
 
 	@Override
 	public ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
 		return this.environment.getReferenceGenomeDatabaseManager();
 	}
-
 }

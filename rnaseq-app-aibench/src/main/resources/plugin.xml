@@ -87,6 +87,17 @@
 				path="4@Transcripts/2@StringTie"
 			/>
 		</extension>
+		
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.HtseqCountBam"
+		>
+			<operation-description
+				name="Calculate reads counts using htseq-count"
+				uid="operations.htseqcountbam"
+				path="5@Reads/1@HtseqCount"
+			/>
+		</extension>		
 
 		<!--		
 		<extension uid="aibench.workbench" name="aibench.workbench.view">

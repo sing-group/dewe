@@ -14,5 +14,7 @@ public interface AppController {
 
 	public abstract StringTieController getStringTieController();
 
+	public abstract HtseqController getHtseqController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }

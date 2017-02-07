@@ -203,6 +203,49 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		}
 	}
 	
+	protected static ExecutionResult executeCommand(File redirectOutput, Logger log, String command, String ... params)
+	throws ExecutionException, InterruptedException {
+		return executeCommand(redirectOutput, log, true, command, params);
+	}
+	
+	protected static ExecutionResult executeCommand(File redirectOutput, Logger log, boolean logOutput, String command, String ... params)
+			throws ExecutionException, InterruptedException {
+		final String commandString = commandToString(command, params);
+		
+//		log.info("Executing command: " + commandString);
+		
+		try {
+			final String[] cmdarray = new String[params.length+1];
+			cmdarray[0] = command;
+			System.arraycopy(params, 0, cmdarray, 1, params.length);
+			
+			ProcessBuilder builder = new ProcessBuilder(cmdarray);
+			builder.redirectOutput(redirectOutput);
+			final Process process = builder.start();
+			
+			final LoggerThread inThread = new LoggerThread(
+				commandString, process.getInputStream(), log, logOutput, LogConfiguration.MARKER_EXECUTION_STD
+			);
+			final LoggerThread errThread = new LoggerThread(
+				commandString, process.getErrorStream(), log, true, LogConfiguration.MARKER_EXECUTION_ERROR
+			);
+			
+			inThread.start();
+			errThread.start();
+			
+			final int outputCode = process.waitFor();
+			
+			inThread.join();
+			errThread.join();
+			
+			return new DefaultExecutionResult(outputCode, inThread.getText(), errThread.getText());
+		} catch (IOException e) {
+			log.error(LogConfiguration.MARKER_EXECUTION_ERROR, "Error executing command: " + commandString, e);
+			
+			throw new ExecutionException(-1, e, command);
+		}
+	}
+	
 	//TODO: Refactorize executeCommandMethods
 	protected static ExecutionResult executeCommand(
 		final Logger log, final boolean logOutput,
