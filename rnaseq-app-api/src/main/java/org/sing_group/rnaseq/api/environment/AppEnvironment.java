@@ -2,6 +2,7 @@ package org.sing_group.rnaseq.api.environment;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
@@ -14,6 +15,8 @@ public interface AppEnvironment {
 	public abstract StringTieBinaries getStringTieBinaries();
 
 	public abstract HtseqBinaries getHtseqBinaries();
+
+	public abstract RBinaries getRBinaries();
 	
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 

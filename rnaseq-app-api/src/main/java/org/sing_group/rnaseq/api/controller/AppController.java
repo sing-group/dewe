@@ -16,5 +16,7 @@ public interface AppController {
 
 	public abstract HtseqController getHtseqController();
 
+	public abstract RController getRController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }

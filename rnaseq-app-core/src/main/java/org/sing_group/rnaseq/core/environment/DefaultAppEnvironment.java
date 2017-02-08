@@ -9,10 +9,12 @@ import java.util.Properties;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHtseqBinaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
@@ -28,6 +30,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultSamtoolsBinaries samtoolsBinaries;
 	private DefaultStringTieBinaries stringTieBinaries;
 	private DefaultHtseqBinaries htseqBinaries;
+	private DefaultRBinaries rBinaries;
 	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
@@ -44,6 +47,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				SamtoolsBinaries.BASE_DIRECTORY_PROP,
 				StringTieBinaries.BASE_DIRECTORY_PROP,
 				HtseqBinaries.BASE_DIRECTORY_PROP,
+				RBinaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR 
 		}) {
 			if (!this.hasProperty(property)) {
@@ -63,6 +67,9 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		);
 		this.htseqBinaries = new DefaultHtseqBinaries(
 			this.getProperty(HtseqBinaries.BASE_DIRECTORY_PROP)
+		);
+		this.rBinaries = new DefaultRBinaries(
+			this.getProperty(RBinaries.BASE_DIRECTORY_PROP)
 		);
 		
 		try {
@@ -130,6 +137,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public HtseqBinaries getHtseqBinaries() {
 		return this.htseqBinaries;
+	}
+
+	@Override
+	public RBinaries getRBinaries() {
+		return this.rBinaries;
 	}
 
 	@Override
