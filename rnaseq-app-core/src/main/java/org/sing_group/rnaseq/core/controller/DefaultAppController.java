@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.core.controller;
 
 import org.sing_group.rnaseq.api.controller.AppController;
+import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.RController;
@@ -33,6 +34,7 @@ public class DefaultAppController implements AppController {
 	private DefaultStringTieController stringTieController;
 	private DefaultHtseqController htseqController;
 	private DefaultRController rController;
+	private DefaultBallgownController ballgownController;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -50,6 +52,7 @@ public class DefaultAppController implements AppController {
 		this.setStringTieController();
 		this.setHtseqController();
 		this.setRController();
+		this.setBallgownController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -86,6 +89,13 @@ public class DefaultAppController implements AppController {
 	private void setRController() throws BinaryCheckException {
 		this.rController = new DefaultRController();
 		this.rController.setRBinariesExecutor(
+			this.createRBinariesExecutor(this.environment.getRBinaries())
+		);
+	}
+
+	private void setBallgownController() throws BinaryCheckException {
+		this.ballgownController = new DefaultBallgownController();
+		this.ballgownController.setRBinariesExecutor(
 			this.createRBinariesExecutor(this.environment.getRBinaries())
 		);
 	}
@@ -143,6 +153,11 @@ public class DefaultAppController implements AppController {
 	@Override
 	public HtseqController getHtseqController() {
 		return this.htseqController;
+	}
+
+	@Override
+	public BallgownController getBallgownController() {
+		return this.ballgownController;
 	}
 
 	@Override

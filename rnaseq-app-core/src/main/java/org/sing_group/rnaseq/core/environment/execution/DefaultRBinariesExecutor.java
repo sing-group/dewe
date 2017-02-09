@@ -1,6 +1,12 @@
 package org.sing_group.rnaseq.core.environment.execution;
 
+import static java.nio.file.Files.write;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Scanner;
 
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -45,4 +51,20 @@ public class DefaultRBinariesExecutor
 			);
 	}
 
+	public static File asScriptFile(InputStream inputstream, String name)
+		throws IOException {
+		Path tmpScriptFile = Files.createTempFile(name, ".R");
+		write(tmpScriptFile, asString(inputstream).getBytes());
+		return tmpScriptFile.toFile();
+	}
+
+	private static String asString(InputStream inputstream) {
+		Scanner scanner = new Scanner(inputstream);
+		StringBuilder sb = new StringBuilder();
+		while (scanner.hasNextLine()) {
+			sb.append(scanner.nextLine()).append("\n");
+		}
+		scanner.close();
+		return sb.toString();
+	}
 }

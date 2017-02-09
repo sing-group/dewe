@@ -18,5 +18,7 @@ public interface AppController {
 
 	public abstract RController getRController();
 
+	public abstract BallgownController getBallgownController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }
