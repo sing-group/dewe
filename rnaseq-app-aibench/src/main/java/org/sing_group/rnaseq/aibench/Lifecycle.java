@@ -23,6 +23,7 @@ import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckExceptio
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.environment.DefaultAppEnvironment;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 import es.uvigo.ei.aibench.TextAreaAppender;
 import es.uvigo.ei.aibench.workbench.MainWindow;
@@ -91,10 +92,9 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		} else {
 			Workbench.getInstance().error("Environment not available.");
 		}
-
 		this.updateReferenceGenomeManagerComponent();
 	}
-	
+
 	public void updateReferenceGenomeManagerComponent() {
 		ReferenceGenomeManagerComponent component = 
 			(ReferenceGenomeManagerComponent) Workbench.getInstance()
@@ -111,5 +111,6 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		}
 		SINGLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));
 		MULTIPLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));
+		CommonFileChooser.getInstance().setSingleFilechooser(SINGLE_FILE_CHOOSER);
 	}
 }
