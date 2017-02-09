@@ -36,9 +36,7 @@ public class Bowtie2ReferenceGenomeParamProvider extends AbstractParamProvider {
 	private List<ReferenceGenome> getBowtie2Indexes() {
 		return 	DefaultReferenceGenomeDatabaseManager.getInstance()
 				.listReferenceGenomes().stream()
-				.peek(g -> System.err.println(g.getReferenceGenome().getAbsolutePath()))
 				.filter(g -> g instanceof DefaultBowtie2ReferenceGenome)
-				.peek(g -> System.err.println("#" + g.getReferenceGenome().getAbsolutePath()))
 				.collect(toList());
 	}
 
