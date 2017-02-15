@@ -108,7 +108,18 @@
 				uid="operations.ballgowndifferentialexpressionanalysis"
 				path="6@Differential Expression"
 			/>
-		</extension>		
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.EdgeRDifferentialExpressionAnalysis"
+		>
+			<operation-description
+				name="Differential expression analysis with EdgeR"
+				uid="operations.edgerdifferentialexpressionanalysis"
+				path="6@Differential Expression"
+			/>
+		</extension>
 
 		<!--		
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
@@ -129,6 +140,10 @@
 		    <gui-operation
 				operation="operations.ballgowndifferentialexpressionanalysis"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.edgerdifferentialexpressionanalysis"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow"
 		    />
 		</extension>		
 
