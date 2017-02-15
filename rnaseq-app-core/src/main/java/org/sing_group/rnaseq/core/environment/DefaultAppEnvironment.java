@@ -12,11 +12,13 @@ import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHtseqBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultSystemBinaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
 public class DefaultAppEnvironment implements AppEnvironment {
@@ -31,6 +33,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultStringTieBinaries stringTieBinaries;
 	private DefaultHtseqBinaries htseqBinaries;
 	private DefaultRBinaries rBinaries;
+	private DefaultSystemBinaries systemBinaries;
 	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
@@ -48,6 +51,8 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				StringTieBinaries.BASE_DIRECTORY_PROP,
 				HtseqBinaries.BASE_DIRECTORY_PROP,
 				RBinaries.BASE_DIRECTORY_PROP,
+				SystemBinaries.BASE_DIRECTORY_PROP,
+				SystemBinaries.BASE_DIRECTORY_2_PROP,
 				PROP_DATABASES_DIR 
 		}) {
 			if (!this.hasProperty(property)) {
@@ -70,6 +75,10 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		);
 		this.rBinaries = new DefaultRBinaries(
 			this.getProperty(RBinaries.BASE_DIRECTORY_PROP)
+		);
+		this.systemBinaries = new DefaultSystemBinaries(
+			this.getProperty(SystemBinaries.BASE_DIRECTORY_PROP),
+			this.getProperty(SystemBinaries.BASE_DIRECTORY_2_PROP)
 		);
 		
 		try {
@@ -142,6 +151,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public RBinaries getRBinaries() {
 		return this.rBinaries;
+	}
+
+	@Override
+	public SystemBinaries getSystemBinaries() {
+		return this.systemBinaries;
 	}
 
 	@Override

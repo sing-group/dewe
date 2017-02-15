@@ -20,5 +20,9 @@ public interface AppController {
 
 	public abstract BallgownController getBallgownController();
 
+	public abstract EdgeRController getEdgeRController();
+
+	public abstract SystemController getSystemController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }

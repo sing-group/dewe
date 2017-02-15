@@ -30,11 +30,6 @@ public class DefaultRBinaries implements RBinaries {
 	}
 
 	@Override
-	public File getBaseDirectory() {
-		return baseDirectory;
-	}
-
-	@Override
 	public String getRscript() {
 		return this.cmdRscript;
 	}

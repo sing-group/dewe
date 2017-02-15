@@ -3,21 +3,25 @@ package org.sing_group.rnaseq.core.controller;
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
+import org.sing_group.rnaseq.api.controller.EdgeRController;
 import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.RController;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
+import org.sing_group.rnaseq.api.controller.SystemController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
@@ -25,6 +29,7 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExec
 import org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultSystemBinariesExecutor;
 
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;
@@ -35,6 +40,8 @@ public class DefaultAppController implements AppController {
 	private DefaultHtseqController htseqController;
 	private DefaultRController rController;
 	private DefaultBallgownController ballgownController;
+	private DefaultEdgeRController edgeRController;
+	private DefaultSystemController systemController;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -53,6 +60,8 @@ public class DefaultAppController implements AppController {
 		this.setHtseqController();
 		this.setRController();
 		this.setBallgownController();
+		this.setEdgeRController();
+		this.setSystemController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -97,6 +106,20 @@ public class DefaultAppController implements AppController {
 		this.ballgownController = new DefaultBallgownController();
 		this.ballgownController.setRBinariesExecutor(
 			this.createRBinariesExecutor(this.environment.getRBinaries())
+		);
+	}
+	
+	private void setEdgeRController() throws BinaryCheckException {
+		this.edgeRController = new DefaultEdgeRController();
+		this.edgeRController.setRBinariesExecutor(
+			this.createRBinariesExecutor(this.environment.getRBinaries())
+		);
+	}
+
+	private void setSystemController() throws BinaryCheckException {
+		this.systemController = new DefaultSystemController();
+		this.systemController.setSystemBinariesExecutor(
+			this.createSystemBinariesExecutor(this.environment.getSystemBinaries())
 		);
 	}
 
@@ -145,6 +168,12 @@ public class DefaultAppController implements AppController {
 		return new DefaultRBinariesExecutor(rBinaries);
 	}
 
+	private SystemBinariesExecutor createSystemBinariesExecutor(
+		SystemBinaries systemBinaries
+	) throws BinaryCheckException {
+		return new DefaultSystemBinariesExecutor(systemBinaries);
+	}
+
 	@Override
 	public StringTieController getStringTieController() {
 		return this.stringTieController;
@@ -158,6 +187,16 @@ public class DefaultAppController implements AppController {
 	@Override
 	public BallgownController getBallgownController() {
 		return this.ballgownController;
+	}
+	
+	@Override
+	public EdgeRController getEdgeRController() {
+		return this.edgeRController;
+	}
+
+	@Override
+	public SystemController getSystemController() {
+		return this.systemController;
 	}
 
 	@Override

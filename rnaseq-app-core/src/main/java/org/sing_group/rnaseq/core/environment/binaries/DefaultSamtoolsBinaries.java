@@ -30,11 +30,6 @@ public class DefaultSamtoolsBinaries implements SamtoolsBinaries {
 	}
 
 	@Override
-	public File getBaseDirectory() {
-		return baseDirectory;
-	}
-
-	@Override
 	public String getSamToBam() {
 		return this.cmdSamToBam;
 	}

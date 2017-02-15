@@ -12,4 +12,8 @@ public interface HtseqController {
 	public abstract void countBamReverseExon(File referenceAnnotationFile,
 		File inputBam, File output)
 		throws ExecutionException, InterruptedException;
+
+	public abstract void countBamReverseExon(File referenceAnnotationFile,
+		File[] inputBams, File outputDir, File joinFile)
+		throws ExecutionException, InterruptedException;
 }

@@ -30,11 +30,6 @@ public class DefaultStringTieBinaries implements StringTieBinaries {
 	}
 
 	@Override
-	public File getBaseDirectory() {
-		return baseDirectory;
-	}
-
-	@Override
 	public String getStringTie() {
 		return this.cmdStringTie;
 	}

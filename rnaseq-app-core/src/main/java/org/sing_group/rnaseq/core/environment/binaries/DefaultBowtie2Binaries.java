@@ -43,11 +43,6 @@ public class DefaultBowtie2Binaries implements Bowtie2Binaries {
 	}
 
 	@Override
-	public File getBaseDirectory() {
-		return this.baseDirectory;
-	}
-
-	@Override
 	public String getBuildIndex() {
 		return this.cmdBuildIndex;
 	}

@@ -30,11 +30,6 @@ public class DefaultHtseqBinaries implements HtseqBinaries {
 	}
 
 	@Override
-	public File getBaseDirectory() {
-		return baseDirectory;
-	}
-
-	@Override
 	public String getHtseqCount() {
 		return this.cmdHtseqCount;
 	}
