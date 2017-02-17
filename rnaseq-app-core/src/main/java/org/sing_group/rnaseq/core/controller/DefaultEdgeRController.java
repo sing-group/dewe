@@ -1,11 +1,11 @@
 package org.sing_group.rnaseq.core.controller;
 
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asScriptFile;
+import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
 import static org.sing_group.rnaseq.core.util.FileUtils.contains;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -22,9 +22,10 @@ public class DefaultEdgeRController implements EdgeRController {
 
 	private static final Collector<CharSequence, ?, String> JOINING =
 		Collectors.joining(" ");
-	private static final InputStream SCRIPT_DE_ANALYSIS = 
+	private static final String SCRIPT_DE_ANALYSIS = asString(
 		DefaultEdgeRController.class.getResourceAsStream(
-			"/scripts/edgeR-differential-expression.R");
+				"/scripts/edgeR-differential-expression.R")
+		);
 	
 	private RBinariesExecutor rBinariesExecutor;
 

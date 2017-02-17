@@ -39,7 +39,7 @@ public class DefaultRBinariesExecutor
 
 	@Override
 	public ExecutionResult runScript(File script, String...args)
-		throws ExecutionException, InterruptedException {
+			throws ExecutionException, InterruptedException {
 		final String[] newArgsArray = new String[args.length+1];
 		newArgsArray[0] = script.getAbsolutePath();
 		System.arraycopy(args, 0, newArgsArray, 1, args.length);
@@ -51,14 +51,14 @@ public class DefaultRBinariesExecutor
 			);
 	}
 
-	public static File asScriptFile(InputStream inputstream, String name)
-		throws IOException {
+	public static File asScriptFile(String script, String name)
+			throws IOException {
 		Path tmpScriptFile = Files.createTempFile(name, ".R");
-		write(tmpScriptFile, asString(inputstream).getBytes());
+		write(tmpScriptFile, script.getBytes());
 		return tmpScriptFile.toFile();
 	}
 
-	private static String asString(InputStream inputstream) {
+	public static String asString(InputStream inputstream) {
 		Scanner scanner = new Scanner(inputstream);
 		StringBuilder sb = new StringBuilder();
 		while (scanner.hasNextLine()) {

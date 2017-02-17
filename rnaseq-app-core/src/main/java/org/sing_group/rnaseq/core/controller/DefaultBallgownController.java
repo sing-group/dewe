@@ -1,10 +1,10 @@
 package org.sing_group.rnaseq.core.controller;
 
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asScriptFile;
+import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -15,9 +15,10 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 
 public class DefaultBallgownController implements BallgownController {
-	private static final InputStream SCRIPT_DE_ANALYSIS = 
+	public static final String SCRIPT_DE_ANALYSIS =	asString(
 		DefaultBallgownController.class.getResourceAsStream(
-			"/scripts/ballgown-differential-expression.R");
+			"/scripts/ballgown-differential-expression.R")
+		);
 	
 	private RBinariesExecutor rBinariesExecutor;
 
