@@ -39,8 +39,8 @@ results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas=
 results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
 # Save a tab delimited file for both the transcript and gene results
-write.table(results_transcripts,paste(workingDirectory, phenoDataPrefix,"_transcript_results.tsv",sep=""),sep="\t")
-write.table(results_genes, paste(workingDirectory, phenoDataPrefix,"_gene_results.tsv",sep=""), sep="\t")
+write.table(results_transcripts,row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_transcript_results.tsv",sep=""),sep="\t")
+write.table(results_genes, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results.tsv",sep=""), sep="\t")
 
 # Filter low-abundance genes. Here we remove all transcripts with a variance across the samples of less than one
 bg_filt = subset (bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
@@ -55,16 +55,16 @@ results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, 
 results_genes = merge(results_genes,bg_filt_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
 # Output the filtered list of genes and transcripts and save to tab delimited files
-write.table(results_transcripts, paste(workingDirectory, phenoDataPrefix,"_transcript_results_filtered.tsv",sep=""), sep="\t")
-write.table(results_genes, paste(workingDirectory, phenoDataPrefix,"_gene_results_filtered.tsv",sep=""), sep="\t")
+write.table(results_transcripts, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_transcript_results_filtered.tsv",sep=""), sep="\t")
+write.table(results_genes, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_filtered.tsv",sep=""), sep="\t")
 
 # Identify the significant genes with p-value < 0.05
 sig_transcripts = subset(results_transcripts,results_transcripts$pval<0.05)
 sig_genes = subset(results_genes,results_genes$pval<0.05)
 
 # Output the signifant gene results to a pair of tab delimited files
-write.table(sig_transcripts, paste(workingDirectory, phenoDataPrefix,"_transcript_results_sig.tsv",sep=""), sep="\t")
-write.table(sig_genes, paste(workingDirectory, phenoDataPrefix,"_gene_results_sig.tsv",sep=""), sep="\t")
+write.table(sig_transcripts, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_transcript_results_sig.tsv",sep=""), sep="\t")
+write.table(sig_genes,row.names = FALSE,  paste(workingDirectory, phenoDataPrefix,"_gene_results_sig.tsv",sep=""), sep="\t")
 
 # Exit the R session
 quit(save="no")
