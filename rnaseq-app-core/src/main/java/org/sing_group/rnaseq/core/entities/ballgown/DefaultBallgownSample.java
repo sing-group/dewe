@@ -27,7 +27,7 @@ public class DefaultBallgownSample implements BallgownSample {
 	}
 
 	@Override
-	public File getDirectory() {
+	public File getFile() {
 		return this.directory;
 	}
 }

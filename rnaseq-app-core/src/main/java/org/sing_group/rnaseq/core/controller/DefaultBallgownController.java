@@ -68,7 +68,7 @@ public class DefaultBallgownController implements BallgownController {
 				.append("\",\"")
 				.append(sample.getType())
 				.append("\",\"")
-				.append(sample.getDirectory().getAbsolutePath())
+				.append(sample.getFile().getAbsolutePath())
 				.append("\"\n");
 		}
 		return sb.toString();

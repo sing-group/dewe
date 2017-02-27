@@ -6,15 +6,15 @@ import static java.util.Arrays.asList;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 
-import org.sing_group.rnaseq.gui.ballgown.BallgownSamplesEditor;
-import org.sing_group.rnaseq.gui.ballgown.listener.BallgownSamplesEditorListener;
+import org.sing_group.rnaseq.gui.sample.BallgownSamplesEditor;
+import org.sing_group.rnaseq.gui.sample.listener.FileBasedSamplesEditorListener;
 
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
 
 public class BallgownDifferentialExpressionAnalysisParamProvider
 	extends AbstractParamProvider 
-	implements BallgownSamplesEditorListener 
+	implements FileBasedSamplesEditorListener 
 {
 	private BallgownSamplesEditor ballgownSamplesEditor;
 
@@ -22,7 +22,7 @@ public class BallgownDifferentialExpressionAnalysisParamProvider
 	public JComponent getComponent() {
 		if (this.ballgownSamplesEditor == null) {
 			this.ballgownSamplesEditor = new BallgownSamplesEditor();
-			this.ballgownSamplesEditor.addBallgownSamplesEditorListener(this);
+			this.ballgownSamplesEditor.addFileBasedSamplesEditorListener(this);
 		}
 		return this.ballgownSamplesEditor;
 	}

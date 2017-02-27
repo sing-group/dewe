@@ -1,8 +1,8 @@
 package org.sing_group.rnaseq.api.entities.ballgown;
 
-import java.io.Serializable;
-import java.util.List;
+import org.sing_group.rnaseq.api.entities.FileBasedSamples;
 
-public interface BallgownSamples extends List<BallgownSample>, Serializable {
+public interface BallgownSamples extends FileBasedSamples<BallgownSample> {
 
 }
+
