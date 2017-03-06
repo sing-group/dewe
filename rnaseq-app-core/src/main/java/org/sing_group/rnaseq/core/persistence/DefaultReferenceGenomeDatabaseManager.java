@@ -67,4 +67,11 @@ public class DefaultReferenceGenomeDatabaseManager implements ReferenceGenomeDat
 			ReferenceGenomeDatabaseListener listener) {
 		this.database.addReferenceGenomeDatabaseListener(listener);
 	}
+
+	@Override
+	public <T extends ReferenceGenome> List<T> listReferenceGenomes(
+		Class<T> referenceGenomeClass
+	) {
+		return database.listReferenceGenomes(referenceGenomeClass);
+	}
 }

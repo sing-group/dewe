@@ -7,14 +7,14 @@ import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 
 import org.sing_group.rnaseq.gui.sample.EdgeRSamplesEditor;
-import org.sing_group.rnaseq.gui.sample.listener.FileBasedSamplesEditorListener;
+import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
 
 public class EdgeRDifferentialExpressionAnalysisParamProvider
 	extends AbstractParamProvider 
-	implements FileBasedSamplesEditorListener 
+	implements SamplesEditorListener 
 {
 	private EdgeRSamplesEditor edgeRSamplesEditor;
 
@@ -22,7 +22,7 @@ public class EdgeRDifferentialExpressionAnalysisParamProvider
 	public JComponent getComponent() {
 		if (this.edgeRSamplesEditor == null) {
 			this.edgeRSamplesEditor = new EdgeRSamplesEditor();
-			this.edgeRSamplesEditor.addFileBasedSamplesEditorListener(this);
+			this.edgeRSamplesEditor.addSamplesEditorListener(this);
 		}
 		return this.edgeRSamplesEditor;
 	}

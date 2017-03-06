@@ -3,6 +3,7 @@ package org.sing_group.rnaseq.core.controller;
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.controller.EdgeRController;
 import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.RController;
@@ -42,6 +43,7 @@ public class DefaultAppController implements AppController {
 	private DefaultBallgownController ballgownController;
 	private DefaultEdgeRController edgeRController;
 	private DefaultSystemController systemController;
+	private DefaultWorkflowController workflowController;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -62,6 +64,7 @@ public class DefaultAppController implements AppController {
 		this.setBallgownController();
 		this.setEdgeRController();
 		this.setSystemController();
+		this.setWorkflowController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -121,6 +124,10 @@ public class DefaultAppController implements AppController {
 		this.systemController.setSystemBinariesExecutor(
 			this.createSystemBinariesExecutor(this.environment.getSystemBinaries())
 		);
+	}
+
+	private void setWorkflowController() {
+		this.workflowController = new DefaultWorkflowController();
 	}
 
 	private Bowtie2BinariesExecutor createBowtie2BinariesExecutor(
@@ -197,6 +204,11 @@ public class DefaultAppController implements AppController {
 	@Override
 	public SystemController getSystemController() {
 		return this.systemController;
+	}
+
+	@Override
+	public WorkflowController getWorkflowController() {
+		return this.workflowController;
 	}
 
 	@Override

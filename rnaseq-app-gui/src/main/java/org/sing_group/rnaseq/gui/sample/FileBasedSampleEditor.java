@@ -13,7 +13,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.sing_group.rnaseq.api.entities.FileBasedSample;
-import org.sing_group.rnaseq.gui.sample.listener.FileBasedSampleEditorListener;
+import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
@@ -53,7 +53,7 @@ public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends J
 	}
 
 	private void sampleEdited() {
-		for (FileBasedSampleEditorListener l : getFileBasedSampleEditorListeners()) {
+		for (SampleEditorListener l : getSampleEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
 		}
 	}
@@ -117,13 +117,12 @@ public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends J
 	protected String getSampleName() {
 		return this.sampleNameTf.getText();
 	}
-
 	
-	public synchronized void addFileBasedSampleEditorListener(FileBasedSampleEditorListener l) {
-		this.listenerList.add(FileBasedSampleEditorListener.class, l);
+	public synchronized void addSampleEditorListener(SampleEditorListener l) {
+		this.listenerList.add(SampleEditorListener.class, l);
 	}
 
-	public synchronized FileBasedSampleEditorListener[] getFileBasedSampleEditorListeners() {
-		return this.listenerList.getListeners(FileBasedSampleEditorListener.class);
+	public synchronized SampleEditorListener[] getSampleEditorListeners() {
+		return this.listenerList.getListeners(SampleEditorListener.class);
 	}
 }

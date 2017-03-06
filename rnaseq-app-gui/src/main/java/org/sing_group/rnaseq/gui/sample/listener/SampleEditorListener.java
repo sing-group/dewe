@@ -4,8 +4,6 @@ import java.util.EventListener;
 
 import javax.swing.event.ChangeEvent;
 
-public interface FileBasedSamplesEditorListener extends EventListener {
+public interface SampleEditorListener extends EventListener {
 	void onSampleEdited(ChangeEvent event);
-	void onSampleAdded(ChangeEvent event);
-	void onSampleRemoved(ChangeEvent event);
 }

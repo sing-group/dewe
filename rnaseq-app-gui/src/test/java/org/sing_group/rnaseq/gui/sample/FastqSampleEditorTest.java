@@ -1,0 +1,37 @@
+package org.sing_group.rnaseq.gui.sample;
+
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.setNimbusLookAndFeel;
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
+
+import java.util.Arrays;
+
+import javax.swing.event.ChangeEvent;
+
+import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
+
+public class FastqSampleEditorTest {
+
+	public static void main(String[] args) {
+		setNimbusLookAndFeel();
+		FastqSampleEditor editor = createComponent();
+		showComponent(editor);
+
+		try {
+			Thread.sleep(2000);
+			editor.setSelectableConditions(Arrays.asList("A", "B"));
+		} catch (InterruptedException e) {
+		}
+	}
+
+	private static FastqSampleEditor createComponent() {
+		FastqSampleEditor editor = new FastqSampleEditor();
+		editor.addSampleEditorListener(new SampleEditorListener() {
+			
+			@Override
+			public void onSampleEdited(ChangeEvent event) {
+				System.err.println(editor.getSample());
+			}
+		});
+		return editor;
+	}
+}

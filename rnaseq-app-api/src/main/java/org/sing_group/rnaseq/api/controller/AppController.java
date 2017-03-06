@@ -24,5 +24,7 @@ public interface AppController {
 
 	public abstract SystemController getSystemController();
 
+	public abstract WorkflowController getWorkflowController();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }

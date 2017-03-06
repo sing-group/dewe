@@ -2,6 +2,7 @@ package org.sing_group.rnaseq.core.persistence.entities;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeDatabase;
@@ -40,5 +41,15 @@ public class DefaultReferenceGenomeDatabase implements ReferenceGenomeDatabase {
 			this.listeners = new LinkedList<>();
 		}
 		return this.listeners;
+	}
+
+	@Override
+	public <T extends ReferenceGenome> List<T> listReferenceGenomes(
+		Class<T> referenceGenomeClass
+	) {
+		return (List<T>) listReferenceGenomes().stream()
+				.filter(r -> referenceGenomeClass.isInstance(r))
+				.map(r -> referenceGenomeClass.cast(r))
+				.collect(Collectors.toList());
 	}
 }

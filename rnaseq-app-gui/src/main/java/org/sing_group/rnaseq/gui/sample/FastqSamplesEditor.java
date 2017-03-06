@@ -1,46 +1,48 @@
 package org.sing_group.rnaseq.gui.sample;
 
-import static java.util.stream.Collectors.toList;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
-import org.sing_group.rnaseq.api.entities.FileBasedSample;
-import org.sing_group.rnaseq.api.entities.FileBasedSamples;
+import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
+import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
 import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
 import es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder;
 
-public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E extends FileBasedSample>
-	extends JPanel 
-{
+public class FastqSamplesEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private List<FileBasedSampleEditorComponent> samples = new LinkedList<>();
 
-	public FileBasedSamplesEditor() {
+	private List<SampleEditorComponent> samples = new LinkedList<>();
+	private JPanel samplesPanel;
+	private List<String> selectableConditions = Collections.emptyList();
+
+	public FastqSamplesEditor() {
 		this.init();
 	}
 
 	private void init() {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		this.add(createButtonsPanel());
-		for(int i = 0; i < 2; i++) {
-			addSampleEditorComponent();
-		}
+		this.setLayout(new BorderLayout());
+		this.add(createButtonsPanel(), BorderLayout.NORTH);
+		this.add(createSamplesPanel(), BorderLayout.CENTER);
 	}
 
 	private JPanel createButtonsPanel() {
@@ -62,27 +64,38 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 		buttonsPanel.add(addBtn, BorderLayout.EAST);
 		return buttonsPanel;
 	}
+	
+	private JComponent createSamplesPanel() {
+		samplesPanel = new JPanel();
+		samplesPanel.setLayout(new BoxLayout(samplesPanel, BoxLayout.Y_AXIS));
+		for(int i = 0; i < 2; i++) {
+			addSampleEditorComponent();
+		}
+		return new JScrollPane(samplesPanel);
+	}
 
 	private void addSampleEditorComponent() {
-		FileBasedSampleEditorComponent editor = 
-			new FileBasedSampleEditorComponent(getFileBasedSampleEditor());
+		SampleEditorComponent editor = 
+			new SampleEditorComponent(getFastqSampleEditor());
 		editor.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-		this.add(editor);
+		samplesPanel.add(editor);
 		samples.add(editor);
 		sampleAdded();
 		this.updateUI();
 	}
 
-	protected abstract FileBasedSampleEditor<E> getFileBasedSampleEditor();
+	protected FastqSampleEditor getFastqSampleEditor() {
+		return new FastqSampleEditor(selectableConditions);
+	}
 
-	class FileBasedSampleEditorComponent extends JPanel 
+	class SampleEditorComponent extends JPanel 
 		implements SampleEditorListener 
 	{
 		private static final long serialVersionUID = 1L;
 
-		private FileBasedSampleEditor<E> editor;
+		private FastqSampleEditor editor;
 
-		public FileBasedSampleEditorComponent(FileBasedSampleEditor<E> editor) {
+		public SampleEditorComponent(FastqSampleEditor editor) {
 			this.editor = editor;
 			this.editor.addSampleEditorListener(this);
 			this.init();
@@ -103,20 +116,23 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						removeEditorComponent(FileBasedSampleEditorComponent.this);
-						
+						removeEditorComponent(SampleEditorComponent.this);
 					}
 				})
 				.build();
 			return closeBtn;
 		}
 
-		public E getSample() {
+		public DefaultFastqReadsSample getSample() {
 			return this.editor.getSample();
 		}
 
 		public boolean isValidValue() {
 			return this.editor.isValidValue();
+		}
+		
+		public void setSelectableConditions(List<String> selectableConditions) {
+			this.editor.setSelectableConditions(selectableConditions);
 		}
 
 		@Override
@@ -125,26 +141,18 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 		}
 	}
 	
-	private void removeEditorComponent(FileBasedSampleEditorComponent component) {
+	private void removeEditorComponent(SampleEditorComponent component) {
 		SwingUtilities.invokeLater(() -> {
 			this.samples.remove(component);
-			this.remove(component);
+			this.samplesPanel.remove(component);
 			sampleRemoved();
 			this.updateUI();
 		});
 	}
 
-	public abstract T getSamples();
-
-	protected List<E> getSamplesList() {
-		return 	this.samples.stream()
-				.map(FileBasedSampleEditorComponent::getSample)
-				.collect(toList());
-	}
-
 	public boolean isValidSelection() {
 		return 	!this.samples.stream()
-				.map(FileBasedSampleEditorComponent::isValidValue)
+				.map(SampleEditorComponent::isValidValue)
 				.filter(valid -> (valid == false))
 				.findAny().isPresent();
 	}
@@ -160,7 +168,7 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 			l.onSampleRemoved(new ChangeEvent(this));
 		}
 	}
-
+	
 	private void sampleEdited() {
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
@@ -173,5 +181,17 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 
 	public synchronized SamplesEditorListener[] getSamplesEditorListeners() {
 		return this.listenerList.getListeners(SamplesEditorListener.class);
+	}
+
+	public void setSelectableConditions(List<String> conditions) {
+		this.selectableConditions = Objects.requireNonNull(conditions);
+		this.samples.stream().forEach(c -> c.setSelectableConditions(conditions));
+	}
+
+	public FastqReadsSamples getSamples() {
+		return 	new DefaultFastqReadsSamples(
+					this.samples.stream().map(SampleEditorComponent::getSample)
+					.collect(Collectors.toList())
+				);
 	}
 }

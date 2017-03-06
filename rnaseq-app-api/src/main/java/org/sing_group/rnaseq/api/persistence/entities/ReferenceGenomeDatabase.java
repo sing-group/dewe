@@ -12,4 +12,7 @@ public interface ReferenceGenomeDatabase extends Serializable {
 
 	public abstract void addReferenceGenomeDatabaseListener(
 		ReferenceGenomeDatabaseListener listener);
+
+	public abstract <T extends ReferenceGenome> List<T> listReferenceGenomes(
+		Class<T> referenceGenomeClass);
 }

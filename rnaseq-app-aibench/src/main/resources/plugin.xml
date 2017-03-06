@@ -1,7 +1,7 @@
 <plugin start="true">
 	<uid>my-aibench-application</uid>
 	<name>my-aibench-application</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	
 	<lifecycleclass>org.sing_group.rnaseq.aibench.Lifecycle</lifecycleclass>
 
@@ -9,7 +9,7 @@
 		<dependency uid="aibench.workbench"/>
 		<dependency uid="aibench.core"/>
 	</dependencies>
-	
+
 	<extensions>
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
@@ -118,6 +118,16 @@
 				name="Differential expression analysis with EdgeR"
 				uid="operations.edgerdifferentialexpressionanalysis"
 				path="6@Differential Expression"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.BowtieStringTieAndRDifferentialExpressionOperation"
+		>
+			<operation-description
+				name="DE Workflow: bowtie2, StringTie and R (ballgown/edgeR)"
+				uid="operations.bowtiestringtiedifferentialexpression"
 			/>
 		</extension>
 
