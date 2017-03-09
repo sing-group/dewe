@@ -43,7 +43,7 @@ public class Bowtie2BuildIndex {
 		allowNull = true,
 		order = 2,
 		extras="selectionMode=directories",
-		advanced=false
+		advanced=true
 	)
 	public void setOutputFolder(File outputDir) {
 		this.outputDir = outputDir == null ? this.file.getParentFile() : outputDir;

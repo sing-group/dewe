@@ -41,7 +41,7 @@ public class Bowtie2ImportIndex {
 		allowNull = true,
 		order = 2,
 		extras="selectionMode=directories",
-		advanced=false
+		advanced=true
 	)
 	public void setOutputFolder(File outputDir) {
 		this.indexDir = outputDir == null ? this.file.getParentFile() : outputDir;
