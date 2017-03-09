@@ -79,12 +79,23 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.StringTieMerge"
+		>
+			<operation-description
+				name="Merge transcripts using StringTie"
+				uid="operations.stringtiemerge"
+				path="4@Transcripts/2@StringTie"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.batch.StringTieBatch"
 		>
 			<operation-description
 				name="Batch reconstruct transcripts using StringTie"
 				uid="operations.stringtiebatch"
-				path="4@Transcripts/2@StringTie"
+				path="4@Transcripts/3@StringTie"
 			/>
 		</extension>
 		
