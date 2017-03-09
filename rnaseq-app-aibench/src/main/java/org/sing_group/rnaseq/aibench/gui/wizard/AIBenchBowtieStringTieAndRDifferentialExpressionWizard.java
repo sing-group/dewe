@@ -5,8 +5,11 @@ import java.awt.Window;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.gui.components.wizard.BowtieStringTieAndRDifferentialExpressionWizard;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
@@ -34,9 +37,44 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard extends Bowt
 	}
 	
 	private static void showWizard() {
+		while (shouldCreateBowtie2Index()) {
+			int userAction = askUserAction();
+			if (userAction == 0) {
+				executeOperation("operations.bowtie2importindex");
+			} else if (userAction == 1) {
+				executeOperation("operations.bowtie2buildindex");
+			} else {
+				return;
+			}
+		}
+
 		AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 			.getWizard(Workbench.getInstance().getMainFrame())
 			.setVisible(true);
+	}
+
+	private static boolean shouldCreateBowtie2Index() {
+		return DefaultReferenceGenomeDatabaseManager.getInstance()
+					.listReferenceGenomes(Bowtie2ReferenceGenome.class).isEmpty();
+	}
+
+	private static int askUserAction() {
+		Object[] options = { "Import index", "Create index", "Cancel" };
+		int n = JOptionPane.showOptionDialog(
+			Workbench.getInstance().getMainFrame(),
+			"You should create or import a bowtie2 index before launching the "
+			+ "wizard. What do you want to do?",
+			"bowtie2 index required",
+			JOptionPane.YES_NO_CANCEL_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null, options, options[2]
+		);
+
+		return n;
+	}
+
+	private static void executeOperation(String uid) {
+		Workbench.getInstance().executeOperation(uid);
 	}
 
 	@Override
