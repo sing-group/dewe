@@ -29,4 +29,18 @@ public class DefaultStringTieController implements StringTieController {
 					"Error executing samtools. Please, check error log.", "");
 		}
 	}
+
+	@Override
+	public void mergeTranscripts(File referenceAnnotationFile,
+			File mergeList, File mergedAnnotationFile)
+			throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.stringTieBinariesExecutor.mergeTranscripts(
+				referenceAnnotationFile, mergeList, mergedAnnotationFile);
+		
+		if (result.getExitStatus() != 0) {
+			throw new ExecutionException(result.getExitStatus(),
+					"Error executing samtools. Please, check error log.", "");
+		}
+	}
 }

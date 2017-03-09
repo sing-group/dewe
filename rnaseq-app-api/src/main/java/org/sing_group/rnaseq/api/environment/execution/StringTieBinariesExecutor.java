@@ -10,4 +10,8 @@ public interface StringTieBinariesExecutor
 	public abstract ExecutionResult obtainTranscripts(File referenceAnnotationFile,
 		File inputBam, File outputTranscripts)
 		throws ExecutionException, InterruptedException;
+
+	public abstract ExecutionResult mergeTranscripts(File referenceAnnotationFile, 
+		File mergeList, File mergedAnnotationFile)
+		throws ExecutionException, InterruptedException;
 }

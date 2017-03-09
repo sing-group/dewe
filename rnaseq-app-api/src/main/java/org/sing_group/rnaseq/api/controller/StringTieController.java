@@ -12,4 +12,8 @@ public interface StringTieController {
 	public abstract void obtainTranscripts(File referenceAnnotationFile,
 		File inputBam, File outputTranscripts)
 		throws ExecutionException, InterruptedException;
+	
+	public abstract void mergeTranscripts(File referenceAnnotationFile, 
+		File mergeList, File mergedAnnotationFile)
+		throws ExecutionException, InterruptedException;
 }

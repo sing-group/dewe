@@ -46,5 +46,20 @@ public class DefaultStringTieBinariesExecutor
 			inputBam.getAbsolutePath()
 		);
 	}
+	
+	@Override
+	public ExecutionResult mergeTranscripts(File referenceAnnotationFile,
+			File mergeList, File mergedAnnotationFile)
+			throws ExecutionException, InterruptedException {
+		return executeCommand(
+			LOG,
+			this.binaries.getStringTie(),
+			"--merge", 
+			"-p 8",
+			"-G", 	referenceAnnotationFile.getAbsolutePath(),
+			"-o", 	mergedAnnotationFile.getAbsolutePath(),
+			mergeList.getAbsolutePath()
+		);
+	}
 
 }

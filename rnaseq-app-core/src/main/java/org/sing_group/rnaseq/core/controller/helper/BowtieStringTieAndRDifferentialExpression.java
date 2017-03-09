@@ -1,6 +1,8 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.stream.Collectors;
 
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
@@ -99,16 +101,37 @@ public class BowtieStringTieAndRDifferentialExpression {
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
 		
-		float subtaskProgress = 1f / reads.size();
+		float subtaskProgress = 1f / (reads.size()*2+1);
+		
+		File mergeList = getMergeList(reads, workingDirectory);
+		File mergedAnnotationFile = getMergedTranscriptsFile(workingDirectory);
+		
 		for (FastqReadsSample sample : reads) {
 			status.setSubtask("Sample: " + sample.getName());
 			
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
+			
 			stringTieController.obtainTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile);
 			
 			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
 		}
+
+		status.setSubtask("Merge samples transcripts");
+		stringTieController.mergeTranscripts(referenceAnnotationFile, mergeList, mergedAnnotationFile);		
+		status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+		
+		for (FastqReadsSample sample : reads) {
+			status.setSubtask("Sample: " + sample.getName());
+			
+			File bam = getBamFile(sample, workingDirectory);
+			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
+			
+			stringTieController.obtainTranscripts(mergedAnnotationFile, bam, outputTranscriptsfile);
+			
+			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+		}
+		;
 		
 		status.setSubtask("");
 		status.setSubtaskProgress(0f);
@@ -217,10 +240,43 @@ public class BowtieStringTieAndRDifferentialExpression {
 		File sampleWd = getSampleWorkingDir(sample, workingDirectory);
 		return new File(sampleWd, sample.getName() + ".gtf");
 	}
+	
+	private static File getMergedTranscriptsFile(File workingDirectory) {
+		return new File(getStringTieWorkingDir(workingDirectory), "mergedAnnotationFile.gtf");
+	}
 
 	private static File getSampleWorkingDir(FastqReadsSample sample, File workingdir) {
 		File outputFile = new File(workingdir, sample.getName());
 		outputFile.mkdirs();
 		return outputFile;
+	}
+	
+	private static File getStringTieWorkingDir(File workingdir){
+		File outputFile = new File(workingdir, "stringtie");
+		outputFile.mkdirs();
+		return outputFile;
+		
+	}
+	
+	private static File getMergeList(FastqReadsSamples reads, File workingdir) {		
+		File mergeList = new File(getStringTieWorkingDir(workingdir), "mergeList.txt");
+		try {
+			Files.write(mergeList.toPath(), mergeList(reads, workingdir).getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return mergeList;
+		
+	}
+	
+	private static String mergeList(FastqReadsSamples reads, File workingDirectory) {
+		StringBuilder sb = new StringBuilder();
+		for(FastqReadsSample sample : reads) {
+			File sampleWd = getSampleWorkingDir(sample, workingDirectory);
+			sb
+				.append(sampleWd.getAbsolutePath() + "/" + sample.getName() + ".gtf")
+				.append("\n");
+		}
+		return sb.toString();
 	}
 }
