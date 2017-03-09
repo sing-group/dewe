@@ -1,6 +1,9 @@
 package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -47,6 +50,39 @@ public class DefaultStringTieBinariesExecutor
 		);
 	}
 	
+	@Override
+	public ExecutionResult mergeTranscripts(File referenceAnnotationFile,
+		List<File> inputAnnotationFiles, File mergedAnnotationFile)
+		throws ExecutionException, InterruptedException {
+		try {
+			return mergeTranscripts(referenceAnnotationFile, 
+				getMergedTxtFile(inputAnnotationFiles), mergedAnnotationFile);
+		} catch (IOException e) {
+			throw new ExecutionException(-1, e.getMessage());
+		}
+	}
+
+	private static File getMergedTxtFile(List<File> inputAnnotationFiles)
+		throws IOException {
+		File mergeList = Files.createTempFile("merged-list", ".txt").toFile();
+		try {
+			Files.write(mergeList.toPath(),
+				mergeList(inputAnnotationFiles).getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return mergeList;
+	}
+
+	private static String mergeList(List<File> inputAnnotationFiles) {
+		StringBuilder sb = new StringBuilder();
+		for (File gtf : inputAnnotationFiles) {
+			sb.append(gtf.getAbsolutePath()).append("\n");
+		}
+		return sb.toString();
+	}
+
 	@Override
 	public ExecutionResult mergeTranscripts(File referenceAnnotationFile,
 			File mergeList, File mergedAnnotationFile)

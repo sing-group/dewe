@@ -1,8 +1,8 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
@@ -101,10 +101,9 @@ public class BowtieStringTieAndRDifferentialExpression {
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
 		
-		float subtaskProgress = 1f / (reads.size()*2+1);
+		float subtaskProgress = 1f / (reads.size() * 2 + 1);
 		
-		File mergeList = getMergeList(reads, workingDirectory);
-		File mergedAnnotationFile = getMergedTranscriptsFile(workingDirectory);
+		List<File> outputTranscriptsFiles = new LinkedList<>();
 		
 		for (FastqReadsSample sample : reads) {
 			status.setSubtask("Sample: " + sample.getName());
@@ -113,12 +112,15 @@ public class BowtieStringTieAndRDifferentialExpression {
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			
 			stringTieController.obtainTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile);
-			
+			outputTranscriptsFiles.add(outputTranscriptsfile);
+
 			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
 		}
 
 		status.setSubtask("Merge samples transcripts");
-		stringTieController.mergeTranscripts(referenceAnnotationFile, mergeList, mergedAnnotationFile);		
+		File mergedAnnotationFile = getMergedTranscriptsFile(workingDirectory);
+		stringTieController.mergeTranscripts(referenceAnnotationFile,
+			outputTranscriptsFiles, mergedAnnotationFile);
 		status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
 		
 		for (FastqReadsSample sample : reads) {
@@ -127,11 +129,11 @@ public class BowtieStringTieAndRDifferentialExpression {
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			
-			stringTieController.obtainTranscripts(mergedAnnotationFile, bam, outputTranscriptsfile);
+			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
+				outputTranscriptsfile);
 			
 			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
 		}
-		;
 		
 		status.setSubtask("");
 		status.setSubtaskProgress(0f);
@@ -256,27 +258,5 @@ public class BowtieStringTieAndRDifferentialExpression {
 		outputFile.mkdirs();
 		return outputFile;
 		
-	}
-	
-	private static File getMergeList(FastqReadsSamples reads, File workingdir) {		
-		File mergeList = new File(getStringTieWorkingDir(workingdir), "mergeList.txt");
-		try {
-			Files.write(mergeList.toPath(), mergeList(reads, workingdir).getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return mergeList;
-		
-	}
-	
-	private static String mergeList(FastqReadsSamples reads, File workingDirectory) {
-		StringBuilder sb = new StringBuilder();
-		for(FastqReadsSample sample : reads) {
-			File sampleWd = getSampleWorkingDir(sample, workingDirectory);
-			sb
-				.append(sampleWd.getAbsolutePath() + "/" + sample.getName() + ".gtf")
-				.append("\n");
-		}
-		return sb.toString();
 	}
 }

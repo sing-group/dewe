@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.api.controller;
 
 import java.io.File;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
@@ -14,6 +15,6 @@ public interface StringTieController {
 		throws ExecutionException, InterruptedException;
 	
 	public abstract void mergeTranscripts(File referenceAnnotationFile, 
-		File mergeList, File mergedAnnotationFile)
+		List<File> annotationFilesToMerge, File mergedAnnotationFile)
 		throws ExecutionException, InterruptedException;
 }

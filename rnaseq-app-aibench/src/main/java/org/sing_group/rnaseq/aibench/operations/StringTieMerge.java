@@ -3,8 +3,7 @@ package org.sing_group.rnaseq.aibench.operations;
 import static javax.swing.SwingUtilities.invokeLater;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.Arrays;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -43,7 +42,7 @@ public class StringTieMerge {
 		order = 2,
 		extras="selectionMode=files"
 	)	
-	public void setInputBamFile(File[] inputAnnotationFiles) {
+	public void setInputAnnotationFiles(File[] inputAnnotationFiles) {
 		this.inputAnnotationFiles = inputAnnotationFiles;
 	}
 
@@ -69,7 +68,10 @@ public class StringTieMerge {
 
 	private void runOperation() {
 		try {
-			DefaultAppController.getInstance().getStringTieController().mergeTranscripts(referenceAnnotationFile, getMergeList(), outputTranscripts);
+			DefaultAppController.getInstance().getStringTieController()
+				.mergeTranscripts(referenceAnnotationFile,
+					Arrays.asList(this.inputAnnotationFiles),
+					outputTranscripts);
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());
@@ -80,27 +82,6 @@ public class StringTieMerge {
 	
 	private void succeed() {
 		Workbench.getInstance().info("Transcript files successfully merged into " + outputTranscripts.getName() + ".");
-	}
-	
-	private File getMergeList() {		
-		File mergeList = new File(this.outputTranscripts.getParentFile(), "mergeList.txt");
-		try {
-			Files.write(mergeList.toPath(), mergeList().getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return mergeList;
-		
-	}
-	
-	private String mergeList() {
-		StringBuilder sb = new StringBuilder();
-		for(File gtf : this.inputAnnotationFiles) {
-			sb
-				.append(gtf.getAbsolutePath())
-				.append("\n");
-		}
-		return sb.toString();
 	}
 }
 

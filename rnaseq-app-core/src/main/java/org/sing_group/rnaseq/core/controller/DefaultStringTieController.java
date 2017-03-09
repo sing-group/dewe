@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.core.controller;
 
 import java.io.File;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -32,11 +33,11 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void mergeTranscripts(File referenceAnnotationFile,
-			File mergeList, File mergedAnnotationFile)
+			List<File> inputAnnotationFiles, File mergedAnnotationFile)
 			throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.mergeTranscripts(
-				referenceAnnotationFile, mergeList, mergedAnnotationFile);
+				referenceAnnotationFile, inputAnnotationFiles, mergedAnnotationFile);
 		
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
