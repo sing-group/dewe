@@ -16,7 +16,7 @@ public class SampleReadsSelectionStepTest {
 					return new LinkedList<>(Arrays.asList("A", "B"));
 				}
 			},
-			1);
+			1, 2);
 		step.addWizardStepListener(new DefaultWizardStepListener());
 		TestUtils.showStepComponent(step);
 	}

@@ -24,7 +24,7 @@ public class FastqSamplesEditorTest {
 	}
 
 	private static FastqSamplesEditor createComponent() {
-		FastqSamplesEditor editor = new FastqSamplesEditor();
+		FastqSamplesEditor editor = new FastqSamplesEditor(4);
 		editor.addSamplesEditorListener(new SamplesEditorListener() {
 			
 			@Override

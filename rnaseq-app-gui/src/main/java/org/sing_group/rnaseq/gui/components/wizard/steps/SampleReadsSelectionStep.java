@@ -22,13 +22,16 @@ public class SampleReadsSelectionStep extends WizardStep
 	private ExperimentalConditionsStep experimentalConditionsStep;
 	private FastqSamplesEditor fastqSamplesEditor;
 	private int minSamplesPerCondition;
+	private int initialNumSamples;
 	
 	public SampleReadsSelectionStep(
 		ExperimentalConditionsStep experimentalConditionsStep,
-		int minSamplesPerCondition
+		int minSamplesPerCondition,
+		int initialNumSamples
 	) {
 		this.experimentalConditionsStep = experimentalConditionsStep;
 		this.minSamplesPerCondition = minSamplesPerCondition;
+		this.initialNumSamples = initialNumSamples;
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class SampleReadsSelectionStep extends WizardStep
 
 	@Override
 	public JComponent getStepComponent() {
-		this.fastqSamplesEditor = new FastqSamplesEditor();
+		this.fastqSamplesEditor = new FastqSamplesEditor(initialNumSamples);
 		this.fastqSamplesEditor.addSamplesEditorListener(this);
 		return fastqSamplesEditor;
 	}

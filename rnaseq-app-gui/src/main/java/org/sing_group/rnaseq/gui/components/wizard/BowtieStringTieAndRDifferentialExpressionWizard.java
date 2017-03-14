@@ -68,7 +68,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard extends Wizard
 		wizardSteps.add(new Bowtie2ReferenceGenomeSelectionStep(DefaultReferenceGenomeDatabaseManager.getInstance()));
 		ExperimentalConditionsStep experimentalConditionsStep = new ExperimentalConditionsStep(2, 2);
 		wizardSteps.add(experimentalConditionsStep);
-		wizardSteps.add(new SampleReadsSelectionStep(experimentalConditionsStep, 2));
+		wizardSteps.add(new SampleReadsSelectionStep(experimentalConditionsStep, 2, 4));
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
 		wizardSteps.add(new WizardSummaryStep());

@@ -30,12 +30,19 @@ import es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder;
 
 public class FastqSamplesEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private static final int DEFAULT_INITIAL_NUM_SAMPLES = 2;
 
 	private List<SampleEditorComponent> samples = new LinkedList<>();
 	private JPanel samplesPanel;
 	private List<String> selectableConditions = Collections.emptyList();
+	private int initialSamples;
 
 	public FastqSamplesEditor() {
+		this(DEFAULT_INITIAL_NUM_SAMPLES);
+	}
+
+	public FastqSamplesEditor(int initialSamples) {
+		this.initialSamples = initialSamples;
 		this.init();
 	}
 
@@ -68,7 +75,7 @@ public class FastqSamplesEditor extends JPanel {
 	private JComponent createSamplesPanel() {
 		samplesPanel = new JPanel();
 		samplesPanel.setLayout(new BoxLayout(samplesPanel, BoxLayout.Y_AXIS));
-		for(int i = 0; i < 2; i++) {
+		for (int i = 0; i < initialSamples; i++) {
 			addSampleEditorComponent();
 		}
 		return new JScrollPane(samplesPanel);
