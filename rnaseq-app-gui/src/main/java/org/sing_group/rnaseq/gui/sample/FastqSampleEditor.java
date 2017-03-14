@@ -16,15 +16,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
+import javax.swing.filechooser.FileFilter;
 
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
+import es.uvigo.ei.sing.hlfernandez.filechooser.ExtensionFileFilter;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.Mode;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanelBuilder;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 
@@ -112,19 +114,34 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private InputParameter getReadsFile1Parameter() {
-		reads1FileChooser = new JFileChooserPanel(Mode.OPEN,
-			CommonFileChooser.getInstance().getSingleFilechooser(), "",
-			SelectionMode.FILES);
+		reads1FileChooser =  JFileChooserPanelBuilder.createOpenJFileChooserPanel()
+				.withFileChooser(
+					CommonFileChooser.getInstance().getSingleFilechooser()
+				)
+				.withFileFilters(getFastqFileFilters())
+				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
+			.build();
 		reads1FileChooser.addFileChooserListener(this::readsFileChanged);
 
 		return new InputParameter("Reads 1", 
 			reads1FileChooser, "The reads file 1");
 	}
 
+	private List<FileFilter> getFastqFileFilters() {
+		return Arrays.asList(
+			new ExtensionFileFilter(".*\\.fq", "FASTQ (.fq) format files"),
+			new ExtensionFileFilter(".*\\.fastq", "FASTQ (.fastq) format files")
+		);
+	}
+
 	private InputParameter getReadsFile2Parameter() {
-		reads2FileChooser = new JFileChooserPanel(Mode.OPEN,
-			CommonFileChooser.getInstance().getSingleFilechooser(), "",
-			SelectionMode.FILES);
+		reads2FileChooser =  JFileChooserPanelBuilder.createOpenJFileChooserPanel()
+				.withFileChooser(
+					CommonFileChooser.getInstance().getSingleFilechooser()
+				)
+				.withFileFilters(getFastqFileFilters())
+				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
+			.build();
 		reads2FileChooser.addFileChooserListener(this::readsFileChanged);
 
 		return new InputParameter("Reads 2", 
@@ -176,7 +193,10 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private boolean isValidFile(File selectedFile) {
-		return selectedFile != null && selectedFile.exists();
+		return selectedFile != null && selectedFile.exists() && 
+			(	selectedFile.getName().endsWith(".fq") || 
+				selectedFile.getName().endsWith(".fastq")
+			);
 	}
 
 	public DefaultFastqReadsSample getSample() {

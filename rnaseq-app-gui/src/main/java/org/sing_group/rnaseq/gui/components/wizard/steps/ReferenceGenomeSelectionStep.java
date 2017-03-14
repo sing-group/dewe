@@ -1,9 +1,9 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -25,7 +25,10 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome> ex
 	private JPanel stepComponent;
 	private JComboBox<ComboBoxItem<ReferenceGenome>> combobox;
 
-	public ReferenceGenomeSelectionStep(ReferenceGenomeDatabaseManager databaseManager, Class<T> referenceGenomeClass) {
+	public ReferenceGenomeSelectionStep(
+		ReferenceGenomeDatabaseManager databaseManager,
+		Class<T> referenceGenomeClass
+	) {
 		this.databaseManager = databaseManager;
 		this.referenceGenomeClass = referenceGenomeClass;
 	}
@@ -39,15 +42,16 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome> ex
 	public JComponent getStepComponent() {
 		if(stepComponent == null) {
 			this.stepComponent = new JPanel();
-			this.stepComponent.setLayout(new BoxLayout(this.stepComponent, BoxLayout.Y_AXIS));
-			this.stepComponent.add(getLabel());
-			this.stepComponent.add(getComboBox());
+			this.stepComponent.setLayout(new BorderLayout());
+			this.stepComponent.add(getLabel(), BorderLayout.NORTH);
+			this.stepComponent.add(getComboBox(), BorderLayout.CENTER);
 		}
 		return new CenteredJPanel(this.stepComponent);
 	}
 
 	private Component getLabel() {
-		JXLabel label = new JXLabel("Select a " + getReferenceGenomeType() +" reference genome:");
+		JXLabel label = new JXLabel(
+			"Select a " + getReferenceGenomeType() + " reference genome:");
 		label.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
 		label.setLineWrap(true);
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -66,19 +70,28 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome> ex
 
 	private void updateComboboxItems() {
 		this.combobox.removeAllItems();
-		
-		for(ReferenceGenome r : this.databaseManager.listReferenceGenomes(referenceGenomeClass)) {
-			this.combobox.addItem(new ComboBoxItem<ReferenceGenome>(r, r.getReferenceGenome().getAbsolutePath()));
+
+		for (ReferenceGenome r : this.databaseManager
+			.listReferenceGenomes(referenceGenomeClass)
+		) {
+			this.combobox.addItem(
+				new ComboBoxItem<ReferenceGenome>(
+					r, 
+					r.getReferenceGenome().getAbsolutePath()
+				)
+			);
 		}
 	}
-	
+
 	@Override
 	public boolean isStepCompleted() {
 		return this.combobox.getSelectedIndex() != -1;
 	}
 
 	public T getSelectedReferenceGenome() {
-		ComboBoxItem<?> selectedItem = (ComboBoxItem<?>) this.combobox.getSelectedItem();
+		ComboBoxItem<?> selectedItem = 
+			(ComboBoxItem<?>) this.combobox.getSelectedItem();
+
 		return referenceGenomeClass.cast(selectedItem.getItem());
 	}
 }

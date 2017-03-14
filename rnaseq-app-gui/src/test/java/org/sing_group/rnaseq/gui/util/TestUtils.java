@@ -6,8 +6,17 @@ import java.util.Optional;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
+import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
+import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+
 public class TestUtils {
-	
+
+	public static void showStepComponent(WizardStep step) {
+		DemoUtils.setNimbusLookAndFeel();
+		DemoUtils.showComponent(step.getStepComponent());
+		step.stepEntered();
+	}
+
 	public static DefaultReferenceGenomeDatabaseManager createReferenceGenomeDatabaseManager() {
 		DefaultReferenceGenomeDatabaseManager dbManager = 
 			DefaultReferenceGenomeDatabaseManager.getInstance();
@@ -35,6 +44,7 @@ public class TestUtils {
 				return new File("/home/users/dataRNA/data/genome.fa");
 			}
 		});
+
 		dbManager.addReferenceGenome(new Bowtie2ReferenceGenome() {
 			private static final long serialVersionUID = 1L;
 	
