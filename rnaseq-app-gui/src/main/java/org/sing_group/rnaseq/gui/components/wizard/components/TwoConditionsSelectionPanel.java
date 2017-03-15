@@ -7,10 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataListener;
 
 import org.jdesktop.swingx.JXTextField;
+import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
 import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
@@ -75,8 +76,10 @@ public class TwoConditionsSelectionPanel extends JPanel
 	}
 
 	private void conditionsChanged() {
-		for (ListDataListener l : this.getListeners(ListDataListener.class)) {
-			l.contentsChanged(null);
+		for (ExperimentalConditionsEditorListener l : this
+			.getListeners(ExperimentalConditionsEditorListener.class)
+		) {
+			l.experimentalConditionsChanged(new ChangeEvent(this));
 		}
 	}
 
@@ -93,7 +96,9 @@ public class TwoConditionsSelectionPanel extends JPanel
 	}
 
 	@Override
-	public void addListDataListener(ListDataListener l) {
-		this.listenerList.add(ListDataListener.class, l);
+	public void addExperimentalConditionsEditorListener(
+		ExperimentalConditionsEditorListener l
+	) {
+		this.listenerList.add(ExperimentalConditionsEditorListener.class, l);
 	}
 }

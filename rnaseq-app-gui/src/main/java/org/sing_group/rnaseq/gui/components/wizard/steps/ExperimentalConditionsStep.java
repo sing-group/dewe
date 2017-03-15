@@ -9,14 +9,14 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.event.ListDataEvent;
+import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.JXLabel;
 import org.sing_group.rnaseq.gui.components.wizard.components.ExperimentalConditionsSelectionComponent;
 import org.sing_group.rnaseq.gui.components.wizard.components.MultipleConditionsSelectionPanel;
 import org.sing_group.rnaseq.gui.components.wizard.components.TwoConditionsSelectionPanel;
+import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
-import es.uvigo.ei.sing.hlfernandez.event.ListDataAdapter;
 import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
 import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
@@ -83,22 +83,14 @@ public class ExperimentalConditionsStep extends WizardStep {
 				minConditions, maxConditions);
 		}
 		((JComponent) conditionsSelectionComponent).setOpaque(false);
-		conditionsSelectionComponent.addListDataListener(new ListDataAdapter() {
-			@Override
-			public void intervalAdded(ListDataEvent e) {
-				conditionsListChanged();
+		conditionsSelectionComponent.addExperimentalConditionsEditorListener(
+			new ExperimentalConditionsEditorListener() {
+				@Override
+				public void experimentalConditionsChanged(ChangeEvent event) {
+					conditionsListChanged();
+				}
 			}
-
-			@Override
-			public void intervalRemoved(ListDataEvent e) {
-				conditionsListChanged();
-			}
-			
-			@Override
-			public void contentsChanged(ListDataEvent e) {
-				conditionsListChanged();
-			}
-		});
+		);
 
 		return (JComponent) conditionsSelectionComponent;
 	}
