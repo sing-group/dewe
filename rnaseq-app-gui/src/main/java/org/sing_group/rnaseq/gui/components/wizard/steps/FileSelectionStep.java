@@ -28,13 +28,20 @@ public abstract class FileSelectionStep extends WizardStep {
 	@Override
 	public JComponent getStepComponent() {
 		if(stepComponent == null) {
-			this.stepComponent = new JPanel();
-			this.stepComponent.setLayout(
-				new BoxLayout(this.stepComponent, BoxLayout.Y_AXIS));
-			this.stepComponent.add(getLabel());
-			this.stepComponent.add(getFileChooserPanel());
+			this.stepComponent = new CenteredJPanel(getSelectionComponent());
+			StepUtils.configureStepComponent(this.stepComponent);
 		}
-		return new CenteredJPanel(this.stepComponent);
+		return this.stepComponent;
+	}
+
+	private Component getSelectionComponent() {
+		JPanel selectionComponent = new JPanel();
+		selectionComponent.setOpaque(false);
+		selectionComponent.setLayout(
+			new BoxLayout(selectionComponent, BoxLayout.Y_AXIS));
+		selectionComponent.add(getLabel());
+		selectionComponent.add(getFileChooserPanel());
+		return selectionComponent;
 	}
 
 	private Component getFileChooserPanel() {
@@ -47,6 +54,7 @@ public abstract class FileSelectionStep extends WizardStep {
 				.withFileFilters(getFileFilters())
 			.build();
 		this.fileChooser.addFileChooserListener(this::fileChanged);
+		this.fileChooser.setOpaque(false);
 		return this.fileChooser;
 	}
 

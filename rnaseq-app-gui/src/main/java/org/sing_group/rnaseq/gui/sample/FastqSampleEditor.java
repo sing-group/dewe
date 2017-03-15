@@ -57,12 +57,14 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private void init() {
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.add(getInputParamtersPanel(), BorderLayout.CENTER);
 	}
 
 	private Component getInputParamtersPanel() {
 		this.inputParametersPanel = new InputParametersPanel(getParameters());
+		this.inputParametersPanel.setOpaque(false);
 		return this.inputParametersPanel;
 	}
 
@@ -122,6 +124,7 @@ public class FastqSampleEditor extends JPanel {
 				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
 			.build();
 		reads1FileChooser.addFileChooserListener(this::readsFileChanged);
+		reads1FileChooser.setOpaque(false);
 
 		return new InputParameter("Reads 1", 
 			reads1FileChooser, "The reads file 1");
@@ -143,6 +146,7 @@ public class FastqSampleEditor extends JPanel {
 				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
 			.build();
 		reads2FileChooser.addFileChooserListener(this::readsFileChanged);
+		reads2FileChooser.setOpaque(false);
 
 		return new InputParameter("Reads 2", 
 			reads2FileChooser, "The reads file 2");

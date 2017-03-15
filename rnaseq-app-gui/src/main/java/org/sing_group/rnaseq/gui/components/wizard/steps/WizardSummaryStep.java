@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import java.awt.Color;
+import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
+
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -11,8 +12,6 @@ import javax.swing.JTextArea;
 import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
 public class WizardSummaryStep extends WizardStep {
-	private static final Color BG_COLOR = Color.decode("#d6d9df");
-
 	private WizardSummaryProvider wizardSummaryProvider;
 	private JTextArea textArea;
 
@@ -38,8 +37,8 @@ public class WizardSummaryStep extends WizardStep {
 	@Override
 	public JComponent getStepComponent() {
 		this.scrollPane = new JScrollPane(getTextArea());
-		this.scrollPane.setOpaque(false);
 		this.scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		configureStepComponent(this.scrollPane);
 		return this.scrollPane;
 	}
 
@@ -48,7 +47,6 @@ public class WizardSummaryStep extends WizardStep {
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setOpaque(false);
-		textArea.setBackground(BG_COLOR);
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 		return textArea;
 	}

@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
+import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -43,6 +44,7 @@ public class SampleReadsSelectionStep extends WizardStep
 	public JComponent getStepComponent() {
 		this.fastqSamplesEditor = new FastqSamplesEditor(initialNumSamples);
 		this.fastqSamplesEditor.addSamplesEditorListener(this);
+		configureStepComponent(fastqSamplesEditor);
 		return fastqSamplesEditor;
 	}
 

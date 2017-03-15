@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.gui.sample;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
@@ -36,6 +37,7 @@ public class FastqSamplesEditor extends JPanel {
 	private JPanel samplesPanel;
 	private List<String> selectableConditions = Collections.emptyList();
 	private int initialSamples;
+	private JScrollPane samplesPaneScroll;
 
 	public FastqSamplesEditor() {
 		this(DEFAULT_INITIAL_NUM_SAMPLES);
@@ -54,6 +56,7 @@ public class FastqSamplesEditor extends JPanel {
 
 	private JPanel createButtonsPanel() {
 		JPanel buttonsPanel = new JPanel(new BorderLayout());
+		buttonsPanel.setOpaque(false);
 		JButton addBtn = JButtonBuilder.newJButtonBuilder()
 				.withText("Add sample")
 				.withTooltip("Adds a new sample to the analysis")
@@ -74,11 +77,14 @@ public class FastqSamplesEditor extends JPanel {
 	
 	private JComponent createSamplesPanel() {
 		samplesPanel = new JPanel();
+		samplesPanel.setOpaque(false);
 		samplesPanel.setLayout(new BoxLayout(samplesPanel, BoxLayout.Y_AXIS));
 		for (int i = 0; i < initialSamples; i++) {
 			addSampleEditorComponent();
 		}
-		return new JScrollPane(samplesPanel);
+		samplesPaneScroll = new JScrollPane(samplesPanel);
+
+		return samplesPaneScroll;
 	}
 
 	private void addSampleEditorComponent() {
@@ -110,6 +116,7 @@ public class FastqSamplesEditor extends JPanel {
 
 		private void init() {
 			this.setLayout(new FlowLayout());
+			this.setOpaque(false);
 			this.add(editor);
 			this.add(getRemoveButton());
 		}
@@ -200,5 +207,13 @@ public class FastqSamplesEditor extends JPanel {
 					this.samples.stream().map(SampleEditorComponent::getSample)
 					.collect(Collectors.toList())
 				);
+	}
+
+	@Override
+	public void setBackground(Color bg) {
+		super.setBackground(bg);
+		if (samplesPaneScroll != null) {
+			samplesPaneScroll.getViewport().setBackground(bg);
+		}
 	}
 }

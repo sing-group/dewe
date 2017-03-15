@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import java.awt.Component;
+import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,26 +55,34 @@ public class ExperimentalConditionsStep extends WizardStep {
 	@Override
 	public JComponent getStepComponent() {
 		if(this.stepComponent == null) {
-			this.stepComponent = new JPanel();
-			this.stepComponent.setLayout(
-				new BoxLayout(this.stepComponent, BoxLayout.Y_AXIS));
-			JXLabel descriptionLabel = new JXLabel(
-				"Introduce the experimental conditions:");
-			this.stepComponent.add(Box.createHorizontalGlue());
-			this.stepComponent.add(descriptionLabel);
-			this.stepComponent.add(getExperimentalConditionsPanel());
-			this.stepComponent.add(Box.createHorizontalGlue());
+			this.stepComponent = new CenteredJPanel(getSelectionPanel());
+			configureStepComponent(stepComponent);
 		}
-		return new CenteredJPanel(this.stepComponent);
+		return this.stepComponent;
 	}
 
-	private Component getExperimentalConditionsPanel() {
+	private JComponent getSelectionPanel() {
+		JPanel selectionPanel = new JPanel();
+		selectionPanel.setLayout(
+			new BoxLayout(selectionPanel, BoxLayout.Y_AXIS));
+		selectionPanel.setOpaque(false);
+		JXLabel descriptionLabel = new JXLabel(
+			"Introduce the experimental conditions:");
+		selectionPanel.add(Box.createHorizontalGlue());
+		selectionPanel.add(descriptionLabel);
+		selectionPanel.add(getExperimentalConditionsPanel());
+		selectionPanel.add(Box.createHorizontalGlue());
+		return selectionPanel;
+	}
+
+	private JComponent getExperimentalConditionsPanel() {
 		if (minConditions == 2 && maxConditions == 2) {
 			conditionsSelectionComponent = new TwoConditionsSelectionPanel();
 		} else {
 			conditionsSelectionComponent = new MultipleConditionsSelectionPanel(
 				minConditions, maxConditions);
 		}
+		((JComponent) conditionsSelectionComponent).setOpaque(false);
 		conditionsSelectionComponent.addListDataListener(new ListDataAdapter() {
 			@Override
 			public void intervalAdded(ListDataEvent e) {
@@ -91,7 +100,7 @@ public class ExperimentalConditionsStep extends WizardStep {
 			}
 		});
 
-		return (Component) conditionsSelectionComponent;
+		return (JComponent) conditionsSelectionComponent;
 	}
 
 	private void conditionsListChanged() {

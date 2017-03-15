@@ -2,6 +2,7 @@ package org.sing_group.rnaseq.gui.components.wizard.components;
 
 import static java.util.Arrays.asList;
 
+import java.awt.Component;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class TwoConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {
 	private static final long serialVersionUID = 1L;
 
+	private InputParametersPanel inputParametersPanel;
 	private JXTextField conditionAtf;
 	private JXTextField conditionBtf;
 
@@ -36,12 +38,19 @@ public class TwoConditionsSelectionPanel extends JPanel
 		};
 	};
 
+
 	public TwoConditionsSelectionPanel() {
 		this.init();
 	}
 
 	private void init() {
-		this.add(new InputParametersPanel(getInputParameters()));
+		this.add(getInputParametersPanel());
+	}
+
+	private Component getInputParametersPanel() {
+		inputParametersPanel = new InputParametersPanel(getInputParameters());
+		inputParametersPanel.setOpaque(false);
+		return inputParametersPanel;
 	}
 
 	private InputParameter[] getInputParameters() {

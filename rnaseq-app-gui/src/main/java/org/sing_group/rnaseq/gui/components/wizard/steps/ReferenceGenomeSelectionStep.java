@@ -1,5 +1,7 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
+import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -40,13 +42,20 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome> ex
 
 	@Override
 	public JComponent getStepComponent() {
-		if(stepComponent == null) {
-			this.stepComponent = new JPanel();
-			this.stepComponent.setLayout(new BorderLayout());
-			this.stepComponent.add(getLabel(), BorderLayout.NORTH);
-			this.stepComponent.add(getComboBox(), BorderLayout.CENTER);
+		if(this.stepComponent == null) {
+			this.stepComponent = new CenteredJPanel(getSelectionPanel());
+			configureStepComponent(this.stepComponent);
 		}
-		return new CenteredJPanel(this.stepComponent);
+		return this.stepComponent;
+	}
+
+	private JComponent getSelectionPanel() {
+		JPanel selectionPanel = new JPanel();
+		selectionPanel.setOpaque(false);
+		selectionPanel.setLayout(new BorderLayout());
+		selectionPanel.add(getLabel(), BorderLayout.NORTH);
+		selectionPanel.add(getComboBox(), BorderLayout.CENTER);
+		return selectionPanel;
 	}
 
 	private Component getLabel() {
