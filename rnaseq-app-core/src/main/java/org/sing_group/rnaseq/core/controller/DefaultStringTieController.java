@@ -18,6 +18,20 @@ public class DefaultStringTieController implements StringTieController {
 	}
 
 	@Override
+	public void obtainLabeledTranscripts(File referenceAnnotationFile, File inputBam,
+			File outputTranscripts, String label)
+			throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.stringTieBinariesExecutor.obtainLabeledTranscripts(
+				referenceAnnotationFile, inputBam, outputTranscripts, label);
+		
+		if (result.getExitStatus() != 0) {
+			throw new ExecutionException(result.getExitStatus(),
+					"Error executing samtools. Please, check error log.", "");
+		}
+	}
+
+	@Override
 	public void obtainTranscripts(File referenceAnnotationFile, File inputBam,
 			File outputTranscripts)
 			throws ExecutionException, InterruptedException {

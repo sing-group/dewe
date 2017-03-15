@@ -35,6 +35,21 @@ public class DefaultStringTieBinariesExecutor
 	}
 
 	@Override
+	public ExecutionResult obtainLabeledTranscripts(File referenceAnnotationFile,
+			File inputBam, File outputTranscripts, String label)
+			throws ExecutionException, InterruptedException {
+		return executeCommand(
+			LOG,
+			this.binaries.getStringTie(),
+			"-p 8",
+			"-G", 	referenceAnnotationFile.getAbsolutePath(),
+			"-l",	label,
+			"-o", 	outputTranscripts.getAbsolutePath(),
+			inputBam.getAbsolutePath()
+		);
+	}
+
+	@Override
 	public ExecutionResult obtainTranscripts(File referenceAnnotationFile,
 			File inputBam, File outputTranscripts)
 			throws ExecutionException, InterruptedException {

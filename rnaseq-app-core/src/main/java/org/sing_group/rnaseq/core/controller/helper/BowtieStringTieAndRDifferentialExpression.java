@@ -111,7 +111,7 @@ public class BowtieStringTieAndRDifferentialExpression {
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			
-			stringTieController.obtainTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile);
+			stringTieController.obtainLabeledTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile, sample.getName());
 			outputTranscriptsFiles.add(outputTranscriptsfile);
 
 			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);

@@ -10,6 +10,10 @@ public interface StringTieController {
 	public abstract void setStringTieBinariesExecutor(
 		StringTieBinariesExecutor executor);
 
+	public abstract void obtainLabeledTranscripts(File referenceAnnotationFile,
+		File inputBam, File outputTranscripts, String label)
+		throws ExecutionException, InterruptedException;
+
 	public abstract void obtainTranscripts(File referenceAnnotationFile,
 		File inputBam, File outputTranscripts)
 		throws ExecutionException, InterruptedException;

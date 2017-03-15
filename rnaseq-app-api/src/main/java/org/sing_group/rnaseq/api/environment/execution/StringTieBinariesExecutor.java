@@ -8,6 +8,10 @@ import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 public interface StringTieBinariesExecutor
 	extends BinariesExecutor<StringTieBinaries> 
 	{
+	public abstract ExecutionResult obtainLabeledTranscripts(File referenceAnnotationFile,
+			File inputBam, File outputTranscripts, String label)
+			throws ExecutionException, InterruptedException;
+	
 	public abstract ExecutionResult obtainTranscripts(File referenceAnnotationFile,
 		File inputBam, File outputTranscripts)
 		throws ExecutionException, InterruptedException;
