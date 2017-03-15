@@ -27,7 +27,7 @@ public class DefaultReferenceGenomeDatabase implements ReferenceGenomeDatabase {
 
 	private void notifyReferenceGenomeAdded() {
 		getListenersList().forEach(
-					ReferenceGenomeDatabaseListener::referenceGenomeAdded);
+			ReferenceGenomeDatabaseListener::referenceGenomeAdded);
 	}
 
 	@Override
@@ -51,5 +51,15 @@ public class DefaultReferenceGenomeDatabase implements ReferenceGenomeDatabase {
 				.filter(r -> referenceGenomeClass.isInstance(r))
 				.map(r -> referenceGenomeClass.cast(r))
 				.collect(Collectors.toList());
+	}
+
+	public void removeReferenceGenome(ReferenceGenome refGenome) {
+		this.referenceGenomes.remove(refGenome);
+		this.notifyReferenceGenomeRemoved();
+	}
+
+	private void notifyReferenceGenomeRemoved() {
+		getListenersList().forEach(
+			ReferenceGenomeDatabaseListener::referenceGenomeRemoved);
 	}
 }

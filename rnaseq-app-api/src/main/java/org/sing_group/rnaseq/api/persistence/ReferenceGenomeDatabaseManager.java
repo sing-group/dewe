@@ -10,6 +10,8 @@ public interface ReferenceGenomeDatabaseManager {
 
 	public abstract void addReferenceGenome(ReferenceGenome refGenome);
 
+	public abstract void removeReferenceGenome(ReferenceGenome refGenome);
+
 	public abstract void addReferenceGenomeDatabaseListener(
 		ReferenceGenomeDatabaseListener listener);
 

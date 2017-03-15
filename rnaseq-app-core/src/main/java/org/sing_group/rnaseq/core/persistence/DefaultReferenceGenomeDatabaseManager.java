@@ -14,21 +14,22 @@ import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeDatabaseListener;
 import org.sing_group.rnaseq.core.persistence.entities.DefaultReferenceGenomeDatabase;
 
-public class DefaultReferenceGenomeDatabaseManager implements ReferenceGenomeDatabaseManager {
+public class DefaultReferenceGenomeDatabaseManager
+	implements ReferenceGenomeDatabaseManager {
 	private static DefaultReferenceGenomeDatabaseManager INSTANCE = null;
 	private DefaultReferenceGenomeDatabase database = new DefaultReferenceGenomeDatabase();
 	private File file;
 	
 	private DefaultReferenceGenomeDatabaseManager() {
 	}
-	
+
 	public static DefaultReferenceGenomeDatabaseManager getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new DefaultReferenceGenomeDatabaseManager();
 		}
 		return INSTANCE;
 	}
-	
+
 	public void setPersistenceStorageFile(File file) {
 		this.file = file;
 	}
@@ -48,10 +49,15 @@ public class DefaultReferenceGenomeDatabaseManager implements ReferenceGenomeDat
 	public List<ReferenceGenome> listReferenceGenomes() {
 		return database.listReferenceGenomes();
 	}
-	
+
 	@Override
 	public void addReferenceGenome(ReferenceGenome refGenome) {
 		this.database.addReferenceGenome(refGenome);
+	}
+
+	@Override
+	public void removeReferenceGenome(ReferenceGenome refGenome) {
+		this.database.removeReferenceGenome(refGenome);
 	}
 
 	public void persistDatabase() throws IOException {

@@ -62,7 +62,7 @@ public class ReferenceGenomeDatabaseTableModel
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		ReferenceGenome genome = this.dbManager.listReferenceGenomes().get(rowIndex);
+		ReferenceGenome genome = getReferenceGenomeAt(rowIndex);
 		switch (columnIndex) {
 		case 0:
 			return genome.getReferenceGenome().getAbsolutePath();
@@ -74,8 +74,17 @@ public class ReferenceGenomeDatabaseTableModel
 		throw new IllegalStateException();
 	}
 
+	public ReferenceGenome getReferenceGenomeAt(int rowIndex) {
+		return this.dbManager.listReferenceGenomes().get(rowIndex);
+	}
+
 	@Override
 	public void referenceGenomeAdded() {
+		this.fireTableDataChanged();
+	}
+
+	@Override
+	public void referenceGenomeRemoved() {
 		this.fireTableDataChanged();
 	}
 }
