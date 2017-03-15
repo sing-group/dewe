@@ -40,6 +40,7 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.table = new JXTable(0, 0);
 		this.table.setComponentPopupMenu(getTablePopupMenu());
+		this.table.getTableHeader().setReorderingAllowed(false);
 		this.addTableHighlighters();
 		this.add(new JScrollPane(this.table), BorderLayout.CENTER);
 	}
