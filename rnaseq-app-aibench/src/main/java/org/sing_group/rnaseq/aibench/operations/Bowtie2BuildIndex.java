@@ -14,6 +14,7 @@ import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGe
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
@@ -72,4 +73,12 @@ public class Bowtie2BuildIndex {
 	private void succeed() {
 		Workbench.getInstance().info("bowtie2 index successfully created.");
 	}
+
+	@Progress(
+		progressDialogTitle = "Progress",
+		workingLabel = "Creating bowtie2 index",
+		preferredHeight = 200,
+		preferredWidth = 300
+	)
+	public void progress() {};
 }
