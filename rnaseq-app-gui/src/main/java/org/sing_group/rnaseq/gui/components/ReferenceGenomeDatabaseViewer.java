@@ -1,6 +1,8 @@
 package org.sing_group.rnaseq.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.event.PopupMenuEvent;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.slf4j.Logger;
@@ -25,6 +30,7 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = 
 		LoggerFactory.getLogger(ReferenceGenomeDatabaseViewer.class);
+	private static final Color INVALID_GENOME = Color.decode("#ff5148");
 	private JXTable table;
 	private ExtendedAbstractAction removeRowsAction;
 	private ReferenceGenomeDatabaseTableModel tableModel;
@@ -34,6 +40,7 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.table = new JXTable(0, 0);
 		this.table.setComponentPopupMenu(getTablePopupMenu());
+		this.addTableHighlighters();
 		this.add(new JScrollPane(this.table), BorderLayout.CENTER);
 	}
 
@@ -88,5 +95,26 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 		} catch (IOException e) {
 			LOGGER.error("Error saving genome database " + e.getMessage());
 		}
+	}
+
+	private void addTableHighlighters() {
+		final HighlightPredicate invalidHighLight = new HighlightPredicate() {
+			@Override
+			public boolean isHighlighted(Component renderer,
+				ComponentAdapter adapter
+			) {
+				int rowModel = adapter.convertRowIndexToModel(adapter.row);
+				return testItem(tableModel.getReferenceGenomeAt(rowModel));
+			}
+
+			public boolean testItem(ReferenceGenome r) {
+				return !r.isValid();
+			}
+		};
+
+		ColorHighlighter highlighter =
+			new ColorHighlighter(invalidHighLight, INVALID_GENOME, null);
+
+		this.table.addHighlighter(highlighter);
 	}
 }
