@@ -79,6 +79,17 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.StringTieLabeled"
+		>
+			<operation-description
+				name="Reconstruct labeled transcripts using StringTie"
+				uid="operations.stringtielabeled"
+				path="4@Transcripts/1@StringTie"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.StringTieMerge"
 		>
 			<operation-description
@@ -95,6 +106,17 @@
 			<operation-description
 				name="Batch reconstruct transcripts using StringTie"
 				uid="operations.stringtiebatch"
+				path="4@Transcripts/3@StringTie"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.batch.StringTieLabeledBatch"
+		>
+			<operation-description
+				name="Batch reconstruct labeled transcripts using StringTie"
+				uid="operations.stringtielabeledbatch"
 				path="4@Transcripts/3@StringTie"
 			/>
 		</extension>
