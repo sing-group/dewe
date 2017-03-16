@@ -24,7 +24,7 @@ if(substring(phenoDataPrefix, nchar(phenoDataPrefix)-3) == ".csv") {
 pheno_data = read.csv(paste(workingDirectory, phenoDataPrefix,".csv",sep=""))
 
 # Load ballgown data structure and save it to a variable "bg"
-bg = ballgown(samples=as.vector(pheno_data$path),pData=pheno_data)
+bg = ballgown(samples=as.vector(pheno_data$path), samplePattern = "ERR", pData=pheno_data)
 
 # Load all attributes including gene name
 bg_table = texpr(bg, 'all')
@@ -35,6 +35,7 @@ save(bg, file=paste(workingDirectory, 'bg.rda',sep=""))
 
 # Perform differential expression (DE) analysis with no filtering
 results_transcripts = stattest(bg, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
+results_transcripts = data.frame(geneNames=ballgown::geneNames(bg), geneIDs=ballgown::geneIDs(bg), transcriptNames=ballgown::transcriptNames(bg), results_transcripts)
 results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
@@ -51,6 +52,7 @@ bg_filt_gene_names = unique(bg_filt_table[, 9:10])
 
 # Perform DE analysis now using the filtered data
 results_transcripts = stattest(bg_filt, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
+results_transcripts = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs=ballgown::geneIDs(bg_filt), transcriptNames=ballgown::transcriptNames(bg_filt), results_transcripts)
 results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes,bg_filt_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
