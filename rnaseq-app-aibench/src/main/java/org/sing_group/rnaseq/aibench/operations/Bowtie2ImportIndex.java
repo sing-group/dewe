@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GENOME_FA_FILES;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGe
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
@@ -28,7 +30,7 @@ public class Bowtie2ImportIndex {
 		description = "Reference genome file.",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_GENOME_FA_FILES
 	)
 	public void setFile(File file) {
 		this.file = file;
@@ -40,8 +42,8 @@ public class Bowtie2ImportIndex {
 		description = "Folder containing the bowtie2 index.",
 		allowNull = true,
 		order = 2,
-		extras="selectionMode=directories",
-		advanced=true
+		extras = "selectionMode=directories",
+		advanced = true
 	)
 	public void setOutputFolder(File outputDir) {
 		this.indexDir = outputDir == null ? this.file.getParentFile() : outputDir;
@@ -64,4 +66,12 @@ public class Bowtie2ImportIndex {
 	private void succeed() {
 		Workbench.getInstance().info("bowtie2 index successfully imported.");
 	}
+
+	@Progress(
+		progressDialogTitle = "Progress",
+		workingLabel = "Importing bowtie2 index",
+		preferredHeight = 200,
+		preferredWidth = 300
+	)
+	public void progress() {};	
 }

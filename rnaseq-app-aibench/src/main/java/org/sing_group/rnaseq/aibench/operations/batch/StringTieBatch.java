@@ -1,5 +1,8 @@
 package org.sing_group.rnaseq.aibench.operations.batch;
 
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_BAM_FILES;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GTF_FILES;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -22,7 +25,7 @@ public class StringTieBatch {
 		description = "Reference annotation file (.gtf)",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_GTF_FILES
 	)
 	public void setReferenceAnnotationFile(File referenceAnnotationFile) {
 		this.referenceAnnotationFile = referenceAnnotationFile;
@@ -34,7 +37,7 @@ public class StringTieBatch {
 		description = "Input bam files.",
 		allowNull = false,
 		order = 2,
-		extras="selectionMode=files"
+		extras = EXTRAS_BAM_FILES
 	)
 	public void setInputBamFile(File[] inputBamFiles) {
 		this.inputBamFiles = inputBamFiles;

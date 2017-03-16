@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GTF_FILES;
 
 import java.io.File;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ public class StringTieMerge {
 		description = "Reference annotation file (.gtf)",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_GTF_FILES
 	)
 	public void setReferenceAnnotationFile(File referenceAnnotationFile) {
 		this.referenceAnnotationFile = referenceAnnotationFile;
@@ -40,7 +41,7 @@ public class StringTieMerge {
 		description = "Input annotation files.",
 		allowNull = false,
 		order = 2,
-		extras="selectionMode=files"
+		extras = EXTRAS_GTF_FILES
 	)	
 	public void setInputAnnotationFiles(File[] inputAnnotationFiles) {
 		this.inputAnnotationFiles = inputAnnotationFiles;
@@ -53,7 +54,7 @@ public class StringTieMerge {
 			"If not provided, it will be created in the same directory than the reference annotation file",
 		allowNull = true,
 		order = 3,
-		extras="selectionMode=files"
+		extras = "selectionMode=files"
 	)
 	public void setOutputTranscripts(File outputTranscripts) {
 		this.outputTranscripts = outputTranscripts != null ? outputTranscripts :

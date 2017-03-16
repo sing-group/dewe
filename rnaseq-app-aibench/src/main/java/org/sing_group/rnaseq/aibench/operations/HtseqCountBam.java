@@ -1,6 +1,8 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_BAM_FILES;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GTF_FILES;
 
 import java.io.File;
 
@@ -29,7 +31,7 @@ public class HtseqCountBam {
 		description = "Reference annotation file (.gtf)",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_GTF_FILES
 	)
 	public void setReferenceAnnotationFile(File referenceAnnotationFile) {
 		this.referenceAnnotationFile = referenceAnnotationFile;
@@ -41,7 +43,7 @@ public class HtseqCountBam {
 		description = "Input bam file.",
 		allowNull = false,
 		order = 2,
-		extras="selectionMode=files"
+		extras = EXTRAS_BAM_FILES
 	)
 	public void setInputBamFile(File inputBam) {
 		this.inputBam = inputBam;

@@ -1,5 +1,12 @@
 package org.sing_group.rnaseq.aibench.operations;
 
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FASTQ_FILES;
+
+
+
+
+
+
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow.REFERENCE_GENOME;
 
@@ -41,8 +48,8 @@ public class Bowtie2AlignSamples {
 		description = "Reads file 1.",
 		allowNull = false,
 		order = 2,
-		extras="selectionMode=files",
-		advanced=false
+		extras = EXTRAS_FASTQ_FILES, 
+		advanced = false
 	)
 	public void setReadsFile1(File readsFile1) {
 		this.readsFile1 = readsFile1;
@@ -54,8 +61,8 @@ public class Bowtie2AlignSamples {
 		description = "Reads file 2.",
 		allowNull = false,
 		order = 3,
-		extras="selectionMode=files",
-		advanced=false
+		extras = EXTRAS_FASTQ_FILES,
+		advanced = false
 	)
 	public void setReadsFile2(File readsFile2) {
 		this.readsFile2 = readsFile2;
@@ -67,8 +74,8 @@ public class Bowtie2AlignSamples {
 		description = "Output file.",
 		allowNull = true,
 		order = 5,
-		extras="selectionMode=files",
-		advanced=false
+		extras = "selectionMode=files",
+		advanced = false
 	)
 	public void setOutputFolder(File outputFile) {
 		this.outputFile = outputFile.getName().endsWith(".sam") ? outputFile

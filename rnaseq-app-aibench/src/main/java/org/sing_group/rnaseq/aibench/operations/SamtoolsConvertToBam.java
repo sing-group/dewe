@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_SAM_FILES;
 
 import java.io.File;
 
@@ -27,7 +28,7 @@ public class SamtoolsConvertToBam {
 		description = "Input sam file",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_SAM_FILES
 	)
 	public void setInputFile(File file) {
 		this.input = file;

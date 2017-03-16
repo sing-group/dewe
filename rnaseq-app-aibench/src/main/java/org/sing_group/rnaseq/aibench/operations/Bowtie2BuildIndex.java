@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GENOME_FA_FILES;
 import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class Bowtie2BuildIndex {
 		description = "Reference genome file.",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_GENOME_FA_FILES
 	)
 	public void setFile(File file) {
 		this.file = file;
@@ -43,8 +44,8 @@ public class Bowtie2BuildIndex {
 		description = "Output folder.",
 		allowNull = true,
 		order = 2,
-		extras="selectionMode=directories",
-		advanced=true
+		extras = "selectionMode=directories",
+		advanced = true
 	)
 	public void setOutputFolder(File outputDir) {
 		this.outputDir = outputDir == null ? this.file.getParentFile() : outputDir;
