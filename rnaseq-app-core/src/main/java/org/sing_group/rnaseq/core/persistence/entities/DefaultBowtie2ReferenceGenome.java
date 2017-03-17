@@ -27,7 +27,7 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 		this.referenceGenomeIndex = lookForIndex(indexFolder);
 	}
 
-	private String lookForIndex(File indexFolder) {
+	private static String lookForIndex(File indexFolder) {
 		if (indexFolder.isDirectory()) {
 			Optional<File> firstIndexFile = asList(indexFolder.listFiles())
 				.stream().filter(f -> f.getName().endsWith(INDEXES[5]))
@@ -69,7 +69,14 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 			return false;
 		}
 
-		String index = getReferenceGenomeIndex().get();
+		return directoryContainsIndex(getReferenceGenomeIndex().get());
+	}
+
+	public static boolean directoryContainsBowtie2Indexes(File directory) {
+		return directoryContainsIndex(lookForIndex(directory));
+	}
+
+	private static boolean directoryContainsIndex(String index) {
 		boolean valid = true;
 		for (String extension : INDEXES) {
 			valid = valid && new File(index + extension).exists();

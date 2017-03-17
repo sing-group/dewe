@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.aibench.operations;
 
+import static org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGenome.directoryContainsBowtie2Indexes;
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GENOME_FA_FILES;
 
@@ -43,12 +44,20 @@ public class Bowtie2ImportIndex {
 		allowNull = true,
 		order = 2,
 		extras = "selectionMode=directories",
-		advanced = true
+		advanced = true,
+		validateMethod = "validateIndexDirectory"
 	)
-	public void setOutputFolder(File outputDir) {
-		this.indexDir = outputDir == null ? this.file.getParentFile() : outputDir;
+	public void setIndexDirectory(File indexDir) {
+		this.indexDir = indexDir == null ? this.file.getParentFile() : indexDir;
 
 		this.runOperation();
+	}
+
+	public void validateIndexDirectory(File indexDir) {
+		if (!directoryContainsBowtie2Indexes(indexDir)) {
+			throw new IllegalArgumentException(
+				"Index directory must contain the bowtie2 indexes files");
+		}
 	}
 
 	private void runOperation() {
