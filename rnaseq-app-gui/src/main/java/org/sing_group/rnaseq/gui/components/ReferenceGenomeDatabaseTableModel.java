@@ -26,7 +26,7 @@ public class ReferenceGenomeDatabaseTableModel
 
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -35,8 +35,10 @@ public class ReferenceGenomeDatabaseTableModel
 		case 0:
 			return "Reference genome";
 		case 1:
-			return "Valid";
+			return "Index";
 		case 2:
+			return "Valid";
+		case 3:
 			return "Type";
 		}
 		throw new IllegalStateException();
@@ -48,8 +50,10 @@ public class ReferenceGenomeDatabaseTableModel
 		case 0:
 			return String.class;
 		case 1:
-			return Boolean.class;
+			return String.class;
 		case 2:
+			return Boolean.class;
+		case 3:
 			return String.class;
 		}
 		throw new IllegalStateException();
@@ -67,8 +71,10 @@ public class ReferenceGenomeDatabaseTableModel
 		case 0:
 			return genome.getReferenceGenome().getAbsolutePath();
 		case 1:
-			return genome.isValid();
+			return genome.getReferenceGenomeIndex().orElse("");
 		case 2:
+			return genome.isValid();
+		case 3:
 			return genome.getType();
 		}
 		throw new IllegalStateException();
