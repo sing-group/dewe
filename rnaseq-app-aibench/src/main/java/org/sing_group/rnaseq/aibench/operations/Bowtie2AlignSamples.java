@@ -38,7 +38,7 @@ public class Bowtie2AlignSamples {
 		allowNull = false,
 		order = 1
 	)
-	public void setFile(Bowtie2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Bowtie2ReferenceGenome referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 	
