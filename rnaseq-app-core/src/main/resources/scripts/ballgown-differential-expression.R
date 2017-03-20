@@ -24,7 +24,7 @@ if(substring(phenoDataPrefix, nchar(phenoDataPrefix)-3) == ".csv") {
 pheno_data = read.csv(paste(workingDirectory, phenoDataPrefix,".csv",sep=""))
 
 # Load ballgown data structure and save it to a variable "bg"
-bg = ballgown(samples=as.vector(pheno_data$path), samplePattern = "ERR", pData=pheno_data)
+bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
 
 # Load all attributes including gene name
 bg_table = texpr(bg, 'all')
