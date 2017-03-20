@@ -57,6 +57,17 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignSamples"
+		>
+			<operation-description
+				name="Hisat2 align samples"
+				uid="operations.hisat2alignsamples"
+				path="2@Align"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.SamtoolsConvertToBam"
 		>
 			<operation-description
@@ -190,6 +201,10 @@
 		    <gui-operation
 				operation="operations.bowtie2alignsamples"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.hisat2alignsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSamplesParamsWindow"
 		    />
 		    <gui-operation
 				operation="operations.ballgowndifferentialexpressionanalysis"

@@ -26,5 +26,7 @@ public interface AppController {
 
 	public abstract WorkflowController getWorkflowController();
 
+	public abstract Hisat2Controller getHisat2Controller();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 }

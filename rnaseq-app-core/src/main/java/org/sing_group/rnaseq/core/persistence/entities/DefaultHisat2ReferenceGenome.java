@@ -5,9 +5,9 @@ import static java.util.Arrays.asList;
 import java.io.File;
 import java.util.Optional;
 
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 
-public class DefaultHisat2ReferenceGenome implements Bowtie2ReferenceGenome {
+public class DefaultHisat2ReferenceGenome implements Hisat2ReferenceGenome {
 	private static final long serialVersionUID = 1L;
 	private static final String[] INDEXES = { 
 		".1.ht2", ".2.ht2", ".3.ht2", ".4.ht2",

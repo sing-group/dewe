@@ -3,21 +3,24 @@ package org.sing_group.rnaseq.core.controller;
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
-import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.controller.EdgeRController;
+import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.RController;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.controller.SystemController;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
@@ -26,6 +29,7 @@ import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultHisat2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
@@ -44,6 +48,7 @@ public class DefaultAppController implements AppController {
 	private DefaultEdgeRController edgeRController;
 	private DefaultSystemController systemController;
 	private DefaultWorkflowController workflowController;
+	private DefaultHisat2Controller hisat2Controller;
 
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
@@ -64,6 +69,7 @@ public class DefaultAppController implements AppController {
 		this.setBallgownController();
 		this.setEdgeRController();
 		this.setSystemController();
+		this.setHisat2Controller();
 		this.setWorkflowController();
 	}
 
@@ -72,7 +78,6 @@ public class DefaultAppController implements AppController {
 		this.bowtie2Controller.setBowtie2BinariesExecutor(
 			this.createBowtie2BinariesExecutor(this.environment.getBowtie2Binaries())
 		);
-		
 	}
 
 	private void setSamtoolsController() throws BinaryCheckException {
@@ -80,7 +85,6 @@ public class DefaultAppController implements AppController {
 		this.samtoolsController.setSamtoolsBinariesExecutor(
 			this.createSamtoolsBinariesExecutor(this.environment.getSamtoolsBinaries())
 		);
-		
 	}
 
 	private void setStringTieController() throws BinaryCheckException {
@@ -88,7 +92,6 @@ public class DefaultAppController implements AppController {
 		this.stringTieController.setStringTieBinariesExecutor(
 			this.createStringTieBinariesExecutor(this.environment.getStringTieBinaries())
 		);
-		
 	}
 
 	private void setHtseqController() throws BinaryCheckException {
@@ -129,6 +132,13 @@ public class DefaultAppController implements AppController {
 	private void setWorkflowController() {
 		this.workflowController = new DefaultWorkflowController();
 	}
+
+	private void setHisat2Controller() throws BinaryCheckException {
+		this.hisat2Controller = new DefaultHisat2Controller();
+		this.hisat2Controller.setHisat2BinariesExecutor(
+			this.createHisat2BinariesExecutor(this.environment.getHisat2Binaries())
+		);
+	}	
 
 	private Bowtie2BinariesExecutor createBowtie2BinariesExecutor(
 		Bowtie2Binaries bowtie2Binaries
@@ -179,6 +189,17 @@ public class DefaultAppController implements AppController {
 		SystemBinaries systemBinaries
 	) throws BinaryCheckException {
 		return new DefaultSystemBinariesExecutor(systemBinaries);
+	}
+
+	private Hisat2BinariesExecutor createHisat2BinariesExecutor(
+		Hisat2Binaries hisat2Binaries
+	) throws BinaryCheckException {
+		return new DefaultHisat2BinariesExecutor(hisat2Binaries);
+	}
+
+	@Override
+	public Hisat2Controller getHisat2Controller() {
+		return this.hisat2Controller;
 	}
 
 	@Override

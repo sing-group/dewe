@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.api.environment;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
@@ -20,7 +21,9 @@ public interface AppEnvironment {
 	public abstract RBinaries getRBinaries();
 
 	public abstract SystemBinaries getSystemBinaries();
-	
+
+	public abstract Hisat2Binaries getHisat2Binaries();
+
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
 
 	public abstract String getProperty(String propertyName);

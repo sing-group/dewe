@@ -8,12 +8,14 @@ import java.util.Properties;
 
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultHisat2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHtseqBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
@@ -34,6 +36,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultHtseqBinaries htseqBinaries;
 	private DefaultRBinaries rBinaries;
 	private DefaultSystemBinaries systemBinaries;
+	private DefaultHisat2Binaries hisat2Binaries;
 	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
@@ -53,6 +56,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				RBinaries.BASE_DIRECTORY_PROP,
 				SystemBinaries.BASE_DIRECTORY_PROP,
 				SystemBinaries.BASE_DIRECTORY_2_PROP,
+				Hisat2Binaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR 
 		}) {
 			if (!this.hasProperty(property)) {
@@ -80,6 +84,9 @@ public class DefaultAppEnvironment implements AppEnvironment {
 			this.getProperty(SystemBinaries.BASE_DIRECTORY_PROP),
 			this.getProperty(SystemBinaries.BASE_DIRECTORY_2_PROP)
 		);
+		this.hisat2Binaries = new DefaultHisat2Binaries(
+			this.getProperty(Hisat2Binaries.BASE_DIRECTORY_PROP)
+		);		
 		
 		try {
 			this.initReferenceGenomeDatabaseManager();
@@ -156,6 +163,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public SystemBinaries getSystemBinaries() {
 		return this.systemBinaries;
+	}
+
+	@Override
+	public Hisat2Binaries getHisat2Binaries() {
+		return hisat2Binaries;
 	}
 
 	@Override
