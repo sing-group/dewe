@@ -33,7 +33,9 @@ public class DefaultBowtie2BinariesExecutor
 	}
 
 	@Override
-	public ExecutionResult buildIndex(File genome, File outDir, String baseName) throws ExecutionException, InterruptedException {
+	public ExecutionResult buildIndex(File genome, File outDir, String baseName)
+		throws ExecutionException, InterruptedException {
+
 		return executeCommand(
 			LOG,
 			this.binaries.getBuildIndex(),

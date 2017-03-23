@@ -10,6 +10,7 @@ import org.sing_group.rnaseq.core.environment.DefaultHisat2Environment;
 public class DefaultHisat2Binaries implements Hisat2Binaries {
 
 	private File baseDirectory;
+	private String cmdBuildIndex;
 	private String cmdAlign;
 
 	public DefaultHisat2Binaries(String baseDirectoryPath) {
@@ -25,9 +26,16 @@ public class DefaultHisat2Binaries implements Hisat2Binaries {
 	private void setBaseDirectory(File path) {
 		this.baseDirectory = path;
 
+		this.cmdBuildIndex = getAbsolutePath(
+			this.baseDirectory, defaultCmdBuildIndex()
+		);
 		this.cmdAlign = getAbsolutePath(
 			this.baseDirectory, defaultCmdAlign()
 		);
+	}
+
+	private String defaultCmdBuildIndex() {
+		return DefaultHisat2Environment.getInstance().getDefaultBuildIndex();
 	}
 
 	private String defaultCmdAlign() {
@@ -35,7 +43,13 @@ public class DefaultHisat2Binaries implements Hisat2Binaries {
 	}
 
 	@Override
+	public String getBuildIndex() {
+		return this.cmdBuildIndex;
+	}
+
+	@Override
 	public String getAlignReads() {
 		return this.cmdAlign;
 	}
+	
 }

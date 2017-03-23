@@ -35,6 +35,17 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Hisat2BuildIndex"
+		>
+			<operation-description
+				name="Build hisat2 index"
+				uid="operations.hisat2buildindex"
+				path="1@Genome"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.Hisat2ImportIndex"
 		>
 			<operation-description

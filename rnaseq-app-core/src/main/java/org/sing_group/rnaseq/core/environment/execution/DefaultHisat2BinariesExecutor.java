@@ -33,6 +33,18 @@ public class DefaultHisat2BinariesExecutor
 	}
 
 	@Override
+	public ExecutionResult buildIndex(File genome, File outDir, String baseName)
+		throws ExecutionException, InterruptedException {
+
+		return executeCommand(
+			LOG,
+			this.binaries.getBuildIndex(),
+			genome.getAbsolutePath(),
+			new File(outDir, baseName).getAbsolutePath()
+		);
+	}
+
+	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenome genome,
 			File reads1, File reads2, File output)
 			throws ExecutionException, InterruptedException {

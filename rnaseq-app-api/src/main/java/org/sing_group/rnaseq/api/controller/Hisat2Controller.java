@@ -10,7 +10,10 @@ public interface Hisat2Controller {
 	public abstract void setHisat2BinariesExecutor(
 		Hisat2BinariesExecutor executor);
 
+	public abstract void buildIndex(File genome, File outDir, String baseName)
+		throws ExecutionException, InterruptedException;
+
 	public abstract void alignReads(Hisat2ReferenceGenome genome, File reads1,
 		File reads2, File output)
-		throws ExecutionException, InterruptedException;;
+		throws ExecutionException, InterruptedException;
 }

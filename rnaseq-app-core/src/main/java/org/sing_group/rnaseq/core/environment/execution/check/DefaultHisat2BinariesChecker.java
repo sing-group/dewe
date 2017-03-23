@@ -29,14 +29,21 @@ public class DefaultHisat2BinariesChecker implements Hisat2BinariesChecker {
 	@Override
 	public void checkAll() throws BinaryCheckException {
 		this.checkAlignReads();
+		this.checkBuildIndex();
+	}
+
+	@Override
+	public void checkBuildIndex() throws BinaryCheckException {
+		checkCommandVersion(this.binaries.getBuildIndex(), 7);
 	}
 
 	@Override
 	public void checkAlignReads() throws BinaryCheckException {
-		checkCommand(this.binaries.getAlignReads());
+		checkCommandVersion(this.binaries.getAlignReads(), 7);
 	}
 
-	protected static void checkCommand(String command) throws BinaryCheckException {
+	protected static void checkCommandVersion(String command, int outputLines)
+		throws BinaryCheckException {
 		final Runtime runtime = Runtime.getRuntime();
 		
 		String runCommand = command + " --version";
@@ -55,7 +62,7 @@ public class DefaultHisat2BinariesChecker implements Hisat2BinariesChecker {
 				sb.append(line).append('\n');
 				countLines++;
 			}
-			if (countLines != 7) {
+			if (countLines != outputLines) {
 				throw new BinaryCheckException("Unrecognized version output", runCommand);
 			}
 

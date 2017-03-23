@@ -14,6 +14,11 @@ public class DefaultHisat2Environment implements Hisat2Environment {
 	}
 
 	@Override
+	public String getDefaultBuildIndex() {
+		return "hisat2-build";
+	}
+
+	@Override
 	public String getDefaultAlign() {
 		return "hisat2";
 	}

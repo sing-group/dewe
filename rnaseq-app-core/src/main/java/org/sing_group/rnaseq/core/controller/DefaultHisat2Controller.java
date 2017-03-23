@@ -17,12 +17,25 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	}
 
 	@Override
+	public void buildIndex(File file, File outDir, String baseName)
+		throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.hisat2BinariesExecutor.buildIndex(file, outDir, baseName);
+		
+		checkResult(result);
+	}
+
+	@Override
 	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
 		File reads2, File output
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.hisat2BinariesExecutor.alignReads(genome, reads1, reads2, output);
 
+		checkResult(result);
+	}
+
+	private void checkResult(ExecutionResult result) throws ExecutionException {
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 				"Error executing hisat2. Please, check error log.", "");
