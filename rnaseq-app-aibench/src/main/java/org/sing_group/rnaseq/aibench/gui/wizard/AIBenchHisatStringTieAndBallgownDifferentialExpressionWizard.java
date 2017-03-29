@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.aibench.gui.wizard;
 
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.askUserImportOrBuild;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.fixDialogSize;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.askUserImportOrBuild;
 
 import java.awt.Window;
 import java.util.Arrays;
@@ -9,51 +9,49 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.gui.components.wizard.BowtieStringTieAndRDifferentialExpressionWizard;
+import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndBallgownDifferentialExpressionWizard;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
-public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
-	extends BowtieStringTieAndRDifferentialExpressionWizard {
+public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
+	extends HisatStringTieAndBallgownDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
 
-	protected AIBenchBowtieStringTieAndRDifferentialExpressionWizard(Window parent,
-		String wizardTitle, List<WizardStep> steps
+	protected AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+		Window parent, String wizardTitle, List<WizardStep> steps
 	) {
 		super(parent, wizardTitle, steps);
 	}
 
 	public static ExtendedAbstractAction SHOW_WIZARD = 
 		new ExtendedAbstractAction("Differential expression wizard", 
-			AIBenchBowtieStringTieAndRDifferentialExpressionWizard::showWizard);
+			AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard::showWizard);
 	
-	public static AIBenchBowtieStringTieAndRDifferentialExpressionWizard getWizard(
+	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
-		return new AIBenchBowtieStringTieAndRDifferentialExpressionWizard(
+		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
 			parent, TITLE, getWizardSteps());
 	}
-	
+
 	public static void showWizard() {
-		while (shouldCreateBowtie2Index()) {
-			if (!askUserImportOrBuild("bowtie2",
-				"operations.bowtie2importindex",
-				"operations.bowtie2buildindex")) {
+		while (shouldCreateHisat2Index()) {
+			if (!askUserImportOrBuild("hisat2", "operations.hisat2importindex",
+				"operations.hisat2buildindex")) {
 				return;
 			}
 		}
-
-		AIBenchBowtieStringTieAndRDifferentialExpressionWizard
+		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 			.getWizard(Workbench.getInstance().getMainFrame()).setVisible(true);
 	}
 
-	private static boolean shouldCreateBowtie2Index() {
+	private static boolean shouldCreateHisat2Index() {
 		return DefaultReferenceGenomeDatabaseManager.getInstance()
-					.listReferenceGenomes(Bowtie2ReferenceGenome.class).isEmpty();
+					.listReferenceGenomes(Hisat2ReferenceGenome.class).isEmpty();
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 
 	private void launchWorkflow() {
 		Workbench.getInstance().executeOperation(
-				"operations.bowtiestringtiedifferentialexpression", null,
+				"operations.hisatstringtiedifferentialexpression", null,
 				Arrays.asList(getReferenceGenome(), getSamples(),
 						getReferenceAnnotationFile(), getWorkingDirectory()));
 	}

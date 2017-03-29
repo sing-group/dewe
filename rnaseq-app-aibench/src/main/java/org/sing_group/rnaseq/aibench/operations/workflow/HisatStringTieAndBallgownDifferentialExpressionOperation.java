@@ -1,11 +1,11 @@
-package org.sing_group.rnaseq.aibench.operations;
+package org.sing_group.rnaseq.aibench.operations.workflow;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.slf4j.LoggerFactory;
@@ -16,25 +16,25 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 
 @Operation(
-	name = "bowtie2, StringTie and R (ballgown/edgeR) differential expression", 
-	description = "Runs the differential expression workflow using bowtie2, StringTie and R (ballgown/edgeR)"
+	name = "Gisat2, StringTie and Ballgown differential expression", 
+	description = "Runs the differential expression workflow using Hisat2, StringTie and Ballgown."
 )
-public class BowtieStringTieAndRDifferentialExpressionOperation {
+public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 
 	private AIBenchOperationStatus status = new AIBenchOperationStatus();
-	private Bowtie2ReferenceGenome referenceGenome;
+	private Hisat2ReferenceGenome referenceGenome;
 	private FastqReadsSamples samples;
 	private File referenceAnnotationFile;
 	private File workingDirectory;
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "Bowtie2 reference genome",
-		description = "Bowtie2 reference genome",
+		name = "Hisat2 reference genome",
+		description = "Hisat2 reference genome",
 		allowNull = false,
 		order = 1
 	)
-	public void setReferenceGenome(Bowtie2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Hisat2ReferenceGenome referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 
@@ -67,7 +67,7 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 		description = "Working directory",
 		allowNull = false,
 		order = 4,
-		extras="selectionMode=directoryes"
+		extras = "selectionMode=directories"
 	)
 	public void setWorkingDirectory(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
@@ -77,10 +77,11 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 
 	private void runAnalysis() {
 		try {
-			DefaultAppController.getInstance()
-			.getWorkflowController()
-			.runBowtieStringTieAndRDifferentialExpression(this.referenceGenome, this.samples,
-					this.referenceAnnotationFile, this.workingDirectory, this.status);
+			DefaultAppController.getInstance().getWorkflowController()
+				.runHisatStringTieAndBallgownDifferentialExpression(
+					this.referenceGenome, this.samples,
+					this.referenceAnnotationFile, this.workingDirectory,
+					this.status);
 		} catch (ExecutionException | InterruptedException e) {
 			LoggerFactory.getLogger(getClass()).error(e.getMessage());
 		}

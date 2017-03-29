@@ -187,13 +187,26 @@
 			/>
 		</extension>
 
+
+		<!-- Workflow operations -->
+		
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.BowtieStringTieAndRDifferentialExpressionOperation"
+			class="org.sing_group.rnaseq.aibench.operations.workflow.BowtieStringTieAndRDifferentialExpressionOperation"
 		>
 			<operation-description
 				name="DE Workflow: bowtie2, StringTie and R (ballgown/edgeR)"
 				uid="operations.bowtiestringtiedifferentialexpression"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.workflow.HisatStringTieAndBallgownDifferentialExpressionOperation"
+		>
+			<operation-description
+				name="DE Workflow: hisat2, StringTie and ballgown"
+				uid="operations.hisatstringtiedifferentialexpression"
 			/>
 		</extension>
 
@@ -251,6 +264,10 @@
 				name="Reference genomes" 
 				class="org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent"
 			/>
+		</extension>
+		
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<welcomescreen class="org.sing_group.rnaseq.aibench.gui.workflow.AIBenchWorkflowCatalogPanel" title="Workflow catalog" closeable="false"/>
 		</extension>
 	</extensions>
 </plugin>

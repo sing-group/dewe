@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent;
-import org.sing_group.rnaseq.aibench.gui.wizard.AIBenchBowtieStringTieAndRDifferentialExpressionWizard;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -67,15 +66,9 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 			toolBar.setOpaque(true);
 			toolBar.setBackground(Color.WHITE);
 			toolBar.setFloatable(false);
-			addToolbarOperations();
 			toolBar.add(Box.createHorizontalGlue());
 			toolBar.add(new ClearClipboardAction(ICON_24));
 		}
-	}
-
-	private void addToolbarOperations() {
-		JToolBar toolBar = Workbench.getInstance().getToolBar();
-		toolBar.add(AIBenchBowtieStringTieAndRDifferentialExpressionWizard.SHOW_WIZARD);
 	}
 
 	private void configureApp() {
