@@ -53,7 +53,7 @@ public class AIBenchWizardUtil {
 	}
 
 	private static void executeOperation(String uid) {
-		Workbench.getInstance().executeOperation(uid);
+		Workbench.getInstance().executeOperationAndWait(uid);
 	}
 
 	public static void fixDialogSize(boolean visible, JDialog dialog) {
