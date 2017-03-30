@@ -50,8 +50,9 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	}
 
 	private static boolean shouldCreateHisat2Index() {
-		return DefaultReferenceGenomeDatabaseManager.getInstance()
-					.listReferenceGenomes(Hisat2ReferenceGenome.class).isEmpty();
+		return 	DefaultReferenceGenomeDatabaseManager.getInstance()
+					.listValidReferenceGenomes(Hisat2ReferenceGenome.class)
+					.isEmpty();
 	}
 
 	@Override

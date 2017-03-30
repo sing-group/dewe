@@ -52,8 +52,9 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	}
 
 	private static boolean shouldCreateBowtie2Index() {
-		return DefaultReferenceGenomeDatabaseManager.getInstance()
-					.listReferenceGenomes(Bowtie2ReferenceGenome.class).isEmpty();
+		return 	DefaultReferenceGenomeDatabaseManager.getInstance()
+					.listValidReferenceGenomes(Bowtie2ReferenceGenome.class)
+					.isEmpty();
 	}
 
 	@Override

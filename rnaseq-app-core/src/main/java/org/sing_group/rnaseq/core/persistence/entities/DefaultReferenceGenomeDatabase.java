@@ -53,6 +53,16 @@ public class DefaultReferenceGenomeDatabase implements ReferenceGenomeDatabase {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public <T extends ReferenceGenome> List<T> listValidReferenceGenomes(
+		Class<T> referenceGenomeClass
+	) {
+		return (List<T>) listReferenceGenomes(referenceGenomeClass).stream()
+				.filter(r -> r.isValid())
+				.map(r -> referenceGenomeClass.cast(r))
+				.collect(Collectors.toList());
+	}
+
 	public void removeReferenceGenome(ReferenceGenome refGenome) {
 		this.referenceGenomes.remove(refGenome);
 		this.notifyReferenceGenomeRemoved();

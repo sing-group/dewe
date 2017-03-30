@@ -15,4 +15,7 @@ public interface ReferenceGenomeDatabase extends Serializable {
 
 	public abstract <T extends ReferenceGenome> List<T> listReferenceGenomes(
 		Class<T> referenceGenomeClass);
+
+	public abstract <T extends ReferenceGenome> List<T> listValidReferenceGenomes(
+		Class<T> referenceGenomeClass);
 }

@@ -80,4 +80,11 @@ public class DefaultReferenceGenomeDatabaseManager
 	) {
 		return database.listReferenceGenomes(referenceGenomeClass);
 	}
+
+	@Override
+	public <T extends ReferenceGenome> List<T> listValidReferenceGenomes(
+		Class<T> referenceGenomeClass
+	) {
+		return database.listValidReferenceGenomes(referenceGenomeClass);
+	}
 }
