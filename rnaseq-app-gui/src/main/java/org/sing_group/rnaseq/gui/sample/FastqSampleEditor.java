@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -33,6 +34,17 @@ import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 public class FastqSampleEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String NO_CONDITION = "<Select a condition>";
+	private static final String[] FASTQ_EXTENSIONS =
+		{ ".fq", ".fastq", ".fastq.gz" };
+
+	private static final List<FileFilter> FASTQ_FILE_FILTERS = Arrays.asList(
+		new ExtensionFileFilter(".*\\" + FASTQ_EXTENSIONS[0],
+			"FASTQ (.fq) format files"),
+		new ExtensionFileFilter(".*\\" + FASTQ_EXTENSIONS[1],
+			"FASTQ (.fastq) format files"),
+		new ExtensionFileFilter(".*\\" + FASTQ_EXTENSIONS[2],
+			"Compressed FASTQ (.fastq.gz) format files")
+	);
 
 	private List<String> selectableConditions;
 	private InputParametersPanel inputParametersPanel = new InputParametersPanel();
@@ -124,6 +136,7 @@ public class FastqSampleEditor extends JPanel {
 				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
 			.build();
 		reads1FileChooser.addFileChooserListener(this::readsFileChanged);
+		reads1FileChooser.addFileChooserListener(this::readsFile1Changed);
 		reads1FileChooser.setOpaque(false);
 
 		return new InputParameter("Reads 1", 
@@ -131,10 +144,7 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private List<FileFilter> getFastqFileFilters() {
-		return Arrays.asList(
-			new ExtensionFileFilter(".*\\.fq", "FASTQ (.fq) format files"),
-			new ExtensionFileFilter(".*\\.fastq", "FASTQ (.fastq) format files")
-		);
+		return FASTQ_FILE_FILTERS;
 	}
 
 	private InputParameter getReadsFile2Parameter() {
@@ -154,6 +164,45 @@ public class FastqSampleEditor extends JPanel {
 	
 	private void readsFileChanged(ChangeEvent e) {
 		this.sampleEdited();
+	}
+
+	private void readsFile1Changed(ChangeEvent e) {
+		if (isValidReadsFile1()) {
+			File readsFile1 = reads1FileChooser.getSelectedFile();
+
+			Optional<File> readsFile2 = lookForReadsFile2(readsFile1);
+			if (readsFile2.isPresent()) {
+				this.reads2FileChooser.setSelectedFile(readsFile2.get());
+			}
+
+			setSampleName(readsFile1);
+		}
+	}
+
+	private Optional<File> lookForReadsFile2(File readsFile1) {
+		for(String extension : FASTQ_EXTENSIONS) {
+			File readsFile2 = new File(
+				readsFile1.getAbsolutePath()
+				.replace("_1" + extension, "_2" + extension)
+			);
+			if (readsFile2.exists() && !readsFile1.equals(readsFile2)) {
+				return Optional.of(readsFile2);
+			}
+		}
+		return Optional.empty();
+	}
+
+	private void setSampleName(File readsFile1) {
+		if(isValidSampleName()) {
+			return;
+		}
+
+		String fileName = readsFile1.getName();
+		if(fileName.contains(".")) {
+			String sampleName =
+				fileName.substring(0, fileName.indexOf(".")).replace("_1", "");
+			this.sampleNameTextField.setText(sampleName);
+		}
 	}
 
 	public void setSelectableConditions(List<String> selectableConditions) {
@@ -197,10 +246,18 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private boolean isValidFile(File selectedFile) {
-		return selectedFile != null && selectedFile.exists() && 
-			(	selectedFile.getName().endsWith(".fq") || 
-				selectedFile.getName().endsWith(".fastq")
-			);
+		return 	selectedFile != null 	&& 
+				selectedFile.exists()	&& 
+				hasValidFileExtension(selectedFile);
+	}
+
+	private boolean hasValidFileExtension(File file) {
+		for (String extension : FASTQ_EXTENSIONS) {
+			if (file.getName().endsWith(extension)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public DefaultFastqReadsSample getSample() {
