@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
+import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialExpressionAnalysis.ballgownDifferentialExpressionAnalysis;
 import java.io.File;
 
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
@@ -16,12 +17,12 @@ public class HisatStringTieAndBallgownDifferentialExpression
 	
 	public HisatStringTieAndBallgownDifferentialExpression(
 		Hisat2ReferenceGenome referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory) {
+		File referenceAnnotationFile, File workingDirectory
+	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
 			workingDirectory);
 		this.hisat2Controller =
 			DefaultAppController.getInstance().getHisat2Controller();
-
 	}
 
 	@Override
@@ -37,8 +38,9 @@ public class HisatStringTieAndBallgownDifferentialExpression
 	protected void performDifferentialExpressionAnalysis(OperationStatus status)
 		throws ExecutionException, InterruptedException {
 		status.setSubtaskProgress(0f);
-		BallgownDifferentialExpressionAnalysis
-			.ballgownDifferentialExpressionAnalysis(reads,
-				referenceAnnotationFile, workingDirectory, status);
+		status.setSubtask("Ballgown");
+		ballgownDifferentialExpressionAnalysis(
+			reads, referenceAnnotationFile,	workingDirectory);
+		status.setSubtaskProgress(1f);
 	}
 }

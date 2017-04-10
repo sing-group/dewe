@@ -21,8 +21,11 @@ public class DefaultWorkflowController implements WorkflowController {
 		File workingDirectory, 
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
-		BowtieStringTieAndRDifferentialExpression.runAnalysis(referenceGenome,
-			reads, referenceAnnotationFile, workingDirectory, status);
+		BowtieStringTieAndRDifferentialExpression workflow =
+			new BowtieStringTieAndRDifferentialExpression(
+				referenceGenome, reads, referenceAnnotationFile, workingDirectory
+			);
+		workflow.runAnalysis(status);
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class DefaultWorkflowController implements WorkflowController {
 		File workingDirectory, 
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
-		HisatStringTieAndBallgownDifferentialExpression workflow = 
+		HisatStringTieAndBallgownDifferentialExpression workflow =
 			new HisatStringTieAndBallgownDifferentialExpression(
 				referenceGenome, reads, referenceAnnotationFile, workingDirectory
 			);

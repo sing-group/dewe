@@ -161,22 +161,22 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		return toret;
 	}
 
-	private static File getSamFile(FastqReadsSample sample, File workingDirectory) {
+	public static File getSamFile(FastqReadsSample sample, File workingDirectory) {
 		File sampleWd = getSampleWorkingDir(sample, workingDirectory);
 		return new File(sampleWd, sample.getName() + ".sam");
 	}
 
-	private static File getBamFile(FastqReadsSample sample, File workingDirectory) {
+	public static File getBamFile(FastqReadsSample sample, File workingDirectory) {
 		File sampleWd = getSampleWorkingDir(sample, workingDirectory);
 		return new File(sampleWd, sample.getName() + ".bam");
 	}
 
-	private static File getTranscriptsFile(FastqReadsSample sample, File workingDirectory) {
+	public static File getTranscriptsFile(FastqReadsSample sample, File workingDirectory) {
 		File sampleWd = getSampleWorkingDir(sample, workingDirectory);
 		return new File(sampleWd, sample.getName() + ".gtf");
 	}
 	
-	private static File getMergedTranscriptsFile(File workingDirectory) {
+	public static File getMergedTranscriptsFile(File workingDirectory) {
 		return new File(getStringTieWorkingDir(workingDirectory), "mergedAnnotationFile.gtf");
 	}
 
