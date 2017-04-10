@@ -6,7 +6,7 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
  * The default implementation of {@link OperationStatus}. 
  * 
  * @author Hugo López-Fernández
- * @author A. Blanco-Míguez
+ * @author Aitor Blanco-Míguez
  *
  */
 public class DefaultOperationStatus implements OperationStatus {

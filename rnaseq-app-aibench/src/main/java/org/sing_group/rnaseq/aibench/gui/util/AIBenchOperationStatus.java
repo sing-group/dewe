@@ -9,7 +9,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.ProgressProperty;
  * {@code ProgressProperty} annotations.
  * 
  * @author Hugo López-Fernández
- * @author A. Blanco-Míguez
+ * @author Aitor Blanco-Míguez
  *
  */
 public class AIBenchOperationStatus extends DefaultOperationStatus {

@@ -9,7 +9,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.ProgressProperty;
  * stage, which is used to show the file being processed.
  * 
  * @author Hugo López-Fernández
- * @author A. Blanco-Míguez
+ * @author Aitor Blanco-Míguez
  *
  */
 public class FileOperationStatus extends DefaultOperationStatus {

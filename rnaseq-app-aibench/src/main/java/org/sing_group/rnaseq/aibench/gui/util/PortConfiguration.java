@@ -17,6 +17,6 @@ public class PortConfiguration {
 	public static final String EXTRAS_FASTQ_FILES = "selectionMode=files, " +
 		"filters=" + 
 			".*\\.fq|: FASTQ (.fq) format files;" +
-			".*\\.fastq|: FASTQ (.fastq) format files";
-	
+			".*\\.fastq|: FASTQ (.fastq) format files;" +
+			".*\\.fastq.gz|: Compressed FASTQ (.fastq.gz) format files";
 }

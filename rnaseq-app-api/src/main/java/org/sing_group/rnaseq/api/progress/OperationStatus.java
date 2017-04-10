@@ -4,7 +4,7 @@ package org.sing_group.rnaseq.api.progress;
  * A representation of the status of a operation.
  * 
  * @author Hugo López-Fernández
- * @author A. Blanco-Míguez
+ * @author Aitor Blanco-Míguez
  *
  */
 public interface OperationStatus {
