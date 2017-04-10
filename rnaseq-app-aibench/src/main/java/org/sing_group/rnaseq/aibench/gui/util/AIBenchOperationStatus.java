@@ -4,18 +4,26 @@ import org.sing_group.rnaseq.core.progress.DefaultOperationStatus;
 
 import es.uvigo.ei.aibench.core.operation.annotation.ProgressProperty;
 
+/**
+ * An extension of {@code DefaultOperationStatus} to add AIBench's
+ * {@code ProgressProperty} annotations.
+ * 
+ * @author Hugo López-Fernández
+ * @author A. Blanco-Míguez
+ *
+ */
 public class AIBenchOperationStatus extends DefaultOperationStatus {
 
-	@ProgressProperty(label = "Task: ", order = 1)
+	@ProgressProperty(label = "Sub stage: ", order = 1)
 	@Override
-	public String getSubtask() {
-		return super.getSubtask();
+	public String getSubStage() {
+		return super.getSubStage();
 	}
 
-	@ProgressProperty(label = "Task progress: ", order = 2)
+	@ProgressProperty(label = "Stage progress: ", order = 2)
 	@Override
-	public float getSubtaskProgress() {
-		return super.getSubtaskProgress();
+	public float getStageProgress() {
+		return super.getStageProgress();
 	}
 
 	@ProgressProperty(label = "Stage: ", order = 3)
@@ -24,7 +32,7 @@ public class AIBenchOperationStatus extends DefaultOperationStatus {
 		return super.getStage();
 	}
 
-	@ProgressProperty(label = "Total progress: ", order = 4)
+	@ProgressProperty(label = "Overall progress: ", order = 4)
 	@Override
 	public float getTotal() {
 		return super.getTotal();

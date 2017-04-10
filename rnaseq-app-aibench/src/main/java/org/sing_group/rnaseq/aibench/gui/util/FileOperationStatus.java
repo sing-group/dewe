@@ -4,18 +4,26 @@ import org.sing_group.rnaseq.core.progress.DefaultOperationStatus;
 
 import es.uvigo.ei.aibench.core.operation.annotation.ProgressProperty;
 
+/**
+ * An extension of {@link DefaultOperationStatus} that hides all properties but
+ * stage, which is used to show the file being processed.
+ * 
+ * @author Hugo López-Fernández
+ * @author A. Blanco-Míguez
+ *
+ */
 public class FileOperationStatus extends DefaultOperationStatus {
 
 	@ProgressProperty(ignore = true)
 	@Override
-	public String getSubtask() {
-		return super.getSubtask();
+	public String getSubStage() {
+		return super.getSubStage();
 	}
 
 	@ProgressProperty(ignore = true)
 	@Override
-	public float getSubtaskProgress() {
-		return super.getSubtaskProgress();
+	public float getStageProgress() {
+		return super.getStageProgress();
 	}
 
 	@ProgressProperty(label = "File: ", order = 1)

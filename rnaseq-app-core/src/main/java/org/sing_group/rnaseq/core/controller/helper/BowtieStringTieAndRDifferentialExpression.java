@@ -38,14 +38,14 @@ public class BowtieStringTieAndRDifferentialExpression
 	@Override
 	protected void performDifferentialExpressionAnalysis(OperationStatus status)
 		throws ExecutionException, InterruptedException {
-		status.setSubtaskProgress(0f);
-		status.setSubtask("Ballgown");
+		status.setStageProgress(0f);
+		status.setSubStage("Ballgown");
 		ballgownDifferentialExpressionAnalysis(
 			reads,referenceAnnotationFile, workingDirectory);
-		status.setSubtaskProgress(0.5f);
-		status.setSubtask("EdgeR");
+		status.setStageProgress(0.5f);
+		status.setSubStage("EdgeR");
 		edgeRDifferentialExpressionAnalysis(
 			reads, referenceAnnotationFile, workingDirectory);
-		status.setSubtaskProgress(1f);
+		status.setStageProgress(1f);
 	}
 }

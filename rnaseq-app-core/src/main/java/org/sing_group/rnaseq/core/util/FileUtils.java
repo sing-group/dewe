@@ -41,7 +41,7 @@ public class FileUtils {
 	 * corresponding absolute paths of the files.
 	 * 
 	 * @param files an array of {@code File}s.
-	 * @return an array of {@cdode String}s strings containing the corresponding
+	 * @return an array of {@code String}s strings containing the corresponding
 	 * absolute paths of the files.
 	 */
 	public static String[] asString(File[] files) {
@@ -75,7 +75,7 @@ public class FileUtils {
 
 	/**
 	 * Returns true if {@code directory} contains a file with name
-	 * {@Code fileName}.
+	 * {@code fileName}.
 	 * 
 	 * @param directory a directory.
 	 * @param fileName a file name.

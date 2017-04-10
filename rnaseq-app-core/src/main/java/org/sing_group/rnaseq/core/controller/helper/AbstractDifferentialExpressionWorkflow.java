@@ -45,19 +45,19 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		status.setStage("Align reads");
 		
-		float subtaskProgress = 1f / reads.size();
+		float stageProgress = 1f / reads.size();
 		for (FastqReadsSample sample : reads) {
-			status.setSubtask("Sample: " + sample.getName());
+			status.setSubStage("Sample: " + sample.getName());
 
 			File output = getSamFile(sample, workingDirectory);
 			alignReads(sample.getReadsFile1(), sample.getReadsFile2(), output);
-			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+			status.setStageProgress(status.getStageProgress() + stageProgress);
 		}
 
-		status.setSubtask("");
-		status.setSubtaskProgress(0f);
+		status.setSubStage("");
+		status.setStageProgress(0f);
 
-		status.setTotal(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getTotal() + PROGRESS);
 	}
 
 	protected abstract void alignReads(File readsFile1, File readsFile2,
@@ -70,21 +70,21 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		SamtoolsController samToolsController =
 			DefaultAppController.getInstance().getSamtoolsController();
 		
-		float subtaskProgress = 1f / reads.size();
+		float stageProgress = 1f / reads.size();
 		for (FastqReadsSample sample : reads) {
-			status.setSubtask("Sample: " + sample.getName());
+			status.setSubStage("Sample: " + sample.getName());
 
 			File sam = getSamFile(sample, workingDirectory);
 			File bam = getBamFile(sample, workingDirectory);
 			samToolsController.samToBam(sam, bam);
 			
-			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+			status.setStageProgress(status.getStageProgress() + stageProgress);
 		}
 
-		status.setSubtask("");
-		status.setSubtaskProgress(0f);
+		status.setSubStage("");
+		status.setStageProgress(0f);
 
-		status.setTotal(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getTotal() + PROGRESS);
 	}
 
 	private void stringTie(OperationStatus status)
@@ -94,12 +94,12 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
 		
-		float subtaskProgress = 1f / (reads.size() * 2 + 1);
+		float stagePRogress = 1f / (reads.size() * 2 + 1);
 		
 		List<File> outputTranscriptsFiles = new LinkedList<>();
 		
 		for (FastqReadsSample sample : reads) {
-			status.setSubtask("Sample: " + sample.getName());
+			status.setSubStage("Sample: " + sample.getName());
 			
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
@@ -107,30 +107,30 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			stringTieController.obtainLabeledTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile, sample.getName());
 			outputTranscriptsFiles.add(outputTranscriptsfile);
 
-			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+			status.setStageProgress(status.getStageProgress() + stagePRogress);
 		}
 
-		status.setSubtask("Merge samples transcripts");
+		status.setSubStage("Merge samples transcripts");
 		File mergedAnnotationFile = getMergedTranscriptsFile(workingDirectory);
 		stringTieController.mergeTranscripts(referenceAnnotationFile,
 			outputTranscriptsFiles, mergedAnnotationFile);
-		status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+		status.setStageProgress(status.getStageProgress() + stagePRogress);
 		
 		for (FastqReadsSample sample : reads) {
-			status.setSubtask("Sample: " + sample.getName());
+			status.setSubStage("Sample: " + sample.getName());
 			
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
 				outputTranscriptsfile);
 			
-			status.setSubtaskProgress(status.getSubtaskProgress() + subtaskProgress);
+			status.setStageProgress(status.getStageProgress() + stagePRogress);
 		}
 		
-		status.setSubtask("");
-		status.setSubtaskProgress(0f);
+		status.setSubStage("");
+		status.setStageProgress(0f);
 
-		status.setTotal(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getTotal() + PROGRESS);
 	}
 
 	private void differentialExpressionAnalysis(OperationStatus status)
@@ -139,9 +139,9 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		
 		performDifferentialExpressionAnalysis(status);
 		
-		status.setSubtask("");
-		status.setSubtaskProgress(0f);
-		status.setTotal(status.getTotal() + PROGRESS);
+		status.setSubStage("");
+		status.setStageProgress(0f);
+		status.setOverallProgress(status.getTotal() + PROGRESS);
 	}
 
 	protected abstract void performDifferentialExpressionAnalysis(
