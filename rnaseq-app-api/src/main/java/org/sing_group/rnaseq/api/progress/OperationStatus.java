@@ -14,7 +14,7 @@ public interface OperationStatus {
 	 * @return a float between 0 and 1 indicating the overall progress of the
 	 *         operation
 	 */
-	public float getTotal();
+	public float getOverallProgress();
 
 	/**
 	 * Sets the overall progress of the operation.

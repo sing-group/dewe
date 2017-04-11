@@ -57,7 +57,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setSubStage("");
 		status.setStageProgress(0f);
 
-		status.setOverallProgress(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
 	}
 
 	protected abstract void alignReads(File readsFile1, File readsFile2,
@@ -84,7 +84,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setSubStage("");
 		status.setStageProgress(0f);
 
-		status.setOverallProgress(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
 	}
 
 	private void stringTie(OperationStatus status)
@@ -130,7 +130,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setSubStage("");
 		status.setStageProgress(0f);
 
-		status.setOverallProgress(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
 	}
 
 	private void differentialExpressionAnalysis(OperationStatus status)
@@ -141,7 +141,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		
 		status.setSubStage("");
 		status.setStageProgress(0f);
-		status.setOverallProgress(status.getTotal() + PROGRESS);
+		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
 	}
 
 	protected abstract void performDifferentialExpressionAnalysis(

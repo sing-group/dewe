@@ -27,7 +27,7 @@ public class DefaultOperationStatus implements OperationStatus {
 	}
 
 	@Override
-	public float getTotal() {
+	public float getOverallProgress() {
 		return this.overalProgress;
 	}
 

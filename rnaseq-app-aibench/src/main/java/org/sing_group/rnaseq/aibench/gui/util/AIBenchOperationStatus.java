@@ -34,7 +34,7 @@ public class AIBenchOperationStatus extends DefaultOperationStatus {
 
 	@ProgressProperty(label = "Overall progress: ", order = 4)
 	@Override
-	public float getTotal() {
-		return super.getTotal();
+	public float getOverallProgress() {
+		return super.getOverallProgress();
 	}
 }

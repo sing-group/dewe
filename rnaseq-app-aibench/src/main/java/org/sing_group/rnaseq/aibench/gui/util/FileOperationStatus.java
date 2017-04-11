@@ -34,7 +34,7 @@ public class FileOperationStatus extends DefaultOperationStatus {
 
 	@ProgressProperty(ignore = true)
 	@Override
-	public float getTotal() {
-		return super.getTotal();
+	public float getOverallProgress() {
+		return super.getOverallProgress();
 	}
 }
