@@ -6,6 +6,7 @@ import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FA
 
 import java.io.File;
 
+import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -13,6 +14,7 @@ import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
@@ -24,6 +26,8 @@ public class Hisat2AlignSamples {
 	private File readsFile1;
 	private File readsFile2;
 	private File outputFile;
+	private boolean saveAlignmentLog;
+	private FileOperationStatus status = new FileOperationStatus();
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -64,6 +68,19 @@ public class Hisat2AlignSamples {
 
 	@Port(
 		direction = Direction.INPUT, 
+		name = "Save alignment log",
+		description = "Whether the alignment log must be saved or not.",
+		allowNull = false,
+		order = 4,
+		defaultValue = "true",
+		advanced = false
+	)
+	public void setSaveAlignmentLog(boolean saveAlignmentLog) {
+		this.saveAlignmentLog = saveAlignmentLog;
+	}
+
+	@Port(
+		direction = Direction.INPUT, 
 		name = "Output file",
 		description = "Output file.",
 		allowNull = true,
@@ -80,8 +97,10 @@ public class Hisat2AlignSamples {
 
 	private void runOperation() {
 		try {
-			DefaultAppController.getInstance().getHisat2Controller()
-				.alignReads(referenceGenome, readsFile1, readsFile2, outputFile);
+			this.status.setStage(outputFile.getName());
+			DefaultAppController.getInstance().getHisat2Controller().alignReads(
+				referenceGenome, readsFile1, readsFile2, outputFile,
+				saveAlignmentLog);
 			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {
 			Workbench.getInstance().error(e, e.getMessage());
@@ -91,4 +110,14 @@ public class Hisat2AlignSamples {
 	private void succeed() {
 		Workbench.getInstance().info("Reads successfully aligned.");
 	}
+
+	@Progress(
+		progressDialogTitle = "Progress",
+		workingLabel = "Hisat2 reads alignment",
+		preferredHeight = 200,
+		preferredWidth = 300
+	)
+	public FileOperationStatus progress() {
+		return this.status;
+	};
 }

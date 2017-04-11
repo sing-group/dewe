@@ -18,59 +18,65 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 
 public abstract class AbstractBinariesExecutor<B extends Binaries>
-		implements BinariesExecutor<B> {
+	implements BinariesExecutor<B> {
 	protected B binaries;
 
 	@Override
 	public void setBinaries(B binaries) throws BinaryCheckException {
 		this.binaries = binaries;
 	}
-	
-	protected static String commandToString(String command, String ... params) {
+
+	protected static String commandToString(String command, String... params) {
 		final StringBuilder sb = new StringBuilder(command);
-		
+
 		for (String param : params) {
 			sb.append(' ').append(param);
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	protected static void inputStarted(List<InputLineCallback> callbacks) {
 		for (InputLineCallback callback : callbacks) {
 			callback.inputStarted();
 		}
 	}
-	
+
 	protected static void inputFinished(List<InputLineCallback> callbacks) {
 		for (InputLineCallback callback : callbacks) {
 			callback.inputFinished();
 		}
 	}
 	
-	protected static void notifyInfo(List<InputLineCallback> callbacks, String message) {
+	protected static void notifyInfo(List<InputLineCallback> callbacks,
+		String message
+	) {
 		for (InputLineCallback callback : callbacks) {
 			callback.info(message);
 		}
 	}
-	
-	protected static void notifyLine(List<InputLineCallback> callbacks, String line) {
+
+	protected static void notifyLine(List<InputLineCallback> callbacks,
+		String line
+	) {
 		for (InputLineCallback callback : callbacks) {
 			callback.line(line);
 		}
 	}
-	
-	protected static void notifyError(List<InputLineCallback> callbacks, String message, Exception e) {
+
+	protected static void notifyError(List<InputLineCallback> callbacks,
+		String message, Exception e
+	) {
 		for (InputLineCallback callback : callbacks) {
 			callback.error(message, e);
 		}
 	}
 	
-	protected static ExecutionResult executeCommand(
-		final Logger log, final boolean logOutput,
-		List<InputLineCallback> callbacks,
-		String command, String ... params
-	) throws ExecutionException, InterruptedException {
+	protected static ExecutionResult executeCommand(final Logger log,
+		final boolean logOutput, List<InputLineCallback> callbacks,
+		String command, String... params
+	)
+		throws ExecutionException, InterruptedException {
 		if (callbacks.isEmpty()) {
 			return executeCommand(log, logOutput, command, params);
 		} else {
@@ -116,10 +122,10 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 	}
 	
 	protected static ExecutionResult executeCommand(
-		List<InputLineCallback> callbacks, String command, String ... params
+		List<InputLineCallback> callbacks, String command, String... params
 	) throws ExecutionException, InterruptedException {
 		final String commandString = commandToString(command, params);
-		
+
 		notifyInfo(callbacks, "Executing command: " + commandString);
 		
 		final Runtime runtime = Runtime.getRuntime();
@@ -160,13 +166,15 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		}
 	}
 	
-	protected static ExecutionResult executeCommand(Logger log, String command, String ... params)
-	throws ExecutionException, InterruptedException {
+	protected static ExecutionResult executeCommand(Logger log, String command,
+		String... params
+	) throws ExecutionException, InterruptedException {
 		return executeCommand(log, true, command, params);
 	}
 	
-	protected static ExecutionResult executeCommand(Logger log, boolean logOutput, String command, String ... params)
-	throws ExecutionException, InterruptedException {
+	protected static ExecutionResult executeCommand(Logger log,
+		boolean logOutput, String command, String... params
+	) throws ExecutionException, InterruptedException {
 		final String commandString = commandToString(command, params);
 		
 //		log.info("Executing command: " + commandString);
@@ -203,13 +211,15 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		}
 	}
 	
-	protected static ExecutionResult executeCommand(File redirectOutput, Logger log, String command, String ... params)
-	throws ExecutionException, InterruptedException {
-		return executeCommand(redirectOutput, log, true, command, params);
+	protected static ExecutionResult executeCommand(File redirectOutput,
+		Logger log, String command, String... params
+	) throws ExecutionException, InterruptedException {
+		return executeCommand(redirectOutput, null, log, command, params);
 	}
 	
-	protected static ExecutionResult executeCommand(File redirectOutput, Logger log, boolean logOutput, String command, String ... params)
-			throws ExecutionException, InterruptedException {
+	protected static ExecutionResult executeCommand(File redirectOutput,
+		File redirectError, Logger log, String command, String... params
+	) throws ExecutionException, InterruptedException {
 		final String commandString = commandToString(command, params);
 		
 //		log.info("Executing command: " + commandString);
@@ -218,21 +228,26 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			final String[] cmdarray = new String[params.length+1];
 			cmdarray[0] = command;
 			System.arraycopy(params, 0, cmdarray, 1, params.length);
-			
+
 			ProcessBuilder builder = new ProcessBuilder(cmdarray);
-			builder.redirectOutput(redirectOutput);
+			if (redirectOutput != null) {
+				builder.redirectOutput(redirectOutput);
+			}
+			if (redirectError != null) {
+				builder.redirectError(redirectError);
+			}
 			final Process process = builder.start();
-			
+
 			final LoggerThread inThread = new LoggerThread(
-				commandString, process.getInputStream(), log, logOutput, LogConfiguration.MARKER_EXECUTION_STD
+				commandString, process.getInputStream(), log, true, LogConfiguration.MARKER_EXECUTION_STD
 			);
+			inThread.start();
 			final LoggerThread errThread = new LoggerThread(
 				commandString, process.getErrorStream(), log, true, LogConfiguration.MARKER_EXECUTION_ERROR
 			);
-			
-			inThread.start();
 			errThread.start();
-			
+
+
 			final int outputCode = process.waitFor();
 			
 			inThread.join();

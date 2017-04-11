@@ -35,6 +35,31 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 		checkResult(result);
 	}
 
+	@Override
+	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
+		File reads2, File output, boolean saveAlignmentLog
+	) throws ExecutionException, InterruptedException {
+		if(saveAlignmentLog) {
+			alignReads(genome, reads1, reads2, output, getAlignmentLogFile(output));
+		} else {
+			alignReads(genome, reads1, reads2, output);
+		}
+	}
+
+	private static File getAlignmentLogFile(File outputFile) {
+		return new File(outputFile.getAbsoluteFile() + ".txt");
+	}
+
+	@Override
+	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
+		File reads2, File output, File alignmentLog
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.hisat2BinariesExecutor.alignReads(genome, reads1, reads2, output, alignmentLog);
+
+		checkResult(result);
+	}
+
 	private void checkResult(ExecutionResult result) throws ExecutionException {
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),

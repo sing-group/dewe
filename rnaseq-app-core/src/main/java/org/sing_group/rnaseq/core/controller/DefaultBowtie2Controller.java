@@ -35,6 +35,35 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 		final ExecutionResult result =
 			this.bowtie2BinariesExecutor.alignReads(genome, reads1, reads2, output);
 
+		checkResult(result);
+	}
+
+	@Override
+	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+		File reads2, File output, boolean saveAlignmentLog
+	) throws ExecutionException, InterruptedException {
+		if(saveAlignmentLog) {
+			alignReads(genome, reads1, reads2, output, getAlignmentLogFile(output));
+		} else {
+			alignReads(genome, reads1, reads2, output);
+		}
+	}
+
+	@Override
+	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+		File reads2, File output, File alignmentLogFile
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.bowtie2BinariesExecutor.alignReads(genome, reads1, reads2, output, alignmentLogFile);
+
+		checkResult(result);
+	}
+
+	private static File getAlignmentLogFile(File outputFile) {
+		return new File(outputFile.getAbsoluteFile() + ".txt");
+	}
+
+	private void checkResult(ExecutionResult result) throws ExecutionException {
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 				"Error executing bowtie2. Please, check error log.", "");
