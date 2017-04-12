@@ -31,7 +31,7 @@ public class BowtieStringTieAndRDifferentialExpression
 		throws ExecutionException, InterruptedException {
 		bowtie2Controller.alignReads(
 			(Bowtie2ReferenceGenome) referenceGenome, 
-			readsFile1, readsFile2, output
+			readsFile1, readsFile2, output, true
 		);
 	}
 

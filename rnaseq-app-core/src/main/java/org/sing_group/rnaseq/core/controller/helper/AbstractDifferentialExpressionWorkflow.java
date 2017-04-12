@@ -1,6 +1,8 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
+import static org.sing_group.rnaseq.core.io.alignment.SamplesAlignmentStatisticsCsvWriter.write;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,12 +10,22 @@ import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
+import org.sing_group.rnaseq.api.entities.alignment.SampleAlignmentStatistics;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
+import org.sing_group.rnaseq.core.entities.alignment.DefaultSampleAlignmentStatistics;
+import org.sing_group.rnaseq.core.io.alignment.DefaultAlignmentLogParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDifferentialExpressionWorkflow {
+	private static final Logger LOGGER = 
+		LoggerFactory.getLogger(AbstractDifferentialExpressionWorkflow.class);
+	private static final String READ_MAPPING_STATISTICS_FILE = "read-mapping-statistics.csv";
 	private static final float PROGRESS = 0.25f;
 
 	protected ReferenceGenome referenceGenome;
@@ -45,19 +57,54 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		status.setStage("Align reads");
 		
+		List<SampleAlignmentStatistics> statistics = new LinkedList<>();
+
 		float stageProgress = 1f / reads.size();
 		for (FastqReadsSample sample : reads) {
 			status.setSubStage("Sample: " + sample.getName());
 
 			File output = getSamFile(sample, workingDirectory);
 			alignReads(sample.getReadsFile1(), sample.getReadsFile2(), output);
+			statistics.add(alignmentStatistics(sample.getName(), output));
 			status.setStageProgress(status.getStageProgress() + stageProgress);
 		}
+
+		writeAlignmentStatistics(statistics);
 
 		status.setSubStage("");
 		status.setStageProgress(0f);
 
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
+	}
+
+	private void writeAlignmentStatistics(
+		List<SampleAlignmentStatistics> statistics) {
+		File destFile = getAlignmentStatisticsFile(workingDirectory);
+		try {
+			write(statistics, destFile);
+		} catch (IOException e) {
+			LOGGER.error("An error ocurred writing read mapping statistics to "
+				+ destFile.getAbsolutePath());
+		}
+	}
+
+	private File getAlignmentStatisticsFile(File workingDirectory2) {
+		return new File(workingDirectory, READ_MAPPING_STATISTICS_FILE);
+	}
+
+	private SampleAlignmentStatistics alignmentStatistics(String sampleName, File output) {
+		AlignmentStatistics statistics = new DefaultAlignmentStatistics();
+		DefaultAlignmentLogParser parser = new DefaultAlignmentLogParser();
+		File logFile = new File(output.getAbsolutePath() + ".txt");
+		try {
+			parser.parseLogFile(logFile);
+			statistics = parser.getAlignmentStatistics();
+		} catch (IOException e) {
+			LOGGER.warn("Warning: an error ocurred reading log file " 
+				+ logFile.getAbsolutePath() + " corresponding to sample"
+				+ sampleName);
+		}
+		return new DefaultSampleAlignmentStatistics(sampleName, statistics);
 	}
 
 	protected abstract void alignReads(File readsFile1, File readsFile2,

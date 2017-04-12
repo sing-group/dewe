@@ -30,7 +30,7 @@ public class HisatStringTieAndBallgownDifferentialExpression
 		throws ExecutionException, InterruptedException {
 		hisat2Controller.alignReads(
 			(Hisat2ReferenceGenome) referenceGenome, 
-			readsFile1, readsFile2, output
+			readsFile1, readsFile2, output, true
 		);
 	}
 

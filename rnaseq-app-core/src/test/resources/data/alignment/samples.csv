@@ -1,0 +1,3 @@
+Sample,Uniquely aligned reads (%),Multimapped reads (%),Overall alignment rate (%)
+SAMPLE_A,80.0000,10.0000,95.0000
+SAMPLE_B,75.0000,5.0000,90.0000

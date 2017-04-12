@@ -92,6 +92,7 @@
 		<log4j.version>1.2.12</log4j.version>
 		<slf4j.version>1.7.22</slf4j.version>
 		<gc4s.version>0.6.0-SNAPSHOT</gc4s.version>
+		<sing.commons.csv.version>1.2.0-SNAPSHOT</sing.commons.csv.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
@@ -148,6 +149,11 @@
 				<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
 				<artifactId>GC4S</artifactId>
 				<version>${gc4s.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>${sing.commons.csv.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
