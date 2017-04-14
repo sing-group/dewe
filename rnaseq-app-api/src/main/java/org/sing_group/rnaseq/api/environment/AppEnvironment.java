@@ -29,4 +29,6 @@ public interface AppEnvironment {
 	public abstract String getProperty(String propertyName);
 
 	public abstract boolean hasProperty(String propertyName);
+
+	public abstract int getThreads();
 }

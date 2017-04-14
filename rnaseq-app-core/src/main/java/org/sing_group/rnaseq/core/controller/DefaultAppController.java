@@ -236,4 +236,9 @@ public class DefaultAppController implements AppController {
 	public ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
 		return this.environment.getReferenceGenomeDatabaseManager();
 	}
+
+	@Override
+	public int getThreads() {
+		return this.environment.getThreads();
+	}
 }

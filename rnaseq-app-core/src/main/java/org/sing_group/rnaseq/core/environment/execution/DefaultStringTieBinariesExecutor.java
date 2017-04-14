@@ -41,7 +41,8 @@ public class DefaultStringTieBinariesExecutor
 		return executeCommand(
 			LOG,
 			this.binaries.getStringTie(),
-			"-p 8",
+			"-p",
+			getThreads(),
 			"-G", 	referenceAnnotationFile.getAbsolutePath(),
 			"-l",	label,
 			"-o", 	outputTranscripts.getAbsolutePath(),
@@ -56,7 +57,8 @@ public class DefaultStringTieBinariesExecutor
 		return executeCommand(
 			LOG,
 			this.binaries.getStringTie(),
-			"-p 8",
+			"-p",
+			getThreads(),
 			"-G", 	referenceAnnotationFile.getAbsolutePath(),
 			"-e",
 			"-B",
@@ -106,11 +108,11 @@ public class DefaultStringTieBinariesExecutor
 			LOG,
 			this.binaries.getStringTie(),
 			"--merge", 
-			"-p 8",
+			"-p",
+			getThreads(),
 			"-G", 	referenceAnnotationFile.getAbsolutePath(),
 			"-o", 	mergedAnnotationFile.getAbsolutePath(),
 			mergeList.getAbsolutePath()
 		);
 	}
-
 }

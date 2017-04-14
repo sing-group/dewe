@@ -29,4 +29,6 @@ public interface AppController {
 	public abstract Hisat2Controller getHisat2Controller();
 
 	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
+
+	public abstract int getThreads();
 }

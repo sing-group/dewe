@@ -13,6 +13,7 @@ import org.sing_group.rnaseq.api.environment.execution.BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.log.LogConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -20,6 +21,10 @@ import org.slf4j.Marker;
 public abstract class AbstractBinariesExecutor<B extends Binaries>
 	implements BinariesExecutor<B> {
 	protected B binaries;
+
+	protected String getThreads() {
+		return Integer.toString(DefaultAppController.getInstance().getThreads());
+	}
 
 	@Override
 	public void setBinaries(B binaries) throws BinaryCheckException {

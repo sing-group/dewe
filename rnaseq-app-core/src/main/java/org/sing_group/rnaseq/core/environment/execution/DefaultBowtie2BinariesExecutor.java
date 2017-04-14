@@ -60,6 +60,8 @@ public class DefaultBowtie2BinariesExecutor
 			alignmentLog,
 			LOG,
 			this.binaries.getAlignReads(),
+			"--threads",
+			getThreads(),
 			"--very-sensitive",
 			"-x",
 			genome.getReferenceGenomeIndex().get(),

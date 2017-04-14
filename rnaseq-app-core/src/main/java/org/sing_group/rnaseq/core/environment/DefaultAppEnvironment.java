@@ -25,11 +25,13 @@ import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseMana
 
 public class DefaultAppEnvironment implements AppEnvironment {
 	
+	public static final String PROP_NUM_THREADS = "threads";
 	public static final String PROP_DATABASES_DIR = "databases.directory";
 	public static final String PROP_REFERENCE_GENOME_FILE = "genomes.db";
 	
 	private File propertiesFile;
 	private Properties defaultProperties;
+	private int cores;
 	private DefaultBowtie2Binaries bowtie2Binaries;
 	private DefaultSamtoolsBinaries samtoolsBinaries;
 	private DefaultStringTieBinaries stringTieBinaries;
@@ -57,13 +59,16 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				SystemBinaries.BASE_DIRECTORY_PROP,
 				SystemBinaries.BASE_DIRECTORY_2_PROP,
 				Hisat2Binaries.BASE_DIRECTORY_PROP,
-				PROP_DATABASES_DIR 
+				PROP_DATABASES_DIR,
+				PROP_NUM_THREADS
 		}) {
 			if (!this.hasProperty(property)) {
 				throw new IllegalStateException(
 					"Missing property in configuration file: " + property);
 			}
 		}
+
+		this.cores = Integer.valueOf(getProperty(PROP_NUM_THREADS));
 
 		this.bowtie2Binaries = new DefaultBowtie2Binaries(
 			this.getProperty(Bowtie2Binaries.BASE_DIRECTORY_PROP)
@@ -122,10 +127,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public String getProperty(String propertyName) {
 		String propertyValue = System.getProperty(propertyName);
-		
-		if (propertyValue == null)
+
+		if (propertyValue == null) {
 			propertyValue = this.defaultProperties.getProperty(propertyName);
-		
+		}
+
 		return propertyValue;
 	}
 	
@@ -173,5 +179,10 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public DefaultReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
 		return referenceGenomeDatabaseManager;
+	}
+
+	@Override
+	public int getThreads() {
+		return this.cores;
 	}
 }
