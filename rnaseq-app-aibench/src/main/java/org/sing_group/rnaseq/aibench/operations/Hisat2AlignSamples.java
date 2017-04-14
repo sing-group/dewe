@@ -32,6 +32,7 @@ public class Hisat2AlignSamples {
 	private File readsFile2;
 	private File outputFile;
 	private boolean saveAlignmentLog;
+	private boolean dta;
 	private FileOperationStatus status = new FileOperationStatus();
 
 	@Port(
@@ -85,11 +86,24 @@ public class Hisat2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
+		name = "Transcript assemblers",
+		description = "Reports alignments tailored for transcript assemblers",
+		allowNull = false,
+		order = 5,
+		defaultValue = "false",
+		advanced = false
+		)
+	public void setDta(boolean dta) {
+		this.dta = dta;
+	}
+
+	@Port(
+		direction = Direction.INPUT,
 		name = "Output file",
 		description = "Output file.",
 		allowNull = true,
-		order = 5,
+		order = 6,
 		extras = "selectionMode=files",
 		advanced = false
 	)
@@ -103,7 +117,7 @@ public class Hisat2AlignSamples {
 		try {
 			this.status.setStage(outputFile.getName());
 			DefaultAppController.getInstance().getHisat2Controller().alignReads(
-				referenceGenome, readsFile1, readsFile2, outputFile,
+				referenceGenome, readsFile1, readsFile2, dta, outputFile,
 				saveAlignmentLog);
 			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {

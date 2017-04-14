@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.Binaries;
@@ -129,6 +130,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 	protected static ExecutionResult executeCommand(
 		List<InputLineCallback> callbacks, String command, String... params
 	) throws ExecutionException, InterruptedException {
+		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
 
 		notifyInfo(callbacks, "Executing command: " + commandString);
@@ -180,6 +182,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 	protected static ExecutionResult executeCommand(Logger log,
 		boolean logOutput, String command, String... params
 	) throws ExecutionException, InterruptedException {
+		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
 		
 //		log.info("Executing command: " + commandString);
@@ -225,6 +228,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 	protected static ExecutionResult executeCommand(File redirectOutput,
 		File redirectError, Logger log, String command, String... params
 	) throws ExecutionException, InterruptedException {
+		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
 		
 //		log.info("Executing command: " + commandString);
@@ -265,7 +269,17 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			throw new ExecutionException(-1, e, command);
 		}
 	}
-	
+
+	private static String[] removeEmptyParams(String[] params) {
+		List<String> toret = new LinkedList<String>();
+		for (String param : params) {
+			if (param != null && !param.isEmpty()) {
+				toret.add(param);
+			}
+		}
+		return toret.toArray(new String[toret.size()]);
+	}
+
 	//TODO: Refactorize executeCommandMethods
 	protected static ExecutionResult executeCommand(
 		final Logger log, final boolean logOutput,
@@ -322,6 +336,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		String[] envp, File workingDirectory, String command,
 		String ... params
 	) throws ExecutionException, InterruptedException {
+		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
 		
 		notifyInfo(callbacks, "Executing command: " + commandString);

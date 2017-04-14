@@ -46,14 +46,14 @@ public class DefaultHisat2BinariesExecutor
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenome genome,
-		File reads1, File reads2, File output
+		File reads1, File reads2, boolean dta, File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads1, reads2, output, null);
+		return alignReads(genome, reads1, reads2, dta, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenome genome,
-		File reads1, File reads2, File output, File alignmentLog
+		File reads1, File reads2, boolean dta, File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(
 			null,
@@ -62,6 +62,7 @@ public class DefaultHisat2BinariesExecutor
 			this.binaries.getAlignReads(),
 			"--threads",
 			getThreads(),
+			dta ? "--dta" : "",
 			"-x",
 			genome.getReferenceGenomeIndex().get(),
 			"-1",

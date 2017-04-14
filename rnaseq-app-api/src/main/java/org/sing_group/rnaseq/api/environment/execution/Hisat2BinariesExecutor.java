@@ -43,6 +43,7 @@ public interface Hisat2BinariesExecutor
 	 * @param genome the {@code Hisat2ReferenceGenome}
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
+	 * @param dta reports alignments tailored for transcript assemblers
 	 * @param output the file to store the result of the alignment
 	 * 
 	 * @return the {@code ExecutionResult}
@@ -52,7 +53,7 @@ public interface Hisat2BinariesExecutor
 	 *         binary
 	 */
 	public abstract ExecutionResult alignReads(Hisat2ReferenceGenome genome,
-		File reads1, File reads2, File output)
+		File reads1, File reads2, boolean dta, File output)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -64,6 +65,7 @@ public interface Hisat2BinariesExecutor
 	 * @param genome the {@code Hisat2ReferenceGenome} 
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
+	 * @param dta reports alignments tailored for transcript assemblers
 	 * @param output the file to store the result of the alignment
 	 * @param alignmentLog the file to store the  {@code stderr} output
 	 * 
@@ -74,6 +76,6 @@ public interface Hisat2BinariesExecutor
 	 *         binary
 	 */
 	public abstract ExecutionResult alignReads(Hisat2ReferenceGenome genome,
-		File reads1, File reads2, File output, File alignmentLog)
+		File reads1, File reads2, boolean dta, File output, File alignmentLog)
 		throws ExecutionException, InterruptedException;
 }
