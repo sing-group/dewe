@@ -179,7 +179,7 @@ public class FastqSampleEditor extends JPanel {
 		}
 	}
 
-	private Optional<File> lookForReadsFile2(File readsFile1) {
+	public static Optional<File> lookForReadsFile2(File readsFile1) {
 		for(String extension : FASTQ_EXTENSIONS) {
 			File readsFile2 = new File(
 				readsFile1.getAbsolutePath()
@@ -202,6 +202,24 @@ public class FastqSampleEditor extends JPanel {
 			String sampleName =
 				fileName.substring(0, fileName.indexOf(".")).replace("_1", "");
 			this.sampleNameTextField.setText(sampleName);
+		}
+	}
+
+	/**
+	 * Returns the name of a reads file by removing the file extension and the
+	 * {@code _1} or {@code _2} markers.
+	 * 
+	 * @param readsFile the reads file
+	 * @return a string with the name
+	 */
+	public static final String extractSampleNameFromReadsFile(File readsFile) {
+		String fileName = readsFile.getName();
+		if (fileName.contains(".")) {
+			return fileName.substring(0, fileName.indexOf("."))
+						.replace("_1", "")
+						.replace("_2", "");
+		} else {
+			return fileName;
 		}
 	}
 
@@ -245,13 +263,13 @@ public class FastqSampleEditor extends JPanel {
 		return isValidFile(reads2FileChooser.getSelectedFile());
 	}
 
-	private boolean isValidFile(File selectedFile) {
+	public static boolean isValidFile(File selectedFile) {
 		return 	selectedFile != null 	&& 
 				selectedFile.exists()	&& 
 				hasValidFileExtension(selectedFile);
 	}
 
-	private boolean hasValidFileExtension(File file) {
+	private static boolean hasValidFileExtension(File file) {
 		for (String extension : FASTQ_EXTENSIONS) {
 			if (file.getName().endsWith(extension)) {
 				return true;

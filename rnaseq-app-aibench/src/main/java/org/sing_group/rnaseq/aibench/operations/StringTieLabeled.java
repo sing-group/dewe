@@ -115,5 +115,5 @@ public class StringTieLabeled {
 	)
 	public FileOperationStatus progress() {
 		return this.status;
-	};
+	}
 }

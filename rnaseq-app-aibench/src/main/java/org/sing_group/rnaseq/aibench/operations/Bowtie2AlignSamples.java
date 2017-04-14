@@ -2,7 +2,12 @@ package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow.REFERENCE_GENOME;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1_DESCRIPTION;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FASTQ_FILES;
+import static org.sing_group.rnaseq.aibench.operations.util.OperationsUtils.getSamOutputFile;
 
 import java.io.File;
 
@@ -42,8 +47,8 @@ public class Bowtie2AlignSamples {
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "Reads file 1",
-		description = "Reads file 1.",
+		name = READS_FILE_1,
+		description = READS_FILE_1_DESCRIPTION,
 		allowNull = false,
 		order = 2,
 		extras = EXTRAS_FASTQ_FILES, 
@@ -55,8 +60,8 @@ public class Bowtie2AlignSamples {
 	
 	@Port(
 		direction = Direction.INPUT, 
-		name = "Reads file 2",
-		description = "Reads file 2.",
+		name = READS_FILE_2,
+		description = READS_FILE_2_DESCRIPTION,
 		allowNull = false,
 		order = 3,
 		extras = EXTRAS_FASTQ_FILES,
@@ -88,9 +93,8 @@ public class Bowtie2AlignSamples {
 		extras = "selectionMode=files",
 		advanced = false
 	)
-	public void setOutputFolder(File outputFile) {
-		this.outputFile = outputFile.getName().endsWith(".sam") ? outputFile
-				: new File(outputFile.getAbsolutePath() + ".sam");
+	public void setOutputFile(File outputFile) {
+		this.outputFile = getSamOutputFile(outputFile, this.readsFile1);
 
 		this.runOperation();
 	}
@@ -119,5 +123,5 @@ public class Bowtie2AlignSamples {
 	)
 	public FileOperationStatus progress() {
 		return this.status;
-	};
+	}
 }

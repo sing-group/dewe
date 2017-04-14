@@ -100,5 +100,5 @@ public class StringTie {
 	)
 	public FileOperationStatus progress() {
 		return this.status;
-	};	
+	}
 }
