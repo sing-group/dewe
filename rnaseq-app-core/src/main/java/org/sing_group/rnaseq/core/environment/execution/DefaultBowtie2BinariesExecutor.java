@@ -7,6 +7,7 @@ import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.core.environment.execution.check.DefaultBowtie2BinariesChecker;
 import org.slf4j.Logger;
@@ -46,14 +47,16 @@ public class DefaultBowtie2BinariesExecutor
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenome genome,
-		File reads1, File reads2, File output
+		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads1, reads2, output, null);
+		return alignReads(genome, reads1, reads2, configuration, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenome genome,
-		File reads1, File reads2, File output, File alignmentLog
+		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(
 			null,
@@ -62,7 +65,7 @@ public class DefaultBowtie2BinariesExecutor
 			this.binaries.getAlignReads(),
 			"--threads",
 			getThreads(),
-			"--very-sensitive",
+			configuration.getParameter(),
 			"-x",
 			genome.getReferenceGenomeIndex().get(),
 			"-1",

@@ -11,6 +11,7 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
 public class BowtieStringTieAndRDifferentialExpression
 	extends AbstractDifferentialExpressionWorkflow {
@@ -30,9 +31,10 @@ public class BowtieStringTieAndRDifferentialExpression
 	protected void alignReads(File readsFile1, File readsFile2, File output)
 		throws ExecutionException, InterruptedException {
 		bowtie2Controller.alignReads(
-			(Bowtie2ReferenceGenome) referenceGenome, 
-			readsFile1, readsFile2, output, true
-		);
+			(Bowtie2ReferenceGenome) referenceGenome,
+			readsFile1, readsFile2,
+			DefaultBowtie2EndToEndConfiguration.VERY_SENSITIVE, 
+			output, true);
 	}
 
 	@Override

@@ -13,8 +13,10 @@ import java.io.File;
 
 import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -33,6 +35,7 @@ public class Bowtie2AlignSamples {
 	private File outputFile;
 	private boolean saveAlignmentLog;
 	private FileOperationStatus status = new FileOperationStatus();
+	private Bowtie2EndToEndConfiguration configuration;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -86,10 +89,24 @@ public class Bowtie2AlignSamples {
 
 	@Port(
 		direction = Direction.INPUT, 
+		name = "Presets",
+		description = "Presets options for the --end-to-end mode",
+		allowNull = false,
+		order = 5,
+		advanced = true
+	)
+	public void setBowtie2EndToEndConfiguration(
+		DefaultBowtie2EndToEndConfiguration configuration
+	) {
+		this.configuration = configuration;
+	}
+
+	@Port(
+		direction = Direction.INPUT,
 		name = "Output file",
 		description = "Output file.",
 		allowNull = true,
-		order = 5,
+		order = 6,
 		extras = "selectionMode=files",
 		advanced = false
 	)
@@ -103,8 +120,8 @@ public class Bowtie2AlignSamples {
 		try {
 			this.status.setStage(outputFile.getName());
 			DefaultAppController.getInstance().getBowtie2Controller()
-				.alignReads(referenceGenome, readsFile1, readsFile2, outputFile,
-					saveAlignmentLog);
+				.alignReads(referenceGenome, readsFile1, readsFile2,
+					configuration, outputFile, saveAlignmentLog);
 			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {
 			Workbench.getInstance().error(e, e.getMessage());

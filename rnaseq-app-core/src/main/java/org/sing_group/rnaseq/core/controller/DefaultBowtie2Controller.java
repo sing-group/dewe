@@ -6,6 +6,7 @@ import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
+import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 
 public class DefaultBowtie2Controller implements Bowtie2Controller {
@@ -30,31 +31,34 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
-		File reads2, File output
+		File reads2, Bowtie2EndToEndConfiguration configuration, File output
 	) throws ExecutionException, InterruptedException {
-		final ExecutionResult result =
-			this.bowtie2BinariesExecutor.alignReads(genome, reads1, reads2, output);
+		final ExecutionResult result = this.bowtie2BinariesExecutor
+			.alignReads(genome, reads1, reads2, configuration, output);
 
 		checkResult(result);
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
-		File reads2, File output, boolean saveAlignmentLog
+		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
+		boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
 		if(saveAlignmentLog) {
-			alignReads(genome, reads1, reads2, output, getAlignmentLogFile(output));
+			alignReads(genome, reads1, reads2, configuration, output,
+				getAlignmentLogFile(output));
 		} else {
-			alignReads(genome, reads1, reads2, output);
+			alignReads(genome, reads1, reads2, configuration, output);
 		}
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
-		File reads2, File output, File alignmentLogFile
+		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
+		File alignmentLogFile
 	) throws ExecutionException, InterruptedException {
-		final ExecutionResult result =
-			this.bowtie2BinariesExecutor.alignReads(genome, reads1, reads2, output, alignmentLogFile);
+		final ExecutionResult result = this.bowtie2BinariesExecutor.alignReads(
+			genome, reads1, reads2, configuration, output, alignmentLogFile);
 
 		checkResult(result);
 	}

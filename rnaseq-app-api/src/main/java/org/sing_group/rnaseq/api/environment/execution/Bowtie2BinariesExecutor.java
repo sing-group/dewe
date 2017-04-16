@@ -3,6 +3,7 @@ package org.sing_group.rnaseq.api.environment.execution;
 import java.io.File;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 
 /**
@@ -35,11 +36,13 @@ public interface Bowtie2BinariesExecutor
 
 	/**
 	 * Aligns paired reads in files {@code reads1} and {@code reads2} using the
-	 * specified reference genome, storing the result in {@code output} file.
+	 * specified reference genome and end-to-end mode configuration, storing 
+	 * the result in {@code output} file.
 	 * 
 	 * @param genome the {@code Bowtie2ReferenceGenome} 
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
+	 * @param configuration the {@code Bowtie2EndToEndConfiguration}
 	 * @param output the file to store the result of the alignment
 	 * 
 	 * @return the {@code ExecutionResult}
@@ -49,18 +52,21 @@ public interface Bowtie2BinariesExecutor
 	 *         binary
 	 */
 	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenome genome,
-		File reads1, File reads2, File output)
+		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File output)
 		throws ExecutionException, InterruptedException;
 
 	/**
 	 * Aligns paired reads in files {@code reads1} and {@code reads2} using the
-	 * specified reference genome, storing the result in {@code output} file.
-	 * The {@code alignmentLog} file is used to store the {@code stderr} output
-	 * of Bowtie2 where the alignment rates are printed.
+	 * specified reference genome and end-to-end mode configuration, storing 
+	 * the result in {@code output} file. The {@code alignmentLog} file is used 
+	 * to store the {@code stderr} output of Bowtie2 where the alignment rates 
+	 * are printed.
 	 * 
 	 * @param genome the {@code Bowtie2ReferenceGenome} 
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
+	 * @param configuration the {@code Bowtie2EndToEndConfiguration}
 	 * @param output the file to store the result of the alignment
 	 * @param alignmentLog the file to store the  {@code stderr} output
 	 * 
@@ -71,6 +77,7 @@ public interface Bowtie2BinariesExecutor
 	 *         binary
 	 */
 	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenome genome,
-		File reads1, File reads2, File output, File alignmentLog)
+		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File output, File alignmentLog)
 		throws ExecutionException, InterruptedException;
 }
