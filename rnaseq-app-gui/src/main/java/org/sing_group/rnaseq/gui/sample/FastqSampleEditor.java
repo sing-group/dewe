@@ -75,6 +75,7 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private Component getInputParamtersPanel() {
+		JFileChooserPanel.clearSharedLastFileFilter();
 		this.inputParametersPanel = new InputParametersPanel(getParameters());
 		this.inputParametersPanel.setOpaque(false);
 		return this.inputParametersPanel;
@@ -135,6 +136,7 @@ public class FastqSampleEditor extends JPanel {
 				.withFileFilters(getFastqFileFilters())
 				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
 			.build();
+		reads1FileChooser.setUseSharedLastFileFilter(true);
 		reads1FileChooser.addFileChooserListener(this::readsFileChanged);
 		reads1FileChooser.addFileChooserListener(this::readsFile1Changed);
 		reads1FileChooser.setOpaque(false);
@@ -155,6 +157,7 @@ public class FastqSampleEditor extends JPanel {
 				.withFileFilters(getFastqFileFilters())
 				.withLabel("").withFileChooserSelectionMode(SelectionMode.FILES)
 			.build();
+		reads2FileChooser.setUseSharedLastFileFilter(true);
 		reads2FileChooser.addFileChooserListener(this::readsFileChanged);
 		reads2FileChooser.setOpaque(false);
 
