@@ -3,6 +3,13 @@ package org.sing_group.rnaseq.core.util;
 import java.io.File;
 import java.util.Optional;
 
+/**
+ * An utility class that provides methods to deal with {@code File}s.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class FileUtils {
 
 	/**

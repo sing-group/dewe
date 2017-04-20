@@ -1,11 +1,13 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
 import static org.sing_group.rnaseq.core.io.alignment.SamplesAlignmentStatisticsCsvWriter.write;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.FileAppender;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
@@ -19,12 +21,17 @@ import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultSampleAlignmentStatistics;
 import org.sing_group.rnaseq.core.io.alignment.DefaultAlignmentLogParser;
+import org.sing_group.rnaseq.core.util.LoggingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDifferentialExpressionWorkflow {
 	private static final Logger LOGGER = 
 		LoggerFactory.getLogger(AbstractDifferentialExpressionWorkflow.class);
+	private static final String STEP_ALIGN = "Align reads";
+	private static final String STEP_SAM_TO_BAM = "Converting sam to bam";
+	private static final String STEP_STRINGTIE = "Running StringTie";
+	private static final String STEP_DE = "Differential expression analysis";
 	private static final String READ_MAPPING_STATISTICS_FILE = "read-mapping-statistics.csv";
 	private static final float PROGRESS = 0.25f;
 
@@ -32,6 +39,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	protected FastqReadsSamples reads;
 	protected File referenceAnnotationFile;
 	protected File workingDirectory;
+	private FileAppender workflowLogFileAppender;
 
 	public AbstractDifferentialExpressionWorkflow(
 		ReferenceGenome referenceGenome,
@@ -44,18 +52,23 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		this.referenceAnnotationFile = referenceAnnotationFile;
 		this.workingDirectory = workingDirectory;
 	}
-	
+
 	public void runAnalysis(OperationStatus status)
 		throws ExecutionException, InterruptedException {
+		createWorkflowLogger();
+
 		alignReads(status);
 		convertSamToBam(status);
 		stringTie(status);
 		differentialExpressionAnalysis(status);
+
+		removeWorkflowLogger();
 	}
 
 	private void alignReads(OperationStatus status)
 		throws ExecutionException, InterruptedException {
-		status.setStage("Align reads");
+		stepLog(STEP_ALIGN);
+		status.setStage(STEP_ALIGN);
 		
 		List<SampleAlignmentStatistics> statistics = new LinkedList<>();
 
@@ -112,7 +125,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	private void convertSamToBam(OperationStatus status
 	) throws ExecutionException, InterruptedException {
-		status.setStage("Converting sam to bam");
+		stepLog(STEP_SAM_TO_BAM);
+		status.setStage(STEP_SAM_TO_BAM);
 		
 		SamtoolsController samToolsController =
 			DefaultAppController.getInstance().getSamtoolsController();
@@ -136,7 +150,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	private void stringTie(OperationStatus status)
 		throws ExecutionException, InterruptedException {
-		status.setStage("Running StringTie");
+		stepLog(STEP_STRINGTIE);
+		status.setStage(STEP_STRINGTIE);
 		
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
@@ -182,7 +197,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	private void differentialExpressionAnalysis(OperationStatus status)
 		throws ExecutionException, InterruptedException {
-		status.setStage("Differential expression analysis");
+		stepLog(STEP_DE);
+		status.setStage(STEP_DE);
 		
 		performDifferentialExpressionAnalysis(status);
 		
@@ -237,5 +253,23 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		File outputFile = new File(workingdir, "stringtie");
 		outputFile.mkdirs();
 		return outputFile;
+	}
+
+	private void createWorkflowLogger() {
+		workflowLogFileAppender = LoggingUtils.createAndAddFileAppender(
+			new File(workingDirectory, "run.log"),
+			org.apache.log4j.Logger.getRootLogger(),
+			"WorkflowFileAppender");
+	}
+
+	private void removeWorkflowLogger() {
+		if (workflowLogFileAppender != null) {
+			org.apache.log4j.Logger.getRootLogger()
+				.removeAppender(workflowLogFileAppender);
+		}
+	}
+
+	protected static final void stepLog(String message) {
+		LOGGER.info("STEP:" + message);
 	}
 }

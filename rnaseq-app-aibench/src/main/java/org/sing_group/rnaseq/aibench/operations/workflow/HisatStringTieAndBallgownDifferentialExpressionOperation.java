@@ -89,7 +89,8 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 
 	@Progress(
 		workingLabel = "Running workflow",
-		progressDialogTitle = "Execution progress"
+		progressDialogTitle = "Execution progress",
+		modal = true
 	)
 	public OperationStatus getStatus(){
 	      return this.status;
