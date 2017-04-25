@@ -93,6 +93,7 @@ public class Bowtie2AlignSamples {
 		description = "Presets options for the --end-to-end mode",
 		allowNull = false,
 		order = 5,
+		extras = "mode=radiobuttons, numrows=1, numcolumns=4",
 		advanced = true
 	)
 	public void setBowtie2EndToEndConfiguration(
