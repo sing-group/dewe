@@ -3,9 +3,11 @@ package org.sing_group.rnaseq.core.controller;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_BALLGOWN_R_DATA;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_GENES;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_GENES_FILTERED;
+import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_GENES_FILTERED_SIGNIFICANT;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_PHENOTYPE;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_TRANSCRIPTS;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_TRANSCRIPTS_FILTERED;
+import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_TRANSCRIPTS_FILTERED_SIGNIFICANT;
 import static org.sing_group.rnaseq.core.io.ballgown.BallgownPhenotypeDataCsvLoader.loadSampleNames;
 
 import java.io.File;
@@ -80,6 +82,11 @@ public class DefaultBallgownWorkingDirectoryController
 		return loadGenes(OUTPUT_FILE_GENES_FILTERED);
 	}
 
+	@Override
+	public Optional<BallgownGenes> getSignificantFilteredGenes() {
+		return loadGenes(OUTPUT_FILE_GENES_FILTERED_SIGNIFICANT);
+	}
+
 	private Optional<BallgownGenes> loadGenes(String genesFileName) {
 		File genesFile = getWorkingDirFile(genesFileName);
 		BallgownGenes genes = null;
@@ -103,6 +110,11 @@ public class DefaultBallgownWorkingDirectoryController
 	@Override
 	public Optional<BallgownTranscripts> getFilteredTranscripts() {
 		return loadTranscripts(OUTPUT_FILE_TRANSCRIPTS_FILTERED);
+	}
+
+	@Override
+	public Optional<BallgownTranscripts> getSignificantFilteredTranscripts() {
+		return loadTranscripts(OUTPUT_FILE_TRANSCRIPTS_FILTERED_SIGNIFICANT);
 	}
 
 	private Optional<BallgownTranscripts> loadTranscripts(

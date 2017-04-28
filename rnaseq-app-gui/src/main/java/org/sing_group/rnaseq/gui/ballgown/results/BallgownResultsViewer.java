@@ -50,12 +50,16 @@ public class BallgownResultsViewer extends JPanel {
 	private JTabbedPane tablesTabbedPane;
 	private BallgownGenesTable genesTable;
 	private BallgownGenesTable filteredGenesTable;
+	private BallgownGenesTable significantFilteredGenesTable;
 	private BallgownTranscriptsTable transcriptsTable;
 	private BallgownTranscriptsTable filteredTranscriptsTable;
+	private BallgownTranscriptsTable significantFilteredTranscriptsTable;
 	private ExtendedAbstractAction transcriptsExpressionLevelsFigureAction;
 	private ExtendedAbstractAction filteredTranscriptsExpressionLevelsFigureAction;
+	private ExtendedAbstractAction significantFilteredTranscriptsExpressionLevelsFigureAction;
 	private ExtendedAbstractAction transcriptsFigureAction;
 	private ExtendedAbstractAction filteredTranscriptsFigureAction;
+	private ExtendedAbstractAction significantFilteredTranscriptsFigureAction;
 
 	/**
 	 * Creates a new {@code BallgownResultsViewer} for viewing tables in the
@@ -81,10 +85,14 @@ public class BallgownResultsViewer extends JPanel {
 			tablesTabbedPane.add("Genes", new JScrollPane(getGenesTable()));
 			tablesTabbedPane.add("Filtered genes",
 				new JScrollPane(getFilteredGenesTable()));
+			tablesTabbedPane.add("Significant filtered genes",
+				new JScrollPane(getSignificantFilteredGenesTable()));
 			tablesTabbedPane.add("Transcripts",
 				new JScrollPane(getTranscriptsTable()));
 			tablesTabbedPane.add("Filtered transcripts",
 				new JScrollPane(getFilteredTranscriptsTable()));
+			tablesTabbedPane.add("Significant filtered transcripts",
+				new JScrollPane(getSignificantFilteredTranscriptsTable()));
 		}
 		return tablesTabbedPane;
 	}
@@ -108,9 +116,21 @@ public class BallgownResultsViewer extends JPanel {
 		return filteredGenesTable;
 	}
 
-
 	private BallgownGenes getFilteredGenes() {
 		return workingDirectoryController.getFilteredGenes()
+			.orElse(new DefaultBallgownGenes());
+	}
+
+	private JComponent getSignificantFilteredGenesTable() {
+		if (significantFilteredGenesTable == null) {
+			significantFilteredGenesTable = new BallgownGenesTable(
+				getSignificantFilteredGenes());
+		}
+		return significantFilteredGenesTable;
+	}
+
+	private BallgownGenes getSignificantFilteredGenes() {
+		return workingDirectoryController.getSignificantFilteredGenes()
 					.orElse(new DefaultBallgownGenes());
 	}
 
@@ -150,6 +170,26 @@ public class BallgownResultsViewer extends JPanel {
 	private BallgownTranscripts getFilteredTranscripts() {
 		return workingDirectoryController.getFilteredTranscripts()
 					.orElse(new DefaultBallgownTranscripts());
+	}
+
+	private JComponent getSignificantFilteredTranscriptsTable() {
+		if (significantFilteredTranscriptsTable == null) {
+			significantFilteredTranscriptsTable = new BallgownTranscriptsTable(
+				getSignificantFilteredTranscripts());
+			significantFilteredTranscriptsTable.setComponentPopupMenu(
+				createTablePopupMenu(
+					significantFilteredTranscriptsTable,
+					getSignificantFilteredTranscriptsFigureAction(),
+					getSignificantFilteredTranscriptsExpressionLevelsFigureAction()
+				)
+			);
+		}
+		return significantFilteredTranscriptsTable;
+	}
+
+	private BallgownTranscripts getSignificantFilteredTranscripts() {
+		return workingDirectoryController.getSignificantFilteredTranscripts()
+			.orElse(new DefaultBallgownTranscripts());
 	}
 
 	/**
@@ -201,6 +241,16 @@ public class BallgownResultsViewer extends JPanel {
 		return filteredTranscriptsFigureAction;
 	}
 
+	private Action getSignificantFilteredTranscriptsFigureAction() {
+		significantFilteredTranscriptsFigureAction = new ExtendedAbstractAction(
+			"Create FKPM distribution figure", () -> {
+				createFkpmTranscriptsFigure(significantFilteredTranscriptsTable);
+			});
+		significantFilteredTranscriptsFigureAction.setEnabled(false);
+
+		return significantFilteredTranscriptsFigureAction;
+	}
+
 	private Action getTranscriptsExpressionLevelsFigureAction() {
 		transcriptsExpressionLevelsFigureAction = new ExtendedAbstractAction(
 			"Create expression levels figure", () -> {
@@ -219,6 +269,17 @@ public class BallgownResultsViewer extends JPanel {
 		filteredTranscriptsExpressionLevelsFigureAction.setEnabled(false);
 
 		return filteredTranscriptsExpressionLevelsFigureAction;
+	}
+
+	private Action getSignificantFilteredTranscriptsExpressionLevelsFigureAction() {
+		significantFilteredTranscriptsExpressionLevelsFigureAction =
+			new ExtendedAbstractAction(
+				"Create expression levels figure", () -> {
+					createGenesExpressionLevelsFigure(significantFilteredTranscriptsTable);
+				});
+		significantFilteredTranscriptsExpressionLevelsFigureAction.setEnabled(false);
+
+		return significantFilteredTranscriptsExpressionLevelsFigureAction;
 	}
 
 	private void createFkpmTranscriptsFigure(JTable transcriptsTable) {

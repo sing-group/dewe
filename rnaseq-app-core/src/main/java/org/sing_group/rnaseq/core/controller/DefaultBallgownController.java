@@ -39,8 +39,10 @@ public class DefaultBallgownController implements BallgownController {
 	public static final String OUTPUT_FILE_PHENOTYPE = "phenotype-data.csv";
 	public static final String OUTPUT_FILE_GENES = "phenotype-data_gene_results.tsv";
 	public static final String OUTPUT_FILE_GENES_FILTERED = "phenotype-data_gene_results_filtered.tsv";
+	public static final String OUTPUT_FILE_GENES_FILTERED_SIGNIFICANT = "phenotype-data_gene_results_sig.tsv";
 	public static final String OUTPUT_FILE_TRANSCRIPTS = "phenotype-data_transcript_results.tsv";
 	public static final String OUTPUT_FILE_TRANSCRIPTS_FILTERED = "phenotype-data_transcript_results_filtered.tsv";
+	public static final String OUTPUT_FILE_TRANSCRIPTS_FILTERED_SIGNIFICANT = "phenotype-data_transcript_results_sig.tsv";
 
 	private RBinariesExecutor rBinariesExecutor;
 

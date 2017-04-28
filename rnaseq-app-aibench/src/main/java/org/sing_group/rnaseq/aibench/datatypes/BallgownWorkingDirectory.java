@@ -17,7 +17,7 @@ import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
 	namingMethod = "getName",
 	renameable = true,
 	clipboardClassName = "Ballgown working directory",
-	autoOpen = false
+	autoOpen = true
 )
 public class BallgownWorkingDirectory {
 	private File workingDirectory;

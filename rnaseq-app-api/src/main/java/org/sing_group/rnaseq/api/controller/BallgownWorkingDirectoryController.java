@@ -63,6 +63,16 @@ public interface BallgownWorkingDirectoryController {
 	public abstract Optional<BallgownGenes> getFilteredGenes();
 
 	/**
+	 * If the significant filtered genes table is present, then it returns the
+	 * {@code BallgownGenes} list. Otherwise it returns an empty
+	 * {@code Optional}.
+	 *
+	 * @return the {@code BallgownGenes} significant filtered list wrapped in an
+	 *         {@code Optional}
+	 */
+	public abstract Optional<BallgownGenes> getSignificantFilteredGenes();
+
+	/**
 	 * If the genes transcripts is present, then it returns the
 	 * {@code BallgownTranscripts} list. Otherwise it returns an empty
 	 * {@code Optional}.
@@ -81,6 +91,16 @@ public interface BallgownWorkingDirectoryController {
 	 *         {@code Optional}
 	 */
 	public abstract Optional<BallgownTranscripts> getFilteredTranscripts();
+
+	/**
+	 * If the significant filtered transcripts table is present, then it returns
+	 * the {@code BallgownTranscripts} list. Otherwise it returns an empty
+	 * {@code Optional}.
+	 *
+	 * @return the {@code BallgownTranscripts} significant filtered list wrapped
+	 *         in an {@code Optional}
+	 */
+	public abstract Optional<BallgownTranscripts> getSignificantFilteredTranscripts();
 
 	/**
 	 * Creates the figure of the FPKM distribution in conditions for the
