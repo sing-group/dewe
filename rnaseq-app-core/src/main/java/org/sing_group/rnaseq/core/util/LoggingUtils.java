@@ -22,6 +22,7 @@ public class LoggingUtils {
 	 * 
 	 * @param file the {@code File} to write the log
 	 * @param logger the {@code Logger} to add the new appender
+	 * @param name the name for the new appender
 	 * 
 	 * @return the created {@code FileAppender}
 	 */

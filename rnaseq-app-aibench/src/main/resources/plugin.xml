@@ -2,7 +2,7 @@
 	<uid>my-aibench-application</uid>
 	<name>my-aibench-application</name>
 	<version>0.1.0-SNAPSHOT</version>
-	
+
 	<lifecycleclass>org.sing_group.rnaseq.aibench.Lifecycle</lifecycleclass>
 
 	<dependencies>
@@ -98,7 +98,7 @@
 				path="3@Convert/2@Samtools"
 			/>
 		</extension>
-		
+
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.StringTie"
@@ -153,7 +153,7 @@
 				path="4@Transcripts/3@StringTie"
 			/>
 		</extension>
-		
+
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.HtseqCountBam"
@@ -189,7 +189,7 @@
 
 
 		<!-- Workflow operations -->
-		
+
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.workflow.BowtieStringTieAndRDifferentialExpressionOperation"
@@ -210,17 +210,25 @@
 			/>
 		</extension>
 
-		<!--		
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.ViewBallgownWorkingDirectory"
+		>
+			<operation-description
+				name="View Ballgown working directory"
+				uid="operations.viewballgownworkingdirectory"
+				path="7@View results"
+			/>
+		</extension>
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
-				name="view name"
-				datatype="datatype-class"
-				class="view-class"
-				help="datatype-class"
-			/>		
+				name="SameSpots analysis viewer"
+				datatype="org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory"
+				class="org.sing_group.rnaseq.aibench.views.BallgownWorkingDirectoryView"
+			/>
 		</extension>
-		-->
-		
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
 				operation="operations.bowtie2alignsamples"
@@ -238,7 +246,7 @@
 				operation="operations.edgerdifferentialexpressionanalysis"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow"
 		    />
-		</extension>		
+		</extension>
 
 		<!--
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
@@ -246,7 +254,7 @@
 				operation="operation-uid"
 				icon="icons/icon.png"
 			/>
-			<big-icon-operation	
+			<big-icon-operation
 				operation="operation-uid"
 				icon="icons/icon.png"
 			/>
@@ -256,16 +264,16 @@
 			/>
 		</extension>
 		-->
-		
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
-			<component 
-				slotid="bottom" 
-				componentid="referencegenomemanager" 
-				name="Reference genomes" 
+			<component
+				slotid="bottom"
+				componentid="referencegenomemanager"
+				name="Reference genomes"
 				class="org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent"
 			/>
 		</extension>
-		
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<welcomescreen class="org.sing_group.rnaseq.aibench.gui.workflow.AIBenchWorkflowCatalogPanel" title="Workflow catalog" closeable="false"/>
 		</extension>

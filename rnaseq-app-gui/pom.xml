@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>org.sing_group</groupId>
 			<artifactId>rnaseq-app-api</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.sing_group</groupId>
 			<artifactId>rnaseq-app-core</artifactId>
@@ -29,6 +29,10 @@
 		<dependency>
 			<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
 			<artifactId>GC4S</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.sing_group</groupId>
+			<artifactId>jsparklines-factory</artifactId>
 		</dependency>
 	</dependencies>
 </project>

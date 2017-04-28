@@ -210,7 +210,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	protected abstract void performDifferentialExpressionAnalysis(
 		OperationStatus status) throws ExecutionException, InterruptedException;
 
-	protected static File getBallgownWorkingDir(File workingDirectory) {
+	public static File getBallgownWorkingDir(File workingDirectory) {
 		return getAnalysisSubDir(getAnalysisDir(workingDirectory), "ballgown");
 	}
 

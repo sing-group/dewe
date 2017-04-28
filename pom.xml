@@ -93,6 +93,7 @@
 		<slf4j.version>1.7.22</slf4j.version>
 		<gc4s.version>0.6.0-SNAPSHOT</gc4s.version>
 		<sing.commons.csv.version>1.2.0-SNAPSHOT</sing.commons.csv.version>
+		<jsparklines-factory.version>0.1.0-SNAPSHOT</jsparklines-factory.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
@@ -154,6 +155,11 @@
 				<groupId>es.uvigo.ei.sing</groupId>
 				<artifactId>commons-csv</artifactId>
 				<version>${sing.commons.csv.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.sing_group</groupId>
+				<artifactId>jsparklines-factory</artifactId>
+				<version>${jsparklines-factory.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>

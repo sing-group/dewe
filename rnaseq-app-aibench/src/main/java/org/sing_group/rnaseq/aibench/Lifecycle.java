@@ -29,6 +29,7 @@ import es.uvigo.ei.aibench.TextAreaAppender;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
+import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	public static final String APP_CONFIGURATION_FILE = "conf/app.conf";
@@ -52,6 +53,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	private void configureMainWindow() {
+		DemoUtils.setNimbusKeepAlternateRowColor();
+
 		MainWindow window = (MainWindow) Workbench.getInstance().getMainFrame();
 		window.getDocumentTabbedPane().getParent().setBackground(Color.WHITE);
 

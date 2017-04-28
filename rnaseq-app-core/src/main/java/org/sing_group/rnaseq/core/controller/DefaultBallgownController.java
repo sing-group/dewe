@@ -14,12 +14,34 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 
+/**
+ * The default {@code BallgownController} implementation.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultBallgownController implements BallgownController {
 	public static final String SCRIPT_DE_ANALYSIS =	asString(
 		DefaultBallgownController.class.getResourceAsStream(
-			"/scripts/ballgown-differential-expression.R")
+			"/scripts/ballgown/ballgown-differential-expression.R")
 		);
-	
+	public static final String SCRIPT_FIGURE_FKPM_TRANSCRIPT = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-fkpm-transcript-distribution.R")
+		);
+	public static final String SCRIPT_FIGURE_EXPRESSION_LEVELS = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-expression-levels-gene-sample.R")
+		);
+
+	public static final String OUTPUT_BALLGOWN_R_DATA = "bg.rda";
+	public static final String OUTPUT_FILE_PHENOTYPE = "phenotype-data.csv";
+	public static final String OUTPUT_FILE_GENES = "phenotype-data_gene_results.tsv";
+	public static final String OUTPUT_FILE_GENES_FILTERED = "phenotype-data_gene_results_filtered.tsv";
+	public static final String OUTPUT_FILE_TRANSCRIPTS = "phenotype-data_transcript_results.tsv";
+	public static final String OUTPUT_FILE_TRANSCRIPTS_FILTERED = "phenotype-data_transcript_results_filtered.tsv";
+
 	private RBinariesExecutor rBinariesExecutor;
 
 	@Override
@@ -29,7 +51,8 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void differentialExpression(List<BallgownSample> samples,
-		File outputFolder) throws ExecutionException, InterruptedException {
+		File outputFolder
+	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
 			File phenotypeData = writePhenotypeData(samples, outputFolder);
@@ -38,16 +61,15 @@ public class DefaultBallgownController implements BallgownController {
 				asScriptFile(SCRIPT_DE_ANALYSIS, "ballgown-analysis-"),
 				outputFolder.getAbsolutePath(),
 				phenotypeData.getName());
-	
+
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
 					"Error executing script. Please, check error log.", "");
 			}
 		} catch (IOException e) {
-			throw new ExecutionException(1,	
+			throw new ExecutionException(1,
 				"Error executing script. Please, check error log.", "");
 		}
-		
 	}
 
 	private File writePhenotypeData(List<BallgownSample> samples,
@@ -55,9 +77,10 @@ public class DefaultBallgownController implements BallgownController {
 		outputFolder.mkdirs();
 		File phenotypeData = new File(outputFolder, "phenotype-data.csv");
 		Files.write(phenotypeData.toPath(), phenotypeData(samples).getBytes());
+
 		return phenotypeData;
 	}
-	
+
 	private String phenotypeData(List<BallgownSample> samples) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\"ids\",\"type\",\"path\"\n");
@@ -72,5 +95,72 @@ public class DefaultBallgownController implements BallgownController {
 				.append("\"\n");
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public void createFpkmDistributionFigureForTranscript(File workingDirectory,
+		String transcriptId, String format, int width, int height
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			checkWorkingDirectoryContainsBallgownData(workingDirectory);
+
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_FKPM_TRANSCRIPT, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				transcriptId,
+				format,
+				String.valueOf(width),
+				String.valueOf(height)
+			);
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+
+	@Override
+	public void createExpressionLevelsFigure(File workingDirectory,
+		String transcriptId, String sampleName, String format, int width,
+		int height
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			checkWorkingDirectoryContainsBallgownData(workingDirectory);
+
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_EXPRESSION_LEVELS, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				transcriptId,
+				sampleName,
+				format,
+				String.valueOf(width),
+				String.valueOf(height)
+			);
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+
+	private static void checkWorkingDirectoryContainsBallgownData(
+		File workingDirectory
+	) throws ExecutionException {
+		File ballgownData = new File(workingDirectory, OUTPUT_BALLGOWN_R_DATA);
+		if (!ballgownData.exists()) {
+			throw new ExecutionException(1,
+				"Error creating figure: bg.rda can't be found in working directory.",
+				"");
+		}
 	}
 }

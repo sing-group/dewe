@@ -1,7 +1,10 @@
 package org.sing_group.rnaseq.aibench.operations.workflow;
 
+import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
+
 import java.io.File;
 
+import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -10,13 +13,14 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.slf4j.LoggerFactory;
 
+import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 
 @Operation(
-	name = "Gisat2, StringTie and Ballgown differential expression", 
+	name = "Gisat2, StringTie and Ballgown differential expression",
 	description = "Runs the differential expression workflow using Hisat2, StringTie and Ballgown."
 )
 public class HisatStringTieAndBallgownDifferentialExpressionOperation {
@@ -28,7 +32,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	private File workingDirectory;
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Hisat2 reference genome",
 		description = "Hisat2 reference genome",
 		allowNull = false,
@@ -39,7 +43,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "FastQ samples",
 		description = "FastQ samples",
 		allowNull = false,
@@ -50,7 +54,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Reference annotation file",
 		description = "Reference annotation file",
 		allowNull = false,
@@ -62,7 +66,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Working directory",
 		description = "Working directory",
 		allowNull = false,
@@ -71,7 +75,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	)
 	public void setWorkingDirectory(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
-		
+
 		this.runAnalysis();
 	}
 
@@ -82,9 +86,19 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 					this.referenceGenome, this.samples,
 					this.referenceAnnotationFile, this.workingDirectory,
 					this.status);
+			processOutputs();
 		} catch (ExecutionException | InterruptedException e) {
 			LoggerFactory.getLogger(getClass()).error(e.getMessage());
 		}
+	}
+
+	private void processOutputs() {
+		BallgownWorkingDirectory ballgownDirectory =
+			new BallgownWorkingDirectory(
+				getBallgownWorkingDir(this.workingDirectory)
+			);
+		Core.getInstance().getClipboard()
+			.putItem(ballgownDirectory, ballgownDirectory.getName());
 	}
 
 	@Progress(
