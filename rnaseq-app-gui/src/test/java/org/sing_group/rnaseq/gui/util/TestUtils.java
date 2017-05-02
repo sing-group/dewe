@@ -19,15 +19,20 @@ public class TestUtils {
 	}
 
 	public static DefaultReferenceGenomeDatabaseManager createReferenceGenomeDatabaseManager() {
-		DefaultReferenceGenomeDatabaseManager dbManager = 
+		DefaultReferenceGenomeDatabaseManager dbManager =
 			DefaultReferenceGenomeDatabaseManager.getInstance();
-	
+
 		dbManager.addReferenceGenome(new Bowtie2ReferenceGenome() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public boolean isValid() {
 				return false;
+			}
+
+			@Override
+			public String getName() {
+				return "Genome 1";
 			}
 
 			@Override
@@ -55,6 +60,11 @@ public class TestUtils {
 			}
 
 			@Override
+			public String getName() {
+				return "Genome 2";
+			}
+
+			@Override
 			public String getType() {
 				return "bowtie2";
 			}
@@ -76,6 +86,11 @@ public class TestUtils {
 			@Override
 			public boolean isValid() {
 				return true;
+			}
+
+			@Override
+			public String getName() {
+				return "Genome 3";
 			}
 
 			@Override

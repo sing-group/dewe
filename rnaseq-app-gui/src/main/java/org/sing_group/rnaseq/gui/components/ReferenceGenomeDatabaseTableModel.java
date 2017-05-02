@@ -6,10 +6,11 @@ import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeDatabaseListener;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
-public class ReferenceGenomeDatabaseTableModel 
+public class ReferenceGenomeDatabaseTableModel
 		extends DefaultTableModel
 		implements ReferenceGenomeDatabaseListener {
 	private static final long serialVersionUID = 1L;
+	private static final int COLUMN_COUNT = 5;
 	private DefaultReferenceGenomeDatabaseManager dbManager;
 
 	public ReferenceGenomeDatabaseTableModel(
@@ -26,19 +27,21 @@ public class ReferenceGenomeDatabaseTableModel
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return COLUMN_COUNT;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return "Reference genome";
+			return "Name";
 		case 1:
-			return "Index";
+			return "Reference genome";
 		case 2:
-			return "Valid";
+			return "Index";
 		case 3:
+			return "Valid";
+		case 4:
 			return "Type";
 		}
 		throw new IllegalStateException();
@@ -52,8 +55,10 @@ public class ReferenceGenomeDatabaseTableModel
 		case 1:
 			return String.class;
 		case 2:
-			return Boolean.class;
+			return String.class;
 		case 3:
+			return Boolean.class;
+		case 4:
 			return String.class;
 		}
 		throw new IllegalStateException();
@@ -69,12 +74,14 @@ public class ReferenceGenomeDatabaseTableModel
 		ReferenceGenome genome = getReferenceGenomeAt(rowIndex);
 		switch (columnIndex) {
 		case 0:
-			return genome.getReferenceGenome().getAbsolutePath();
+			return genome.getName();
 		case 1:
-			return genome.getReferenceGenomeIndex().orElse("");
+			return genome.getReferenceGenome().getAbsolutePath();
 		case 2:
-			return genome.isValid();
+			return genome.getReferenceGenomeIndex().orElse("");
 		case 3:
+			return genome.isValid();
+		case 4:
 			return genome.getType();
 		}
 		throw new IllegalStateException();

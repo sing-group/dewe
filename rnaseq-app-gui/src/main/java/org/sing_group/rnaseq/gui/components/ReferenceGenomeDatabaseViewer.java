@@ -45,7 +45,9 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 		this.add(new JScrollPane(this.table), BorderLayout.CENTER);
 	}
 
-	public void setReferenceGenomeDatabaseManager(DefaultReferenceGenomeDatabaseManager database) {
+	public void setReferenceGenomeDatabaseManager(
+		DefaultReferenceGenomeDatabaseManager database
+	) {
 		this.databaseManager = database;
 		this.tableModel = new ReferenceGenomeDatabaseTableModel(database);
 		this.table.setModel(this.tableModel);

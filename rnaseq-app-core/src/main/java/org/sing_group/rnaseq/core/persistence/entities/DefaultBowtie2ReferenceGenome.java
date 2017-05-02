@@ -9,20 +9,23 @@ import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 
 public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	private static final long serialVersionUID = 1L;
-	private static final String[] INDEXES = { 
+	private static final String[] INDEXES = {
 		".1.bt2", ".2.bt2", 	".3.bt2",
-		".4.bt2", ".rev.1.bt2", ".rev.2.bt2" 
+		".4.bt2", ".rev.1.bt2", ".rev.2.bt2"
 	};
 
+	private String name;
 	private File referenceGenome;
 	private String referenceGenomeIndex;
 
-	public DefaultBowtie2ReferenceGenome(File file, String index) {
+	public DefaultBowtie2ReferenceGenome(String name, File file, String index) {
+		this.name = name;
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = index;
 	}
 
-	public DefaultBowtie2ReferenceGenome(File file, File indexFolder) {
+	public DefaultBowtie2ReferenceGenome(String name, File file, File indexFolder) {
+		this.name = name;
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = lookForIndex(indexFolder);
 	}
@@ -49,6 +52,11 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	}
 
 	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
 	public File getReferenceGenome() {
 		return referenceGenome;
 	}
@@ -57,10 +65,10 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	public Optional<String> getReferenceGenomeIndex() {
 		return Optional.ofNullable(referenceGenomeIndex);
 	}
-	
+
 	@Override
 	public boolean isValid() {
-		return	this.referenceGenome.exists() && 
+		return	this.referenceGenome.exists() &&
 				this.isValidIndex();
 	}
 

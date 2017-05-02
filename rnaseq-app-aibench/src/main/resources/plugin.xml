@@ -231,6 +231,22 @@
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
+				operation="operations.bowtie2importindex"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.bowtie2buildindex"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.hisat2importindex"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.hisat2buildindex"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+		    />
+		    <gui-operation
 				operation="operations.bowtie2alignsamples"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow"
 		    />

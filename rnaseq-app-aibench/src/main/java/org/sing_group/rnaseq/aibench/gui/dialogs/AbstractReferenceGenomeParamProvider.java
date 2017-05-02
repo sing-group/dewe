@@ -28,7 +28,7 @@ public abstract class AbstractReferenceGenomeParamProvider extends AbstractParam
 
 	private List<ComboBoxItem<ReferenceGenome>> getComboboxItems() {
 		return 	getReferenceGenomeIndexes().stream()
-				.map(i -> new ComboBoxItem<ReferenceGenome>(i, i.getReferenceGenome().getAbsolutePath()))
+				.map(i -> new ComboBoxItem<ReferenceGenome>(i, i.getName()))
 				.collect(toList());
 	}
 

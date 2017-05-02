@@ -1,6 +1,8 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow.GENOME;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow.NAME;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GENOME_FA_FILES;
 import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 
@@ -19,16 +21,17 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Build bowtie2 index", 
+	name = "Build bowtie2 index",
 	description = "Builds a genome index using bowtie2."
 )
 public class Bowtie2BuildIndex {
+	private String name;
 	private File file;
 	private File outputDir;
 
 	@Port(
-		direction = Direction.INPUT, 
-		name = "Genome",
+		direction = Direction.INPUT,
+		name = GENOME,
 		description = "Reference genome file.",
 		allowNull = false,
 		order = 1,
@@ -39,11 +42,22 @@ public class Bowtie2BuildIndex {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
+		name = NAME,
+		description = "Reference genome name.",
+		allowNull = false,
+		order = 2
+	)
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Port(
+		direction = Direction.INPUT,
 		name = "Output folder",
 		description = "Output folder.",
 		allowNull = true,
-		order = 2,
+		order = 3,
 		extras = "selectionMode=directories",
 		advanced = true
 	)
@@ -55,12 +69,8 @@ public class Bowtie2BuildIndex {
 
 	private void runOperation() {
 		try {
-			String name = removeExtension(file) + "index";
-			DefaultAppController.getInstance().getBowtie2Controller().buildIndex(this.file, this.outputDir, name);
-			DefaultAppController.getInstance().getReferenceGenomeDatabaseManager().addReferenceGenome(
-				new DefaultBowtie2ReferenceGenome(this.file, new File(outputDir, name).getAbsolutePath())
-			);
-			DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
+			createIndex();
+			addIndexToDatabase();
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());
@@ -70,7 +80,23 @@ public class Bowtie2BuildIndex {
 			Workbench.getInstance().error(e, e.getMessage());
 		}
 	}
-	
+
+	private void createIndex() throws ExecutionException, InterruptedException {
+		String name = removeExtension(file) + "index";
+		DefaultAppController.getInstance().getBowtie2Controller()
+			.buildIndex(this.file, this.outputDir, name);
+	}
+
+	private void addIndexToDatabase() throws IOException {
+		DefaultAppController.getInstance()
+		.getReferenceGenomeDatabaseManager().addReferenceGenome(
+			new DefaultBowtie2ReferenceGenome(this.name, this.file,
+				new File(outputDir, name).getAbsolutePath())
+		);
+
+		DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
+	}
+
 	private void succeed() {
 		Workbench.getInstance().info("bowtie2 index successfully created.");
 	}

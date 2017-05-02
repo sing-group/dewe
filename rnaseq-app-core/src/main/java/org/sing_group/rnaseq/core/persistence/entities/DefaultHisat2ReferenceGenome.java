@@ -14,15 +14,18 @@ public class DefaultHisat2ReferenceGenome implements Hisat2ReferenceGenome {
 		".5.ht2", ".6.ht2", ".7.ht2", ".8.ht2"
 	};
 
+	private String name;
 	private File referenceGenome;
 	private String referenceGenomeIndex;
 
-	public DefaultHisat2ReferenceGenome(File file, String index) {
+	public DefaultHisat2ReferenceGenome(String name, File file, String index) {
+		this.name = name;
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = index;
 	}
 
-	public DefaultHisat2ReferenceGenome(File file, File indexFolder) {
+	public DefaultHisat2ReferenceGenome(String name, File file, File indexFolder) {
+		this.name = name;
 		this.referenceGenome = file;
 		this.referenceGenomeIndex = lookForIndex(indexFolder);
 	}
@@ -46,6 +49,11 @@ public class DefaultHisat2ReferenceGenome implements Hisat2ReferenceGenome {
 	@Override
 	public String getType() {
 		return "hisat2";
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
 	@Override
@@ -75,7 +83,7 @@ public class DefaultHisat2ReferenceGenome implements Hisat2ReferenceGenome {
 	public static boolean directoryContainsHisat2Indexes(File directory) {
 		return directoryContainsIndex(lookForIndex(directory));
 	}
-	
+
 	private static boolean directoryContainsIndex(String index) {
 		boolean valid = true;
 		for (String extension : INDEXES) {

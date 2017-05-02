@@ -84,10 +84,7 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome> ex
 			.listReferenceGenomes(referenceGenomeClass)
 		) {
 			this.combobox.addItem(
-				new ComboBoxItem<ReferenceGenome>(
-					r, 
-					r.getReferenceGenome().getAbsolutePath()
-				)
+				new ComboBoxItem<ReferenceGenome>(r, r.getName())
 			);
 		}
 	}
