@@ -80,8 +80,22 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 		return directoryContainsIndex(getReferenceGenomeIndex().get());
 	}
 
+	/**
+	 * Returns {@code true} if {@code directory} contains all the Bowtie2 index
+	 * files and {@code false} otherwise.
+	 *
+	 * @param directory the directory where Bowtie2 index files must be located
+	 *
+	 * @return {@code true} if {@code directory} contains all the Bowtie2 index
+	 *         files and {@code false} otherwise
+	 */
 	public static boolean directoryContainsBowtie2Indexes(File directory) {
-		return directoryContainsIndex(lookForIndex(directory));
+		try {
+			String index = lookForIndex(directory);
+			return directoryContainsIndex(index);
+		} catch (IllegalArgumentException ex) {
+			return false;
+		}
 	}
 
 	private static boolean directoryContainsIndex(String index) {

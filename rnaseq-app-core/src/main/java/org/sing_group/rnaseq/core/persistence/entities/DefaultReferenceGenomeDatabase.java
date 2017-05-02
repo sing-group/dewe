@@ -13,7 +13,7 @@ public class DefaultReferenceGenomeDatabase implements ReferenceGenomeDatabase {
 
 	private List<ReferenceGenome> referenceGenomes = new LinkedList<>();
 	private transient List<ReferenceGenomeDatabaseListener> listeners = new LinkedList<>();
-	
+
 	@Override
 	public List<ReferenceGenome> listReferenceGenomes() {
 		return referenceGenomes;
