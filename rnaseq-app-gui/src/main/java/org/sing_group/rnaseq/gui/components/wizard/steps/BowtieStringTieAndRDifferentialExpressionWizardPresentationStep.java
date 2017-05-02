@@ -1,16 +1,14 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
-
-public class BowtieStringTieAndRDifferentialExpressionWizardPresentationStep 
-	extends WizardStep {
+/**
+ * The workflow presentation step.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class BowtieStringTieAndRDifferentialExpressionWizardPresentationStep
+	extends AbstractHtmlTextStep {
 
 	public static final String TEXT = "<html>"
 		+ "<p>This wizard will guide you through the steps to configure the "
@@ -33,37 +31,14 @@ public class BowtieStringTieAndRDifferentialExpressionWizardPresentationStep
 
 		+ "</html>";
 
-	private JComponent stepComponent;
-
 	@Override
-	public boolean isStepCompleted() {
-		return true;
+	protected String getHtmlText() {
+		return TEXT;
 	}
 
 	@Override
 	public String getStepTitle() {
 		return "Differential expression analysis pipeline";
 	}
-
-	@Override
-	public JComponent getStepComponent() {
-		this.stepComponent = getWelcomePanel();
-		configureStepComponent(stepComponent);
-		return this.stepComponent;
-	}
-
-	private JComponent getWelcomePanel() {
-		JTextPane textArea = new JTextPane();
-		textArea.setContentType("text/html");
-		textArea.setEditable(false);
-		textArea.setOpaque(false);
-		textArea.setFont(textArea.getFont().deriveFont(13f));
-		textArea.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-		textArea.setText(TEXT);
-		return new JScrollPane(textArea);
-	}
-
-	@Override
-	public void stepEntered() {
-	}
 }
+
