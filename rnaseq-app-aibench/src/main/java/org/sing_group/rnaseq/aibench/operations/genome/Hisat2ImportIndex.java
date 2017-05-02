@@ -1,15 +1,15 @@
-package org.sing_group.rnaseq.aibench.operations;
+package org.sing_group.rnaseq.aibench.operations.genome;
 
+import static org.sing_group.rnaseq.core.persistence.entities.DefaultHisat2ReferenceGenome.directoryContainsHisat2Indexes;
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow.NAME;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow.GENOME;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GENOME_FA_FILES;
-import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.persistence.entities.DefaultHisat2ReferenceGenome;
@@ -21,13 +21,13 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Build hisat2 index",
-	description = "Builds a genome index using hosat2."
+	name = "Import HISAT2 index",
+	description = "Imports a reference genome indexed using HISAT2."
 )
-public class Hisat2BuildIndex {
+public class Hisat2ImportIndex {
 	private String name;
 	private File file;
-	private File outputDir;
+	private File indexDir;
 
 	@Port(
 		direction = Direction.INPUT,
@@ -54,56 +54,52 @@ public class Hisat2BuildIndex {
 
 	@Port(
 		direction = Direction.INPUT,
-		name = "Output folder",
-		description = "Output folder.",
+		name = "Index folder",
+		description = "Folder containing the hisat2 index.",
 		allowNull = true,
 		order = 3,
 		extras = "selectionMode=directories",
-		advanced = true
+		advanced = true,
+		validateMethod = "validateIndexDirectory"
 	)
-	public void setOutputFolder(File outputDir) {
-		this.outputDir = outputDir == null ? this.file.getParentFile() : outputDir;
+	public void setIndexDirectory(File indexDir) {
+		this.indexDir = indexDir == null ? this.file.getParentFile() : indexDir;
 
 		this.runOperation();
 	}
 
+	public void validateIndexDirectory(File indexDir) {
+		if(!directoryContainsHisat2Indexes(indexDir)) {
+			throw new IllegalArgumentException(
+				"Index directory must contain the hisat2 indexes files");
+		}
+	}
+
 	private void runOperation() {
 		try {
-			createIndex();
-			addIndexToDatabase();
+			DefaultAppController.getInstance()
+				.getReferenceGenomeDatabaseManager()
+				.addReferenceGenome(createReferengeGenome()
+			);
+			DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
 			invokeLater(this::succeed);
-		} catch (ExecutionException e) {
-			Workbench.getInstance().error(e, e.getMessage());
-		} catch (InterruptedException e) {
-			Workbench.getInstance().error(e, e.getMessage());
 		} catch (IOException e) {
 			Workbench.getInstance().error(e, e.getMessage());
 		}
 	}
 
-	private void createIndex() throws ExecutionException, InterruptedException {
-		String name = removeExtension(file) + "index";
-		DefaultAppController.getInstance().getHisat2Controller()
-			.buildIndex(this.file, this.outputDir, name);
-	}
-
-	private void addIndexToDatabase() throws IOException {
-		DefaultAppController.getInstance()
-		.getReferenceGenomeDatabaseManager().addReferenceGenome(
-			new DefaultHisat2ReferenceGenome(this.name, this.file,
-				new File(outputDir, name).getAbsolutePath())
-			);
-
-		DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
+	private ReferenceGenome createReferengeGenome() {
+		return new DefaultHisat2ReferenceGenome(this.name, this.file,
+			this.indexDir);
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("hisat2 index successfully created.");
+		Workbench.getInstance().info("hisat2 index successfully imported.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Creating hisat2 index",
+		workingLabel = "Importing hisat2 index",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)

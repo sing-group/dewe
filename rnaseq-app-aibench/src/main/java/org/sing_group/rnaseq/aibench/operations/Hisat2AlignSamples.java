@@ -23,8 +23,8 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Align reads using hisat2", 
-	description = "Aligns paired-end reads using hisat2."
+	name = "Align reads using HISAT2",
+	description = "Aligns paired-end reads using HISAT2."
 )
 public class Hisat2AlignSamples {
 	private Hisat2ReferenceGenome referenceGenome;
@@ -36,7 +36,7 @@ public class Hisat2AlignSamples {
 	private FileOperationStatus status = new FileOperationStatus();
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = REFERENCE_GENOME,
 		description = "Reference genome index.",
 		allowNull = false,
@@ -47,20 +47,20 @@ public class Hisat2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = READS_FILE_1,
 		description = READS_FILE_1_DESCRIPTION,
 		allowNull = false,
 		order = 2,
-		extras = EXTRAS_FASTQ_FILES, 
+		extras = EXTRAS_FASTQ_FILES,
 		advanced = false
 	)
 	public void setReadsFile1(File readsFile1) {
 		this.readsFile1 = readsFile1;
 	}
-	
+
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = READS_FILE_2,
 		description = READS_FILE_2_DESCRIPTION,
 		allowNull = false,
@@ -73,7 +73,7 @@ public class Hisat2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Save alignment log",
 		description = "Whether the alignment log must be saved or not.",
 		allowNull = false,

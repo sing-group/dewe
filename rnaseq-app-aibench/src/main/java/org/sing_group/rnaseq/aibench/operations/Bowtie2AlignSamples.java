@@ -25,8 +25,8 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Align reads using bowtie2", 
-	description = "Aligns paired-end reads using bowtie2."
+	name = "Align reads using Bowtie2",
+	description = "Aligns paired-end reads using Bowtie2."
 )
 public class Bowtie2AlignSamples {
 	private Bowtie2ReferenceGenome referenceGenome;
@@ -38,7 +38,7 @@ public class Bowtie2AlignSamples {
 	private Bowtie2EndToEndConfiguration configuration;
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = REFERENCE_GENOME,
 		description = "Reference genome index.",
 		allowNull = false,
@@ -49,20 +49,20 @@ public class Bowtie2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = READS_FILE_1,
 		description = READS_FILE_1_DESCRIPTION,
 		allowNull = false,
 		order = 2,
-		extras = EXTRAS_FASTQ_FILES, 
+		extras = EXTRAS_FASTQ_FILES,
 		advanced = false
 	)
 	public void setReadsFile1(File readsFile1) {
 		this.readsFile1 = readsFile1;
 	}
-	
+
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = READS_FILE_2,
 		description = READS_FILE_2_DESCRIPTION,
 		allowNull = false,
@@ -75,7 +75,7 @@ public class Bowtie2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Save alignment log",
 		description = "Whether the alignment log must be saved or not.",
 		allowNull = false,
@@ -88,7 +88,7 @@ public class Bowtie2AlignSamples {
 	}
 
 	@Port(
-		direction = Direction.INPUT, 
+		direction = Direction.INPUT,
 		name = "Presets",
 		description = "Presets options for the --end-to-end mode",
 		allowNull = false,

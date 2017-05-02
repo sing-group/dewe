@@ -13,45 +13,45 @@
 	<extensions>
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Bowtie2BuildIndex"
+			class="org.sing_group.rnaseq.aibench.operations.genome.Bowtie2BuildIndex"
 		>
 			<operation-description
-				name="Build bowtie2 index"
-				uid="operations.bowtie2buildindex"
-				path="1@Genome"
+				name="Bowtie2"
+				uid="operations.genome.bowtie2buildindex"
+				path="1@Genome/1@Build index"
 			/>
 		</extension>
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Bowtie2ImportIndex"
+			class="org.sing_group.rnaseq.aibench.operations.genome.Bowtie2ImportIndex"
 		>
 			<operation-description
-				name="Import bowtie2 index"
-				uid="operations.bowtie2importindex"
-				path="1@Genome"
+				name="Bowtie2"
+				uid="operations.genome.bowtie2importindex"
+				path="1@Genome/2@Import index"
 			/>
 		</extension>
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Hisat2BuildIndex"
+			class="org.sing_group.rnaseq.aibench.operations.genome.Hisat2BuildIndex"
 		>
 			<operation-description
-				name="Build hisat2 index"
-				uid="operations.hisat2buildindex"
-				path="1@Genome"
+				name="HISAT2"
+				uid="operations.genome.hisat2buildindex"
+				path="1@Genome/1@Build index"
 			/>
 		</extension>
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Hisat2ImportIndex"
+			class="org.sing_group.rnaseq.aibench.operations.genome.Hisat2ImportIndex"
 		>
 			<operation-description
-				name="Import hisat2 index"
-				uid="operations.hisat2importindex"
-				path="1@Genome"
+				name="HISAT2"
+				uid="operations.genome.hisat2importindex"
+				path="1@Genome/2@Import index"
 			/>
 		</extension>
 
@@ -60,7 +60,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignSamples"
 		>
 			<operation-description
-				name="Bowtie2 align samples"
+				name="Reads using Bowtie2"
 				uid="operations.bowtie2alignsamples"
 				path="2@Align"
 			/>
@@ -71,7 +71,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignSamples"
 		>
 			<operation-description
-				name="Hisat2 align samples"
+				name="Reads using HISAT2"
 				uid="operations.hisat2alignsamples"
 				path="2@Align"
 			/>
@@ -231,19 +231,19 @@
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
-				operation="operations.bowtie2importindex"
+				operation="operations.genome.bowtie2importindex"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.bowtie2buildindex"
+				operation="operations.genome.bowtie2buildindex"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.hisat2importindex"
+				operation="operations.genome.hisat2importindex"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.hisat2buildindex"
+				operation="operations.genome.hisat2buildindex"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation

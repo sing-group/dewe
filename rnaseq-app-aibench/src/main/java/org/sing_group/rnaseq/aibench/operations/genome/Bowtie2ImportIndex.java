@@ -1,4 +1,4 @@
-package org.sing_group.rnaseq.aibench.operations;
+package org.sing_group.rnaseq.aibench.operations.genome;
 
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow.GENOME;
@@ -21,8 +21,8 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Import bowtie2 index",
-	description = "Imports a reference genome indexed using bowtie2."
+	name = "Import Bowtie2 index",
+	description = "Imports a reference genome indexed using Bowtie2."
 )
 public class Bowtie2ImportIndex {
 	private String name;
