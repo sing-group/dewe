@@ -13,18 +13,24 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDiff
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
-import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WorkingDirectorySelectionStep;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.Wizard;
 import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
-public class BowtieStringTieAndRDifferentialExpressionWizard extends Wizard
-		implements WizardSummaryProvider {
+/**
+ * This class extends {@code AbstractDifferentialExpressionWizard} to provide a
+ * wizard that allows user configuring a differential expression workflow using
+ * Bowtie2, StringTie and R packages.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class BowtieStringTieAndRDifferentialExpressionWizard
+	extends AbstractDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
 
-	private static final String NEW_LINE = "\n";
 	protected static final String TITLE = "Differential expression analysis";
 
 	private Bowtie2ReferenceGenomeSelectionStep genomeSelectionStep;
@@ -32,6 +38,13 @@ public class BowtieStringTieAndRDifferentialExpressionWizard extends Wizard
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
 
+	/**
+	 * Creates a new
+	 * {@code BowtieStringTieAndRDifferentialExpressionWizard} with the
+	 * specified parent window dialog.
+	 *
+	 * @param parent the parent window dialog
+	 */
 	public static BowtieStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
@@ -45,18 +58,18 @@ public class BowtieStringTieAndRDifferentialExpressionWizard extends Wizard
 		super(parent, wizardTitle, steps);
 		this.init();
 	}
-	
+
 	private void init() {
-		genomeSelectionStep = 
+		genomeSelectionStep =
 			(Bowtie2ReferenceGenomeSelectionStep) getSteps().get(1);
 
-		samplesSelectionStep = 
+		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
 
-		referenceAnnotationFileSelectionStep = 
+		referenceAnnotationFileSelectionStep =
 			(ReferenceAnnotationFileSelectionStep) getSteps().get(4);
 
-		workingDirectorySelectionStep = 
+		workingDirectorySelectionStep =
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
 		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
@@ -64,63 +77,40 @@ public class BowtieStringTieAndRDifferentialExpressionWizard extends Wizard
 
 	protected static List<WizardStep> getWizardSteps() {
 		List<WizardStep> wizardSteps = new LinkedList<>();
-		wizardSteps.add(new BowtieStringTieAndRDifferentialExpressionWizardPresentationStep());
-		wizardSteps.add(new Bowtie2ReferenceGenomeSelectionStep(DefaultReferenceGenomeDatabaseManager.getInstance()));
-		ExperimentalConditionsStep experimentalConditionsStep = new ExperimentalConditionsStep(2, 2);
+		wizardSteps.add(
+			new BowtieStringTieAndRDifferentialExpressionWizardPresentationStep());
+		wizardSteps.add(new Bowtie2ReferenceGenomeSelectionStep(
+			DefaultReferenceGenomeDatabaseManager.getInstance()));
+		ExperimentalConditionsStep experimentalConditionsStep =
+			new ExperimentalConditionsStep(2, 2);
 		wizardSteps.add(experimentalConditionsStep);
-		wizardSteps.add(new SampleReadsSelectionStep(experimentalConditionsStep, 2, 4));
+		wizardSteps.add(
+			new SampleReadsSelectionStep(experimentalConditionsStep, 2, 4));
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
 		wizardSteps.add(new WizardSummaryStep());
+
 		return wizardSteps;
 	}
 
+	@Override
 	public Bowtie2ReferenceGenome getReferenceGenome() {
-		return (Bowtie2ReferenceGenome) genomeSelectionStep.getSelectedReferenceGenome();
+		return (Bowtie2ReferenceGenome) genomeSelectionStep
+			.getSelectedReferenceGenome();
 	}
-	
+
+	@Override
 	public FastqReadsSamples getSamples() {
 		return samplesSelectionStep.getSamples();
 	}
-	
+
+	@Override
 	public File getReferenceAnnotationFile() {
 		return referenceAnnotationFileSelectionStep.getSelectedFile();
 	}
-	
+
+	@Override
 	public File getWorkingDirectory() {
 		return workingDirectorySelectionStep.getSelectedFile();
-	}
-	
-	@Override
-	public String getSummary() {
-		StringBuilder sb = new StringBuilder();
-		sb
-			.append("Workflow configuration:")
-			.append(NEW_LINE)
-			.append("  · Reference genome: ")
-			.append(this.getReferenceGenome().getReferenceGenome().getAbsolutePath())
-			.append(NEW_LINE)
-			.append("  · Reference annotation file: ")
-			.append(this.getReferenceAnnotationFile().getAbsolutePath())
-			.append(NEW_LINE)
-			.append("  · Working directory: ")
-			.append(this.getWorkingDirectory().getAbsolutePath())
-			.append(NEW_LINE)
-			.append(NEW_LINE)
-			.append("Experiment samples: ")
-			.append(NEW_LINE);
-		this.getSamples().forEach(s -> {
-			sb
-				.append("  · Sample name: ")
-				.append(s.getName())
-				.append(" [Condition: ")
-				.append(s.getCondition() + "]")
-				.append(NEW_LINE);
-		});
-		sb
-			.append(NEW_LINE)
-			.append(NEW_LINE)
-			.append("Click the finish button to run the workflow.");
-		return sb.toString();
 	}
 }
