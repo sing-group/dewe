@@ -16,9 +16,9 @@ import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeDatabaseListener;
 
-import es.uvigo.ei.sing.hlfernandez.combobox.ComboBoxItem;
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.combobox.ComboBoxItem;
+import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * An abstract component that allows the selection of a {@code ReferenceGenome}

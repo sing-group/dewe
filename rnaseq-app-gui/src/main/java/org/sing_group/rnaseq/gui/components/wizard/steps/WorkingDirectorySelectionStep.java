@@ -1,6 +1,6 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
 public class WorkingDirectorySelectionStep extends FileSelectionStep {
 

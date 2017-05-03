@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.swing.filechooser.FileFilter;
 
-import es.uvigo.ei.sing.hlfernandez.filechooser.ExtensionFileFilter;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
 public class ReferenceAnnotationFileSelectionStep extends FileSelectionStep {
 

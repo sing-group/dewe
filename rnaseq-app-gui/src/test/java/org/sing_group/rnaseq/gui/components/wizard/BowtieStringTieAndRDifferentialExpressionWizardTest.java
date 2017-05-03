@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import org.sing_group.rnaseq.gui.util.TestUtils;
 
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
+import org.sing_group.gc4s.demo.DemoUtils;
 
 public class BowtieStringTieAndRDifferentialExpressionWizardTest {
 

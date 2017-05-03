@@ -7,8 +7,8 @@ import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 public class TestUtils {
 

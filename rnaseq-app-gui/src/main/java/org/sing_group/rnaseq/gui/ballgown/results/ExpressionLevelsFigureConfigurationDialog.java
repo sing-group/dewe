@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.gui.components.configuration.ImageConfigurationPanel;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
-import es.uvigo.ei.sing.hlfernandez.list.ExtendedDefaultListModel;
-import es.uvigo.ei.sing.hlfernandez.list.JParallelListsPanel;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.list.ExtendedDefaultListModel;
+import org.sing_group.gc4s.list.JParallelListsPanel;
 
 /**
  * A dialog that allows users to configure the figure of the structure and

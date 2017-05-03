@@ -16,9 +16,9 @@ import org.sing_group.rnaseq.api.entities.FileBasedSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.Mode;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.Mode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
 public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXLabel;
 import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
-import es.uvigo.ei.sing.hlfernandez.text.MultilineLabel;
+import org.sing_group.gc4s.text.MultilineLabel;
 
 public class WorkflowDescriptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

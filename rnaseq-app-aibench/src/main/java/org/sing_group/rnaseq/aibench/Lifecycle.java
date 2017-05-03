@@ -29,7 +29,7 @@ import es.uvigo.ei.aibench.TextAreaAppender;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
+import org.sing_group.gc4s.demo.DemoUtils;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	public static final String APP_CONFIGURATION_FILE = "conf/app.conf";

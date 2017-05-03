@@ -14,7 +14,7 @@ import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseMana
 import es.uvigo.ei.aibench.core.CoreUtils;
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
-import es.uvigo.ei.sing.hlfernandez.combobox.ComboBoxItem;
+import org.sing_group.gc4s.combobox.ComboBoxItem;
 
 public abstract class AbstractReferenceGenomeParamProvider extends AbstractParamProvider {
 	private JComboBox<ComboBoxItem<ReferenceGenome>> component;

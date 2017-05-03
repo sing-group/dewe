@@ -91,7 +91,7 @@
 		<swingx.version>1.6.5-1</swingx.version>
 		<log4j.version>1.2.12</log4j.version>
 		<slf4j.version>1.7.22</slf4j.version>
-		<gc4s.version>0.6.0-SNAPSHOT</gc4s.version>
+		<gc4s.version>0.7.0-SNAPSHOT</gc4s.version>
 		<sing.commons.csv.version>1.2.0-SNAPSHOT</sing.commons.csv.version>
 		<jsparklines-factory.version>0.1.0-SNAPSHOT</jsparklines-factory.version>
 
@@ -147,8 +147,8 @@
 				<version>${swingx.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
-				<artifactId>GC4S</artifactId>
+				<groupId>org.sing_group</groupId>
+				<artifactId>gc4s</artifactId>
 				<version>${gc4s.version}</version>
 			</dependency>
 			<dependency>

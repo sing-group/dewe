@@ -12,13 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeSelectionStep;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 
 /**
  * An extension of {@code Hisat2ReferenceGenomeSelectionStep} that adds buttons

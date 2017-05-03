@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * This abstract class extends {@code WizardStep} to show a text formatted as

@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
@@ -16,8 +18,6 @@ import org.sing_group.rnaseq.gui.components.wizard.BowtieStringTieAndRDifferenti
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
 public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	extends BowtieStringTieAndRDifferentialExpressionWizard {

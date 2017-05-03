@@ -17,7 +17,7 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionSte
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WorkingDirectorySelectionStep;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * This class extends {@code AbstractDifferentialExpressionWizard} to provide a

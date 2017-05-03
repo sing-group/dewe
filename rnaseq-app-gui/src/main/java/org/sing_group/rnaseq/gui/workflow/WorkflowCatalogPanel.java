@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import org.jdesktop.swingx.JXLabel;
 import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
+import org.sing_group.gc4s.ui.CenteredJPanel;
 
 public class WorkflowCatalogPanel extends JPanel {
 	private static final long serialVersionUID = 1L;

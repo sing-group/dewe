@@ -11,7 +11,7 @@ import javax.swing.event.ListDataListener;
 
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
-import es.uvigo.ei.sing.hlfernandez.input.JInputList;
+import org.sing_group.gc4s.input.JInputList;
 
 public class MultipleConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {

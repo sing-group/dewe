@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.gui.components;
 
 import static org.sing_group.rnaseq.gui.util.TestUtils.createReferenceGenomeDatabaseManager;
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
 
 import javax.swing.JComponent;
 

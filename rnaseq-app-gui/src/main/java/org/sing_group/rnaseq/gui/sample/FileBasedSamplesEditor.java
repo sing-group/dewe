@@ -16,13 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
+import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
 import org.sing_group.rnaseq.api.entities.FileBasedSample;
 import org.sing_group.rnaseq.api.entities.FileBasedSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
-
-import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
-import es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder;
 
 public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E extends FileBasedSample>
 	extends JPanel 

@@ -17,8 +17,8 @@ import org.sing_group.rnaseq.gui.components.wizard.components.MultipleConditions
 import org.sing_group.rnaseq.gui.components.wizard.components.TwoConditionsSelectionPanel;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 public class ExperimentalConditionsStep extends WizardStep {
 

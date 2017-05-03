@@ -15,7 +15,7 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.FastqSamplesEditor;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 public class SampleReadsSelectionStep extends WizardStep
 	implements SamplesEditorListener {

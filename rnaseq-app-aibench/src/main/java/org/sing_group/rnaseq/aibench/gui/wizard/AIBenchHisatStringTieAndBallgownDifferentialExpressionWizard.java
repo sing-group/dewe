@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.aibench.gui.wizard;
 
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.fixDialogSize;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.askUserImportOrBuild;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.fixDialogSize;
 
 import java.awt.Window;
 import java.util.Arrays;
@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
@@ -16,8 +18,6 @@ import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndBallgownDiff
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
 
 public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	extends HisatStringTieAndBallgownDifferentialExpressionWizard {

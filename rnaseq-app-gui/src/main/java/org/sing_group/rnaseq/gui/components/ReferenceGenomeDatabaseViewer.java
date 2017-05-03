@@ -18,13 +18,12 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 
 public class ReferenceGenomeDatabaseViewer extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -20,14 +20,13 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
+import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
-
-import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
-import es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder;
 
 public class FastqSamplesEditor extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.event.WizardStepEvent;
-import es.uvigo.ei.sing.hlfernandez.wizard.event.WizardStepListener;
+import org.sing_group.gc4s.wizard.event.WizardStepEvent;
+import org.sing_group.gc4s.wizard.event.WizardStepListener;
 
 public class DefaultWizardStepListener implements WizardStepListener {
 

@@ -11,7 +11,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.inputgui.FileParamProvider;
 import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 import es.uvigo.ei.aibench.workbench.inputgui.ParamsWindow;
-import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
+import org.sing_group.gc4s.event.DocumentAdapter;
 
 /**
  * An extension of {@code ParamsWindow} to use in operations that take as input

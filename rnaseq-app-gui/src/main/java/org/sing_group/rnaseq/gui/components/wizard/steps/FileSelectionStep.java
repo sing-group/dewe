@@ -14,11 +14,11 @@ import javax.swing.filechooser.FileFilter;
 
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanelBuilder;
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 public abstract class FileSelectionStep extends WizardStep {
 

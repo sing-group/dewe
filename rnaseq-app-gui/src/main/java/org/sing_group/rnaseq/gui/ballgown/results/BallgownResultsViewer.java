@@ -31,9 +31,9 @@ import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownTranscripts;
 import org.sing_group.rnaseq.gui.ballgown.BallgownGenesTable;
 import org.sing_group.rnaseq.gui.ballgown.BallgownTranscriptsTable;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.JProgressDialog;
-import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.dialog.JProgressDialog;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 
 /**
  * A component that shows the genes and transcripts tables in a Ballgown working

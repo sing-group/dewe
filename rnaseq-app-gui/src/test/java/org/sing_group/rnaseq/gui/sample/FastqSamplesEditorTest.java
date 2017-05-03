@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.gui.sample;
 
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.demo.DemoUtils.setNimbusLookAndFeel;
+import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
 
 import java.util.Arrays;
 

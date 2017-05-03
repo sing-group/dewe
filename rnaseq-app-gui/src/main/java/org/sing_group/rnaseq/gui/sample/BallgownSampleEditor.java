@@ -3,7 +3,7 @@ package org.sing_group.rnaseq.gui.sample;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownSample;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownSample;
 
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
 public class BallgownSampleEditor extends FileBasedSampleEditor<BallgownSample> {
 	private static final long serialVersionUID = 1L;

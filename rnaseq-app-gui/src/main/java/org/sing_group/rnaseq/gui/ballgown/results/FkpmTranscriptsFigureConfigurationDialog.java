@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.gui.components.configuration.ImageConfigurationPanel;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 
 /**
  * A dialog that allows users to configure the FKPM transcripts figure.

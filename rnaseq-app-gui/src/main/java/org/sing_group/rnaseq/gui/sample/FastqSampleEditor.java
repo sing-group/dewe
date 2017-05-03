@@ -23,13 +23,13 @@ import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
-import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
-import es.uvigo.ei.sing.hlfernandez.filechooser.ExtensionFileFilter;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanelBuilder;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
+import org.sing_group.gc4s.event.DocumentAdapter;
+import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
 
 public class FastqSampleEditor extends JPanel {
 	private static final long serialVersionUID = 1L;

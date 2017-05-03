@@ -14,11 +14,11 @@ import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigura
 import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter.Format;
 import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 
-import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
-import es.uvigo.ei.sing.hlfernandez.input.RadioButtonsPanel;
-import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
+import org.sing_group.gc4s.event.DocumentAdapter;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.input.RadioButtonsPanel;
+import org.sing_group.gc4s.text.JIntegerTextField;
 
 /**
  * A component that allows configuring a {@code ImageConfigurationParameter}.

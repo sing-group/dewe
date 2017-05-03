@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 public class WizardSummaryStep extends WizardStep {
 	private WizardSummaryProvider wizardSummaryProvider;

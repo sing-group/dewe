@@ -13,9 +13,9 @@ import javax.swing.event.DocumentListener;
 import org.jdesktop.swingx.JXTextField;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
-import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
+import org.sing_group.gc4s.event.DocumentAdapter;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
 
 public class TwoConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {

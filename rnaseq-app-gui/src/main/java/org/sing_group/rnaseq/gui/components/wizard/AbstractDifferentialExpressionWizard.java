@@ -8,8 +8,8 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryProvider;
 
-import es.uvigo.ei.sing.hlfernandez.wizard.Wizard;
-import es.uvigo.ei.sing.hlfernandez.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.Wizard;
+import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * An abstract extension of {@code Wizard} that implements

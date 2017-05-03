@@ -1,8 +1,8 @@
 package org.sing_group.rnaseq.gui.ballgown;
 
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.setNimbusKeepAlternateRowColor;
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.demo.DemoUtils.setNimbusKeepAlternateRowColor;
+import static org.sing_group.gc4s.demo.DemoUtils.setNimbusLookAndFeel;
+import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 
 import java.io.File;
