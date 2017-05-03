@@ -7,10 +7,11 @@ import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
@@ -75,11 +76,17 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 	}
 
 	protected static List<WizardStep> getWizardSteps() {
+		return getWizardSteps(
+			new DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider());
+	}
+
+	protected static List<WizardStep> getWizardSteps(
+		HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider stepProvider
+	) {
 		List<WizardStep> wizardSteps = new LinkedList<>();
 		wizardSteps.add(
 			new HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep());
-		wizardSteps.add(new Hisat2ReferenceGenomeSelectionStep(
-			DefaultReferenceGenomeDatabaseManager.getInstance()));
+		wizardSteps.add(stepProvider.getHisat2ReferenceGenomeSelectionStep());
 		ExperimentalConditionsStep experimentalConditionsStep =
 			new ExperimentalConditionsStep(2, 2);
 		wizardSteps.add(experimentalConditionsStep);

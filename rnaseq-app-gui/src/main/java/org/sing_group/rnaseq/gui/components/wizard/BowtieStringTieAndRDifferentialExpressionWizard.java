@@ -7,9 +7,10 @@ import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardPresentationStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultBowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
@@ -76,11 +77,17 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	}
 
 	protected static List<WizardStep> getWizardSteps() {
+		return getWizardSteps(
+			new DefaultBowtieStringTieAndRDifferentialExpressionWizardStepProvider());
+	}
+
+	protected static List<WizardStep> getWizardSteps(
+		BowtieStringTieAndRDifferentialExpressionWizardStepProvider stepProvider
+	) {
 		List<WizardStep> wizardSteps = new LinkedList<>();
 		wizardSteps.add(
 			new BowtieStringTieAndRDifferentialExpressionWizardPresentationStep());
-		wizardSteps.add(new Bowtie2ReferenceGenomeSelectionStep(
-			DefaultReferenceGenomeDatabaseManager.getInstance()));
+		wizardSteps.add(stepProvider.getBowtie2ReferenceGenomeSelectionStep());
 		ExperimentalConditionsStep experimentalConditionsStep =
 			new ExperimentalConditionsStep(2, 2);
 		wizardSteps.add(experimentalConditionsStep);
