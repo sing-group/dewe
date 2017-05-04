@@ -53,6 +53,18 @@ public class DefaultSystemController implements SystemController {
 	}
 
 	@Override
+	public void awk(File resultsFile, String... params)
+			throws ExecutionException, InterruptedException {
+		final ExecutionResult result =
+			this.systemBinariesExecutor.awk(resultsFile,params);
+	
+		if (result.getExitStatus() != 0) {
+			throw new ExecutionException(result.getExitStatus(),
+				"Error running awk. Please, check error log.", "");
+		}
+	}
+
+	@Override
 	public void ensgidsToSymbols(File referenceAnnotationFile, File outputFile)
 			throws ExecutionException, InterruptedException {
 		final ExecutionResult result =

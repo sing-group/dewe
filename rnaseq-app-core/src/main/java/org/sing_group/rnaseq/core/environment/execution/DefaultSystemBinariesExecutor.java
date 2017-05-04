@@ -84,6 +84,13 @@ public class DefaultSystemBinariesExecutor
 		throws ExecutionException, InterruptedException {
 		return executeCommand(LOG, this.binaries.getSed(), params);
 	}
+	
+	@Override
+	public ExecutionResult awk(File output, String...params)
+		throws ExecutionException, InterruptedException {
+		return executeCommand(output, LOG, this.binaries.getAwk(), params);
+	}
+
 
 	@Override
 	public ExecutionResult ensgidsToSymbols(File referenceAnnotationFile,

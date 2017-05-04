@@ -15,8 +15,11 @@ public interface SystemBinariesExecutor
 
 	public abstract ExecutionResult sed(String...params)
 		throws ExecutionException, InterruptedException;
+
+	public abstract ExecutionResult awk(File output, String...params)
+		throws ExecutionException, InterruptedException;
 	
 	public abstract ExecutionResult ensgidsToSymbols(
 		File referenceAnnotationFile, File outputFile) 
-		throws ExecutionException, InterruptedException;	
+		throws ExecutionException, InterruptedException;
 }

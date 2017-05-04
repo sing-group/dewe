@@ -27,4 +27,9 @@ public class DefaultSystemEnvironment implements SystemEnvironment {
 	public String getDefaultEnsgidsToSymbols() {
 		return "ensgids-to-symbols";
 	}
+	
+	@Override
+	public String getDefaultAwk(){
+		return "awk";
+	}
 }
