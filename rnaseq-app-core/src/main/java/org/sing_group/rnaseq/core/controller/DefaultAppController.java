@@ -92,6 +92,9 @@ public class DefaultAppController implements AppController {
 		this.stringTieController.setStringTieBinariesExecutor(
 			this.createStringTieBinariesExecutor(this.environment.getStringTieBinaries())
 		);
+		this.stringTieController.setSystemBinariesExecutor(
+			this.createSystemBinariesExecutor(this.environment.getSystemBinaries())
+		);
 	}
 
 	private void setHtseqController() throws BinaryCheckException {

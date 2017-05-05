@@ -90,5 +90,21 @@ jpeg(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""))
 hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=c('limegreen'), main="Gene P-values", xlab="P-value")
 dev.off()
 
+conditions <- unique(pheno_data$type)
+cond1 <- subset(bg, "type == conditions[1]", genomesubset=FALSE)
+cond2 <- subset(bg, "type == conditions[2]", genomesubset=FALSE)
+
+cond1.fpkm <- texpr(cond1)
+cond2.fpkm <- texpr(cond2)
+
+cond1.fpkm.means <- rowMeans(cond1.fpkm)
+cond2.fpkm.means <- rowMeans(cond2.fpkm)
+
+consensuspathdb <- cbind(geneNames(bg), cond1.fpkm.means, cond2.fpkm.means)
+consensuspathdb <- consensuspathdb[consensuspathdb[,1]!=".",]
+
+write.table(consensuspathdb, col.names=FALSE, row.names = FALSE, paste(workingDirectory, "consensuspathdb_enrichment_analysis.csv" ,sep=""), sep="\t")
+
+
 ## Exit the R session
 quit(save="no")

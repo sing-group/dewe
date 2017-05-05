@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.FileAppender;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
-import org.sing_group.rnaseq.api.controller.SystemController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
@@ -157,9 +156,6 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
 		
-		SystemController systemController =
-			DefaultAppController.getInstance().getSystemController();
-		
 		float stagePRogress = 1f / (reads.size() * 2 + 1);
 		
 		List<File> outputTranscriptsFiles = new LinkedList<>();
@@ -189,11 +185,6 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
 				outputTranscriptsfile);
-			
-			File tmp = new File(bam.getParent()+"/tmp.tmp");
-			File tdata = new File(bam.getParent()+"/t_data.ctab");
-			systemController.awk(tmp, "-F", "\\t", "{if($12!=\"FPKM\")$12+=0.000001;}1", "OFS=\\t", bam.getParent()+"/t_data.ctab");
-			tmp.renameTo(tdata);
 
 			status.setStageProgress(status.getStageProgress() + stagePRogress);
 		}

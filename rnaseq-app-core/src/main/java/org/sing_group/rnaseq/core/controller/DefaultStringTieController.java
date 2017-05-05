@@ -7,14 +7,21 @@ import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 
 public class DefaultStringTieController implements StringTieController {
 	
 	private StringTieBinariesExecutor stringTieBinariesExecutor;
+	private SystemBinariesExecutor    systemBinariesExecutor;
 
 	@Override
 	public void setStringTieBinariesExecutor(StringTieBinariesExecutor executor) {
 		this.stringTieBinariesExecutor = executor;
+	}
+	
+	@Override
+	public void setSystemBinariesExecutor(SystemBinariesExecutor executor) {
+		this.systemBinariesExecutor = executor;
 	}
 
 	@Override
@@ -38,6 +45,12 @@ public class DefaultStringTieController implements StringTieController {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainTranscripts(
 				referenceAnnotationFile, inputBam, outputTranscripts);
+
+		
+		File tmp = new File(inputBam.getParent()+"/tmp.tmp");
+		File tdata = new File(inputBam.getParent()+"/t_data.ctab");
+		systemBinariesExecutor.awk(tmp, "-F", "\\t", "{if($12!=\"FPKM\")$12+=0.000001;}1", "OFS=\\t", inputBam.getParent()+"/t_data.ctab");
+		tmp.renameTo(tdata);
 		
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
