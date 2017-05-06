@@ -16,7 +16,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.genome.Bowtie2BuildIndex"
 		>
 			<operation-description
-				name="Bowtie2"
+				menuName="Bowtie2"
 				uid="operations.genome.bowtie2buildindex"
 				path="1@Genome/1@Build index"
 			/>
@@ -27,7 +27,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.genome.Bowtie2ImportIndex"
 		>
 			<operation-description
-				name="Bowtie2"
+				menuName="Bowtie2"
 				uid="operations.genome.bowtie2importindex"
 				path="1@Genome/2@Import index"
 			/>
@@ -38,7 +38,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.genome.Hisat2BuildIndex"
 		>
 			<operation-description
-				name="HISAT2"
+				menuName="HISAT2"
 				uid="operations.genome.hisat2buildindex"
 				path="1@Genome/1@Build index"
 			/>
@@ -49,7 +49,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.genome.Hisat2ImportIndex"
 		>
 			<operation-description
-				name="HISAT2"
+				menuName="HISAT2"
 				uid="operations.genome.hisat2importindex"
 				path="1@Genome/2@Import index"
 			/>
