@@ -32,7 +32,7 @@
 			<organization>SING Group - Universidade de Vigo</organization>
 			<organizationUrl>http://www.sing-group.org/</organizationUrl>
 			<email>hlfernandez@uvigo.es</email>
-		</developer>		
+		</developer>
 		<developer>
 			<name>Aitor Blanco-Míguez</name>
 			<organization>SING Group - Universidade de Vigo</organization>
@@ -41,7 +41,7 @@
 		</developer>
 	</developers>
 
-	<contributors>	
+	<contributors>
 		<contributor>
 			<name>Anália Lourenço</name>
 			<organization>SING Group - Universidade de Vigo</organization>
@@ -59,33 +59,33 @@
 			<roles>
 				<role>Researcher</role>
 			</roles>
-		</contributor>		
+		</contributor>
 	</contributors>
-	
+
 	<properties>
 		<!-- General -->
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<!-- Build -->
 		<project.builds.directory>${project.build.directory}/builds</project.builds.directory>
 		<should.skip.distributable>true</should.skip.distributable>
-		<should.skip.download>true</should.skip.download>		
+		<should.skip.download>true</should.skip.download>
 
 		<!-- License configuration -->
 		<license.licenseName>gpl_v3</license.licenseName>
 		<license.copyrightOwners>Hugo López-Fernández, Aitor Blanco-Míguez, Anália Lourenço, Florentino Fdez-Riverola</license.copyrightOwners>
 		<license.organizationName>SING Group (Universidade de Vigo)</license.organizationName>
 		<license.addJavaLicenseAfterPackage>false</license.addJavaLicenseAfterPackage>
-		
+
 		<!-- Plugins dependencies -->
 		<license-maven-plugin.version>1.8</license-maven-plugin.version>
-		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>		
+		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
 		<maven-dependency-plugin.version>2.1</maven-dependency-plugin.version>
 		<maven-assembly-plugin.version>2.2</maven-assembly-plugin.version>
 		<download-maven-plugin.version>1.2.1</download-maven-plugin.version>
-		
+
 		<!-- General dependencies -->
 		<aibench.version>2.9.0-SNAPSHOT</aibench.version>
 		<swingx.version>1.6.5-1</swingx.version>
@@ -97,12 +97,12 @@
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
-		
-		<!-- AIBench configuration -->		
+
+		<!-- AIBench configuration -->
 		<aibench.lib.artifactIds>javatar,aibench-aibench,jhall,log4j</aibench.lib.artifactIds>
 		<aibench.plugins.artifactIds>aibench-core,aibench-workbench</aibench.plugins.artifactIds>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>sing-repository</id>
@@ -113,9 +113,9 @@
 			<id>sing-repository-snapshots</id>
 			<name>SING repository</name>
 			<url>http://maven.sing-group.org/repository/maven-snapshots</url>
-		</repository>		
+		</repository>
 	</repositories>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Modules -->
@@ -123,7 +123,7 @@
 				<groupId>org.sing_group</groupId>
 				<artifactId>rnaseq-app-api</artifactId>
 				<version>${project.version}</version>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.sing_group</groupId>
 				<artifactId>rnaseq-app-core</artifactId>
@@ -160,6 +160,12 @@
 				<groupId>org.sing_group</groupId>
 				<artifactId>jsparklines-factory</artifactId>
 				<version>${jsparklines-factory.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.swinglabs</groupId>
+						<artifactId>swingx</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
@@ -218,7 +224,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>
