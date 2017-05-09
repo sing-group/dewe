@@ -3,9 +3,9 @@ package org.sing_group.rnaseq.gui.util;
 import java.io.File;
 import java.util.Optional;
 
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 import org.sing_group.gc4s.demo.DemoUtils;
 import org.sing_group.gc4s.wizard.WizardStep;
@@ -18,15 +18,15 @@ public class TestUtils {
 		step.stepEntered();
 	}
 
-	public static DefaultReferenceGenomeDatabaseManager createReferenceGenomeDatabaseManager() {
-		DefaultReferenceGenomeDatabaseManager dbManager =
-			DefaultReferenceGenomeDatabaseManager.getInstance();
+	public static DefaultReferenceGenomeIndexDatabaseManager createReferenceGenomeDatabaseManager() {
+		DefaultReferenceGenomeIndexDatabaseManager dbManager =
+			DefaultReferenceGenomeIndexDatabaseManager.getInstance();
 
-		dbManager.addReferenceGenome(new Bowtie2ReferenceGenome() {
+		dbManager.addIndex(new Bowtie2ReferenceGenomeIndex() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public boolean isValid() {
+			public boolean isValidIndex() {
 				return false;
 			}
 
@@ -41,21 +41,21 @@ public class TestUtils {
 			}
 
 			@Override
-			public Optional<String> getReferenceGenomeIndex() {
-				return Optional.of("index");
+			public String getReferenceGenomeIndex() {
+				return "index";
 			}
 
 			@Override
-			public File getReferenceGenome() {
-				return new File("/home/users/dataRNA/data/genome.fa");
+			public Optional<File> getReferenceGenome() {
+				return Optional.of(new File("/home/users/dataRNA/data/genome.fa"));
 			}
 		});
 
-		dbManager.addReferenceGenome(new Bowtie2ReferenceGenome() {
+		dbManager.addIndex(new Bowtie2ReferenceGenomeIndex() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public boolean isValid() {
+			public boolean isValidIndex() {
 				return true;
 			}
 
@@ -70,21 +70,21 @@ public class TestUtils {
 			}
 
 			@Override
-			public Optional<String> getReferenceGenomeIndex() {
-				return Optional.of("index");
+			public String getReferenceGenomeIndex() {
+				return "index 2";
 			}
 
 			@Override
-			public File getReferenceGenome() {
-				return new File("/data/genome-2.fa");
+			public Optional<File> getReferenceGenome() {
+				return Optional.of(new File("/data/genome-2.fa"));
 			}
 		});
 
-		dbManager.addReferenceGenome(new Hisat2ReferenceGenome() {
+		dbManager.addIndex(new Hisat2ReferenceGenomeIndex() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public boolean isValid() {
+			public boolean isValidIndex() {
 				return true;
 			}
 
@@ -97,15 +97,15 @@ public class TestUtils {
 			public String getType() {
 				return "bowtie2";
 			}
-
+			
 			@Override
-			public Optional<String> getReferenceGenomeIndex() {
-				return Optional.of("index-hisat");
+			public String getReferenceGenomeIndex() {
+				return "index 3";
 			}
 
 			@Override
-			public File getReferenceGenome() {
-				return new File("/home/users/dataRNA/data/genome.fa");
+			public Optional<File> getReferenceGenome() {
+				return Optional.of(new File("/data/genome-2.fa"));
 			}
 		});
 

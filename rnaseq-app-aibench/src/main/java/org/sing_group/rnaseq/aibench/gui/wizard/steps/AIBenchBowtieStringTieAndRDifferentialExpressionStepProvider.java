@@ -1,6 +1,6 @@
 package org.sing_group.rnaseq.aibench.gui.wizard.steps;
 
-import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeIndexSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 
 /**
@@ -16,7 +16,7 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider
 	implements BowtieStringTieAndRDifferentialExpressionWizardStepProvider {
 
 	@Override
-	public Bowtie2ReferenceGenomeSelectionStep getBowtie2ReferenceGenomeSelectionStep() {
-		return new AIBenchBowtie2ReferenceGenomeSelectionStep();
+	public Bowtie2ReferenceGenomeIndexSelectionStep getBowtie2ReferenceGenomeSelectionStep() {
+		return new AIBenchBowtie2ReferenceGenomeIndexSelectionStep();
 	}
 }

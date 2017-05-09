@@ -17,12 +17,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
-import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent;
+import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.environment.DefaultAppEnvironment;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 import es.uvigo.ei.aibench.TextAreaAppender;
@@ -99,11 +99,11 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	public void updateReferenceGenomeManagerComponent() {
-		ReferenceGenomeManagerComponent component = 
-			(ReferenceGenomeManagerComponent) Workbench.getInstance()
+		ReferenceGenomeIndexManagerComponent component = 
+			(ReferenceGenomeIndexManagerComponent) Workbench.getInstance()
 				.getComponentAtSlot("referencegenomemanager");
 		component.setReferenceGenomeDatabaseManager(
-			DefaultReferenceGenomeDatabaseManager.getInstance()
+			DefaultReferenceGenomeIndexDatabaseManager.getInstance()
 		);
 	}
 

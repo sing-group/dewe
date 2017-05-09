@@ -8,7 +8,7 @@ import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 public class BowtieStringTieAndRDifferentialExpressionOperation {
 
 	private AIBenchOperationStatus status = new AIBenchOperationStatus();
-	private Bowtie2ReferenceGenome referenceGenome;
+	private Bowtie2ReferenceGenomeIndex referenceGenome;
 	private FastqReadsSamples samples;
 	private File referenceAnnotationFile;
 	private File workingDirectory;
@@ -38,7 +38,7 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 		allowNull = false,
 		order = 1
 	)
-	public void setReferenceGenome(Bowtie2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Bowtie2ReferenceGenomeIndex referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 

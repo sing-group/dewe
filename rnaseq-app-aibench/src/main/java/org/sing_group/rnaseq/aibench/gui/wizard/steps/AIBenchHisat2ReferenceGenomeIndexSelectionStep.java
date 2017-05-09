@@ -1,8 +1,8 @@
 package org.sing_group.rnaseq.aibench.gui.wizard.steps;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchBowtieStringTieAndRDifferentialExpressionWizard.BUILD_INDEX;
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchBowtieStringTieAndRDifferentialExpressionWizard.IMPORT_INDEX;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.BUILD_INDEX;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.IMPORT_INDEX;
 import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
 import java.awt.BorderLayout;
@@ -14,40 +14,40 @@ import javax.swing.JPanel;
 
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeSelectionStep;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 /**
- * An extension of {@code Bowtie2ReferenceGenomeSelectionStep} that adds buttons
- * to import or build genome indexes using AIBench operations.
+ * An extension of {@code Hisat2ReferenceGenomeIndexSelectionStep} that adds
+ * buttons to import or build genome indexes using AIBench operations.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class AIBenchBowtie2ReferenceGenomeSelectionStep
-	extends Bowtie2ReferenceGenomeSelectionStep {
+public class AIBenchHisat2ReferenceGenomeIndexSelectionStep
+	extends Hisat2ReferenceGenomeIndexSelectionStep {
 	private CenteredJPanel stepComponent;
-
+	
 	/**
-	 * Creates a new {@code AIBenchBowtie2ReferenceGenomeSelectionStep} using
-	 * {@code DefaultReferenceGenomeDatabaseManager}.
+	 * Creates a new {@code AIBenchHisat2ReferenceGenomeIndexSelectionStep}
+	 * using {@code DefaultReferenceGenomeIndexDatabaseManager}.
 	 */
-	public AIBenchBowtie2ReferenceGenomeSelectionStep() {
-		this(DefaultReferenceGenomeDatabaseManager.getInstance());
+	public AIBenchHisat2ReferenceGenomeIndexSelectionStep() {
+		this(DefaultReferenceGenomeIndexDatabaseManager.getInstance());
 	}
-
+	
 	/**
-	 * Creates a new {@code AIBenchBowtie2ReferenceGenomeSelectionStep} using the
-	 * specified {@code databaseManager}.
+	 * Creates a new {@code AIBenchHisat2ReferenceGenomeIndexSelectionStep}
+	 * using the specified {@code databaseManager}.
 	 * 
-	 * @param databaseManager the {@code ReferenceGenomeDatabaseManager}
+	 * @param databaseManager the {@code ReferenceGenomeIndexDatabaseManager}
 	 */
-	public AIBenchBowtie2ReferenceGenomeSelectionStep(
-		ReferenceGenomeDatabaseManager databaseManager
+	public AIBenchHisat2ReferenceGenomeIndexSelectionStep(
+		ReferenceGenomeIndexDatabaseManager databaseManager
 	) {
 		super(databaseManager);
 	}
@@ -78,7 +78,7 @@ public class AIBenchBowtie2ReferenceGenomeSelectionStep
 			new ExtendedAbstractAction("Import index", this::importIndex)));
 		buttonsPanel.add(new JButton(
 			new ExtendedAbstractAction("Build index", this::buildIndex)));
-	
+
 		return buttonsPanel;
 	}
 

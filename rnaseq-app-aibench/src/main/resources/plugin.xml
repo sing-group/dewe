@@ -239,14 +239,6 @@
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.genome.hisat2importindex"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
-		    />
-		    <gui-operation
-				operation="operations.genome.hisat2buildindex"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
-		    />
-		    <gui-operation
 				operation="operations.bowtie2alignsamples"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow"
 		    />
@@ -285,8 +277,8 @@
 			<component
 				slotid="bottom"
 				componentid="referencegenomemanager"
-				name="Reference genomes"
-				class="org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeManagerComponent"
+				name="Reference genome indexes"
+				class="org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent"
 			/>
 		</extension>
 

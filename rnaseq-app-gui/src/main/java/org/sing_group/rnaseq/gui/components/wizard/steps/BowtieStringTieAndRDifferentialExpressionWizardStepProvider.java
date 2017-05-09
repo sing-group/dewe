@@ -14,5 +14,5 @@ public interface BowtieStringTieAndRDifferentialExpressionWizardStepProvider {
 	 * 
 	 * @return a {@code Bowtie2ReferenceGenomeSelectionStep}
 	 */
-	public abstract Bowtie2ReferenceGenomeSelectionStep getBowtie2ReferenceGenomeSelectionStep();
+	public abstract Bowtie2ReferenceGenomeIndexSelectionStep getBowtie2ReferenceGenomeSelectionStep();
 }

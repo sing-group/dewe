@@ -4,6 +4,8 @@ import static org.sing_group.rnaseq.gui.sample.FastqSampleEditor.extractSampleNa
 
 import java.io.File;
 
+import org.sing_group.rnaseq.core.controller.DefaultAppController;
+
 /**
  * A class that provides utilities for AIBench's operations classes.
  * 
@@ -35,6 +37,16 @@ public class OperationsUtils {
 		} else {
 			return outputFile.getName().endsWith(SAM) ? outputFile
 				: new File(outputFile.getAbsolutePath() + SAM);
+		}
+	}
+	
+	public static void validateName(String name) {
+		if (name.isEmpty()) {
+			throw new IllegalArgumentException("Index name can't be empty");
+		} else if (DefaultAppController.getInstance()
+			.getReferenceGenomeDatabaseManager().existsName(name)) {
+			throw new IllegalArgumentException(
+				"Index name is already registered. Please, choose a different name");
 		}
 	}
 }

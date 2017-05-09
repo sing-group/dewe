@@ -27,7 +27,7 @@ import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
-import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHisat2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExecutor;
@@ -236,7 +236,7 @@ public class DefaultAppController implements AppController {
 	}
 
 	@Override
-	public ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
+	public ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager() {
 		return this.environment.getReferenceGenomeDatabaseManager();
 	}
 

@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
-import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
@@ -33,7 +33,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 	private static final long serialVersionUID = 1L;
 	protected static final String TITLE = "Differential expression analysis";
 
-	private Hisat2ReferenceGenomeSelectionStep genomeSelectionStep;
+	private Hisat2ReferenceGenomeIndexSelectionStep genomeSelectionStep;
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
@@ -61,7 +61,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 
 	private void init() {
 		genomeSelectionStep =
-			(Hisat2ReferenceGenomeSelectionStep) getSteps().get(1);
+			(Hisat2ReferenceGenomeIndexSelectionStep) getSteps().get(1);
 
 		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
@@ -100,9 +100,9 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 	}
 
 	@Override
-	public Hisat2ReferenceGenome getReferenceGenome() {
-		return (Hisat2ReferenceGenome) genomeSelectionStep
-			.getSelectedReferenceGenome();
+	public Hisat2ReferenceGenomeIndex getReferenceGenome() {
+		return (Hisat2ReferenceGenomeIndex) genomeSelectionStep
+			.getSelectedReferenceGenomeIndex();
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package org.sing_group.rnaseq.aibench.gui.wizard.steps;
 
-import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 
 /**
@@ -16,7 +16,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepPro
 	implements HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider {
 
 	@Override
-	public Hisat2ReferenceGenomeSelectionStep getHisat2ReferenceGenomeSelectionStep() {
-		return new AIBenchHisat2ReferenceGenomeSelectionStep();
+	public Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep() {
+		return new AIBenchHisat2ReferenceGenomeIndexSelectionStep();
 	}
 }

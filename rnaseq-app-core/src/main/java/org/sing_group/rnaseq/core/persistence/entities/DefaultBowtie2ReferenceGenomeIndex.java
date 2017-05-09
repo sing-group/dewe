@@ -5,9 +5,17 @@ import static java.util.Arrays.asList;
 import java.io.File;
 import java.util.Optional;
 
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
-public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
+/**
+ * The default {@code Bowtie2ReferenceGenomeIndex} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class DefaultBowtie2ReferenceGenomeIndex
+	implements Bowtie2ReferenceGenomeIndex {
 	private static final long serialVersionUID = 1L;
 	private static final String[] INDEXES = {
 		".1.bt2", ".2.bt2", 	".3.bt2",
@@ -17,17 +25,39 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	private String name;
 	private File referenceGenome;
 	private String referenceGenomeIndex;
-
-	public DefaultBowtie2ReferenceGenome(String name, File file, String index) {
-		this.name = name;
-		this.referenceGenome = file;
-		this.referenceGenomeIndex = index;
+	
+	/**
+	 * Creates a new {@code DefaultBowtie2ReferenceGenomeIndex} with the
+	 * specified {@code name} and {@code referenceGenome}. This constructor
+	 * looks for index files in {@code indexFolder}.
+	 * 
+	 * @param name the genome index name
+	 * @param referenceGenome the reference genome file
+	 * @param indexDirectory the directory where indexes must be found 
+	 */
+	public DefaultBowtie2ReferenceGenomeIndex(String name, File referenceGenome,
+		File indexDirectory
+	) {
+		this(name, referenceGenome, lookForIndex(indexDirectory));
 	}
-
-	public DefaultBowtie2ReferenceGenome(String name, File file, File indexFolder) {
+	
+	/**
+	/**
+	 * Creates a new {@code DefaultBowtie2ReferenceGenomeIndex} with the
+	 * specified {@code name}, {@code referenceGenome} and {@code index}. This
+	 * index is a string containing the directory where the indexes are and the
+	 * base name of the index (e.g. {@code /data/genome/index}).
+	 * 
+	 * @param name the genome index name
+	 * @param referenceGenome the reference genome file
+	 * @param index the name of the index
+	 */
+	public DefaultBowtie2ReferenceGenomeIndex(String name, File referenceGenome,
+		String index
+	) {
 		this.name = name;
-		this.referenceGenome = file;
-		this.referenceGenomeIndex = lookForIndex(indexFolder);
+		this.referenceGenome = referenceGenome;
+		this.referenceGenomeIndex = index;
 	}
 
 	private static String lookForIndex(File indexFolder) {
@@ -41,14 +71,14 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 				return 	absolutePath.substring(
 							0, absolutePath.indexOf(INDEXES[5]));
 			}
-			throw new IllegalArgumentException("indexFolder must contain bowtie2 indexes");
+			throw new IllegalArgumentException("indexFolder must contain Bowtie2 indexes");
 		}
 		throw new IllegalArgumentException("indexFolder must be a directory");
 	}
 
 	@Override
 	public String getType() {
-		return "bowtie2";
+		return "Bowtie2";
 	}
 
 	@Override
@@ -57,27 +87,22 @@ public class DefaultBowtie2ReferenceGenome implements Bowtie2ReferenceGenome {
 	}
 
 	@Override
-	public File getReferenceGenome() {
-		return referenceGenome;
+	public Optional<File> getReferenceGenome() {
+		return Optional.ofNullable(referenceGenome);
 	}
 
 	@Override
-	public Optional<String> getReferenceGenomeIndex() {
-		return Optional.ofNullable(referenceGenomeIndex);
+	public String getReferenceGenomeIndex() {
+		return referenceGenomeIndex;
 	}
 
 	@Override
-	public boolean isValid() {
-		return	this.referenceGenome.exists() &&
-				this.isValidIndex();
-	}
-
-	private boolean isValidIndex() {
-		if (!getReferenceGenomeIndex().isPresent()) {
+	public boolean isValidIndex() {
+		if (getReferenceGenomeIndex() == null) {
 			return false;
 		}
 
-		return directoryContainsIndex(getReferenceGenomeIndex().get());
+		return directoryContainsIndex(getReferenceGenomeIndex());
 	}
 
 	/**

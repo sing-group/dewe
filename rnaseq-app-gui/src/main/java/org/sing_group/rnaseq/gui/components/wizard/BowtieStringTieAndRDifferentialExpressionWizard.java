@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
-import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeSelectionStep;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeIndexSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardPresentationStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultBowtieStringTieAndRDifferentialExpressionWizardStepProvider;
@@ -34,7 +34,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 
 	protected static final String TITLE = "Differential expression analysis";
 
-	private Bowtie2ReferenceGenomeSelectionStep genomeSelectionStep;
+	private Bowtie2ReferenceGenomeIndexSelectionStep genomeSelectionStep;
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
@@ -62,7 +62,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 
 	private void init() {
 		genomeSelectionStep =
-			(Bowtie2ReferenceGenomeSelectionStep) getSteps().get(1);
+			(Bowtie2ReferenceGenomeIndexSelectionStep) getSteps().get(1);
 
 		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
@@ -101,9 +101,9 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	}
 
 	@Override
-	public Bowtie2ReferenceGenome getReferenceGenome() {
-		return (Bowtie2ReferenceGenome) genomeSelectionStep
-			.getSelectedReferenceGenome();
+	public Bowtie2ReferenceGenomeIndex getReferenceGenome() {
+		return (Bowtie2ReferenceGenomeIndex) genomeSelectionStep
+			.getSelectedReferenceGenomeIndex();
 	}
 
 	@Override

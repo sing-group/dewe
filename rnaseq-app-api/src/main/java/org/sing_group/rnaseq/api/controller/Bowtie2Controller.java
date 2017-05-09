@@ -5,7 +5,7 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
 /**
  * The interface for controlling Bowtie2 commands.
@@ -52,7 +52,7 @@ public interface Bowtie2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output)
 		throws ExecutionException, InterruptedException;
 
@@ -74,7 +74,7 @@ public interface Bowtie2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		boolean saveAlignmentLog)
 		throws ExecutionException, InterruptedException;
@@ -96,7 +96,7 @@ public interface Bowtie2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		File alignmentLog) 
 		throws ExecutionException, InterruptedException;

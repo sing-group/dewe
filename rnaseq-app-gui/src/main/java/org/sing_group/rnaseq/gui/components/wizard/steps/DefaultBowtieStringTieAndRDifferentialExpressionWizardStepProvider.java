@@ -1,6 +1,6 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 /**
  * The default
@@ -15,8 +15,8 @@ public class DefaultBowtieStringTieAndRDifferentialExpressionWizardStepProvider
 	implements BowtieStringTieAndRDifferentialExpressionWizardStepProvider {
 
 	@Override
-	public Bowtie2ReferenceGenomeSelectionStep getBowtie2ReferenceGenomeSelectionStep() {
-		return new Bowtie2ReferenceGenomeSelectionStep(
-			DefaultReferenceGenomeDatabaseManager.getInstance());
+	public Bowtie2ReferenceGenomeIndexSelectionStep getBowtie2ReferenceGenomeSelectionStep() {
+		return new Bowtie2ReferenceGenomeIndexSelectionStep(
+			DefaultReferenceGenomeIndexDatabaseManager.getInstance());
 	}
 }

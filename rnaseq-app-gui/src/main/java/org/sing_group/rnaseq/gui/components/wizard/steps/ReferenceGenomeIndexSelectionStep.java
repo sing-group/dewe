@@ -12,46 +12,47 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXLabel;
-import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
-import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeDatabaseListener;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
+import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeIndexDatabaseListener;
 
 import org.sing_group.gc4s.combobox.ComboBoxItem;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
- * An abstract component that allows the selection of a {@code ReferenceGenome}
- * from a combobox.
+ * An abstract component that allows the selection of a
+ * {@code ReferenceGenomeIndex} from a combobox.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
- * @param <T> the class of the {@code ReferenceGenome} that can be selected
+ * @param <T> the class of the {@code ReferenceGenomeIndex} that can be 
+ *        selected
  */
-public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome>
-	extends WizardStep implements ReferenceGenomeDatabaseListener {
+public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenomeIndex>
+	extends WizardStep implements ReferenceGenomeIndexDatabaseListener {
 	
 	private Class<T> referenceGenomeClass;
-	private ReferenceGenomeDatabaseManager databaseManager;
+	private ReferenceGenomeIndexDatabaseManager databaseManager;
 	
 	private JPanel stepComponent;
-	private JComboBox<ComboBoxItem<ReferenceGenome>> combobox;
+	private JComboBox<ComboBoxItem<ReferenceGenomeIndex>> combobox;
 
 	/**
-	 * Creates a new {@code ReferenceGenomeSelectionStep} using the specified
-	 * {@code databaseManager} for selecting reference genomes from the
-	 * specified class.
+	 * Creates a new {@code ReferenceGenomeIndexSelectionStep} using the
+	 * specified {@code databaseManager} for selecting reference genomes from
+	 * the specified class.
 	 * 
-	 * @param databaseManager the {@code ReferenceGenomeDatabaseManager}
+	 * @param databaseManager the {@code ReferenceGenomeIndexDatabaseManager}
 	 * @param referenceGenomeClass the class of the reference genomes
 	 */
-	public ReferenceGenomeSelectionStep(
-		ReferenceGenomeDatabaseManager databaseManager,
+	public ReferenceGenomeIndexSelectionStep(
+		ReferenceGenomeIndexDatabaseManager databaseManager,
 		Class<T> referenceGenomeClass
 	) {
 		this.databaseManager = databaseManager;
-		this.databaseManager.addReferenceGenomeDatabaseListener(this);
+		this.databaseManager.addReferenceGenomeIndexDatabaseListener(this);
 		this.referenceGenomeClass = referenceGenomeClass;
 	}
 	
@@ -91,7 +92,7 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome>
 	 */
 	protected Component getLabel() {
 		JXLabel label = new JXLabel(
-			"Select a " + getReferenceGenomeType() + " reference genome:");
+			"Select a " + getReferenceGenomeType() + " reference genome index:");
 		label.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
 		label.setLineWrap(true);
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -117,11 +118,11 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome>
 	protected void updateComboboxItems() {
 		this.combobox.removeAllItems();
 
-		for (ReferenceGenome r : this.databaseManager
-			.listReferenceGenomes(referenceGenomeClass)
+		for (ReferenceGenomeIndex r : this.databaseManager
+			.listIndexes(referenceGenomeClass)
 		) {
 			this.combobox.addItem(
-				new ComboBoxItem<ReferenceGenome>(r, r.getName())
+				new ComboBoxItem<ReferenceGenomeIndex>(r, r.getName())
 			);
 		}
 	}
@@ -132,22 +133,24 @@ public abstract class ReferenceGenomeSelectionStep<T extends ReferenceGenome>
 	}
 
 	/**
-	 * Returns the selected reference genome.
+	 * Returns the selected reference genome index.
 	 * 
-	 * @return the selected reference genome
+	 * @return the selected reference genome index
 	 */
-	public T getSelectedReferenceGenome() {
+	public T getSelectedReferenceGenomeIndex() {
 		ComboBoxItem<?> selectedItem = 
 			(ComboBoxItem<?>) this.combobox.getSelectedItem();
 
 		return referenceGenomeClass.cast(selectedItem.getItem());
 	}
 
-	public void referenceGenomeAdded() {
+	@Override
+	public void referenceGenomeIndexAdded() {
 		updateComboboxItems();
 	}
 
-	public void referenceGenomeRemoved() {
+	@Override
+	public void referenceGenomeIndexRemoved() {
 		updateComboboxItems();
 	}
 }

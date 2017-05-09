@@ -2,7 +2,7 @@ package org.sing_group.rnaseq.api.controller;
 
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
-import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 
 public interface AppController {
 	public abstract void setAppEvironment(AppEnvironment environment)
@@ -28,7 +28,7 @@ public interface AppController {
 
 	public abstract Hisat2Controller getHisat2Controller();
 
-	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
+	public abstract ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager();
 
 	public abstract int getThreads();
 }

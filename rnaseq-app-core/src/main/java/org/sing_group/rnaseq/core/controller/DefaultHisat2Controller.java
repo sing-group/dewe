@@ -6,7 +6,7 @@ import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 
 public class DefaultHisat2Controller implements Hisat2Controller {
 	private Hisat2BinariesExecutor hisat2BinariesExecutor;
@@ -26,7 +26,7 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	}
 
 	@Override
-	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.hisat2BinariesExecutor
@@ -36,7 +36,7 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	}
 
 	@Override
-	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
 		if(saveAlignmentLog) {
@@ -52,7 +52,7 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	}
 
 	@Override
-	public void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.hisat2BinariesExecutor

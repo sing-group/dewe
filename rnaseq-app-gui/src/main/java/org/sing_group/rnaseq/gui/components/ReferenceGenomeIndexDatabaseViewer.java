@@ -20,22 +20,33 @@ import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.sing_group.gc4s.event.PopupMenuAdapter;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ReferenceGenomeDatabaseViewer extends JPanel {
+/**
+ * This component displays a table with the reference genome indexes obtained
+ * through a {@code DefaultReferenceGenomeIndexDatabaseManager}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class ReferenceGenomeIndexDatabaseViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = 
-		LoggerFactory.getLogger(ReferenceGenomeDatabaseViewer.class);
+		LoggerFactory.getLogger(ReferenceGenomeIndexDatabaseViewer.class);
 	private static final Color INVALID_GENOME = Color.decode("#ff5148");
 	private JXTable table;
 	private ExtendedAbstractAction removeRowsAction;
-	private ReferenceGenomeDatabaseTableModel tableModel;
-	private DefaultReferenceGenomeDatabaseManager databaseManager;
+	private ReferenceGenomeIndexDatabaseTableModel tableModel;
+	private DefaultReferenceGenomeIndexDatabaseManager databaseManager;
 
-	public ReferenceGenomeDatabaseViewer() {
+	/**
+	 * Creates a new {@code ReferenceGenomeIndexDatabaseViewer}.
+	 */
+	public ReferenceGenomeIndexDatabaseViewer() {
 		this.setLayout(new BorderLayout());
 		this.table = new JXTable(0, 0);
 		this.table.setComponentPopupMenu(getTablePopupMenu());
@@ -44,11 +55,17 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 		this.add(new JScrollPane(this.table), BorderLayout.CENTER);
 	}
 
+	/**
+	 * Sets the {@code ReferenceGenomeIndexDatabaseManager} that must be used
+	 * to retrieve the reference genome indexes.
+	 * 
+	 * @param databaseManager a {@code ReferenceGenomeIndexDatabaseManager} 
+	 */
 	public void setReferenceGenomeDatabaseManager(
-		DefaultReferenceGenomeDatabaseManager database
+		DefaultReferenceGenomeIndexDatabaseManager databaseManager
 	) {
-		this.databaseManager = database;
-		this.tableModel = new ReferenceGenomeDatabaseTableModel(database);
+		this.databaseManager = databaseManager;
+		this.tableModel = new ReferenceGenomeIndexDatabaseTableModel(databaseManager);
 		this.table.setModel(this.tableModel);
 		this.updateUI();
 	}
@@ -85,13 +102,13 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 	}
 
 	private void removeSelectedReferenceGenomes() {
-		List<ReferenceGenome> selectedGenomes =
+		List<ReferenceGenomeIndex> selectedGenomes =
 			IntStream.of(table.getSelectedRows()).boxed()
 			.map(table::convertRowIndexToModel)
 			.map(i -> tableModel.getReferenceGenomeAt(i))
 			.collect(Collectors.toList());
 
-		selectedGenomes.forEach(databaseManager::removeReferenceGenome);
+		selectedGenomes.forEach(databaseManager::removeIndex);
 		try {
 			databaseManager.persistDatabase();
 		} catch (IOException e) {
@@ -109,8 +126,8 @@ public class ReferenceGenomeDatabaseViewer extends JPanel {
 				return testItem(tableModel.getReferenceGenomeAt(rowModel));
 			}
 
-			public boolean testItem(ReferenceGenome r) {
-				return !r.isValid();
+			public boolean testItem(ReferenceGenomeIndex r) {
+				return !r.isValidIndex();
 			}
 		};
 

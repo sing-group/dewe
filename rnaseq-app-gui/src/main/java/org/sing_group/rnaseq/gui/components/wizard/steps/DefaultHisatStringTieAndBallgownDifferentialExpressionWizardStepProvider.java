@@ -1,6 +1,6 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 /**
  * The default
@@ -16,8 +16,8 @@ public class DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepPro
 	HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider {
 
 	@Override
-	public Hisat2ReferenceGenomeSelectionStep getHisat2ReferenceGenomeSelectionStep() {
-		return new Hisat2ReferenceGenomeSelectionStep(
-			DefaultReferenceGenomeDatabaseManager.getInstance());
+	public Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep() {
+		return new Hisat2ReferenceGenomeIndexSelectionStep(
+			DefaultReferenceGenomeIndexDatabaseManager.getInstance());
 	}
 }

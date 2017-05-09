@@ -21,7 +21,7 @@ import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSystemBinaries;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 public class DefaultAppEnvironment implements AppEnvironment {
 	
@@ -39,7 +39,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultRBinaries rBinaries;
 	private DefaultSystemBinaries systemBinaries;
 	private DefaultHisat2Binaries hisat2Binaries;
-	private DefaultReferenceGenomeDatabaseManager referenceGenomeDatabaseManager;
+	private DefaultReferenceGenomeIndexDatabaseManager referenceGenomeDatabaseManager;
 
 	public DefaultAppEnvironment(File propertiesFile) 
 		throws FileNotFoundException, IOException {
@@ -101,7 +101,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	}
 
 	private void initReferenceGenomeDatabaseManager() throws IOException, ClassNotFoundException {
-		referenceGenomeDatabaseManager = DefaultReferenceGenomeDatabaseManager.getInstance();
+		referenceGenomeDatabaseManager = DefaultReferenceGenomeIndexDatabaseManager.getInstance();
 		
 		File referenceGenomeDatabasefile = getReferenceGenomeDatabaseFile();
 		referenceGenomeDatabaseManager.setPersistenceStorageFile(referenceGenomeDatabasefile);
@@ -177,7 +177,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	}
 
 	@Override
-	public DefaultReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager() {
+	public DefaultReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager() {
 		return referenceGenomeDatabaseManager;
 	}
 

@@ -15,7 +15,7 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
 import org.sing_group.rnaseq.api.entities.alignment.SampleAlignmentStatistics;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
@@ -35,14 +35,14 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	private static final String READ_MAPPING_STATISTICS_FILE = "read-mapping-statistics.csv";
 	private static final float PROGRESS = 0.25f;
 
-	protected ReferenceGenome referenceGenome;
+	protected ReferenceGenomeIndex referenceGenome;
 	protected FastqReadsSamples reads;
 	protected File referenceAnnotationFile;
 	protected File workingDirectory;
 	private FileAppender workflowLogFileAppender;
 
 	public AbstractDifferentialExpressionWorkflow(
-		ReferenceGenome referenceGenome,
+		ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads, 
 		File referenceAnnotationFile,
 		File workingDirectory

@@ -5,7 +5,7 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 
 /**
  * This extension of {@link PairedEndReadsAlignSamplesParamsWindow} provides a
- * {@link Bowtie2ReferenceGenomeParamProvider} to select the reference genome.
+ * {@link Bowtie2ReferenceGenomeIndexParamProvider} to select the reference genome.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
@@ -20,7 +20,7 @@ public class Bowtie2AlignSamplesParamsWindow
 		final Class<?> arg1, final Object arg2
 	) {
 		if (arg0.name().equals(REFERENCE_GENOME)) {
-			return new Bowtie2ReferenceGenomeParamProvider();
+			return new Bowtie2ReferenceGenomeIndexParamProvider();
 		}
 
 		return super.getParamProvider(arg0, arg1, arg2);

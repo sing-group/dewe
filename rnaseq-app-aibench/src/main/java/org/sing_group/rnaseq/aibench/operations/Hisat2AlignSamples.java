@@ -13,7 +13,7 @@ import java.io.File;
 
 import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -27,7 +27,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 	description = "Aligns paired-end reads using HISAT2."
 )
 public class Hisat2AlignSamples {
-	private Hisat2ReferenceGenome referenceGenome;
+	private Hisat2ReferenceGenomeIndex referenceGenome;
 	private File readsFile1;
 	private File readsFile2;
 	private File outputFile;
@@ -42,7 +42,7 @@ public class Hisat2AlignSamples {
 		allowNull = false,
 		order = 1
 	)
-	public void setReferenceGenome(Hisat2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Hisat2ReferenceGenomeIndex referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 

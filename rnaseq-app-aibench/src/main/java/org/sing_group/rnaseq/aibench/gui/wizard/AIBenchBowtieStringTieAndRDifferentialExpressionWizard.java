@@ -12,8 +12,8 @@ import javax.swing.SwingUtilities;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.gui.components.wizard.BowtieStringTieAndRDifferentialExpressionWizard;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 
@@ -60,8 +60,8 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	}
 
 	private static boolean shouldCreateBowtie2Index() {
-		return 	DefaultReferenceGenomeDatabaseManager.getInstance()
-					.listValidReferenceGenomes(Bowtie2ReferenceGenome.class)
+		return 	DefaultReferenceGenomeIndexDatabaseManager.getInstance()
+					.listValidIndexes(Bowtie2ReferenceGenomeIndex.class)
 					.isEmpty();
 	}
 

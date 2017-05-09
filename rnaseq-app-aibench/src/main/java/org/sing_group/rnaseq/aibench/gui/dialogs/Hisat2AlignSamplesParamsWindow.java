@@ -5,7 +5,7 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 
 /**
  * This extension of {@link PairedEndReadsAlignSamplesParamsWindow} provides a
- * {@link Hisat2ReferenceGenomeParamProvider} to select the reference genome.
+ * {@link Hisat2ReferenceGenomeIndexParamProvider} to select the reference genome.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
@@ -20,7 +20,7 @@ public class Hisat2AlignSamplesParamsWindow
 		final Class<?> arg1, final Object arg2
 	) {
 		if (arg0.name().equals(REFERENCE_GENOME)) {
-			return new Hisat2ReferenceGenomeParamProvider();
+			return new Hisat2ReferenceGenomeIndexParamProvider();
 		}
 
 		return super.getParamProvider(arg0, arg1, arg2);

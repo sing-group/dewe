@@ -2,11 +2,11 @@ package org.sing_group.rnaseq.gui.components.wizard.steps;
 
 import org.sing_group.rnaseq.gui.util.TestUtils;
 
-public class Bowtie2ReferenceGenomeSelectionStepTest {
+public class Bowtie2ReferenceGenomeIndexSelectionStepTest {
 
 	public static void main(String[] args) {
-		Bowtie2ReferenceGenomeSelectionStep step = 
-			new Bowtie2ReferenceGenomeSelectionStep(
+		Bowtie2ReferenceGenomeIndexSelectionStep step = 
+			new Bowtie2ReferenceGenomeIndexSelectionStep(
 				TestUtils.createReferenceGenomeDatabaseManager()
 			);
 		TestUtils.showStepComponent(step);

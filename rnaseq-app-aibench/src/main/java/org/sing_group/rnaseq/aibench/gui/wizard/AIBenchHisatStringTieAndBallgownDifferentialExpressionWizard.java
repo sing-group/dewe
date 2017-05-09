@@ -12,8 +12,8 @@ import javax.swing.SwingUtilities;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndBallgownDifferentialExpressionWizard;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 
@@ -59,8 +59,8 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	}
 
 	private static boolean shouldCreateHisat2Index() {
-		return 	DefaultReferenceGenomeDatabaseManager.getInstance()
-					.listValidReferenceGenomes(Hisat2ReferenceGenome.class)
+		return 	DefaultReferenceGenomeIndexDatabaseManager.getInstance()
+					.listValidIndexes(Hisat2ReferenceGenomeIndex.class)
 					.isEmpty();
 	}
 

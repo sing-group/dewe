@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
-import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryProvider;
 
 import org.sing_group.gc4s.wizard.Wizard;
@@ -45,8 +45,8 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 		sb
 			.append("Workflow configuration:")
 			.append(NEW_LINE)
-			.append("  · Reference genome: ")
-			.append(getReferenceGenome().getReferenceGenome().getAbsolutePath())
+			.append("  · Reference genome index: ")
+			.append(getReferenceGenome().getReferenceGenomeIndex())
 			.append(NEW_LINE)
 			.append("  · Reference annotation file: ")
 			.append(getReferenceAnnotationFile().getAbsolutePath())
@@ -77,7 +77,7 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 	 *
 	 * @return the selected {code ReferenceGenome}
 	 */
-	public abstract ReferenceGenome getReferenceGenome();
+	public abstract ReferenceGenomeIndex getReferenceGenome();
 
 	/**
 	 * Returns the selected {code FastqReadsSamples}.

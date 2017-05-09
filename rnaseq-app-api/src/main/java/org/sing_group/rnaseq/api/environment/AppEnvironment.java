@@ -7,7 +7,7 @@ import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
-import org.sing_group.rnaseq.api.persistence.ReferenceGenomeDatabaseManager;
+import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 
 public interface AppEnvironment {
 	public abstract Bowtie2Binaries getBowtie2Binaries();
@@ -24,7 +24,7 @@ public interface AppEnvironment {
 
 	public abstract Hisat2Binaries getHisat2Binaries();
 
-	public abstract ReferenceGenomeDatabaseManager getReferenceGenomeDatabaseManager();
+	public abstract ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager();
 
 	public abstract String getProperty(String propertyName);
 

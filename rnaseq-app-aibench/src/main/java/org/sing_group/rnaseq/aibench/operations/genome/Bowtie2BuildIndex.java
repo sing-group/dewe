@@ -9,10 +9,11 @@ import static org.sing_group.rnaseq.core.util.FileUtils.removeExtension;
 import java.io.File;
 import java.io.IOException;
 
+import org.sing_group.rnaseq.aibench.operations.util.OperationsUtils;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
-import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeDatabaseManager;
-import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGenome;
+import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.entities.DefaultBowtie2ReferenceGenomeIndex;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -46,10 +47,15 @@ public class Bowtie2BuildIndex {
 		name = NAME,
 		description = "Reference genome name.",
 		allowNull = false,
-		order = 2
+		order = 2,
+		validateMethod = "validateName"
 	)
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void validateName(String name) {
+		OperationsUtils.validateName(name);
 	}
 
 	@Port(
@@ -89,12 +95,12 @@ public class Bowtie2BuildIndex {
 
 	private void addIndexToDatabase() throws IOException {
 		DefaultAppController.getInstance()
-		.getReferenceGenomeDatabaseManager().addReferenceGenome(
-			new DefaultBowtie2ReferenceGenome(this.name, this.file,
+		.getReferenceGenomeDatabaseManager().addIndex(
+			new DefaultBowtie2ReferenceGenomeIndex(this.name, this.file,
 				new File(outputDir, name).getAbsolutePath())
 		);
 
-		DefaultReferenceGenomeDatabaseManager.getInstance().persistDatabase();
+		DefaultReferenceGenomeIndexDatabaseManager.getInstance().persistDatabase();
 	}
 
 	private void succeed() {

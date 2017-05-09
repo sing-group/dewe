@@ -7,7 +7,7 @@ import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
 public class DefaultBowtie2Controller implements Bowtie2Controller {
 	private Bowtie2BinariesExecutor bowtie2BinariesExecutor;
@@ -30,7 +30,7 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
-	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor
@@ -40,7 +40,7 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
-	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
@@ -53,7 +53,7 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
-	public void alignReads(Bowtie2ReferenceGenome genome, File reads1,
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		File alignmentLogFile
 	) throws ExecutionException, InterruptedException {

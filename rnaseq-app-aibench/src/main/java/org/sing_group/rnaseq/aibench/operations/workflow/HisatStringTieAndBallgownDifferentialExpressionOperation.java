@@ -8,7 +8,7 @@ import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 
 	private AIBenchOperationStatus status = new AIBenchOperationStatus();
-	private Hisat2ReferenceGenome referenceGenome;
+	private Hisat2ReferenceGenomeIndex referenceGenome;
 	private FastqReadsSamples samples;
 	private File referenceAnnotationFile;
 	private File workingDirectory;
@@ -38,7 +38,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 		allowNull = false,
 		order = 1
 	)
-	public void setReferenceGenome(Hisat2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Hisat2ReferenceGenomeIndex referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 

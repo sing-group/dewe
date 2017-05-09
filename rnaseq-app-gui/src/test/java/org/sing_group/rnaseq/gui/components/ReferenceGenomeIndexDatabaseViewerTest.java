@@ -6,14 +6,15 @@ import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
 import javax.swing.JComponent;
 
 
-public class ReferenceGenomeDatabaseViewerTest {
+public class ReferenceGenomeIndexDatabaseViewerTest {
 
 	public static void main(String[] args) {
 		showComponent(createComponent());
 	}
 
 	private static JComponent createComponent() {
-		ReferenceGenomeDatabaseViewer component = new ReferenceGenomeDatabaseViewer();
+		ReferenceGenomeIndexDatabaseViewer component = 
+			new ReferenceGenomeIndexDatabaseViewer();
 		component.setReferenceGenomeDatabaseManager(
 			createReferenceGenomeDatabaseManager()
 		);

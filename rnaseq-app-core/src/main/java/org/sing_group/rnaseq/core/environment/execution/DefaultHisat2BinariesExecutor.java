@@ -7,7 +7,7 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.environment.execution.check.DefaultHisat2BinariesChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,14 +45,14 @@ public class DefaultHisat2BinariesExecutor
 	}
 
 	@Override
-	public ExecutionResult alignReads(Hisat2ReferenceGenome genome,
+	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
 		File reads1, File reads2, boolean dta, File output
 	) throws ExecutionException, InterruptedException {
 		return alignReads(genome, reads1, reads2, dta, output, null);
 	}
 
 	@Override
-	public ExecutionResult alignReads(Hisat2ReferenceGenome genome,
+	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
 		File reads1, File reads2, boolean dta, File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(
@@ -64,7 +64,7 @@ public class DefaultHisat2BinariesExecutor
 			getThreads(),
 			dta ? "--dta" : "",
 			"-x",
-			genome.getReferenceGenomeIndex().get(),
+			genome.getReferenceGenomeIndex(),
 			"-1",
 			reads1.getAbsolutePath(),
 			"-2",

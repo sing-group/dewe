@@ -14,7 +14,7 @@ import java.io.File;
 import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
@@ -29,7 +29,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 	description = "Aligns paired-end reads using Bowtie2."
 )
 public class Bowtie2AlignSamples {
-	private Bowtie2ReferenceGenome referenceGenome;
+	private Bowtie2ReferenceGenomeIndex referenceGenome;
 	private File readsFile1;
 	private File readsFile2;
 	private File outputFile;
@@ -44,7 +44,7 @@ public class Bowtie2AlignSamples {
 		allowNull = false,
 		order = 1
 	)
-	public void setReferenceGenome(Bowtie2ReferenceGenome referenceGenome) {
+	public void setReferenceGenome(Bowtie2ReferenceGenomeIndex referenceGenome) {
 		this.referenceGenome = referenceGenome;
 	}
 

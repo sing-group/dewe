@@ -14,5 +14,5 @@ public interface HisatStringTieAndBallgownDifferentialExpressionWizardStepProvid
 	 * 
 	 * @return a {@code Hisat2ReferenceGenomeSelectionStep}
 	 */
-	public abstract Hisat2ReferenceGenomeSelectionStep getHisat2ReferenceGenomeSelectionStep();
+	public abstract Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep();
 }

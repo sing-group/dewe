@@ -4,14 +4,14 @@ import java.io.File;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenome;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 
 public interface WorkflowController {
 	
 	public abstract void runBowtieStringTieAndRDifferentialExpression(
-		Bowtie2ReferenceGenome referenceGenome,
+		Bowtie2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
 		File workingDirectory,
@@ -20,7 +20,7 @@ public interface WorkflowController {
 		throws ExecutionException, InterruptedException;
 
 	public abstract void runHisatStringTieAndBallgownDifferentialExpression(
-		Hisat2ReferenceGenome referenceGenome,
+		Hisat2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
 		File workingDirectory,

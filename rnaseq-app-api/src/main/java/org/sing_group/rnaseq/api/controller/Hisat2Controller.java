@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
-import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenome;
+import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 
 /**
  *  * The interface for controlling HISAT2 commands.
@@ -50,7 +50,7 @@ public interface Hisat2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output)
 		throws ExecutionException, InterruptedException;
 
@@ -71,7 +71,7 @@ public interface Hisat2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, boolean saveAlignmentLog)
 			throws ExecutionException, InterruptedException;
 
@@ -91,7 +91,7 @@ public interface Hisat2Controller {
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenome genome, File reads1,
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, File alignmentLog)
 			throws ExecutionException, InterruptedException;
 }
