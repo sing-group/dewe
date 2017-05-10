@@ -10,7 +10,7 @@ import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor
 import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 
 public class DefaultStringTieController implements StringTieController {
-	
+
 	private StringTieBinariesExecutor stringTieBinariesExecutor;
 	private SystemBinariesExecutor    systemBinariesExecutor;
 
@@ -18,7 +18,7 @@ public class DefaultStringTieController implements StringTieController {
 	public void setStringTieBinariesExecutor(StringTieBinariesExecutor executor) {
 		this.stringTieBinariesExecutor = executor;
 	}
-	
+
 	@Override
 	public void setSystemBinariesExecutor(SystemBinariesExecutor executor) {
 		this.systemBinariesExecutor = executor;
@@ -31,7 +31,7 @@ public class DefaultStringTieController implements StringTieController {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainLabeledTranscripts(
 				referenceAnnotationFile, inputBam, outputTranscripts, label);
-		
+
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 					"Error executing samtools. Please, check error log.", "");
@@ -40,22 +40,31 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void obtainTranscripts(File referenceAnnotationFile, File inputBam,
-			File outputTranscripts)
-			throws ExecutionException, InterruptedException {
+		File outputTranscripts)
+		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainTranscripts(
 				referenceAnnotationFile, inputBam, outputTranscripts);
 
-		
-		File tmp = new File(inputBam.getParent()+"/tmp.tmp");
-		File tdata = new File(inputBam.getParent()+"/t_data.ctab");
-		systemBinariesExecutor.awk(tmp, "-F", "\\t", "{if($12!=\"FPKM\")$12+=0.000001;}1", "OFS=\\t", inputBam.getParent()+"/t_data.ctab");
-		tmp.renameTo(tdata);
-		
+		fixStringTieTData(inputBam);
+
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 					"Error executing samtools. Please, check error log.", "");
 		}
+	}
+
+	private void fixStringTieTData(File inputBam)
+		throws ExecutionException, InterruptedException {
+		String tDataPath = inputBam.getParent() + "/t_data.ctab";
+		File tmp = new File(inputBam.getParent() + "/tmp.tmp");
+		File tdata = new File(tDataPath);
+		systemBinariesExecutor.awk(
+			tmp,
+			"-F", "\\t", "{if($12!=\"FPKM\")$12+=0.000001;}1", "OFS=\\t",
+			tDataPath
+		);
+		tmp.renameTo(tdata);
 	}
 
 	@Override
@@ -65,7 +74,7 @@ public class DefaultStringTieController implements StringTieController {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.mergeTranscripts(
 				referenceAnnotationFile, inputAnnotationFiles, mergedAnnotationFile);
-		
+
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 					"Error executing samtools. Please, check error log.", "");
