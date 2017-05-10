@@ -13,7 +13,7 @@ public class Bowtie2StringTieDifferentialExpressionWorkflowDescription
 	@Override
 	public String getShortDescription() {
 		return	"This workflow allows performing a differential expression "
-			+ "analysis using bowtie2 to align sample reads, StringTie to "
+			+ "analysis using Bowtie2 to align sample reads, StringTie to "
 			+ "assemble transcripts and two R libraries, Ballgown and EdgeR, to "
 			+ "perform the differential expression itself. This pipeline is "
 			+ "able to compare two conditions with at least two samples each.";

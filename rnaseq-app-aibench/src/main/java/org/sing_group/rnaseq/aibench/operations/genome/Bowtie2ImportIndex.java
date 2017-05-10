@@ -33,7 +33,7 @@ public class Bowtie2ImportIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Index folder",
-		description = "Folder containing the bowtie2 index.",
+		description = "Folder containing the Bowtie2 index.",
 		allowNull = false,
 		order = 1,
 		extras = "selectionMode=directories",
@@ -47,7 +47,7 @@ public class Bowtie2ImportIndex {
 	public void validateIndexDirectory(File indexDir) {
 		if (!directoryContainsBowtie2Indexes(indexDir)) {
 			throw new IllegalArgumentException(
-				"Index directory must contain the bowtie2 indexes files");
+				"Index directory must contain the Bowtie2 indexes files");
 		}
 	}	
 
@@ -101,12 +101,12 @@ public class Bowtie2ImportIndex {
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("bowtie2 index successfully imported.");
+		Workbench.getInstance().info("Bowtie2 index successfully imported.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Importing bowtie2 index",
+		workingLabel = "Importing Bowtie2 index",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)

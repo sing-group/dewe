@@ -50,7 +50,7 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 
 	public static void showWizard() {
 		while (shouldCreateBowtie2Index()) {
-			if (!askUserImportOrBuild("bowtie2", IMPORT_INDEX, BUILD_INDEX)) {
+			if (!askUserImportOrBuild("Bowtie2", IMPORT_INDEX, BUILD_INDEX)) {
 				return;
 			}
 		}

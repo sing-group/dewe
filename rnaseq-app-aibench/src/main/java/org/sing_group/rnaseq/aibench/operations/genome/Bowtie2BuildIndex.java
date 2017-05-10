@@ -104,12 +104,12 @@ public class Bowtie2BuildIndex {
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("bowtie2 index successfully created.");
+		Workbench.getInstance().info("Bowtie2 index successfully created.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Creating bowtie2 index",
+		workingLabel = "Creating Bowtie2 index",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)
