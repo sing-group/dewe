@@ -101,12 +101,12 @@ public class Hisat2ImportIndex {
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("hisat2 index successfully imported.");
+		Workbench.getInstance().info("HISAT2 index successfully imported.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Importing hisat2 index",
+		workingLabel = "Importing HISAT2 index",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)

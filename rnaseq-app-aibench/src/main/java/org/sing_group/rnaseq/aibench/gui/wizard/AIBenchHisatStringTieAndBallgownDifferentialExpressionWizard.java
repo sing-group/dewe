@@ -50,7 +50,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 
 	public static void showWizard() {
 		while (shouldCreateHisat2Index()) {
-			if (!askUserImportOrBuild("hisat2", IMPORT_INDEX, BUILD_INDEX)) {
+			if (!askUserImportOrBuild("HISAT2", IMPORT_INDEX, BUILD_INDEX)) {
 				return;
 			}
 		}

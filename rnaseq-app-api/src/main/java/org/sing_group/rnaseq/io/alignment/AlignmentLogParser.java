@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
 
 /**
- * A bowtie2/hisat2 aligner log parser.
+ * A Bowtie2/HISAT2 aligner log parser.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez

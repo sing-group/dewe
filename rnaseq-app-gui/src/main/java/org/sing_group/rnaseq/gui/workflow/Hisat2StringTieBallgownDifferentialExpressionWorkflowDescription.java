@@ -7,13 +7,13 @@ public class Hisat2StringTieBallgownDifferentialExpressionWorkflowDescription
 
 	@Override
 	public String getTitle() {
-		return "Differential expression analysis using Hisat2, StringTie and Ballgown";
+		return "Differential expression analysis using HISAT2, StringTie and Ballgown";
 	}
 
 	@Override
 	public String getShortDescription() {
 		return	"This workflow allows performing a differential expression "
-			+ "analysis using hisat2 to align sample reads, StringTie to "
+			+ "analysis using HISAT2 to align sample reads, StringTie to "
 			+ "assemble transcripts and Ballgown perform the differential "
 			+ "expression itself. This pipeline has been described by "
 			+ "Pertea, M. et al. in 'Transcript-level expression analysis of "

@@ -104,12 +104,12 @@ public class Hisat2BuildIndex {
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("hisat2 index successfully created.");
+		Workbench.getInstance().info("HISAT2 index successfully created.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Creating hisat2 index",
+		workingLabel = "Creating HISAT2 index",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)

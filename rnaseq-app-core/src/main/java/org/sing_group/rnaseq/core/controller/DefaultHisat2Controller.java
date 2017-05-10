@@ -64,7 +64,7 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	private void checkResult(ExecutionResult result) throws ExecutionException {
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
-				"Error executing hisat2. Please, check error log.", "");
+				"Error executing HISAT2. Please, check error log.", "");
 		}
 	}
 }
