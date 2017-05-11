@@ -57,6 +57,7 @@ public class Bowtie2ImportIndex {
 		description = "Reference genome name.",
 		allowNull = false,
 		order = 2,
+		extras = "required",
 		validateMethod = "validateName"
 	)
 	public void setName(String name) {
