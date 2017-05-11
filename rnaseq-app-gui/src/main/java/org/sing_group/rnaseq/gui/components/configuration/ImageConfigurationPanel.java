@@ -134,7 +134,9 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	 *         {@code false} otherwise
 	 */
 	public boolean isValidImageConfiguration() {
-		return this.imageFormatPanel.getSelectedItem().isPresent();
+		return this.imageFormatPanel.getSelectedItem().isPresent()
+			&& this.widthTF.getValue() > 0 
+			&& this.heightTF.getValue() > 0;
 	}
 
 	/**

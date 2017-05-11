@@ -52,6 +52,10 @@ public class FkpmTranscriptsFigureConfigurationDialog
 	}
 
 	protected void imageConfigurationChanged(PropertyChangeEvent evt) {
+		checkOkButton();
+	}
+
+	private void checkOkButton() {
 		okButton.setEnabled(isValidImageConfiguration());
 	}
 
@@ -70,6 +74,7 @@ public class FkpmTranscriptsFigureConfigurationDialog
 
 	@Override
 	public void setVisible(boolean b) {
+		checkOkButton();
 		this.pack();
 		super.setVisible(b);
 	}

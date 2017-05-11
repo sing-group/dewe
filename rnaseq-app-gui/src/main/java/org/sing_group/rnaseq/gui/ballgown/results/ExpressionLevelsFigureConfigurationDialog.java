@@ -11,15 +11,16 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
-
-import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
-import org.sing_group.rnaseq.gui.components.configuration.ImageConfigurationPanel;
+import javax.swing.event.ListDataEvent;
 
 import org.sing_group.gc4s.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.event.ListDataAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.list.ExtendedDefaultListModel;
 import org.sing_group.gc4s.list.JParallelListsPanel;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
+import org.sing_group.rnaseq.gui.components.configuration.ImageConfigurationPanel;
 
 /**
  * A dialog that allows users to configure the figure of the structure and
@@ -95,6 +96,17 @@ public class ExpressionLevelsFigureConfigurationDialog
 		selectedListModel = new ExtendedDefaultListModel<String>();
 		JList<String> selectedList = new JList<>(selectedListModel);
 		selectedList.setFixedCellWidth(200);
+		selectedListModel.addListDataListener(new ListDataAdapter() {
+			@Override
+			public void intervalAdded(ListDataEvent e) {
+				checkOkButton();
+			}
+
+			@Override
+			public void intervalRemoved(ListDataEvent e) {
+				checkOkButton();
+			}
+		});
 
 		try {
 			JParallelListsPanel<String> parallelLists =
@@ -166,6 +178,7 @@ public class ExpressionLevelsFigureConfigurationDialog
 
 	@Override
 	public void setVisible(boolean b) {
+		checkOkButton();
 		unselectedList.updateUI();
 		this.pack();
 		super.setVisible(b);
