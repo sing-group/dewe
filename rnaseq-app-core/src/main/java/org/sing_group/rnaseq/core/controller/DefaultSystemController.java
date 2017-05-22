@@ -63,17 +63,4 @@ public class DefaultSystemController implements SystemController {
 				"Error running awk. Please, check error log.", "");
 		}
 	}
-
-	@Override
-	public void ensgidsToSymbols(File referenceAnnotationFile, File outputFile)
-			throws ExecutionException, InterruptedException {
-		final ExecutionResult result =
-			this.systemBinariesExecutor.ensgidsToSymbols(
-				referenceAnnotationFile, outputFile);
-
-		if (result.getExitStatus() != 0) {
-			throw new ExecutionException(result.getExitStatus(),
-				"Error running script. Please, check error log.", "");
-		}
-	}
 }

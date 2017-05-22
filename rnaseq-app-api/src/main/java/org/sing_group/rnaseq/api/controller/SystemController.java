@@ -20,7 +20,4 @@ public interface SystemController {
 	
 	public abstract void awk(File result, String...params)
 		throws ExecutionException, InterruptedException;
-
-	public abstract void ensgidsToSymbols(File referenceAnnotationFile,
-		File outputFile) throws ExecutionException, InterruptedException;
 }

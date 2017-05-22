@@ -4,8 +4,15 @@ import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesE
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
 import static org.sing_group.rnaseq.core.util.FileUtils.contains;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -79,10 +86,26 @@ public class DefaultEdgeRController implements EdgeRController {
 		DefaultAppController.getInstance().getSystemController()
 			.sed("-i", getClassesRow(samples), geneReadsFile.getAbsolutePath());
 
-		DefaultAppController.getInstance().getSystemController()
-			.ensgidsToSymbols(referenceAnnotationFile, geneMappingFile);
+		geneidsToSymbols(referenceAnnotationFile, geneMappingFile);
 
 		differentialExpression(workingDir);
+	}
+	
+	private void geneidsToSymbols(final File referenceAnnotationFile, final File geneMappingFile){
+		final Set<String> gene_ids = new HashSet<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(referenceAnnotationFile))) {
+			String line;
+		    while ((line = reader.readLine()) != null) {
+		    	gene_ids.add(line.split("gene_id \"")[1].split("\";")[0]);
+		    }
+		}catch (final IOException e) {
+            e.printStackTrace();
+        }
+		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(geneMappingFile)))) {
+			gene_ids.forEach(gene -> pw.println(gene+"\t"+gene));
+		}catch (final IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	private File getHtseqDirectory(File workingDir) {
