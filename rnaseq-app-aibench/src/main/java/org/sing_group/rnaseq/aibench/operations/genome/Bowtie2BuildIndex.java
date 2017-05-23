@@ -88,16 +88,19 @@ public class Bowtie2BuildIndex {
 	}
 
 	private void createIndex() throws ExecutionException, InterruptedException {
-		String name = removeExtension(file) + "index";
 		DefaultAppController.getInstance().getBowtie2Controller()
-			.buildIndex(this.file, this.outputDir, name);
+			.buildIndex(this.file, this.outputDir, getIndexName());
+	}
+
+	private String getIndexName() {
+		return removeExtension(file) + "index";
 	}
 
 	private void addIndexToDatabase() throws IOException {
 		DefaultAppController.getInstance()
 		.getReferenceGenomeDatabaseManager().addIndex(
 			new DefaultBowtie2ReferenceGenomeIndex(this.name, this.file,
-				new File(outputDir, name).getAbsolutePath())
+				new File(outputDir, getIndexName()).getAbsolutePath())
 		);
 
 		DefaultReferenceGenomeIndexDatabaseManager.getInstance().persistDatabase();
