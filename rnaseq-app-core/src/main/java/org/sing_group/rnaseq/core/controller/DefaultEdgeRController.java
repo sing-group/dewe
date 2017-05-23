@@ -91,20 +91,29 @@ public class DefaultEdgeRController implements EdgeRController {
 		differentialExpression(workingDir);
 	}
 	
-	private void geneidsToSymbols(final File referenceAnnotationFile, final File geneMappingFile){
+	private void geneidsToSymbols(final File referenceAnnotationFile,
+		final File geneMappingFile) throws ExecutionException {
 		final Set<String> gene_ids = new HashSet<>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(referenceAnnotationFile))) {
+
+		try (BufferedReader reader = new BufferedReader(
+			new FileReader(referenceAnnotationFile))
+		) {
 			String line;
-		    while ((line = reader.readLine()) != null) {
-		    	gene_ids.add(line.split("gene_id \"")[1].split("\";")[0]);
-		    }
-		}catch (final IOException e) {
-            e.printStackTrace();
-        }
-		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(geneMappingFile)))) {
-			gene_ids.forEach(gene -> pw.println(gene+"\t"+gene));
-		}catch (final IOException e) {
-            e.printStackTrace();
+			while ((line = reader.readLine()) != null) {
+				gene_ids.add(line.split("gene_id \"")[1].split("\";")[0]);
+			}
+		} catch (final IOException e) {
+			throw new ExecutionException(1,	
+				"Error extracting gene symbols. Please, check error log.", "");
+		}
+
+		try (PrintWriter pw = new PrintWriter(
+			new BufferedWriter(new FileWriter(geneMappingFile)))
+		) {
+			gene_ids.forEach(gene -> pw.println(gene + "\t" + gene));
+		} catch (final IOException e) {
+			throw new ExecutionException(1,	
+				"Error extracting gene symbols. Please, check error log.", "");
         }
 	}
 	
