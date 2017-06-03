@@ -1,0 +1,3 @@
+chrX	hg38_refGene	exon	50284540	50284616	0.000000	+	.	gene_id "NM_033031"; transcript_id "NM_033031";  gene_name "CCNB3"; product "G2/mitotic-specific cyclin-B3 isoform 3";
+chrX	hg38_refGene	exon	92618264	92623229	0.000000	+	.	gene_id "NM_001168362"; transcript_id "NM_001168362";  gene_name "PCDH11X"; product "protocadherin-11 X-linked isoform g precursor";
+chrX	hg38_refGene	start_codon	91835505	91835507	0.000000	+	.	gene_id "NM_001168361"; transcript_id "NM_001168361";  gene_name "PCDH11X"; product "protocadherin-11 X-linked isoform f precursor";

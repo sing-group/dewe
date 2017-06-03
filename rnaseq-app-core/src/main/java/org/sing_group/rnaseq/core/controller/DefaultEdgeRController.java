@@ -2,17 +2,11 @@ package org.sing_group.rnaseq.core.controller;
 
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asScriptFile;
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
+import static org.sing_group.rnaseq.core.io.edger.GtfParser.writeGeneIdToGeneNameMappings;
 import static org.sing_group.rnaseq.core.util.FileUtils.contains;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -26,12 +20,13 @@ import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 public class DefaultEdgeRController implements EdgeRController {
 	public static final String GENE_MAPPING_FILE = "ENSG_ID2Name.txt";
 	public static final String READS_COUNT_FILE = "gene_read_counts_table_all.tsv";
+	public static final String OUTPUT_FILE_DE_GENES = "DE_genes.txt";
 
 	private static final Collector<CharSequence, ?, String> JOINING =
 		Collectors.joining(" ");
 	private static final String SCRIPT_DE_ANALYSIS = asString(
 		DefaultEdgeRController.class.getResourceAsStream(
-				"/scripts/edgeR-differential-expression.R")
+			"/scripts/edgeR-differential-expression.R")
 		);
 	
 	private RBinariesExecutor rBinariesExecutor;
@@ -86,35 +81,20 @@ public class DefaultEdgeRController implements EdgeRController {
 		DefaultAppController.getInstance().getSystemController()
 			.sed("-i", getClassesRow(samples), geneReadsFile.getAbsolutePath());
 
-		geneidsToSymbols(referenceAnnotationFile, geneMappingFile);
+		geneIdToGeneNameMappings(referenceAnnotationFile, geneMappingFile);
 
 		differentialExpression(workingDir);
 	}
 	
-	private void geneidsToSymbols(final File referenceAnnotationFile,
+	public static void geneIdToGeneNameMappings(final File referenceAnnotationFile,
 		final File geneMappingFile) throws ExecutionException {
-		final Set<String> gene_ids = new HashSet<>();
-
-		try (BufferedReader reader = new BufferedReader(
-			new FileReader(referenceAnnotationFile))
-		) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				gene_ids.add(line.split("gene_id \"")[1].split("\";")[0]);
-			}
+		try {
+			writeGeneIdToGeneNameMappings(referenceAnnotationFile,
+				geneMappingFile);
 		} catch (final IOException e) {
-			throw new ExecutionException(1,	
+			throw new ExecutionException(1,
 				"Error extracting gene symbols. Please, check error log.", "");
 		}
-
-		try (PrintWriter pw = new PrintWriter(
-			new BufferedWriter(new FileWriter(geneMappingFile)))
-		) {
-			gene_ids.forEach(gene -> pw.println(gene + "\t" + gene));
-		} catch (final IOException e) {
-			throw new ExecutionException(1,	
-				"Error extracting gene symbols. Please, check error log.", "");
-        }
 	}
 	
 	private File getHtseqDirectory(File workingDir) {

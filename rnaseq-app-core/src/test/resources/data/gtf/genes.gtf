@@ -1,0 +1,5 @@
+chr1	unknown	exon	11874	12227	.	+	.	gene_id "DDX11L1"; gene_name "DDX11L1"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	12613	12721	.	+	.	gene_id "DDX11L2"; gene_name "DDX11L2"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	13221	14409	.	+	.	gene_id "DDX11L3"; gene_name "DDX11L3"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	13221	14409	.	+	.	gene_id "DDX11L4"; transcript_id "NR_046018"; tss_id "TSS16932";
+chr1	unknown	exon	13221	14409	.	+	.	.

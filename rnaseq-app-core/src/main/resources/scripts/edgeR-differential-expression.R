@@ -17,6 +17,9 @@ setwd(working_dir)
 
 ## Read in gene mapping
 mapping=read.table(paste(working_dir, "ENSG_ID2Name.txt", sep=""), header=FALSE, stringsAsFactors=FALSE, row.names=1)
+if(!exists("mapping")) {
+  mapping <- data.frame(v1 = character(), v2 = character())
+}
 
 ## Read in count matrix
 dat=read.table(paste(working_dir, "gene_read_counts_table_all.tsv", sep=""), header=TRUE, stringsAsFactors=FALSE, row.names=1, check.names=FALSE)
