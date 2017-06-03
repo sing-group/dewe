@@ -1,7 +1,7 @@
 ## Script input parameters:
 ##  1.- working directory: path to the directory where results should be stored.
 ##	This directory must contain two files:
-##	- ENSG_ID2Name.txt: the gene mapping.
+##	- GeneID_to_GeneName.txt: the gene id to gene name mapping.
 ##	- gene_read_counts_table_all.tsv: the read count matrix, including a
 ##	header with the sample names and a sample class labels in the last row.
 
@@ -16,7 +16,7 @@ if(substring(working_dir, nchar(working_dir)) != "/") {
 setwd(working_dir)
 
 ## Read in gene mapping
-mapping=read.table(paste(working_dir, "ENSG_ID2Name.txt", sep=""), header=FALSE, stringsAsFactors=FALSE, row.names=1)
+mapping=read.table(paste(working_dir, "GeneID_to_GeneName.txt", sep=""), header=FALSE, stringsAsFactors=FALSE, row.names=1)
 if(!exists("mapping")) {
   mapping <- data.frame(v1 = character(), v2 = character())
 }

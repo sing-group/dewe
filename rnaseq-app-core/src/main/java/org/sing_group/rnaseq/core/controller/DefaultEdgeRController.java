@@ -18,7 +18,7 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 
 public class DefaultEdgeRController implements EdgeRController {
-	public static final String GENE_MAPPING_FILE = "ENSG_ID2Name.txt";
+	public static final String GENE_MAPPING_FILE = "GeneID_to_GeneName.txt";
 	public static final String READS_COUNT_FILE = "gene_read_counts_table_all.tsv";
 	public static final String OUTPUT_FILE_DE_GENES = "DE_genes.txt";
 
