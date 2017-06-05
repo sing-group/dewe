@@ -1,10 +1,12 @@
 package org.sing_group.rnaseq.aibench.operations.workflow;
 
+import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
+import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -99,6 +101,13 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 			);
 		Core.getInstance().getClipboard()
 			.putItem(ballgownDirectory, ballgownDirectory.getName());
+
+		EdgeRWorkingDirectory edgeRDirectory =
+			new EdgeRWorkingDirectory(
+				getEdgeRWorkingDir(this.workingDirectory)
+			);
+		Core.getInstance().getClipboard()
+			.putItem(edgeRDirectory, edgeRDirectory.getName());
 	}
 
 	@Progress(

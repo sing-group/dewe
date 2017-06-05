@@ -221,11 +221,27 @@
 			/>
 		</extension>
 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.ViewEdgeRWorkingDirectory"
+		>
+			<operation-description
+				name="View edgeR working directory"
+				uid="operations.viewedgerworkingdirectory"
+				path="7@View results"
+			/>
+		</extension>
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
-				name="SameSpots analysis viewer"
+				name="Ballgown working directory view"
 				datatype="org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory"
 				class="org.sing_group.rnaseq.aibench.views.BallgownWorkingDirectoryView"
+			/>
+			<view
+				name="EdgeR working directory view"
+				datatype="org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory"
+				class="org.sing_group.rnaseq.aibench.views.EdgeRWorkingDirectoryView"
 			/>
 		</extension>
 

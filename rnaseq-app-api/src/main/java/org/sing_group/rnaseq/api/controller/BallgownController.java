@@ -15,6 +15,11 @@ import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
  *
  */
 public interface BallgownController {
+	/**
+	 * Sets the {@code RBinariesExecutor} to use.
+	 *
+	 * @param executor the {@code RBinariesExecutor} to use
+	 */
 	public abstract void setRBinariesExecutor(
 		RBinariesExecutor executor);
 
@@ -25,7 +30,7 @@ public interface BallgownController {
 	 * one.
 	 *
 	 * @param samples the list of input {@code BallgownSample}s
-	 * @param outputFolder the directory where resultst must be stored
+	 * @param outputFolder the directory where results must be stored
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary

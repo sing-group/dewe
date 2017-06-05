@@ -41,7 +41,7 @@ public class EdgeRDifferentialExpressionAnalysis {
 		);
 	}
 
-	private static File getEdgeRWorkingDir(File workingDirectory) {
+	public static File getEdgeRWorkingDir(File workingDirectory) {
 		return getAnalysisSubDir(getAnalysisDir(workingDirectory), "edger");
 	}
 }

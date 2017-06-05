@@ -17,6 +17,13 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 
+/**
+ * The default {@code EdgeRController} implementation.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultEdgeRController implements EdgeRController {
 	public static final String GENE_MAPPING_FILE = "GeneID_to_GeneName.txt";
 	public static final String READS_COUNT_FILE = "gene_read_counts_table_all.tsv";
@@ -28,7 +35,7 @@ public class DefaultEdgeRController implements EdgeRController {
 		DefaultEdgeRController.class.getResourceAsStream(
 			"/scripts/edgeR-differential-expression.R")
 		);
-	
+
 	private RBinariesExecutor rBinariesExecutor;
 
 	@Override
@@ -45,22 +52,22 @@ public class DefaultEdgeRController implements EdgeRController {
   			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_DE_ANALYSIS, "edgeR-analysis-"),
 				workingDir.getAbsolutePath());
-	
+
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
 					"Error executing script. Please, check error log.", "");
 			}
 		} catch (IOException e) {
-			throw new ExecutionException(1,	
+			throw new ExecutionException(1,
 				"Error executing script. Please, check error log.", "");
 		}
 	}
 
 	private void checkWorkingDir(File workingDir) throws ExecutionException {
-		if (!contains(workingDir, GENE_MAPPING_FILE) || 
+		if (!contains(workingDir, GENE_MAPPING_FILE) ||
 			!contains(workingDir, READS_COUNT_FILE)
 		) {
-			throw new ExecutionException(1,	
+			throw new ExecutionException(1,
 				"Error executing script. Please, check error log.", "");
 		}
 	}
@@ -71,10 +78,10 @@ public class DefaultEdgeRController implements EdgeRController {
 		throws ExecutionException, InterruptedException {
 		File geneReadsFile 		= new File(workingDir, READS_COUNT_FILE);
 		File geneMappingFile	= new File(workingDir, GENE_MAPPING_FILE);
-		
+
 		File htseqDir = getHtseqDirectory(workingDir);
 		DefaultAppController.getInstance().getHtseqController()
-			.countBamReverseExon(referenceAnnotationFile, getBamFiles(samples), 
+			.countBamReverseExon(referenceAnnotationFile, getBamFiles(samples),
 				htseqDir, geneReadsFile);
 		DefaultAppController.getInstance().getSystemController()
 			.sed("-i", getSamplesRow(samples), geneReadsFile.getAbsolutePath());
@@ -85,7 +92,7 @@ public class DefaultEdgeRController implements EdgeRController {
 
 		differentialExpression(workingDir);
 	}
-	
+
 	public static void geneIdToGeneNameMappings(final File referenceAnnotationFile,
 		final File geneMappingFile) throws ExecutionException {
 		try {
@@ -96,12 +103,12 @@ public class DefaultEdgeRController implements EdgeRController {
 				"Error extracting gene symbols. Please, check error log.", "");
 		}
 	}
-	
+
 	private File getHtseqDirectory(File workingDir) {
 		File htseqDirectory = new File(workingDir, "htseq-count");
 		htseqDirectory.mkdirs();
 		return htseqDirectory;
-	}	
+	}
 
 	private File[] getBamFiles(EdgeRSamples samples) {
 		File[] bamFiles = new File[samples.size()];
