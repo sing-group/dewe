@@ -1,7 +1,6 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
-import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
 
 import java.io.File;
 
@@ -63,9 +62,7 @@ public class BallgownDifferentialExpressionAnalysis {
 
 	private void processOutputs() {
 		BallgownWorkingDirectory ballgownDirectory =
-			new BallgownWorkingDirectory(
-				getBallgownWorkingDir(this.directory)
-			);
+			new BallgownWorkingDirectory(this.directory);
 		Core.getInstance().getClipboard()
 			.putItem(ballgownDirectory, ballgownDirectory.getName());
 	}

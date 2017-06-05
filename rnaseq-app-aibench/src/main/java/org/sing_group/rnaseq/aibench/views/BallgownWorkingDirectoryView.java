@@ -22,7 +22,8 @@ public class BallgownWorkingDirectoryView extends BallgownResultsViewer {
 	 *        view.
 	 */
 	public BallgownWorkingDirectoryView(
-		BallgownWorkingDirectory ballgownWorkingDirectory) {
+		BallgownWorkingDirectory ballgownWorkingDirectory
+	) {
 		super(ballgownWorkingDirectory.getWorkingDirectory());
 	}
 }
