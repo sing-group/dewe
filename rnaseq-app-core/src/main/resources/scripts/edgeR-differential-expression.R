@@ -36,7 +36,6 @@ rownames(rawdata) <- rownames(dat[1:(length(rownames(dat))-6),])
 quant <- apply(rawdata,1,quantile,0.75)
 keep <- which((quant >= 25) == 1)
 rawdata <- rawdata[keep,]
-dim(rawdata)
 
 ###################
 ## Running edgeR ##
@@ -63,9 +62,6 @@ y <- estimateTagwiseDisp(y)
 ## Differential expression test
 et <- exactTest(y)
 
-## Print top genes
-topTags(et)
-
 ## Print number of up/down significant genes at FDR = 0.05  significance level
 summary(de <- decideTestsDGE(et, p=.05))
 detags <- rownames(y)[as.logical(de)]
@@ -73,11 +69,11 @@ detags <- rownames(y)[as.logical(de)]
 ## Output DE genes
 ## Matrix of significantly DE genes
 mat <- cbind(
- genes,gene_names,
- sprintf('%0.3f',log10(et$table$PValue)),
- sprintf('%0.3f',et$table$logFC)
+ genes, gene_names,
+ et$table$PValue,
+ et$table$logFC
 )[as.logical(de),]
-colnames(mat) <- c("Gene", "Gene_Name", "Log10_Pvalue", "Log_fold_change")
+colnames(mat) <- c("Gene", "Gene_Name", "Pvalue", "Log_fold_change")
 
 ## Order by log fold change
 o <- order(et$table$logFC[as.logical(de)],decreasing=TRUE)
