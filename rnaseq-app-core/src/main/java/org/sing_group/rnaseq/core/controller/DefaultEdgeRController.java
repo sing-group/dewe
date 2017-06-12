@@ -1,12 +1,20 @@
 package org.sing_group.rnaseq.core.controller;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asScriptFile;
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
 import static org.sing_group.rnaseq.core.io.edger.GtfParser.writeGeneIdToGeneNameMappings;
 import static org.sing_group.rnaseq.core.util.FileUtils.contains;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -76,21 +84,25 @@ public class DefaultEdgeRController implements EdgeRController {
 	public void differentialExpression(EdgeRSamples samples,
 		File referenceAnnotationFile, File workingDir)
 		throws ExecutionException, InterruptedException {
-		File geneReadsFile 		= new File(workingDir, READS_COUNT_FILE);
 		File geneMappingFile	= new File(workingDir, GENE_MAPPING_FILE);
+		try {
+			File tmpGeneReadsFile  = new File(Files.createTempFile(READS_COUNT_FILE, ".tmp").toString());
+			File htseqDir = getHtseqDirectory(workingDir);
+			DefaultAppController.getInstance().getHtseqController()
+				.countBamReverseExon(referenceAnnotationFile, getBamFiles(samples),
+					htseqDir, tmpGeneReadsFile);
+			
+			modifyReadsCountFile(tmpGeneReadsFile, samples, workingDir);
+			
+			geneIdToGeneNameMappings(referenceAnnotationFile, geneMappingFile);
+			
+			differentialExpression(workingDir);
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+					"Error creating temporal HTSeq reads count file. Please, check error log.", "");
+		}
 
-		File htseqDir = getHtseqDirectory(workingDir);
-		DefaultAppController.getInstance().getHtseqController()
-			.countBamReverseExon(referenceAnnotationFile, getBamFiles(samples),
-				htseqDir, geneReadsFile);
-		DefaultAppController.getInstance().getSystemController()
-			.sed("-i", getSamplesRow(samples), geneReadsFile.getAbsolutePath());
-		DefaultAppController.getInstance().getSystemController()
-			.sed("-i", getClassesRow(samples), geneReadsFile.getAbsolutePath());
-
-		geneIdToGeneNameMappings(referenceAnnotationFile, geneMappingFile);
-
-		differentialExpression(workingDir);
+		
 	}
 
 	public static void geneIdToGeneNameMappings(final File referenceAnnotationFile,
@@ -117,17 +129,38 @@ public class DefaultEdgeRController implements EdgeRController {
 		}
 		return bamFiles;
 	}
+	
+	private void modifyReadsCountFile(final File tmpGeneReadsFile, final EdgeRSamples samples, 
+	                                  final  File workingDir) throws ExecutionException{
+		try {
+			File geneReadsFile = new File(workingDir, READS_COUNT_FILE);
+			final List<String> rows = Files.readAllLines(Paths.get(tmpGeneReadsFile.getAbsolutePath()), 
+													     Charset.defaultCharset());	
+			try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(geneReadsFile.getAbsolutePath())))) {
+				pw.println(getSamplesRow(samples));
+				rows.forEach(r -> pw.println(r));
+				pw.println(getClassesRow(samples));
+			}catch (final IOException e) {
+				throw new ExecutionException(1,
+						"Error editing HTSeq reads count file. Please, check error log.", "");
+			}
+			Files.delete(Paths.get(tmpGeneReadsFile.getAbsolutePath()));
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+					"Error editing the HTSeq reads count file. Please, check error log.", "");
+		}
+	}
 
 	private String getSamplesRow(EdgeRSamples samples) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("1igene ");
+		sb.append("gene ");
 		sb.append(samples.stream().map(EdgeRSample::getName).collect(JOINING));
 		return sb.toString();
 	}
 
 	private String getClassesRow(EdgeRSamples samples) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("$ a _class ");
+		sb.append("_class ");
 		sb.append(samples.stream().map(EdgeRSample::getType).collect(JOINING));
 		return sb.toString();
 	}
