@@ -3,6 +3,7 @@ package org.sing_group.rnaseq.aibench.datatypes;
 import java.io.File;
 
 import es.uvigo.ei.aibench.core.datatypes.annotation.Datatype;
+import es.uvigo.ei.aibench.core.datatypes.annotation.Property;
 import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
 
 /**
@@ -13,7 +14,7 @@ import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
  *
  */
 @Datatype(
-	structure = Structure.SIMPLE,
+	structure = Structure.COMPLEX,
 	namingMethod = "getName",
 	renameable = true,
 	clipboardClassName = "edgeR working directory",
@@ -46,6 +47,7 @@ public class EdgeRWorkingDirectory {
 	 *
 	 * @return the {@code File} that represents the working directory
 	 */
+	@Property(name = "Directory")
 	public File getWorkingDirectory() {
 		return this.workingDirectory;
 	}
