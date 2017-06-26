@@ -31,12 +31,17 @@ public interface BallgownController {
 	 *
 	 * @param samples the list of input {@code BallgownSample}s
 	 * @param outputFolder the directory where results must be stored
+	 * @param format the output format of the images which can be {@code jpeg},
+	 *        {@code tiff} or {@code png}
+	 * @param width the images width
+	 * @param height the images height
+	 * @param color whether the images are colored or not
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void differentialExpression(List<BallgownSample> samples,
-		File outputFolder)
+		File outputFolder, String format, int width, int height, boolean color)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -52,13 +57,14 @@ public interface BallgownController {
 	 *        {@code tiff} or {@code png}
 	 * @param width the image width
 	 * @param height the image height
+	 * @param color whether the image is colored or not
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createFpkmDistributionFigureForTranscript(
 		File workingDirectory, String transcriptId, String format, int width,
-		int height)
+		int height, boolean color)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -75,12 +81,13 @@ public interface BallgownController {
 	 *        {@code tiff} or {@code png}
 	 * @param width the image width
 	 * @param height the image height
+	 * @param color whether the image is colored or not
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createExpressionLevelsFigure(File workingDirectory,
 		String transcriptId, String sampleName, String format, int width,
-		int height)
+		int height, boolean color)
 		throws ExecutionException, InterruptedException;
 }

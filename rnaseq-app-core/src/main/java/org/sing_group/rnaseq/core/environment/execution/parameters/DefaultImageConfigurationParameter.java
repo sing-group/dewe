@@ -14,6 +14,7 @@ public class DefaultImageConfigurationParameter
 	private Format format;
 	private int width;
 	private int height;
+	private boolean color;
 
 	/**
 	 * Creates a new {@code DefaultImageConfigurationParameter} instance with
@@ -22,12 +23,14 @@ public class DefaultImageConfigurationParameter
 	 * @param format the image format
 	 * @param width the image width
 	 * @param height the image height
+	 * @param color whether the image is colored or not
 	 */
 	public DefaultImageConfigurationParameter(Format format, int width,
-		int height) {
+		int height, boolean color) {
 		this.format = format;
-		this.width = width;
+		this.width  = width;
 		this.height = height;
+		this.color  = color;
 	}
 
 	@Override
@@ -43,5 +46,10 @@ public class DefaultImageConfigurationParameter
 	@Override
 	public int getHeight() {
 		return height;
+	}
+	
+	@Override
+	public boolean isColored(){
+		return color;
 	}
 }

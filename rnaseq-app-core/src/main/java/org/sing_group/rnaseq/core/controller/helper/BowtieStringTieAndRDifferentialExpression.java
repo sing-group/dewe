@@ -8,6 +8,7 @@ import java.io.File;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -20,10 +21,11 @@ public class BowtieStringTieAndRDifferentialExpression
 
 	public BowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory
+		File referenceAnnotationFile, File workingDirectory,
+		ImageConfigurationParameter imageConfiguration
 	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
-			workingDirectory);
+			workingDirectory, imageConfiguration);
 		this.bowtie2Controller =
 			DefaultAppController.getInstance().getBowtie2Controller();
 	}
@@ -43,7 +45,7 @@ public class BowtieStringTieAndRDifferentialExpression
 		status.setStageProgress(0f);
 		status.setSubStage("Ballgown");
 		ballgownDifferentialExpressionAnalysis(
-			reads,referenceAnnotationFile, workingDirectory);
+			reads,referenceAnnotationFile, workingDirectory, imageConfiguration);
 		status.setStageProgress(0.5f);
 		status.setSubStage("EdgeR");
 		edgeRDifferentialExpressionAnalysis(

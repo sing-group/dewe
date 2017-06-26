@@ -144,10 +144,11 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	 *
 	 * @return the configured {@code ImageConfigurationParameter}
 	 */
+	//TODO: get Image configuration color(true/false) from dialog
 	public ImageConfigurationParameter getImageConfiguration() {
 		return new DefaultImageConfigurationParameter(
 			this.imageFormatPanel.getSelectedItem().get(),
-			this.widthTF.getValue(), this.heightTF.getValue()
+			this.widthTF.getValue(), this.heightTF.getValue(), false
 		);
 	}
 }

@@ -15,6 +15,7 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
 import org.sing_group.rnaseq.api.entities.alignment.SampleAlignmentStatistics;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -39,18 +40,21 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	protected FastqReadsSamples reads;
 	protected File referenceAnnotationFile;
 	protected File workingDirectory;
+	protected ImageConfigurationParameter imageConfiguration;
 	private FileAppender workflowLogFileAppender;
 
 	public AbstractDifferentialExpressionWorkflow(
 		ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads, 
 		File referenceAnnotationFile,
-		File workingDirectory
+		File workingDirectory,
+		ImageConfigurationParameter imageConfiguration
 	) {
 		this.referenceGenome = referenceGenome;
 		this.reads = reads;
 		this.referenceAnnotationFile = referenceAnnotationFile;
 		this.workingDirectory = workingDirectory;
+		this.imageConfiguration = imageConfiguration;
 	}
 
 	public void runAnalysis(OperationStatus status)

@@ -7,6 +7,7 @@
 ##  4.- the output format of the image: jpeg, tiff or png
 ##  5.- the width of the image
 ##  6.- the height of the image
+##  7.- color: true->colored, false->grayscale
 
 args <- commandArgs(TRUE)
 
@@ -15,6 +16,16 @@ workingDirectory <- args[1];
 if(substring(workingDirectory, nchar(workingDirectory)) != "/") {
 	workingDirectory <- paste(workingDirectory, "/", sep="")
 }
+imagesDirectory <- file.path(workingDirectory, "user-images")
+
+if(!dir.exists(imagesDirectory)){
+    dir.create(imagesDirectory)
+}
+
+if(substring(imagesDirectory, nchar(imagesDirectory)) != "/") {
+	imagesDirectory <- paste(imagesDirectory, "/", sep="")
+}
+
 setwd(workingDirectory)
 
 library(ballgown)
@@ -32,7 +43,8 @@ sampleName	<- args[3]
 image.format 	<- args[4]
 image.width 	<- as.numeric(args[5])
 image.height 	<- as.numeric(args[6])
-image.file 	<- paste(workingDirectory, 'transcripts-gene_', geneName, '-sample_', sampleName, '.', image.format, sep="")
+image.color     <- as.logical(args[7])
+image.file 	<- paste(imagesDirectory, 'transcripts-gene_', geneName, '-sample_', sampleName, '.', image.format, sep="")
 image.title 	<- paste('Gene ', geneName, ' in sample ', sampleName, sep="")
 
 ## Plot the FPKM distribution
@@ -43,8 +55,13 @@ if(image.format == "jpeg") {
 } else if(image.format == "png") {
 	png(image.file, width = image.width, height = image.height)
 }
-
-plotTranscripts(geneId, bg, main = image.title, sample = sampleName)
+if(image.color){
+	plotTranscripts(geneId, bg, main = image.title, sample = sampleName)
+}else{
+	thetranscripts = indexes(bg)$t2g$t_id[indexes(bg)$t2g$g_id==geneId]
+	grayscale = gray.colors(length(thetranscripts), start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL)
+	plotTranscripts(geneId, bg, main = image.title, sample = sampleName, customCol = grayscale, legend = FALSE)
+}
 dev.off()
 
 ## Exit the R session

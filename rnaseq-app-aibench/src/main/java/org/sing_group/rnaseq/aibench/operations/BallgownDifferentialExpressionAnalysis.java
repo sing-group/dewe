@@ -49,10 +49,11 @@ public class BallgownDifferentialExpressionAnalysis {
 		this.runOperation();
 	}
 
+	//TODO: Get ImageConfigurationParameters from GUI
 	private void runOperation() {
 		try {
 			DefaultAppController.getInstance().getBallgownController()
-				.differentialExpression(samples, this.directory);
+				.differentialExpression(samples, this.directory, "jpeg", 1000, 1000, false);
 			invokeLater(this::succeed);
 			processOutputs();
 		} catch (ExecutionException | InterruptedException e) {

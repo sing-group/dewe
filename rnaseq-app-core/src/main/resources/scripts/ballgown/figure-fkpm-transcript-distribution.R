@@ -5,7 +5,8 @@
 ##  2.- transcript id: the numeric id of the transcript.
 ##  3.- image format: the output format of the image which can be jpeg, tiff or png
 ##  4.- the width of the image
-##  4.- the height of the image
+##  5.- the height of the image
+##  6.- color: true->colored, false->grayscale
 
 args <- commandArgs(TRUE)
 
@@ -14,6 +15,16 @@ workingDirectory <- args[1];
 if(substring(workingDirectory, nchar(workingDirectory)) != "/") {
 	workingDirectory <- paste(workingDirectory, "/", sep="")
 }
+imagesDirectory <- file.path(workingDirectory, "user-images")
+
+if(!dir.exists(imagesDirectory)){
+    dir.create(imagesDirectory)
+}
+
+if(substring(imagesDirectory, nchar(imagesDirectory)) != "/") {
+	imagesDirectory <- paste(imagesDirectory, "/", sep="")
+}
+
 setwd(workingDirectory)
 
 library(ballgown)
@@ -35,7 +46,11 @@ fpkm = log2(fpkm+1)
 image.format 	<- args[3]
 image.width 	<- as.numeric(args[4])
 image.height 	<- as.numeric(args[5])
-image.file 	<- paste(workingDirectory, 'FPKM-distribution-gene_', geneName, '-transcript_', transcriptName, '.', image.format, sep="")
+image.color     <- as.logical(args[6])
+image.file 	<- paste(imagesDirectory, 'FPKM-distribution-gene_', geneName, '-transcript_', transcriptName, '.', image.format, sep="")
+if(!image.color){
+	palette(gray.colors(5, start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL))
+}
 
 ## Plot the FPKM distribution
 if(image.format == "jpeg") {

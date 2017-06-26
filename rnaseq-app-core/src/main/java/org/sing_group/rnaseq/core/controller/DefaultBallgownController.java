@@ -53,7 +53,7 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void differentialExpression(List<BallgownSample> samples,
-		File outputFolder
+		File outputFolder, String format, int width, int height, boolean color
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -62,7 +62,11 @@ public class DefaultBallgownController implements BallgownController {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_DE_ANALYSIS, "ballgown-analysis-"),
 				outputFolder.getAbsolutePath(),
-				phenotypeData.getName());
+				phenotypeData.getName(),
+				format,
+				String.valueOf(width),
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase());
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
@@ -101,7 +105,7 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createFpkmDistributionFigureForTranscript(File workingDirectory,
-		String transcriptId, String format, int width, int height
+		String transcriptId, String format, int width, int height, boolean color
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -113,7 +117,8 @@ public class DefaultBallgownController implements BallgownController {
 				transcriptId,
 				format,
 				String.valueOf(width),
-				String.valueOf(height)
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase()
 			);
 
 			if (result.getExitStatus() != 0) {
@@ -129,7 +134,7 @@ public class DefaultBallgownController implements BallgownController {
 	@Override
 	public void createExpressionLevelsFigure(File workingDirectory,
 		String transcriptId, String sampleName, String format, int width,
-		int height
+		int height, boolean color
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -142,7 +147,8 @@ public class DefaultBallgownController implements BallgownController {
 				sampleName,
 				format,
 				String.valueOf(width),
-				String.valueOf(height)
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase()
 			);
 
 			if (result.getExitStatus() != 0) {

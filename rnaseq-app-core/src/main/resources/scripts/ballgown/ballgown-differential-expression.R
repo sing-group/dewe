@@ -2,6 +2,10 @@
 ##  1.- working directory: path to the directory where results should be stored.
 ##  2.- phenotype data csv file: the name of the csv file containing the 
 ##      phenotype data structure (it should be located in the working directory).
+##  3.- the output format of the images: jpeg, tiff or png
+##  4.- the width of the images
+##  5.- the height of the images
+##  6.- color: TRUE->colored, FALSE->grayscale
 
 library(ballgown)
 library(genefilter)
@@ -69,25 +73,52 @@ write.table(sig_transcripts, row.names = FALSE, paste(workingDirectory, phenoDat
 write.table(sig_genes,row.names = FALSE,  paste(workingDirectory, phenoDataPrefix,"_gene_results_sig.tsv",sep=""), sep="\t")
 
 ## Create figures
-tropical = c('darkorange','dodgerblue','hotpink','limegreen', 'yellow')
-palette(tropical)
+image.format 	<- args[3]
+image.width 	<- as.numeric(args[4])
+image.height 	<- as.numeric(args[5])
+image.color     <- as.logical(args[6])
+palette(gray.colors(5, start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL))
+color = c('grey')
+if(image.color){
+	palette(c('darkorange','dodgerblue','hotpink','limegreen', 'yellow'))
+	color = c('limegreen')
+}
+
 fpkm = texpr(bg, meas="FPKM")
 fpkm = log2(fpkm+1)
 
 ## Distribution of FPKM values across the 12 samples
-jpeg(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""))
+if(image.format == "jpeg") {
+	jpeg(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "tiff") {
+	tiff(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "png") {
+	png(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+}
 defaultMar <- par()$mar
 par(mar=c(defaultMar[1] + 4.9, defaultMar[2], defaultMar[3], defaultMar[4]))
 boxplot(fpkm, col=as.numeric(pheno_data$type), las=2, ylab='log2(FPKM+1)', names=ballgown::sampleNames(bg))
 dev.off()
 
 ## Overall distribution of differential expression P values
-jpeg(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""))
-hist(results_transcripts[,ncol(results_transcripts)-1], breaks = 50, right=FALSE, col=c('limegreen'), main="Transcript P-values", xlab="P-value")
+if(image.format == "jpeg") {
+	jpeg(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "tiff") {
+	tiff(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "png") {
+	png(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+}
+hist(results_transcripts[,ncol(results_transcripts)-1], breaks = 50, right=FALSE, col=color, main="Transcript P-values", xlab="P-value")
 dev.off()
 
-jpeg(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""))
-hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=c('limegreen'), main="Gene P-values", xlab="P-value")
+if(image.format == "jpeg") {
+	jpeg(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "tiff") {
+	tiff(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "png") {
+	png(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+}
+hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=color, main="Gene P-values", xlab="P-value")
 dev.off()
 
 ## conditions <- unique(pheno_data$type)

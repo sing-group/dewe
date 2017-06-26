@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownSample;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownSamples;
@@ -23,14 +24,17 @@ public class BallgownDifferentialExpressionAnalysis {
 	public static void ballgownDifferentialExpressionAnalysis(
 		FastqReadsSamples reads,
 		File referenceAnnotationFile, 
-		File workingDirectory
+		File workingDirectory,
+		ImageConfigurationParameter configuration
 	) throws ExecutionException, InterruptedException {
 		File ballgownWorkingDir = getBallgownWorkingDir(workingDirectory);
 		BallgownSamples samples = getBallgownSamples(reads, workingDirectory);
-
 		DefaultAppController.getInstance()
 			.getBallgownController()
-			.differentialExpression(samples, ballgownWorkingDir);
+			.differentialExpression(samples, ballgownWorkingDir, 
+					configuration.getFormat().getExtension(),
+					configuration.getWidth(), configuration.getHeight(), 
+					configuration.isColored());
 	}
 
 	private static BallgownSamples getBallgownSamples(FastqReadsSamples reads,
