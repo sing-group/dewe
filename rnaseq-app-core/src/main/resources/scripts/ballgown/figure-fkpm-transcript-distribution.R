@@ -15,14 +15,10 @@ workingDirectory <- args[1];
 if(substring(workingDirectory, nchar(workingDirectory)) != "/") {
 	workingDirectory <- paste(workingDirectory, "/", sep="")
 }
-imagesDirectory <- file.path(workingDirectory, "user-images")
+imagesDirectory <- file.path(workingDirectory, "user-images/")
 
 if(!dir.exists(imagesDirectory)){
     dir.create(imagesDirectory)
-}
-
-if(substring(imagesDirectory, nchar(imagesDirectory)) != "/") {
-	imagesDirectory <- paste(imagesDirectory, "/", sep="")
 }
 
 setwd(workingDirectory)
