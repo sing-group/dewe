@@ -90,4 +90,69 @@ public interface BallgownController {
 		String transcriptId, String sampleName, String format, int width,
 		int height, boolean color)
 		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the FPKM distribution across the samples.
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param format the output format of the image which can be {@code jpeg},
+	 *        {@code tiff} or {@code png}
+	 * @param width the image width
+	 * @param height the image height
+	 * @param color whether the image is colored or not
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createFpkmDistributionAcrossSamplesFigure(
+		File workingDirectory, String format, int width, int height, boolean color)	
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential expression
+	 * P values for genes.
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param format the output format of the image which can be {@code jpeg},
+	 *        {@code tiff} or {@code png}
+	 * @param width the image width
+	 * @param height the image height
+	 * @param color whether the image is colored or not
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createGenesDEpValuesFigure(
+		File workingDirectory, String format, int width, int height, boolean color)	
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential expression
+	 * P values for transcripts.
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param format the output format of the image which can be {@code jpeg},
+	 *        {@code tiff} or {@code png}
+	 * @param width the image width
+	 * @param height the image height
+	 * @param color whether the image is colored or not
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createTranscriptsDEpValuesFigure(
+		File workingDirectory, String format, int width, int height, boolean color)	
+		throws ExecutionException, InterruptedException;
 }

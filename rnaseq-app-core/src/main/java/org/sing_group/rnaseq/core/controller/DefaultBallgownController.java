@@ -34,6 +34,18 @@ public class DefaultBallgownController implements BallgownController {
 		DefaultBallgownController.class.getResourceAsStream(
 			"/scripts/ballgown/figure-expression-levels-gene-sample.R")
 		);
+	public static final String SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-fpkm-distribution-across-samples.R")
+		);
+	public static final String SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-transcripts-DE-pValues-distribution.R")
+		);
+	public static final String SCRIPT_FIGURE_GENES_DE_PVALUES = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-genes-DE-pValues-distribution.R")
+		);
 
 	public static final String OUTPUT_BALLGOWN_R_DATA = "bg.rda";
 	public static final String OUTPUT_FILE_PHENOTYPE = "phenotype-data.csv";
@@ -101,6 +113,78 @@ public class DefaultBallgownController implements BallgownController {
 				.append("\"\n");
 		}
 		return sb.toString();
+	}
+	
+	@Override
+	public void createFpkmDistributionAcrossSamplesFigure(
+		File workingDirectory, String format, int width, int height, boolean color
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				format,
+				String.valueOf(width),
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase());
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+	
+	@Override
+	public void createGenesDEpValuesFigure(
+		File workingDirectory, String format, int width, int height, boolean color
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_GENES_DE_PVALUES, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				format,
+				String.valueOf(width),
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase());
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+	
+	@Override
+	public void createTranscriptsDEpValuesFigure(
+		File workingDirectory, String format, int width, int height, boolean color
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				format,
+				String.valueOf(width),
+				String.valueOf(height),
+				String.valueOf(color).toUpperCase());
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
 	}
 
 	@Override
