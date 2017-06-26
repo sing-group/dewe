@@ -33,7 +33,7 @@ public class Hisat2ImportIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Index folder",
-		description = "Folder containing the HISAT2 index.",
+		description = "The directory that contains the HISAT2 genome index.",
 		allowNull = false,
 		order = 1,
 		extras = "selectionMode=directories",
@@ -54,7 +54,7 @@ public class Hisat2ImportIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = NAME,
-		description = "Reference genome name.",
+		description = "The name for the genome index in order to identify it later.",
 		allowNull = false,
 		order = 2,
 		extras = "required",
@@ -71,7 +71,7 @@ public class Hisat2ImportIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = GENOME,
-		description = "Reference genome file.",
+		description = "The reference genome with which the index was built.",
 		allowNull = true,
 		order = 3,
 		extras = EXTRAS_GENOME_FA_FILES,

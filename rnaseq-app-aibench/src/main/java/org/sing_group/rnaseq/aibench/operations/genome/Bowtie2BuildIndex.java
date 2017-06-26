@@ -33,7 +33,7 @@ public class Bowtie2BuildIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = GENOME,
-		description = "Reference genome file.",
+		description = "The reference genome file for which the index will be created.",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_GENOME_FA_FILES
@@ -45,7 +45,7 @@ public class Bowtie2BuildIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = NAME,
-		description = "Reference genome name.",
+		description = "The name for the genome index in order to identify it later.",
 		allowNull = false,
 		order = 2,
 		validateMethod = "validateName"
@@ -61,7 +61,7 @@ public class Bowtie2BuildIndex {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Output folder",
-		description = "Output folder.",
+		description = "The folder where the index will be built.",
 		allowNull = true,
 		order = 3,
 		extras = "selectionMode=directories",
