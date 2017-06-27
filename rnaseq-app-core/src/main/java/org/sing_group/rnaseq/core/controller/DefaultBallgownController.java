@@ -132,17 +132,18 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createFpkmDistributionAcrossSamplesFigure(
-		File workingDirectory, String format, int width, int height, boolean color
+		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase());
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
+			);
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
@@ -156,17 +157,18 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createGenesDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color
+		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_GENES_DE_PVALUES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase());
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
+			);
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
@@ -180,17 +182,18 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createTranscriptsDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color
+		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase());
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
+			);
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
@@ -204,7 +207,7 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createFpkmDistributionFigureForTranscript(File workingDirectory,
-		String transcriptId, String format, int width, int height, boolean color
+		String transcriptId, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -214,10 +217,10 @@ public class DefaultBallgownController implements BallgownController {
 				asScriptFile(SCRIPT_FIGURE_FKPM_TRANSCRIPT, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
 				transcriptId,
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase()
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
 			);
 
 			if (result.getExitStatus() != 0) {
@@ -232,8 +235,8 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createExpressionLevelsFigure(File workingDirectory,
-		String transcriptId, String sampleName, String format, int width,
-		int height, boolean color
+		String transcriptId, String sampleName,
+		ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -244,10 +247,10 @@ public class DefaultBallgownController implements BallgownController {
 				workingDirectory.getAbsolutePath(),
 				transcriptId,
 				sampleName,
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase()
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
 			);
 
 			if (result.getExitStatus() != 0) {

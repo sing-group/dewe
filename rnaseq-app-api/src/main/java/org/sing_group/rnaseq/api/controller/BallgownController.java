@@ -66,18 +66,14 @@ public interface BallgownController {
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
 	 * @param transcriptId the transcript id
-	 * @param format the output format of the image which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the image width
-	 * @param height the image height
-	 * @param color whether the image is colored or not
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createFpkmDistributionFigureForTranscript(
-		File workingDirectory, String transcriptId, String format, int width,
-		int height, boolean color)
+		File workingDirectory, String transcriptId,
+		ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -90,18 +86,14 @@ public interface BallgownController {
 	 *        structure
 	 * @param transcriptId the transcript id
 	 * @param sampleName the name of the sample
-	 * @param format the output format of the image which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the image width
-	 * @param height the image height
-	 * @param color whether the image is colored or not
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createExpressionLevelsFigure(File workingDirectory,
-		String transcriptId, String sampleName, String format, int width,
-		int height, boolean color)
+		String transcriptId, String sampleName,
+		ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -112,17 +104,13 @@ public interface BallgownController {
 	 *
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
-	 * @param format the output format of the image which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the image width
-	 * @param height the image height
-	 * @param color whether the image is colored or not
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createFpkmDistributionAcrossSamplesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -134,17 +122,13 @@ public interface BallgownController {
 	 *
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
-	 * @param format the output format of the image which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the image width
-	 * @param height the image height
-	 * @param color whether the image is colored or not
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract void createGenesDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)
+	public abstract void createGenesDEpValuesFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -156,17 +140,13 @@ public interface BallgownController {
 	 *
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
-	 * @param format the output format of the image which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the image width
-	 * @param height the image height
-	 * @param color whether the image is colored or not
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract void createTranscriptsDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)
+	public abstract void createTranscriptsDEpValuesFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**

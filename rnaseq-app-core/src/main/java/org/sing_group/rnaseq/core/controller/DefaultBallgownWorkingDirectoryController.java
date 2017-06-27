@@ -146,8 +146,7 @@ public class DefaultBallgownWorkingDirectoryController
 
 		DefaultAppController.getInstance().getBallgownController()
 			.createFpkmDistributionFigureForTranscript(this.workingDirectory,
-				transcriptId, configuration.getFormat().getExtension(),
-				configuration.getWidth(), configuration.getHeight(), configuration.isColored());
+				transcriptId, configuration);
 	}
 
 	@Override
@@ -157,8 +156,7 @@ public class DefaultBallgownWorkingDirectoryController
 
 		DefaultAppController.getInstance().getBallgownController()
 			.createExpressionLevelsFigure(this.workingDirectory, transcriptId,
-				sampleName, configuration.getFormat().getExtension(),
-				configuration.getWidth(), configuration.getHeight(), configuration.isColored());
+				sampleName, configuration);
 	}
 
 	@Override
