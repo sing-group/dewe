@@ -11,6 +11,10 @@ import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigura
  */
 public class DefaultImageConfigurationParameter
 	implements ImageConfigurationParameter {
+
+	public static ImageConfigurationParameter DEFAULT =
+		new DefaultImageConfigurationParameter(Format.JPEG, 1000, 1000, false);
+
 	private Format format;
 	private int width;
 	private int height;
@@ -47,7 +51,7 @@ public class DefaultImageConfigurationParameter
 	public int getHeight() {
 		return height;
 	}
-	
+
 	@Override
 	public boolean isColored(){
 		return color;

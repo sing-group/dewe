@@ -8,11 +8,9 @@ import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
-import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 import org.slf4j.LoggerFactory;
 
 import es.uvigo.ei.aibench.core.Core;
@@ -83,14 +81,11 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 
 	private void runAnalysis() {
 		try {
-			//TODO: Get ImageConfigurationParameter from GUI
-			DefaultImageConfigurationParameter imageConfiguration = 
-					new DefaultImageConfigurationParameter(ImageConfigurationParameter.Format.JPEG, 1000, 1000, false);
 			DefaultAppController.getInstance().getWorkflowController()
 				.runHisatStringTieAndBallgownDifferentialExpression(
 					this.referenceGenome, this.samples,
 					this.referenceAnnotationFile, this.workingDirectory,
-					imageConfiguration, this.status);
+					this.status);
 			processOutputs();
 		} catch (ExecutionException | InterruptedException e) {
 			LoggerFactory.getLogger(getClass()).error(e.getMessage());

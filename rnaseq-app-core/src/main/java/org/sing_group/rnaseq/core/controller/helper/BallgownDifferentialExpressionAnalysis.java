@@ -23,7 +23,7 @@ public class BallgownDifferentialExpressionAnalysis {
 
 	public static void ballgownDifferentialExpressionAnalysis(
 		FastqReadsSamples reads,
-		File referenceAnnotationFile, 
+		File referenceAnnotationFile,
 		File workingDirectory,
 		ImageConfigurationParameter configuration
 	) throws ExecutionException, InterruptedException {
@@ -31,10 +31,7 @@ public class BallgownDifferentialExpressionAnalysis {
 		BallgownSamples samples = getBallgownSamples(reads, workingDirectory);
 		DefaultAppController.getInstance()
 			.getBallgownController()
-			.differentialExpression(samples, ballgownWorkingDir, 
-					configuration.getFormat().getExtension(),
-					configuration.getWidth(), configuration.getHeight(), 
-					configuration.isColored());
+			.differentialExpression(samples, ballgownWorkingDir);
 	}
 
 	private static BallgownSamples getBallgownSamples(FastqReadsSamples reads,

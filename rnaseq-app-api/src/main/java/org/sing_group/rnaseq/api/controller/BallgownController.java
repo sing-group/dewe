@@ -6,6 +6,7 @@ import java.util.List;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownSample;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 
 /**
  * The interface for controlling the Ballgown R package.
@@ -31,17 +32,29 @@ public interface BallgownController {
 	 *
 	 * @param samples the list of input {@code BallgownSample}s
 	 * @param outputFolder the directory where results must be stored
-	 * @param format the output format of the images which can be {@code jpeg},
-	 *        {@code tiff} or {@code png}
-	 * @param width the images width
-	 * @param height the images height
-	 * @param color whether the images are colored or not
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void differentialExpression(List<BallgownSample> samples,
-		File outputFolder, String format, int width, int height, boolean color)
+		File outputFolder) throws ExecutionException, InterruptedException;
+
+	/**
+	 * Performs the differential expression analysis between the groups of the
+	 * samples in the list and stores the results in {@code outputFolder}. Note
+	 * that there must be only two conditions and at least two samples in each
+	 * one.
+	 *
+	 * @param samples the list of input {@code BallgownSample}s
+	 * @param outputFolder the directory where results must be stored
+	 * @param imageConfiguration the {@code ImageConfigurationParameter} to
+	 *        create the images
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void differentialExpression(List<BallgownSample> samples,
+		File outputFolder, ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -109,7 +122,7 @@ public interface BallgownController {
 	 *         binary
 	 */
 	public abstract void createFpkmDistributionAcrossSamplesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)	
+		File workingDirectory, String format, int width, int height, boolean color)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -131,7 +144,7 @@ public interface BallgownController {
 	 *         binary
 	 */
 	public abstract void createGenesDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)	
+		File workingDirectory, String format, int width, int height, boolean color)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -153,7 +166,7 @@ public interface BallgownController {
 	 *         binary
 	 */
 	public abstract void createTranscriptsDEpValuesFigure(
-		File workingDirectory, String format, int width, int height, boolean color)	
+		File workingDirectory, String format, int width, int height, boolean color)
 		throws ExecutionException, InterruptedException;
 
 	/**

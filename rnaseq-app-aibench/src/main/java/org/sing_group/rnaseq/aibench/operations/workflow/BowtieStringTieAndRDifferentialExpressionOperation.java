@@ -1,7 +1,7 @@
 package org.sing_group.rnaseq.aibench.operations.workflow;
 
-import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
+import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 
 import java.io.File;
 
@@ -10,11 +10,9 @@ import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
-import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 import org.slf4j.LoggerFactory;
 
 import es.uvigo.ei.aibench.core.Core;
@@ -85,14 +83,12 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 
 	private void runAnalysis() {
 		try {
-			//TODO: Get ImageConfigurationParameter from GUI
-			DefaultImageConfigurationParameter imageConfiguration = 
-					new DefaultImageConfigurationParameter(ImageConfigurationParameter.Format.JPEG, 1000, 1000, false);
-			DefaultAppController.getInstance().getWorkflowController()
+ 			DefaultAppController.getInstance().getWorkflowController()
 				.runBowtieStringTieAndRDifferentialExpression(
 					this.referenceGenome, this.samples,
-					this.referenceAnnotationFile, this.workingDirectory, 
-					imageConfiguration,	this.status);
+					this.referenceAnnotationFile, this.workingDirectory,
+					this.status
+				);
 			processOutputs();
 		} catch (ExecutionException | InterruptedException e) {
 			LoggerFactory.getLogger(getClass()).error(e.getMessage());

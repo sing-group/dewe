@@ -8,7 +8,6 @@ import java.io.File;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -21,11 +20,10 @@ public class BowtieStringTieAndRDifferentialExpression
 
 	public BowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory,
-		ImageConfigurationParameter imageConfiguration
+		File referenceAnnotationFile, File workingDirectory
 	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
-			workingDirectory, imageConfiguration);
+			workingDirectory);
 		this.bowtie2Controller =
 			DefaultAppController.getInstance().getBowtie2Controller();
 	}
@@ -35,7 +33,7 @@ public class BowtieStringTieAndRDifferentialExpression
 		bowtie2Controller.alignReads(
 			(Bowtie2ReferenceGenomeIndex) referenceGenome,
 			readsFile1, readsFile2,
-			DefaultBowtie2EndToEndConfiguration.VERY_SENSITIVE, 
+			DefaultBowtie2EndToEndConfiguration.VERY_SENSITIVE,
 			output, true);
 	}
 

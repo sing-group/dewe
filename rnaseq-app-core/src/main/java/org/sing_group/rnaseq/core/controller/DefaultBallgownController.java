@@ -13,6 +13,8 @@ import org.sing_group.rnaseq.api.entities.ballgown.BallgownSample;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 
 /**
  * The default {@code BallgownController} implementation.
@@ -73,7 +75,12 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void differentialExpression(List<BallgownSample> samples,
-		File outputFolder, String format, int width, int height, boolean color
+		File outputFolder) throws ExecutionException, InterruptedException {
+		differentialExpression(samples, outputFolder, DefaultImageConfigurationParameter.DEFAULT);
+	}
+	@Override
+	public void differentialExpression(List<BallgownSample> samples,
+		File outputFolder, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -83,10 +90,10 @@ public class DefaultBallgownController implements BallgownController {
 				asScriptFile(SCRIPT_DE_ANALYSIS, "ballgown-analysis-"),
 				outputFolder.getAbsolutePath(),
 				phenotypeData.getName(),
-				format,
-				String.valueOf(width),
-				String.valueOf(height),
-				String.valueOf(color).toUpperCase());
+				imageConfiguration.getFormat().toString(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase());
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
@@ -122,7 +129,7 @@ public class DefaultBallgownController implements BallgownController {
 		}
 		return sb.toString();
 	}
-	
+
 	@Override
 	public void createFpkmDistributionAcrossSamplesFigure(
 		File workingDirectory, String format, int width, int height, boolean color
@@ -146,7 +153,7 @@ public class DefaultBallgownController implements BallgownController {
 				"Error executing script. Please, check error log.", "");
 		}
 	}
-	
+
 	@Override
 	public void createGenesDEpValuesFigure(
 		File workingDirectory, String format, int width, int height, boolean color
@@ -170,7 +177,7 @@ public class DefaultBallgownController implements BallgownController {
 				"Error executing script. Please, check error log.", "");
 		}
 	}
-	
+
 	@Override
 	public void createTranscriptsDEpValuesFigure(
 		File workingDirectory, String format, int width, int height, boolean color

@@ -27,8 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDifferentialExpressionWorkflow {
-	private static final Logger LOGGER = 
+	private static final Logger LOGGER =
 		LoggerFactory.getLogger(AbstractDifferentialExpressionWorkflow.class);
+	public static final ImageConfigurationParameter DEFAULT_IMAGES_CONFIGURATION = null;
 	private static final String STEP_ALIGN = "Align reads";
 	private static final String STEP_SAM_TO_BAM = "Converting sam to bam";
 	private static final String STEP_STRINGTIE = "Running StringTie";
@@ -45,7 +46,17 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	public AbstractDifferentialExpressionWorkflow(
 		ReferenceGenomeIndex referenceGenome,
-		FastqReadsSamples reads, 
+		FastqReadsSamples reads,
+		File referenceAnnotationFile,
+		File workingDirectory
+	) {
+		this(referenceGenome, reads, referenceAnnotationFile, workingDirectory,
+			DEFAULT_IMAGES_CONFIGURATION);
+	}
+
+	public AbstractDifferentialExpressionWorkflow(
+		ReferenceGenomeIndex referenceGenome,
+		FastqReadsSamples reads,
 		File referenceAnnotationFile,
 		File workingDirectory,
 		ImageConfigurationParameter imageConfiguration
@@ -73,7 +84,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		stepLog(STEP_ALIGN);
 		status.setStage(STEP_ALIGN);
-		
+
 		List<SampleAlignmentStatistics> statistics = new LinkedList<>();
 
 		float stageProgress = 1f / reads.size();
@@ -117,7 +128,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			parser.parseLogFile(logFile);
 			statistics = parser.getAlignmentStatistics();
 		} catch (IOException e) {
-			LOGGER.warn("Warning: an error ocurred reading log file " 
+			LOGGER.warn("Warning: an error ocurred reading log file "
 				+ logFile.getAbsolutePath() + " corresponding to sample"
 				+ sampleName);
 		}
@@ -131,10 +142,10 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	) throws ExecutionException, InterruptedException {
 		stepLog(STEP_SAM_TO_BAM);
 		status.setStage(STEP_SAM_TO_BAM);
-		
+
 		SamtoolsController samToolsController =
 			DefaultAppController.getInstance().getSamtoolsController();
-		
+
 		float stageProgress = 1f / reads.size();
 		for (FastqReadsSample sample : reads) {
 			status.setSubStage("Sample: " + sample.getName());
@@ -142,7 +153,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			File sam = getSamFile(sample, workingDirectory);
 			File bam = getBamFile(sample, workingDirectory);
 			samToolsController.samToBam(sam, bam);
-			
+
 			status.setStageProgress(status.getStageProgress() + stageProgress);
 		}
 
@@ -156,20 +167,20 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		stepLog(STEP_STRINGTIE);
 		status.setStage(STEP_STRINGTIE);
-		
+
 		StringTieController stringTieController =
 			DefaultAppController.getInstance().getStringTieController();
-		
+
 		float stagePRogress = 1f / (reads.size() * 2 + 1);
-		
+
 		List<File> outputTranscriptsFiles = new LinkedList<>();
-		
+
 		for (FastqReadsSample sample : reads) {
 			status.setSubStage("Sample: " + sample.getName());
-			
+
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
-			
+
 			stringTieController.obtainLabeledTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile, sample.getName());
 			outputTranscriptsFiles.add(outputTranscriptsfile);
 
@@ -181,10 +192,10 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		stringTieController.mergeTranscripts(referenceAnnotationFile,
 			outputTranscriptsFiles, mergedAnnotationFile);
 		status.setStageProgress(status.getStageProgress() + stagePRogress);
-		
+
 		for (FastqReadsSample sample : reads) {
 			status.setSubStage("Sample: " + sample.getName());
-			
+
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
@@ -192,7 +203,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 			status.setStageProgress(status.getStageProgress() + stagePRogress);
 		}
-		
+
 		status.setSubStage("");
 		status.setStageProgress(0f);
 
@@ -203,9 +214,9 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		stepLog(STEP_DE);
 		status.setStage(STEP_DE);
-		
+
 		performDifferentialExpressionAnalysis(status);
-		
+
 		status.setSubStage("");
 		status.setStageProgress(0f);
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
@@ -242,7 +253,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		File sampleWd = getSampleWorkingDir(sample, workingDirectory);
 		return new File(sampleWd, sample.getName() + ".gtf");
 	}
-	
+
 	public static File getMergedTranscriptsFile(File workingDirectory) {
 		return new File(getStringTieWorkingDir(workingDirectory), "mergedAnnotationFile.gtf");
 	}
@@ -252,7 +263,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		outputFile.mkdirs();
 		return outputFile;
 	}
-	
+
 	private static File getStringTieWorkingDir(File workingdir){
 		File outputFile = new File(workingdir, "stringtie");
 		outputFile.mkdirs();

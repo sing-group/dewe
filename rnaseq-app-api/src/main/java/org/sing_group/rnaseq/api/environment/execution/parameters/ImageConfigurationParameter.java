@@ -50,11 +50,11 @@ public interface ImageConfigurationParameter {
 	 * @return the image height
 	 */
 	public abstract int getHeight();
-	
+
 	/**
-	 * Returns whether the images are colored or not.
+	 * Returns whether the image is colored or not.
 	 *
-	 * @return whether the images are colored or not
+	 * @return whether the image is colored or not
 	 */
 	public abstract boolean isColored();
 }

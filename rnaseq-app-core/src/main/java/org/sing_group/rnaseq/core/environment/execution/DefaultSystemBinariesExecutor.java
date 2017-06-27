@@ -73,7 +73,6 @@ public class DefaultSystemBinariesExecutor
 		try {
 			Files.copy(nextJoinAFile.toPath(), new FileOutputStream(result));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new DefaultExecutionResult(0, inThreadTxtSb.toString(), errThreadTxtSb.toString());

@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -37,6 +38,7 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	private RadioButtonsPanel<ImageConfigurationParameter.Format> imageFormatPanel;
 	private JIntegerTextField widthTF;
 	private JIntegerTextField heightTF;
+	private JCheckBox imageColor;
 
 	private DocumentAdapter documentAdapter = new DocumentAdapter() {
 		@Override
@@ -63,10 +65,11 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	}
 
 	private InputParameter[] getParameters() {
-		InputParameter[] parameters = new InputParameter[3];
+		InputParameter[] parameters = new InputParameter[4];
 		parameters[0] = getImageFormatParameter();
 		parameters[1] = getImageWidthParameter();
 		parameters[2] = getImageHeightParameter();
+		parameters[3] = getImageColorParameter();
 		return parameters;
 	}
 
@@ -105,6 +108,27 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 		return this.heightTF;
 	}
 
+
+	private InputParameter getImageColorParameter() {
+		return new InputParameter(
+			"Color: ", getImageColorPanel(),
+			"Whether the image should be in color or not."
+		);
+	}
+
+	private JComponent getImageColorPanel() {
+		imageColor = new JCheckBox();
+		imageColor.setSelected(false);
+		imageColor.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				notifyImageConfigurationPropertyChanged();
+			}
+		});
+		return imageColor;
+	}
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -135,7 +159,7 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	 */
 	public boolean isValidImageConfiguration() {
 		return this.imageFormatPanel.getSelectedItem().isPresent()
-			&& this.widthTF.getValue() > 0 
+			&& this.widthTF.getValue() > 0
 			&& this.heightTF.getValue() > 0;
 	}
 
@@ -144,11 +168,11 @@ public class ImageConfigurationPanel extends JPanel implements ItemListener {
 	 *
 	 * @return the configured {@code ImageConfigurationParameter}
 	 */
-	//TODO: get Image configuration color(true/false) from dialog
 	public ImageConfigurationParameter getImageConfiguration() {
 		return new DefaultImageConfigurationParameter(
 			this.imageFormatPanel.getSelectedItem().get(),
-			this.widthTF.getValue(), this.heightTF.getValue(), false
+			this.widthTF.getValue(), this.heightTF.getValue(),
+			this.imageColor.isSelected()
 		);
 	}
 }
