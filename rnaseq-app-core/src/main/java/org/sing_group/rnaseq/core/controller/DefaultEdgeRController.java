@@ -1,6 +1,5 @@
 package org.sing_group.rnaseq.core.controller;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asScriptFile;
 import static org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor.asString;
 import static org.sing_group.rnaseq.core.io.edger.GtfParser.writeGeneIdToGeneNameMappings;
