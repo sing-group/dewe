@@ -1,11 +1,11 @@
 ## Script input parameters:
 ##  1.- working directory: path to the directory where results should be stored.
-##  2.- phenotype data csv file: the name of the csv file containing the 
+##  2.- phenotype data csv file: the name of the csv file containing the
 ##      phenotype data structure (it should be located in the working directory).
 ##  3.- the output format of the images: jpeg, tiff or png
 ##  4.- the width of the images
 ##  5.- the height of the images
-##  6.- color: TRUE->colored, FALSE->grayscale
+##  6.- color: TRUE for colored images and FALSE for grayscale images
 
 library(ballgown)
 library(genefilter)
@@ -87,7 +87,7 @@ if(image.color){
 fpkm = texpr(bg, meas="FPKM")
 fpkm = log2(fpkm+1)
 
-## Distribution of FPKM values across the 12 samples
+## Distribution of FPKM values across all samples
 if(image.format == "jpeg") {
 	jpeg(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {

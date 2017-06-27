@@ -7,7 +7,7 @@
 ##  4.- the output format of the image: jpeg, tiff or png
 ##  5.- the width of the image
 ##  6.- the height of the image
-##  7.- color: true->colored, false->grayscale
+##  7.- color: TRUE for colored images and FALSE for grayscale images
 
 args <- commandArgs(TRUE)
 

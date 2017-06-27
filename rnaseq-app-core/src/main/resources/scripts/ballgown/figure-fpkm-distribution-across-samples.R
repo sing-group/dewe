@@ -3,7 +3,7 @@
 ##  2.- the output format of the images: jpeg, tiff or png
 ##  3.- the width of the images
 ##  4.- the height of the images
-##  5.- color: TRUE->colored, FALSE->grayscale
+##  5.- color: TRUE for colored images and FALSE for grayscale images
 
 library(ballgown)
 
@@ -25,6 +25,7 @@ pheno_data = read.csv(paste(workingDirectory, "phenotype-data.csv",sep=""))
 
 setwd(workingDirectory)
 
+## Reload the ballgown data structure
 load("bg.rda")
 
 ## Create figures

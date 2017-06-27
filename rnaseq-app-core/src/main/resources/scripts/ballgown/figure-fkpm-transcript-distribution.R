@@ -6,7 +6,7 @@
 ##  3.- image format: the output format of the image which can be jpeg, tiff or png
 ##  4.- the width of the image
 ##  5.- the height of the image
-##  6.- color: true->colored, false->grayscale
+##  6.- color: TRUE for colored images and FALSE for grayscale images
 
 args <- commandArgs(TRUE)
 
@@ -58,15 +58,15 @@ if(image.format == "jpeg") {
 }
 
 plot(
-	fpkm[transcriptId,] ~ pheno_data$type, 
-	border=c(1,2), 
-	main=paste(geneName, ' : ', transcriptName), 
-	pch=19, 
-	xlab="Type", 
+	fpkm[transcriptId,] ~ pheno_data$type,
+	border=c(1,2),
+	main=paste(geneName, ' : ', transcriptName),
+	pch=19,
+	xlab="Type",
 	ylab='log2(FPKM+1)'
 )
 points(
-	fpkm[transcriptId,] ~ jitter(as.numeric(pheno_data$type)), 
+	fpkm[transcriptId,] ~ jitter(as.numeric(pheno_data$type)),
 	col=as.numeric(pheno_data$type)
 )
 dev.off()
