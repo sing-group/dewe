@@ -90,7 +90,7 @@ public class DefaultBallgownController implements BallgownController {
 				asScriptFile(SCRIPT_DE_ANALYSIS, "ballgown-analysis-"),
 				outputFolder.getAbsolutePath(),
 				phenotypeData.getName(),
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase());
@@ -139,7 +139,7 @@ public class DefaultBallgownController implements BallgownController {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase()
@@ -164,7 +164,7 @@ public class DefaultBallgownController implements BallgownController {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_GENES_DE_PVALUES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase()
@@ -189,7 +189,7 @@ public class DefaultBallgownController implements BallgownController {
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase()
@@ -217,7 +217,7 @@ public class DefaultBallgownController implements BallgownController {
 				asScriptFile(SCRIPT_FIGURE_FKPM_TRANSCRIPT, "ballgown-figure-"),
 				workingDirectory.getAbsolutePath(),
 				transcriptId,
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase()
@@ -247,7 +247,7 @@ public class DefaultBallgownController implements BallgownController {
 				workingDirectory.getAbsolutePath(),
 				transcriptId,
 				sampleName,
-				imageConfiguration.getFormat().toString(),
+				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase()
