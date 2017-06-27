@@ -45,6 +45,14 @@ public class DefaultBallgownController implements BallgownController {
 	public static final String SCRIPT_FIGURE_GENES_DE_PVALUES = asString(
 		DefaultBallgownController.class.getResourceAsStream(
 			"/scripts/ballgown/figure-genes-DE-pValues-distribution.R")
+	);
+	public static final String SCRIPT_TABLE_GENES_SIG = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/table-genes-sig.R")
+		);
+	public static final String SCRIPT_TABLE_TRANSCRIPTS_SIG = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/table-transcripts-sig.R")
 		);
 
 	public static final String OUTPUT_BALLGOWN_R_DATA = "bg.rda";
@@ -253,6 +261,51 @@ public class DefaultBallgownController implements BallgownController {
 			throw new ExecutionException(1,
 				"Error creating figure: bg.rda can't be found in working directory.",
 				"");
+		}
+	}
+
+	@Override
+	public void exportFilteredGenesTable(File workingDirectory, double pValue)
+		throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			checkWorkingDirectoryContainsBallgownData(workingDirectory);
+
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_TABLE_GENES_SIG, "ballgown-table-genes-"),
+				workingDirectory.getAbsolutePath(),
+				String.valueOf(pValue));
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+
+	@Override
+	public void exportFilteredTranscriptsTable(File workingDirectory,
+		double pValue)
+		throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			checkWorkingDirectoryContainsBallgownData(workingDirectory);
+
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_TABLE_TRANSCRIPTS_SIG, "ballgown-table-genes-"),
+				workingDirectory.getAbsolutePath(),
+				String.valueOf(pValue));
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
 		}
 	}
 }

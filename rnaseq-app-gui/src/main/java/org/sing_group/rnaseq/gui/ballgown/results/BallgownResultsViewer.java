@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -20,6 +21,9 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 
+import org.sing_group.gc4s.dialog.JProgressDialog;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.controller.BallgownWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownGenes;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownTranscripts;
@@ -30,10 +34,9 @@ import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownGenes;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownTranscripts;
 import org.sing_group.rnaseq.gui.ballgown.BallgownGenesTable;
 import org.sing_group.rnaseq.gui.ballgown.BallgownTranscriptsTable;
-
-import org.sing_group.gc4s.dialog.JProgressDialog;
-import org.sing_group.gc4s.event.PopupMenuAdapter;
-import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.rnaseq.gui.ballgown.ExportFilteredGenesTableDialog;
+import org.sing_group.rnaseq.gui.ballgown.ExportFilteredTranscriptsTableDialog;
+import org.sing_group.rnaseq.gui.ballgown.ExportTableDialog;
 
 /**
  * A component that shows the genes and transcripts tables in a Ballgown working
@@ -112,6 +115,10 @@ public class BallgownResultsViewer extends JPanel {
 	private JComponent getFilteredGenesTable() {
 		if (filteredGenesTable == null) {
 			filteredGenesTable = new BallgownGenesTable(getFilteredGenes());
+			this.filteredGenesTable.addAction(
+				new ExtendedAbstractAction("Filter and export genes",
+				this::exportFilteredGenesTable)
+			);
 		}
 		return filteredGenesTable;
 	}
@@ -119,6 +126,30 @@ public class BallgownResultsViewer extends JPanel {
 	private BallgownGenes getFilteredGenes() {
 		return workingDirectoryController.getFilteredGenes()
 			.orElse(new DefaultBallgownGenes());
+	}
+
+	private void exportFilteredGenesTable() {
+		ExportTableDialog dialog = new ExportFilteredGenesTableDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if(!dialog.isCanceled()) {
+			SwingUtilities.invokeLater(() -> {
+				exportFilteredGenesTable(dialog.getPvalue());
+			});
+		}
+	}
+
+	private void exportFilteredGenesTable(double pvalue) {
+		try {
+			this.workingDirectoryController.exportFilteredGenesTable(
+				pvalue);
+		} catch (ExecutionException | InterruptedException e) {
+			JOptionPane.showMessageDialog(this,
+				"There was an error writing the genes table. "
+				+ "Please, check the error log", "Output error",
+				JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private JComponent getSignificantFilteredGenesTable() {
@@ -163,13 +194,42 @@ public class BallgownResultsViewer extends JPanel {
 					getFilteredTranscriptsExpressionLevelsFigureAction()
 				)
 			);
+			filteredTranscriptsTable.addAction(
+				new ExtendedAbstractAction("Filter and export transcripts",
+				this::exportFilteredTranscriptsTable)
+			);
 		}
 		return filteredTranscriptsTable;
 	}
 
+
 	private BallgownTranscripts getFilteredTranscripts() {
 		return workingDirectoryController.getFilteredTranscripts()
 					.orElse(new DefaultBallgownTranscripts());
+	}
+
+	private void exportFilteredTranscriptsTable() {
+		ExportTableDialog dialog = new ExportFilteredTranscriptsTableDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if(!dialog.isCanceled()) {
+			SwingUtilities.invokeLater(() -> {
+				exportFilteredTranscriptsTable(dialog.getPvalue());
+			});
+		}
+	}
+
+	private void exportFilteredTranscriptsTable(double pvalue) {
+		try {
+			this.workingDirectoryController.exportFilteredTranscriptsTable(
+				pvalue);
+		} catch (ExecutionException | InterruptedException e) {
+			JOptionPane.showMessageDialog(this,
+				"There was an error writing the transcripts table. "
+				+ "Please, check the error log", "Output error",
+				JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private JComponent getSignificantFilteredTranscriptsTable() {

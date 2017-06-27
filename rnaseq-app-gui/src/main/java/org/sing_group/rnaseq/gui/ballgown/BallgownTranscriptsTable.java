@@ -5,7 +5,7 @@ import static org.sing_group.jsparklines_factory.builders.JSparklinesBarChartTab
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.MAXIMUM_FOLD_CHANGE;
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.ROW_COUNT_SORT_LIMIT;
 
-import org.jdesktop.swingx.JXTable;
+import org.sing_group.gc4s.table.ExtendedJXTable;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownTranscripts;
 
 /**
@@ -23,7 +23,7 @@ import org.sing_group.rnaseq.api.entities.ballgown.BallgownTranscripts;
  * @see BallgownTranscripts
  * @see BallgownTranscriptsTableModel
  */
-public class BallgownTranscriptsTable extends JXTable {
+public class BallgownTranscriptsTable extends ExtendedJXTable {
 	private static final long serialVersionUID = 1L;
 
 	private final ProbabilityValueCellRenderer renderer =
@@ -48,6 +48,8 @@ public class BallgownTranscriptsTable extends JXTable {
 		this.getColumnModel().getColumn(4).setCellRenderer(renderer);
 		this.getColumnModel().getColumn(5).setCellRenderer(renderer);
 		this.getTableHeader().setReorderingAllowed(false);
+		this.setColumnControlVisible(true);
+		this.setColumVisibilityActionsEnabled(false);
 		this.updateSparklinesRenderers();
 	}
 

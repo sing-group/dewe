@@ -155,4 +155,32 @@ public interface BallgownController {
 	public abstract void createTranscriptsDEpValuesFigure(
 		File workingDirectory, String format, int width, int height, boolean color)	
 		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Exports the filtered genes table removing those with a pValue over the
+	 * specified threshold.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param pValue the maximum pValue for genes to be exported.
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	public abstract void exportFilteredGenesTable(File workingDirectory,
+		double pValue)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Exports the filtered transcripts table removing those with a pValue over
+	 * the specified threshold.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param pValue the maximum pValue for transcripts to be exported.
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	public abstract void exportFilteredTranscriptsTable(File workingDirectory,
+		double pValue)
+		throws ExecutionException, InterruptedException;
 }

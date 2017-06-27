@@ -134,4 +134,26 @@ public interface BallgownWorkingDirectoryController {
 	public abstract void createExpressionLevelsFigure(String transcriptId,
 		String sampleName, ImageConfigurationParameter configuration)
 		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Exports the filtered genes table removing those with a pValue over the
+	 * specified threshold.
+	 *
+	 * @param pValue the maximum pValue for genes to be exported.
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	public abstract void exportFilteredGenesTable(double pValue)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Exports the filtered transcripts table removing those with a pValue over
+	 * the specified threshold.
+	 *
+	 * @param pValue the maximum pValue for transcripts to be exported.
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+	 */
+	public abstract void exportFilteredTranscriptsTable(double pValue)
+		throws ExecutionException, InterruptedException;
 }

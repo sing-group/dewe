@@ -160,4 +160,18 @@ public class DefaultBallgownWorkingDirectoryController
 				sampleName, configuration.getFormat().getExtension(),
 				configuration.getWidth(), configuration.getHeight(), configuration.isColored());
 	}
+
+	@Override
+	public void exportFilteredGenesTable(double pValue)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.exportFilteredGenesTable(this.workingDirectory, pValue);
+	}
+
+	@Override
+	public void exportFilteredTranscriptsTable(double pValue)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.exportFilteredTranscriptsTable(this.workingDirectory, pValue);
+	}
 }
