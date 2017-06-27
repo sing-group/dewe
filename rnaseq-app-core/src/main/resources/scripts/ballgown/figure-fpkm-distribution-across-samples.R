@@ -43,13 +43,13 @@ if(image.color){
 fpkm = texpr(bg, meas="FPKM")
 fpkm = log2(fpkm+1)
 
-## Distribution of FPKM values across the 12 samples
+## Distribution of FPKM values across the samples
 if(image.format == "jpeg") {
 	jpeg(paste(imagesDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(imagesDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(imagesDirectory, 'FPKM-distribution-across-samples.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(imagesDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(imagesDirectory, 'FPKM-distribution-across-samples.png',sep=""), width = image.width, height = image.height)
 }
 defaultMar <- par()$mar
 par(mar=c(defaultMar[1] + 4.9, defaultMar[2], defaultMar[3], defaultMar[4]))

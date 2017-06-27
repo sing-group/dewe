@@ -54,13 +54,12 @@ if(image.color){
 if(image.format == "jpeg") {
 	jpeg(paste(imagesDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(imagesDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(imagesDirectory, 'transcripts-DE-pValues-distribution.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(imagesDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(imagesDirectory, 'transcripts-DE-pValues-distribution.png',sep=""), width = image.width, height = image.height)
 }
 hist(results_transcripts[,ncol(results_transcripts)-1], breaks = 50, right=FALSE, col=color, main="Transcript P-values", xlab="P-value")
 dev.off()
-
 
 ## Exit the R session
 quit(save="no")

@@ -91,9 +91,9 @@ fpkm = log2(fpkm+1)
 if(image.format == "jpeg") {
 	jpeg(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(workingDirectory, 'FPKM-distribution-across-samples.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(workingDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(workingDirectory, 'FPKM-distribution-across-samples.png',sep=""), width = image.width, height = image.height)
 }
 defaultMar <- par()$mar
 par(mar=c(defaultMar[1] + 4.9, defaultMar[2], defaultMar[3], defaultMar[4]))
@@ -104,9 +104,9 @@ dev.off()
 if(image.format == "jpeg") {
 	jpeg(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(workingDirectory, 'transcripts-DE-pValues-distribution.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(workingDirectory, 'transcripts-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(workingDirectory, 'transcripts-DE-pValues-distribution.png',sep=""), width = image.width, height = image.height)
 }
 hist(results_transcripts[,ncol(results_transcripts)-1], breaks = 50, right=FALSE, col=color, main="Transcript P-values", xlab="P-value")
 dev.off()
@@ -114,9 +114,9 @@ dev.off()
 if(image.format == "jpeg") {
 	jpeg(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(workingDirectory, 'genes-DE-pValues-distribution.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(workingDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(workingDirectory, 'genes-DE-pValues-distribution.png',sep=""), width = image.width, height = image.height)
 }
 hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=color, main="Gene P-values", xlab="P-value")
 dev.off()

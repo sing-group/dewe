@@ -53,9 +53,9 @@ if(image.color){
 if(image.format == "jpeg") {
 	jpeg(paste(imagesDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(imagesDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	tiff(paste(imagesDirectory, 'genes-DE-pValues-distribution.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(imagesDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	png(paste(imagesDirectory, 'genes-DE-pValues-distribution.png',sep=""), width = image.width, height = image.height)
 }
 hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=color, main="Gene P-values", xlab="P-value")
 dev.off()
