@@ -45,17 +45,21 @@ image.format 	<- args[2]
 image.width 	<- as.numeric(args[3])
 image.height 	<- as.numeric(args[4])
 image.color     <- as.logical(args[5])
-color = c('grey')
+
+color <- c('grey')
 if(image.color){
-	color = c('limegreen')
+	color 		<- c('limegreen')
+	image.file	<- paste(imagesDirectory, 'genes-DE-pValues-distribution_color',sep="")
+} else {
+	image.file	<- paste(imagesDirectory, 'genes-DE-pValues-distribution',sep="")
 }
 
 if(image.format == "jpeg") {
-	jpeg(paste(imagesDirectory, 'genes-DE-pValues-distribution.jpeg',sep=""), width = image.width, height = image.height)
+	jpeg(paste(image.file, '.jpeg', sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(imagesDirectory, 'genes-DE-pValues-distribution.tiff',sep=""), width = image.width, height = image.height)
+	tiff(paste(image.file, '.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(imagesDirectory, 'genes-DE-pValues-distribution.png',sep=""), width = image.width, height = image.height)
+	png(paste(image.file, '.png',sep=""), width = image.width, height = image.height)
 }
 hist(results_genes[,ncol(results_genes)-1], breaks = 50, right=FALSE, col=color, main="Gene P-values", xlab="P-value")
 dev.off()

@@ -36,8 +36,10 @@ image.color     <- as.logical(args[5])
 
 if(image.color){
 	palette(c('darkorange','dodgerblue','hotpink','limegreen', 'yellow'))
+	image.file	<- paste(imagesDirectory, 'FPKM-distribution-across-samples_color',sep="")
 }else{
 	palette(gray.colors(5, start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL))
+	image.file	<- paste(imagesDirectory, 'FPKM-distribution-across-samples',sep="")
 }
 
 fpkm = texpr(bg, meas="FPKM")
@@ -45,11 +47,11 @@ fpkm = log2(fpkm+1)
 
 ## Distribution of FPKM values across the samples
 if(image.format == "jpeg") {
-	jpeg(paste(imagesDirectory, 'FPKM-distribution-across-samples.jpeg',sep=""), width = image.width, height = image.height)
+	jpeg(paste(image.file, '.jpeg',sep=""), width = image.width, height = image.height)
 } else if(image.format == "tiff") {
-	tiff(paste(imagesDirectory, 'FPKM-distribution-across-samples.tiff',sep=""), width = image.width, height = image.height)
+	tiff(paste(image.file, '.tiff',sep=""), width = image.width, height = image.height)
 } else if(image.format == "png") {
-	png(paste(imagesDirectory, 'FPKM-distribution-across-samples.png',sep=""), width = image.width, height = image.height)
+	png(paste(image.file, '.png',sep=""), width = image.width, height = image.height)
 }
 defaultMar <- par()$mar
 par(mar=c(defaultMar[1] + 4.9, defaultMar[2], defaultMar[3], defaultMar[4]))

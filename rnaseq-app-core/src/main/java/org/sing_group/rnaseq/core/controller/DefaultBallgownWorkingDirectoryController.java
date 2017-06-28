@@ -172,4 +172,30 @@ public class DefaultBallgownWorkingDirectoryController
 		DefaultAppController.getInstance().getBallgownController()
 			.exportFilteredTranscriptsTable(this.workingDirectory, pValue);
 	}
+
+	@Override
+	public void createFpkmDistributionAcrossSamplesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createFpkmDistributionAcrossSamplesFigure(workingDirectory,
+				imageConfiguration);
+	}
+
+	@Override
+	public void createGenesDEpValuesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createGenesDEpValuesFigure(workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createTranscriptsDEpValuesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createTranscriptsDEpValuesFigure(workingDirectory,
+				imageConfiguration);
+	}
 }

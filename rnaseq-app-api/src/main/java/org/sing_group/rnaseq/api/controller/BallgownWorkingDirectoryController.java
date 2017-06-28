@@ -136,6 +136,57 @@ public interface BallgownWorkingDirectoryController {
 		throws ExecutionException, InterruptedException;
 
 	/**
+	 * Creates the figure of the FPKM distribution across the samples.
+	 * Please, note that the working directory must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createFpkmDistributionAcrossSamplesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential expression
+	 * P values for genes.
+	 * Please, note that the working directory must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createGenesDEpValuesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential expression
+	 * P values for transcripts.
+	 * Please, note that the working directory must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createTranscriptsDEpValuesFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
 	 * Exports the filtered genes table removing those with a pValue over the
 	 * specified threshold.
 	 *

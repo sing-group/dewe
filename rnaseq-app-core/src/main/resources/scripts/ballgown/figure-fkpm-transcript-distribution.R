@@ -43,9 +43,12 @@ image.format 	<- args[3]
 image.width 	<- as.numeric(args[4])
 image.height 	<- as.numeric(args[5])
 image.color     <- as.logical(args[6])
-image.file 	<- paste(imagesDirectory, 'FPKM-distribution-gene_', geneName, '-transcript_', transcriptName, '.', image.format, sep="")
+
 if(!image.color){
 	palette(gray.colors(5, start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL))
+	image.file 	<- paste(imagesDirectory, 'FPKM-distribution-gene_', geneName, '-transcript_', transcriptName, '.', image.format, sep="")
+} else {
+	image.file 	<- paste(imagesDirectory, 'FPKM-distribution-gene_', geneName, '-transcript_', transcriptName, '_color.', image.format, sep="")
 }
 
 ## Plot the FPKM distribution

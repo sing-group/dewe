@@ -40,8 +40,15 @@ image.format 	<- args[4]
 image.width 	<- as.numeric(args[5])
 image.height 	<- as.numeric(args[6])
 image.color     <- as.logical(args[7])
-image.file 	<- paste(imagesDirectory, 'transcripts-gene_', geneName, '-sample_', sampleName, '.', image.format, sep="")
 image.title 	<- paste('Gene ', geneName, ' in sample ', sampleName, sep="")
+
+if(image.color){
+	image.colorby 	<- "transcript"
+	image.file 	<- paste(imagesDirectory, 'transcripts-gene_', geneName, '-sample_', sampleName, '_color.', image.format, sep="")
+} else {
+	image.colorby 	<- "none"
+	image.file 	<- paste(imagesDirectory, 'transcripts-gene_', geneName, '-sample_', sampleName, '.', image.format, sep="")
+}
 
 ## Plot the FPKM distribution
 if(image.format == "jpeg") {
@@ -51,13 +58,8 @@ if(image.format == "jpeg") {
 } else if(image.format == "png") {
 	png(image.file, width = image.width, height = image.height)
 }
-if(image.color){
-	plotTranscripts(geneId, bg, main = image.title, sample = sampleName)
-}else{
-	thetranscripts = indexes(bg)$t2g$t_id[indexes(bg)$t2g$g_id==geneId]
-	grayscale = gray.colors(length(thetranscripts), start = 0.3, end = 0.9, gamma = 2.2, alpha = NULL)
-	plotTranscripts(geneId, bg, main = image.title, sample = sampleName, customCol = grayscale, legend = FALSE)
-}
+
+plotTranscripts(geneId, bg, main = image.title, sample = sampleName, colorby = image.colorby)
 dev.off()
 
 ## Exit the R session

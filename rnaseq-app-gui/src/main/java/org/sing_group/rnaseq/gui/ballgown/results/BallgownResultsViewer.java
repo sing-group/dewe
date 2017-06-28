@@ -9,8 +9,10 @@ import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,11 +20,15 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.PopupMenuEvent;
 
 import org.sing_group.gc4s.dialog.JProgressDialog;
+import org.sing_group.gc4s.dialog.WorkingDialog;
 import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.controller.BallgownWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownGenes;
@@ -79,7 +85,133 @@ public class BallgownResultsViewer extends JPanel {
 	}
 
 	private void init() {
+		this.add(getToolbar(), BorderLayout.NORTH);
 		this.add(getTablesTabbedPane(), BorderLayout.CENTER);
+	}
+
+	private JComponent getToolbar() {
+		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
+		toolbar.setFloatable(false);
+		toolbar.setBorder(new EmptyBorder(5, 10, 5, 10));
+
+		toolbar.add(new JButton(getGenerateFkpmAcrossSamplesFigure()));
+		toolbar.add(new JButton(getGenerateGenesPvalDistFigure()));
+		toolbar.add(new JButton(getGenerateTranscriptsPvalDistFigure()));
+
+		return toolbar;
+	}
+
+	private Action getGenerateFkpmAcrossSamplesFigure() {
+		return new ExtendedAbstractAction(
+			"FKPM across samples",
+			Icons.ICON_IMAGE_24,
+			this::generateFkpmAcrossSamplesFigure
+		);
+	}
+
+	private void generateFkpmAcrossSamplesFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateFkpmAcrossSamplesFigure(dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateFkpmAcrossSamplesFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController
+					.createFpkmDistributionAcrossSamplesFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private void showFigureError() {
+		JOptionPane.showMessageDialog(this,
+			"An error occurred generating the figure."
+			+ "Please, check the error log", "Error",
+			JOptionPane.ERROR_MESSAGE);
+	}
+
+	private Action getGenerateGenesPvalDistFigure() {
+		return new ExtendedAbstractAction(
+			"DE genes p-values distribution",
+			Icons.ICON_IMAGE_24,
+			this::generateGenesPvalDistributionFigure
+		);
+	}
+
+	private void generateGenesPvalDistributionFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateGenesPvalDistributionFigure(dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateGenesPvalDistributionFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createGenesDEpValuesFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateTranscriptsPvalDistFigure() {
+		return new ExtendedAbstractAction(
+			"DE transcripts p-values distribution",
+			Icons.ICON_IMAGE_24,
+			this::generateTranscriptsPvalDistributionFigure
+		);
+	}
+
+	private void generateTranscriptsPvalDistributionFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateTranscriptsPvalDistributionFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateTranscriptsPvalDistributionFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createTranscriptsDEpValuesFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private void generateFigure(ImageConfigurationParameter imageConfiguration,
+		Consumer<ImageConfigurationParameter> method
+	) {
+		WorkingDialog dialog = new WorkingDialog(getDialogParent(),
+			"Generating figure", "Generating figure");
+		Thread dialogThread = new Thread(() -> {
+			dialog.setVisible(true);
+
+			method.accept(imageConfiguration);
+
+			dialog.finished("Finished");
+			dialog.dispose();
+		});
+		dialogThread.start();
+
 	}
 
 	private JComponent getTablesTabbedPane() {

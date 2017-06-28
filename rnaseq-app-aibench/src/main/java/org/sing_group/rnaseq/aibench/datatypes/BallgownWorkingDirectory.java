@@ -14,7 +14,7 @@ import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
  *
  */
 @Datatype(
-	structure = Structure.SIMPLE,
+	structure = Structure.COMPLEX,
 	namingMethod = "getName",
 	renameable = true,
 	clipboardClassName = "Ballgown working directory",
