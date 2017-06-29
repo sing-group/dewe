@@ -27,8 +27,9 @@ public interface WorkflowController {
 	 * @param workingDirectory the path to the working directory where the
 	 *        results are stored
 	 * @param status an {@code OperationStatus} object to monitor the analysis
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void runBowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome,
@@ -49,8 +50,9 @@ public interface WorkflowController {
 	 * @param workingDirectory the path to the working directory where the
 	 *        results are stored
 	 * @param status an {@code OperationStatus} object to monitor the analysis
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void runHisatStringTieAndBallgownDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome,

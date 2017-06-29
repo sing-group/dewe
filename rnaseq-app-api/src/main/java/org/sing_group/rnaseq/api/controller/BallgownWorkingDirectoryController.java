@@ -157,8 +157,6 @@ public interface BallgownWorkingDirectoryController {
 	 * contain the Ballgown data structure file created when
 	 * {@code differentialExpression} is used.
 	 *
-	 * @param workingDirectory directory that contains the Ballgown data
-	 *        structure
 	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
@@ -175,8 +173,6 @@ public interface BallgownWorkingDirectoryController {
 	 * contain the Ballgown data structure file created when
 	 * {@code differentialExpression} is used.
 	 *
-	 * @param workingDirectory directory that contains the Ballgown data
-	 *        structure
 	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
@@ -191,8 +187,9 @@ public interface BallgownWorkingDirectoryController {
 	 * specified threshold.
 	 *
 	 * @param pValue the maximum pValue for genes to be exported.
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void exportFilteredGenesTable(double pValue)
 		throws ExecutionException, InterruptedException;
@@ -202,8 +199,9 @@ public interface BallgownWorkingDirectoryController {
 	 * the specified threshold.
 	 *
 	 * @param pValue the maximum pValue for transcripts to be exported.
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void exportFilteredTranscriptsTable(double pValue)
 		throws ExecutionException, InterruptedException;

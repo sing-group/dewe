@@ -156,8 +156,9 @@ public interface BallgownController {
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
 	 * @param pValue the maximum pValue for genes to be exported.
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void exportFilteredGenesTable(File workingDirectory,
 		double pValue)
@@ -170,8 +171,9 @@ public interface BallgownController {
 	 * @param workingDirectory directory that contains the Ballgown data
 	 *        structure
 	 * @param pValue the maximum pValue for transcripts to be exported.
-	 * @throws ExecutionException
-	 * @throws InterruptedException
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
 	 */
 	public abstract void exportFilteredTranscriptsTable(File workingDirectory,
 		double pValue)
