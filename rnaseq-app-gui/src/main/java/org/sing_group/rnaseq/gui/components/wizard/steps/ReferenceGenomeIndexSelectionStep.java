@@ -4,6 +4,10 @@ import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.config
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -12,38 +16,72 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXLabel;
+import org.sing_group.gc4s.combobox.ComboBoxItem;
+import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.wizard.WizardStep;
+import org.sing_group.gc4s.wizard.event.WizardStepEvent;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeIndexDatabaseListener;
 
-import org.sing_group.gc4s.combobox.ComboBoxItem;
-import org.sing_group.gc4s.ui.CenteredJPanel;
-import org.sing_group.gc4s.wizard.WizardStep;
-
 /**
  * An abstract component that allows the selection of a
  * {@code ReferenceGenomeIndex} from a combobox.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
- * @param <T> the class of the {@code ReferenceGenomeIndex} that can be 
+ * @param <T> the class of the {@code ReferenceGenomeIndex} that can be
  *        selected
  */
 public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenomeIndex>
-	extends WizardStep implements ReferenceGenomeIndexDatabaseListener {
-	
+	extends WizardStep implements ReferenceGenomeIndexDatabaseListener, ItemListener {
+	private static final String UNCOMPLETED_TOOLTIP = "Select a reference "
+		+ "genome index in order to advance to the next step";
+
 	private Class<T> referenceGenomeClass;
 	private ReferenceGenomeIndexDatabaseManager databaseManager;
-	
+
 	private JPanel stepComponent;
 	private JComboBox<ComboBoxItem<ReferenceGenomeIndex>> combobox;
+	private JLabel warningLabel;
+
+	private static final ReferenceGenomeIndex NONE_SELECTED =
+		new ReferenceGenomeIndex() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isValidIndex() {
+				return false;
+			}
+
+			@Override
+			public String getType() {
+				return "";
+			}
+
+			@Override
+			public String getReferenceGenomeIndex() {
+				return "";
+			}
+
+			@Override
+			public Optional<File> getReferenceGenome() {
+				return null;
+			}
+
+			@Override
+			public String getName() {
+				return "<Click here to select an index>";
+			}
+		};
 
 	/**
 	 * Creates a new {@code ReferenceGenomeIndexSelectionStep} using the
 	 * specified {@code databaseManager} for selecting reference genomes from
 	 * the specified class.
-	 * 
+	 *
 	 * @param databaseManager the {@code ReferenceGenomeIndexDatabaseManager}
 	 * @param referenceGenomeClass the class of the reference genomes
 	 */
@@ -55,7 +93,7 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 		this.databaseManager.addReferenceGenomeIndexDatabaseListener(this);
 		this.referenceGenomeClass = referenceGenomeClass;
 	}
-	
+
 	@Override
 	public String getStepTitle() {
 		return "Reference genome selection";
@@ -72,7 +110,7 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 
 	/**
 	 * Returns the panel that contains the selection combobox.
-	 * 
+	 *
 	 * @return the panel that contains the selection combobox
 	 */
 	protected JComponent getSelectionPanel() {
@@ -81,13 +119,14 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 		selectionPanel.setLayout(new BorderLayout());
 		selectionPanel.add(getLabel(), BorderLayout.NORTH);
 		selectionPanel.add(getComboBox(), BorderLayout.CENTER);
+		selectionPanel.add(getWarningLabel(), BorderLayout.EAST);
 
 		return selectionPanel;
 	}
 
 	/**
 	 * Returns the label that goes with the selection combobox.
-	 * 
+	 *
 	 * @return the label that goes with the selection combobox
 	 */
 	protected Component getLabel() {
@@ -101,8 +140,22 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 	}
 
 	/**
+	 * Returns the label that shows a warning in the selection combobox when a
+	 * valid item is not selected.
+	 *
+	 * @return the label that shows a warning in the selection combobox when a
+	 *         valid item is not selected
+	 */
+	protected JComponent getWarningLabel() {
+		warningLabel = new JLabel(Icons.ICON_WARNING_COLOR_24);
+		warningLabel.setToolTipText(UNCOMPLETED_TOOLTIP);
+
+		return warningLabel;
+	}
+
+	/**
 	 * Returns a string indicating the reference genome type.
-	 * 
+	 *
 	 * @return a string indicating the reference genome type
 	 */
 	protected abstract String getReferenceGenomeType();
@@ -110,6 +163,7 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 	private Component getComboBox() {
 		if(combobox == null) {
 			combobox = new JComboBox<>();
+			combobox.addItemListener(this);
 		}
 		updateComboboxItems();
 		return combobox;
@@ -118,6 +172,7 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 	protected void updateComboboxItems() {
 		this.combobox.removeAllItems();
 
+		this.combobox.addItem(new ComboBoxItem<ReferenceGenomeIndex>(NONE_SELECTED, NONE_SELECTED.getName()));
 		for (ReferenceGenomeIndex r : this.databaseManager
 			.listIndexes(referenceGenomeClass)
 		) {
@@ -129,16 +184,17 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 
 	@Override
 	public boolean isStepCompleted() {
-		return this.combobox.getSelectedIndex() != -1;
+		return this.combobox.getSelectedIndex() != -1
+			&& this.combobox.getSelectedIndex() != 0;
 	}
 
 	/**
 	 * Returns the selected reference genome index.
-	 * 
+	 *
 	 * @return the selected reference genome index
 	 */
 	public T getSelectedReferenceGenomeIndex() {
-		ComboBoxItem<?> selectedItem = 
+		ComboBoxItem<?> selectedItem =
 			(ComboBoxItem<?>) this.combobox.getSelectedItem();
 
 		return referenceGenomeClass.cast(selectedItem.getItem());
@@ -152,5 +208,34 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 	@Override
 	public void referenceGenomeIndexRemoved() {
 		updateComboboxItems();
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			referenceGenomeIndexSelectionChanged();
+		}
+	}
+
+	private void referenceGenomeIndexSelectionChanged() {
+		if (isStepCompleted()) {
+			setWarningLabelVisible(false);
+			this.notifyWizardStepCompleted(new WizardStepEvent(this));
+		} else {
+			setWarningLabelVisible(true);
+			this.notifyWizardStepUncompleted(new WizardStepEvent(this));
+			this.notifyWizardStepNextButtonTooltipChanged(UNCOMPLETED_TOOLTIP);
+		}
+	}
+
+	private void setWarningLabelVisible(boolean visible) {
+		if (this.warningLabel != null) {
+			this.warningLabel.setVisible(visible);
+		}
+	}
+
+	@Override
+	public void stepEntered() {
+		this.notifyWizardStepNextButtonTooltipChanged(UNCOMPLETED_TOOLTIP);
 	}
 }

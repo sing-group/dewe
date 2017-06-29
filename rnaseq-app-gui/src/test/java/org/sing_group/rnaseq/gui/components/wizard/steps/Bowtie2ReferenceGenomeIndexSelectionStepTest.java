@@ -9,6 +9,7 @@ public class Bowtie2ReferenceGenomeIndexSelectionStepTest {
 			new Bowtie2ReferenceGenomeIndexSelectionStep(
 				TestUtils.createReferenceGenomeDatabaseManager()
 			);
+		step.addWizardStepListener(new DefaultWizardStepListener());
 		TestUtils.showStepComponent(step);
 	}
 }

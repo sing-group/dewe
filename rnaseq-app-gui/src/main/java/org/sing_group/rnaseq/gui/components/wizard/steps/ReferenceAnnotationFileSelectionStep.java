@@ -33,8 +33,8 @@ public class ReferenceAnnotationFileSelectionStep extends FileSelectionStep {
 
 	@Override
 	protected boolean isValidFile() {
-		return 	super.isValidFile() && 
+		return 	super.isValidFile() &&
 				getSelectedFile().getName().endsWith(".gtf");
 	}
-	
+
 }

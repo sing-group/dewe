@@ -15,4 +15,9 @@ public class DefaultWizardStepListener implements WizardStepListener {
 		System.err.println("Step completed. Is completed = "
 			+ event.getSource().isStepCompleted());
 	}
+
+	@Override
+	public void wizardStepNextButtonTooltipChanged(String nextButtonTooltip) {
+		System.err.println("Change next button tooltip to: " + nextButtonTooltip);
+	}
 }

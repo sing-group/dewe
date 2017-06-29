@@ -6,7 +6,7 @@ import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabas
  * The default
  * {@code BowtieStringTieAndRDifferentialExpressionWizardStepProvider}
  * implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *

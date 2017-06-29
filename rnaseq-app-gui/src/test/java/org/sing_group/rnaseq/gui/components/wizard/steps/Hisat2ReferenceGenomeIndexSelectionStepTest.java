@@ -9,6 +9,7 @@ public class Hisat2ReferenceGenomeIndexSelectionStepTest {
 			new Hisat2ReferenceGenomeIndexSelectionStep(
 				TestUtils.createReferenceGenomeDatabaseManager()
 			);
+		step.addWizardStepListener(new DefaultWizardStepListener());
 		TestUtils.showStepComponent(step);
 	}
 }

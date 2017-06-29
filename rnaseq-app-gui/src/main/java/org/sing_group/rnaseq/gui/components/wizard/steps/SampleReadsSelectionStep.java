@@ -19,12 +19,12 @@ import org.sing_group.gc4s.wizard.WizardStep;
 
 public class SampleReadsSelectionStep extends WizardStep
 	implements SamplesEditorListener {
-	
+
 	private ExperimentalConditionsStep experimentalConditionsStep;
 	private FastqSamplesEditor fastqSamplesEditor;
 	private int minSamplesPerCondition;
 	private int initialNumSamples;
-	
+
 	public SampleReadsSelectionStep(
 		ExperimentalConditionsStep experimentalConditionsStep,
 		int minSamplesPerCondition,
@@ -98,7 +98,7 @@ public class SampleReadsSelectionStep extends WizardStep
 
 	@Override
 	public void onSampleRemoved(ChangeEvent event) {
-		samplesListEdited();		
+		samplesListEdited();
 	}
 
 	private void samplesListEdited() {
