@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.api.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.sing_group.rnaseq.api.entities.edger.EdgeRGenes;
@@ -21,4 +22,13 @@ public interface EdgeRWorkingDirectoryController {
 	 * @return the {@code EdgeRGenes} list wrapped in an {@code Optional}
 	 */
 	public abstract Optional<EdgeRGenes> getGenes();
+
+	/**
+	 * Returns a list containing the names of the working directory files that
+	 * have a view associated to them.
+	 *
+	 * @return a list containing the names of the working directory files that
+	 *         have a view associated to them
+	 */
+	public abstract List<String> getMissingWorkingDirectoryFiles();
 }

@@ -1,12 +1,18 @@
 package org.sing_group.rnaseq.gui.edger.results;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+import static org.sing_group.rnaseq.gui.util.ResultsViewerUtil.missingFilesMessage;
+
 import java.awt.BorderLayout;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.sing_group.rnaseq.api.controller.EdgeRWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.edger.EdgeRGenes;
@@ -40,6 +46,7 @@ public class EdgeRResultsViewer extends JPanel {
 		this.workingDirectoryController =
 			new DefaultEdgeRWorkingDirectoryController(workingDirectory);
 		this.init();
+		SwingUtilities.invokeLater(this::checkMissingWorkingDirectoryFiles);
 	}
 
 	private void init() {
@@ -64,5 +71,14 @@ public class EdgeRResultsViewer extends JPanel {
 	private EdgeRGenes getGenes() {
 		return workingDirectoryController.getGenes()
 					.orElse(new DefaultEdgeRGenes());
+	}
+
+	private void checkMissingWorkingDirectoryFiles() {
+		List<String> missingFiles = this.workingDirectoryController
+			.getMissingWorkingDirectoryFiles();
+		if (!missingFiles.isEmpty()) {
+			showMessageDialog(this, missingFilesMessage(missingFiles),
+				"Warning", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

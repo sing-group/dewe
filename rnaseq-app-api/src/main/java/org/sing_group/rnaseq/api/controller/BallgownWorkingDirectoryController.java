@@ -205,4 +205,13 @@ public interface BallgownWorkingDirectoryController {
 	 */
 	public abstract void exportFilteredTranscriptsTable(double pValue)
 		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Returns a list containing the names of the working directory files that
+	 * have a view associated to them.
+	 *
+	 * @return a list containing the names of the working directory files that
+	 *         have a view associated to them
+	 */
+	public abstract List<String> getMissingWorkingDirectoryFiles();
 }

@@ -2,6 +2,8 @@ package org.sing_group.rnaseq.gui.ballgown.results;
 
 import static java.lang.String.valueOf;
 import static java.util.stream.Collectors.toList;
+import static javax.swing.JOptionPane.showMessageDialog;
+import static org.sing_group.rnaseq.gui.util.ResultsViewerUtil.missingFilesMessage;
 
 import java.awt.BorderLayout;
 import java.awt.Window;
@@ -82,6 +84,7 @@ public class BallgownResultsViewer extends JPanel {
 		this.workingDirectoryController =
 			new DefaultBallgownWorkingDirectoryController(workingDirectory);
 		this.init();
+		SwingUtilities.invokeLater(this::checkMissingWorkingDirectoryFiles);
 	}
 
 	private void init() {
@@ -598,5 +601,14 @@ public class BallgownResultsViewer extends JPanel {
 			selectedRows.add(row);
 		}
 		return selectedRows;
+	}
+
+	private void checkMissingWorkingDirectoryFiles() {
+		List<String> missingFiles = this.workingDirectoryController
+			.getMissingWorkingDirectoryFiles();
+		if (!missingFiles.isEmpty()) {
+			showMessageDialog(this, missingFilesMessage(missingFiles),
+				"Warning", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

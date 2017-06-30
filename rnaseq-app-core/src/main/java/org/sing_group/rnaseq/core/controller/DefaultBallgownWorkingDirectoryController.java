@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.core.controller;
 
+import static java.util.Arrays.asList;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_BALLGOWN_R_DATA;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_GENES;
 import static org.sing_group.rnaseq.core.controller.DefaultBallgownController.OUTPUT_FILE_GENES_FILTERED;
@@ -12,6 +13,7 @@ import static org.sing_group.rnaseq.core.io.ballgown.BallgownPhenotypeDataCsvLoa
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,11 @@ public class DefaultBallgownWorkingDirectoryController
 	implements BallgownWorkingDirectoryController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(
 		DefaultBallgownWorkingDirectoryController.class);
+	private static final List<String> VIEWABLE_WORKING_DIR_FILES = asList(
+		OUTPUT_FILE_GENES, OUTPUT_FILE_GENES_FILTERED,
+		OUTPUT_FILE_GENES_FILTERED_SIGNIFICANT, OUTPUT_FILE_TRANSCRIPTS,
+		OUTPUT_FILE_TRANSCRIPTS_FILTERED,
+		OUTPUT_FILE_TRANSCRIPTS_FILTERED_SIGNIFICANT);
 
 	private File workingDirectory;
 
@@ -197,5 +204,19 @@ public class DefaultBallgownWorkingDirectoryController
 		DefaultAppController.getInstance().getBallgownController()
 			.createTranscriptsDEpValuesFigure(workingDirectory,
 				imageConfiguration);
+	}
+
+	@Override
+	public List<String> getMissingWorkingDirectoryFiles() {
+		List<String> missingFiles = new LinkedList<>();
+
+		for (String fileName : VIEWABLE_WORKING_DIR_FILES) {
+			File file = getWorkingDirFile(fileName);
+			if (!file.exists()) {
+				missingFiles.add(fileName);
+			}
+		}
+
+		return missingFiles;
 	}
 }

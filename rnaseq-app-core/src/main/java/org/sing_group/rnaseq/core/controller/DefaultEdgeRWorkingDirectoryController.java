@@ -1,9 +1,12 @@
 package org.sing_group.rnaseq.core.controller;
 
+import static java.util.Arrays.asList;
 import static org.sing_group.rnaseq.core.controller.DefaultEdgeRController.OUTPUT_FILE_DE_GENES;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.sing_group.rnaseq.api.controller.EdgeRWorkingDirectoryController;
@@ -23,6 +26,8 @@ public class DefaultEdgeRWorkingDirectoryController
 	implements EdgeRWorkingDirectoryController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(
 		DefaultEdgeRWorkingDirectoryController.class);
+	private static final List<String> VIEWABLE_WORKING_DIR_FILES = asList(
+		OUTPUT_FILE_DE_GENES);
 
 	private File workingDirectory;
 
@@ -32,11 +37,10 @@ public class DefaultEdgeRWorkingDirectoryController
 
 	@Override
 	public Optional<EdgeRGenes> getGenes() {
-		return loadGenes(OUTPUT_FILE_DE_GENES);
+		return loadGenes(getWorkingDirFile(OUTPUT_FILE_DE_GENES));
 	}
 
-	private Optional<EdgeRGenes> loadGenes(String genesFileName) {
-		File genesFile = getWorkingDirFile(genesFileName);
+	private Optional<EdgeRGenes> loadGenes(File genesFile) {
 		EdgeRGenes genes = null;
 		if (genesFile.exists()) {
 			try {
@@ -52,5 +56,19 @@ public class DefaultEdgeRWorkingDirectoryController
 
 	protected File getWorkingDirFile(String file) {
 		return new File(workingDirectory, file);
+	}
+
+	@Override
+	public List<String> getMissingWorkingDirectoryFiles() {
+		List<String> missingFiles = new LinkedList<>();
+
+		for (String fileName : VIEWABLE_WORKING_DIR_FILES) {
+			File file = getWorkingDirFile(fileName);
+			if (!file.exists()) {
+				missingFiles.add(fileName);
+			}
+		}
+
+		return missingFiles;
 	}
 }
