@@ -39,7 +39,7 @@ results_genes = merge(results_genes,bg_filt_gene_names,by.x=c("id"),by.y=c("gene
 
 sig_genes = subset(results_genes, results_genes$pval<pValue)
 
-write.table(sig_genes,row.names = FALSE, paste(tablesDirectory, "/transcript_genes_sig_", pValue, ".tsv",sep=""), sep="\t")
+write.table(sig_genes,row.names = FALSE, paste(tablesDirectory, "/gene_results_sig_", pValue, ".tsv",sep=""), sep="\t")
 
 ## Exit the R session
 quit(save="no")

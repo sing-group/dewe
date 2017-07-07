@@ -275,7 +275,7 @@ public class DefaultBallgownController implements BallgownController {
 	}
 
 	@Override
-	public void exportFilteredGenesTable(File workingDirectory, double pValue)
+	public File exportFilteredGenesTable(File workingDirectory, double pValue)
 		throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -289,6 +289,9 @@ public class DefaultBallgownController implements BallgownController {
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
 					"Error executing script. Please, check error log.", "");
+			} else {
+				String fileName = exportFilteredGenesTableName(pValue);
+				return new File(workingDirectory, fileName);
 			}
 		} catch (IOException e) {
 			throw new ExecutionException(1,
@@ -296,8 +299,12 @@ public class DefaultBallgownController implements BallgownController {
 		}
 	}
 
+	private String exportFilteredGenesTableName(double pValue) {
+		return "user-tables/gene_results_sig_" + pValue + ".tsv";
+	}
+
 	@Override
-	public void exportFilteredTranscriptsTable(File workingDirectory,
+	public File exportFilteredTranscriptsTable(File workingDirectory,
 		double pValue)
 		throws ExecutionException, InterruptedException {
 		ExecutionResult result;
@@ -312,10 +319,17 @@ public class DefaultBallgownController implements BallgownController {
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
 					"Error executing script. Please, check error log.", "");
+			} else {
+				String fileName = exportFilteredTranscriptsTableName(pValue);
+				return new File(workingDirectory, fileName);
 			}
 		} catch (IOException e) {
 			throw new ExecutionException(1,
 				"Error executing script. Please, check error log.", "");
 		}
+	}
+
+	private String exportFilteredTranscriptsTableName(double pValue) {
+		return "user-tables/transcript_results_sig_" + pValue + ".tsv";
 	}
 }

@@ -8,14 +8,18 @@ import static org.sing_group.rnaseq.gui.util.ResultsViewerUtil.missingFilesMessa
 import java.awt.BorderLayout;
 import java.awt.Window;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import javax.swing.Action;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -40,11 +44,14 @@ import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigura
 import org.sing_group.rnaseq.core.controller.DefaultBallgownWorkingDirectoryController;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownGenes;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownTranscripts;
+import org.sing_group.rnaseq.core.io.ballgown.BallgownGenesCsvFileLoader;
+import org.sing_group.rnaseq.core.io.ballgown.BallgownTranscriptsCsvFileLoader;
 import org.sing_group.rnaseq.gui.ballgown.BallgownGenesTable;
 import org.sing_group.rnaseq.gui.ballgown.BallgownTranscriptsTable;
 import org.sing_group.rnaseq.gui.ballgown.ExportFilteredGenesTableDialog;
 import org.sing_group.rnaseq.gui.ballgown.ExportFilteredTranscriptsTableDialog;
 import org.sing_group.rnaseq.gui.ballgown.ExportTableDialog;
+import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 /**
  * A component that shows the genes and transcripts tables in a Ballgown working
@@ -100,6 +107,9 @@ public class BallgownResultsViewer extends JPanel {
 		toolbar.add(new JButton(getGenerateFkpmAcrossSamplesFigure()));
 		toolbar.add(new JButton(getGenerateGenesPvalDistFigure()));
 		toolbar.add(new JButton(getGenerateTranscriptsPvalDistFigure()));
+		toolbar.add(Box.createHorizontalGlue());
+		toolbar.add(new JButton(getOpenGenesTableAction()));
+		toolbar.add(new JButton(getOpenTranscriptsTableAction()));
 
 		return toolbar;
 	}
@@ -214,7 +224,48 @@ public class BallgownResultsViewer extends JPanel {
 			dialog.dispose();
 		});
 		dialogThread.start();
+	}
 
+	private Action getOpenGenesTableAction() {
+		return new ExtendedAbstractAction(
+			"Load genes",
+			Icons.ICON_TABLE_24,
+			this::openGenesTable
+		);
+	}
+
+	private void openGenesTable() {
+		Optional<File> genesFile = selectTsvFile();
+		if(genesFile.isPresent()) {
+			loadAndShowGenesFile(genesFile.get());
+		}
+	}
+
+	private Action getOpenTranscriptsTableAction() {
+		return new ExtendedAbstractAction(
+			"Load transcripts",
+			Icons.ICON_TABLE_24,
+			this::openTranscriptsTable
+		);
+	}
+
+	private void openTranscriptsTable() {
+		Optional<File> transcriptsFile = selectTsvFile();
+		if(transcriptsFile.isPresent()) {
+			loadAndShowTranscriptsFile(transcriptsFile.get());
+		}
+	}
+
+	private Optional<File> selectTsvFile() {
+		JFileChooser fileChooser = CommonFileChooser.getInstance()
+			.getSingleFilechooser();
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int returnVal = fileChooser.showOpenDialog(getDialogParent());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return Optional.of(fileChooser.getSelectedFile());
+		} else {
+			return Optional.empty();
+		}
 	}
 
 	private JComponent getTablesTabbedPane() {
@@ -269,20 +320,43 @@ public class BallgownResultsViewer extends JPanel {
 		dialog.setVisible(true);
 
 		if(!dialog.isCanceled()) {
-			SwingUtilities.invokeLater(() -> {
+			WorkingDialog progressDialog = new WorkingDialog(getDialogParent(),
+				"Exporting table", "Exporting table");
+			Thread dialogThread = new Thread(() -> {
+				progressDialog.setVisible(true);
+
 				exportFilteredGenesTable(dialog.getPvalue());
+
+				progressDialog.finished("Finished");
+				progressDialog.dispose();
 			});
+			dialogThread.start();
 		}
 	}
 
 	private void exportFilteredGenesTable(double pvalue) {
 		try {
-			this.workingDirectoryController.exportFilteredGenesTable(
-				pvalue);
+			File genesFile = this.workingDirectoryController
+				.exportFilteredGenesTable(pvalue);
+			loadAndShowGenesFile(genesFile);
 		} catch (ExecutionException | InterruptedException e) {
 			JOptionPane.showMessageDialog(this,
 				"There was an error writing the genes table. "
 				+ "Please, check the error log", "Output error",
+				JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void loadAndShowGenesFile(File genesFile) {
+		try {
+			BallgownGenes genes = BallgownGenesCsvFileLoader.loadFile(genesFile);
+			tablesTabbedPane.add(genesFile.getName(),
+				new JScrollPane(new BallgownGenesTable(genes)));
+			tablesTabbedPane.setSelectedIndex(tablesTabbedPane.getTabCount()-1);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this,
+				"I/O error loading genes file" +
+					genesFile.getAbsolutePath(), "I/O error",
 				JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -321,7 +395,8 @@ public class BallgownResultsViewer extends JPanel {
 
 	private JComponent getFilteredTranscriptsTable() {
 		if (filteredTranscriptsTable == null) {
-			filteredTranscriptsTable = new BallgownTranscriptsTable(getFilteredTranscripts());
+			filteredTranscriptsTable = new BallgownTranscriptsTable(
+				getFilteredTranscripts());
 			filteredTranscriptsTable.setComponentPopupMenu(
 				createTablePopupMenu(
 					filteredTranscriptsTable,
@@ -349,20 +424,44 @@ public class BallgownResultsViewer extends JPanel {
 		dialog.setVisible(true);
 
 		if(!dialog.isCanceled()) {
-			SwingUtilities.invokeLater(() -> {
+			WorkingDialog progressDialog = new WorkingDialog(getDialogParent(),
+				"Exporting table", "Exporting table");
+			Thread dialogThread = new Thread(() -> {
+				progressDialog.setVisible(true);
+
 				exportFilteredTranscriptsTable(dialog.getPvalue());
+
+				progressDialog.finished("Finished");
+				progressDialog.dispose();
 			});
+			dialogThread.start();
 		}
 	}
 
 	private void exportFilteredTranscriptsTable(double pvalue) {
 		try {
-			this.workingDirectoryController.exportFilteredTranscriptsTable(
-				pvalue);
+			File transcriptsFile = this.workingDirectoryController
+				.exportFilteredTranscriptsTable(pvalue);
+			loadAndShowTranscriptsFile(transcriptsFile);
 		} catch (ExecutionException | InterruptedException e) {
 			JOptionPane.showMessageDialog(this,
 				"There was an error writing the transcripts table. "
 				+ "Please, check the error log", "Output error",
+				JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void loadAndShowTranscriptsFile(File transcriptsFile) {
+		try {
+			BallgownTranscripts transcripts = BallgownTranscriptsCsvFileLoader
+				.loadFile(transcriptsFile);
+			tablesTabbedPane.add(transcriptsFile.getName(),
+				new JScrollPane(new BallgownTranscriptsTable(transcripts)));
+			tablesTabbedPane.setSelectedIndex(tablesTabbedPane.getTabCount()-1);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this,
+				"I/O error loading transcripts file" +
+				transcriptsFile.getAbsolutePath(), "I/O error",
 				JOptionPane.ERROR_MESSAGE);
 		}
 	}

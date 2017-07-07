@@ -167,16 +167,16 @@ public class DefaultBallgownWorkingDirectoryController
 	}
 
 	@Override
-	public void exportFilteredGenesTable(double pValue)
+	public File exportFilteredGenesTable(double pValue)
 		throws ExecutionException, InterruptedException {
-		DefaultAppController.getInstance().getBallgownController()
+		return DefaultAppController.getInstance().getBallgownController()
 			.exportFilteredGenesTable(this.workingDirectory, pValue);
 	}
 
 	@Override
-	public void exportFilteredTranscriptsTable(double pValue)
+	public File exportFilteredTranscriptsTable(double pValue)
 		throws ExecutionException, InterruptedException {
-		DefaultAppController.getInstance().getBallgownController()
+		return DefaultAppController.getInstance().getBallgownController()
 			.exportFilteredTranscriptsTable(this.workingDirectory, pValue);
 	}
 

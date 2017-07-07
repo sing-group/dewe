@@ -1,5 +1,6 @@
 package org.sing_group.rnaseq.api.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -186,24 +187,26 @@ public interface BallgownWorkingDirectoryController {
 	 * Exports the filtered genes table removing those with a pValue over the
 	 * specified threshold.
 	 *
-	 * @param pValue the maximum pValue for genes to be exported.
+	 * @param pValue the maximum pValue for genes to be exported
+	 * @return the file where the table has been exported
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract void exportFilteredGenesTable(double pValue)
+	public abstract File exportFilteredGenesTable(double pValue)
 		throws ExecutionException, InterruptedException;
 
 	/**
 	 * Exports the filtered transcripts table removing those with a pValue over
 	 * the specified threshold.
 	 *
-	 * @param pValue the maximum pValue for transcripts to be exported.
+	 * @param pValue the maximum pValue for transcripts to be exported
+	 * @return the file where the table has been exported
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract void exportFilteredTranscriptsTable(double pValue)
+	public abstract File exportFilteredTranscriptsTable(double pValue)
 		throws ExecutionException, InterruptedException;
 
 	/**
