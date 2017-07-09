@@ -44,6 +44,7 @@ public class WizardSummaryStep extends WizardStep {
 
 	private Component getTextArea() {
 		this.textArea = new JTextArea();
+		textArea.setTabSize(2);
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setOpaque(false);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
+import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryProvider;
 
 import org.sing_group.gc4s.wizard.Wizard;
@@ -42,29 +43,9 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 	@Override
 	public String getSummary() {
 		StringBuilder sb = new StringBuilder();
-		sb
-			.append("Workflow configuration:")
-			.append(NEW_LINE)
-			.append("  · Reference genome index: ")
-			.append(getReferenceGenome().getReferenceGenomeIndex())
-			.append(NEW_LINE)
-			.append("  · Reference annotation file: ")
-			.append(getReferenceAnnotationFile().getAbsolutePath())
-			.append(NEW_LINE)
-			.append("  · Working directory: ")
-			.append(getWorkingDirectory().getAbsolutePath())
-			.append(NEW_LINE)
-			.append(NEW_LINE)
-			.append("Experiment samples: ")
-			.append(NEW_LINE);
-		getSamples().forEach(s -> {
-			sb
-				.append("  · Sample name: ")
-				.append(s.getName())
-				.append(" [Condition: ")
-				.append(s.getCondition() + "]")
-				.append(NEW_LINE);
-		});
+		sb.append(AbstractDifferentialExpressionWorkflow.getSummary(
+			getReferenceGenome(), getReferenceAnnotationFile(),
+			getWorkingDirectory(), getSamples()));
 		sb
 			.append(NEW_LINE)
 			.append(NEW_LINE)
