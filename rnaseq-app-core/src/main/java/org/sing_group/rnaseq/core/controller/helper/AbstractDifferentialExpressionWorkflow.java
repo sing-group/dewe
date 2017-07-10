@@ -390,12 +390,12 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 				.append(NEW_LINE)
 				.append(TAB)
 				.append(TAB)
-				.append("Mate 1 file: ")
+				.append("Reads file 1 file: ")
 				.append(s.getReadsFile1().getName())
 				.append(NEW_LINE)
 				.append(TAB)
 				.append(TAB)
-				.append("Mate 2 file: ")
+				.append("Reads file 2 file: ")
 				.append(s.getReadsFile2().getName())
 				.append(NEW_LINE);
 		});
