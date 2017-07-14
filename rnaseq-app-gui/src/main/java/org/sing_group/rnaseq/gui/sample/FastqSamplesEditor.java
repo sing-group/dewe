@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
@@ -73,24 +75,42 @@ public class FastqSamplesEditor extends JPanel {
 		this.add(createSamplesPanel(), BorderLayout.CENTER);
 	}
 
-	private JPanel createButtonsPanel() {
-		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.setOpaque(false);
+	private JComponent createButtonsPanel() {
+		JToolBar buttonsToolbar = new JToolBar();
+		buttonsToolbar.setOpaque(false);
+		buttonsToolbar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 10));
 		JButton addBtn = JButtonBuilder.newJButtonBuilder()
-				.withText("Add sample")
-				.withTooltip("Adds a new sample to the analysis")
-				.withIcon(Icons.ICON_ADD_16)
-				.thatDoes(new AbstractAction() {
-					private static final long serialVersionUID = 1L;
+			.withText("Add sample")
+			.withTooltip("Adds a new sample to the analysis")
+			.withIcon(Icons.ICON_ADD_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addSampleEditorComponent();
-					}
-				})
-				.build();
-		buttonsPanel.add(addBtn, BorderLayout.EAST);
-		return buttonsPanel;
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					addSampleEditorComponent();
+				}
+			})
+			.build();
+		JButton removeSamplesBtn = JButtonBuilder.newJButtonBuilder()
+			.withText("Remove all samples")
+			.withTooltip("Removes all samples from the analysis")
+			.withIcon(Icons.ICON_TRASH_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeAllSamples();
+				}
+			})
+			.build();
+
+		buttonsToolbar.add(removeSamplesBtn);
+		buttonsToolbar.add(Box.createHorizontalGlue());
+		buttonsToolbar.add(addBtn);
+
+		return buttonsToolbar;
 	}
 
 	private JComponent createSamplesPanel() {
