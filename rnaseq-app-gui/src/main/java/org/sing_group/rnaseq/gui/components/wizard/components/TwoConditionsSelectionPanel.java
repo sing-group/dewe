@@ -1,6 +1,7 @@
 package org.sing_group.rnaseq.gui.components.wizard.components;
 
 import static java.util.Arrays.asList;
+import static org.sing_group.rnaseq.gui.util.UISettings.COLOR_ERROR;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
 
-import org.jdesktop.swingx.JXTextField;
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.text.ExtendedJXTextField;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
 public class TwoConditionsSelectionPanel extends JPanel
@@ -23,8 +24,8 @@ public class TwoConditionsSelectionPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	private InputParametersPanel inputParametersPanel;
-	private JXTextField conditionAtf;
-	private JXTextField conditionBtf;
+	private ExtendedJXTextField conditionAtf;
+	private ExtendedJXTextField conditionBtf;
 
 	private DocumentListener documentListener = new DocumentAdapter() {
 		public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -63,14 +64,16 @@ public class TwoConditionsSelectionPanel extends JPanel
 	}
 
 	private InputParameter getConditionAParameter() {
-		conditionAtf = new JXTextField("Condition A");
+		conditionAtf = new ExtendedJXTextField("Condition A");
+		conditionAtf.setEmptyTextFieldColor(COLOR_ERROR);
 		conditionAtf.getDocument().addDocumentListener(documentListener);
 		return new InputParameter("Condition A", conditionAtf,
 			"The first condition");
 	}
 
 	private InputParameter getConditionBParameter() {
-		conditionBtf = new JXTextField("Condition B");
+		conditionBtf = new ExtendedJXTextField("Condition B");
+		conditionBtf.setEmptyTextFieldColor(COLOR_ERROR);
 		conditionBtf.getDocument().addDocumentListener(documentListener);
 		return new InputParameter("Condition B", conditionBtf,
 			"The second condition");
