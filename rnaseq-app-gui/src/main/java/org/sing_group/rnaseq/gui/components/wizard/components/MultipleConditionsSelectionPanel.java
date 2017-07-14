@@ -94,4 +94,10 @@ public class MultipleConditionsSelectionPanel extends JPanel
 	) {
 		this.listenerList.add(ExperimentalConditionsEditorListener.class, l);
 	}
+
+	@Override
+	public void setSelectedConditions(Set<String> selectedConditions) {
+		conditionsInputList.addElements(
+			selectedConditions.toArray(new String[selectedConditions.size()]));
+	}
 }

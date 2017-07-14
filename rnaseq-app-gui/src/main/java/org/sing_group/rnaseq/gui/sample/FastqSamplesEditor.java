@@ -22,12 +22,22 @@ import javax.swing.event.ChangeEvent;
 
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
+import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
+/**
+ * A graphical component that allows the edition of several
+ * {@code FastqReadsSample} objects by using {@code FastqSampleEditor}.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ * @see FastqSampleEditor
+ */
 public class FastqSamplesEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_INITIAL_NUM_SAMPLES = 2;
@@ -38,10 +48,20 @@ public class FastqSamplesEditor extends JPanel {
 	private int initialSamples;
 	private JScrollPane samplesPaneScroll;
 
+	/**
+	 * Creates a new {@code FastqSamplesEditor} with the default number of
+	 * samples.
+	 */
 	public FastqSamplesEditor() {
 		this(DEFAULT_INITIAL_NUM_SAMPLES);
 	}
 
+	/**
+	 * Creates a new {@code FastqSamplesEditor} with the specified number of
+	 * samples.
+	 *
+	 * @param initialSamples the number of initial samples
+	 */
 	public FastqSamplesEditor(int initialSamples) {
 		this.initialSamples = initialSamples;
 		this.init();
@@ -66,14 +86,13 @@ public class FastqSamplesEditor extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						addSampleEditorComponent();
-						
 					}
 				})
 				.build();
 		buttonsPanel.add(addBtn, BorderLayout.EAST);
 		return buttonsPanel;
 	}
-	
+
 	private JComponent createSamplesPanel() {
 		samplesPanel = new JPanel();
 		samplesPanel.setOpaque(false);
@@ -87,7 +106,7 @@ public class FastqSamplesEditor extends JPanel {
 	}
 
 	private void addSampleEditorComponent() {
-		SampleEditorComponent editor = 
+		SampleEditorComponent editor =
 			new SampleEditorComponent(getFastqSampleEditor());
 		editor.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		samplesPanel.add(editor);
@@ -100,8 +119,8 @@ public class FastqSamplesEditor extends JPanel {
 		return new FastqSampleEditor(selectableConditions);
 	}
 
-	class SampleEditorComponent extends JPanel 
-		implements SampleEditorListener 
+	class SampleEditorComponent extends JPanel
+		implements SampleEditorListener
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -143,7 +162,7 @@ public class FastqSamplesEditor extends JPanel {
 		public boolean isValidValue() {
 			return this.editor.isValidValue();
 		}
-		
+
 		public void setSelectableConditions(List<String> selectableConditions) {
 			this.editor.setSelectableConditions(selectableConditions);
 		}
@@ -152,8 +171,12 @@ public class FastqSamplesEditor extends JPanel {
 		public void onSampleEdited(ChangeEvent event) {
 			sampleEdited();
 		}
+
+		public void setSample(FastqReadsSample s) {
+			this.editor.setSample(s);
+		}
 	}
-	
+
 	private void removeEditorComponent(SampleEditorComponent component) {
 		SwingUtilities.invokeLater(() -> {
 			this.samples.remove(component);
@@ -163,6 +186,13 @@ public class FastqSamplesEditor extends JPanel {
 		});
 	}
 
+	/**
+	 * Returns {@code true} if the current values are valid for creating a new
+	 * {@code FastqReadsSample} objects and {@code false} otherwise.
+	 *
+	 * @return {@code true} if the current values are valid for creating a new
+	 * {@code FastqReadsSample} objects and {@code false} otherwise.
+	 */
 	public boolean isValidSelection() {
 		return 	!this.samples.stream()
 				.map(SampleEditorComponent::isValidValue)
@@ -181,31 +211,66 @@ public class FastqSamplesEditor extends JPanel {
 			l.onSampleRemoved(new ChangeEvent(this));
 		}
 	}
-	
+
 	private void sampleEdited() {
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
 		}
 	}
 
+	/**
+	 * Adds the specified {@code SampleEditorListener} to the listeners list.
+	 *
+	 * @param l a {@code SampleEditorListener}
+	 */
 	public synchronized void addSamplesEditorListener(SamplesEditorListener l) {
 		this.listenerList.add(SamplesEditorListener.class, l);
 	}
 
+	/**
+	 * Returns the list of all registered {@code SampleEditorListener}s.
+	 *
+	 * @return the list of all registered {@code SampleEditorListener}s
+	 */
 	public synchronized SamplesEditorListener[] getSamplesEditorListeners() {
 		return this.listenerList.getListeners(SamplesEditorListener.class);
 	}
 
-	public void setSelectableConditions(List<String> conditions) {
-		this.selectableConditions = Objects.requireNonNull(conditions);
-		this.samples.stream().forEach(c -> c.setSelectableConditions(conditions));
+	/**
+	 * Sets the list of selectable conditions.
+	 *
+	 * @param selectableConditions the list of selectable conditions
+	 */
+	public void setSelectableConditions(List<String> selectableConditions) {
+		this.selectableConditions = Objects
+			.requireNonNull(selectableConditions);
+		this.samples.stream()
+			.forEach(c -> c.setSelectableConditions(selectableConditions));
 	}
 
+	/**
+	 * Returns the list of {@code FastqReadsSamples} with the introduced
+	 * samples.
+	 *
+	 * @return the list of {@code FastqReadsSamples} with the introduced
+	 *         samples
+	 */
 	public FastqReadsSamples getSamples() {
 		return 	new DefaultFastqReadsSamples(
 					this.samples.stream().map(SampleEditorComponent::getSample)
 					.collect(Collectors.toList())
 				);
+	}
+
+	/**
+	 * Sets the list of samples to edit and removes the previous one.
+	 *
+	 * @param samples the new list of samples to edit
+	 */
+	public void setSamples(List<FastqReadsSample> samples) {
+		this.removeAllSamples();
+		samples.forEach(s -> addSampleEditorComponent(s));
+		this.updateUI();
 	}
 
 	@Override
@@ -214,5 +279,22 @@ public class FastqSamplesEditor extends JPanel {
 		if (samplesPaneScroll != null) {
 			samplesPaneScroll.getViewport().setBackground(bg);
 		}
+	}
+
+	private void removeAllSamples() {
+		this.samples.clear();
+		this.samplesPanel.removeAll();
+		sampleRemoved();
+		this.updateUI();
+	}
+
+	private void addSampleEditorComponent(FastqReadsSample s) {
+		SampleEditorComponent editor = new SampleEditorComponent(
+			getFastqSampleEditor());
+		editor.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+		editor.setSample(s);
+		samplesPanel.add(editor);
+		samples.add(editor);
+		sampleAdded();
 	}
 }

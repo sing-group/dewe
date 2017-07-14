@@ -1,21 +1,22 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
+import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 
+import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.FastqSamplesEditor;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
-
-import org.sing_group.gc4s.wizard.WizardStep;
 
 public class SampleReadsSelectionStep extends WizardStep
 	implements SamplesEditorListener {
@@ -80,6 +81,21 @@ public class SampleReadsSelectionStep extends WizardStep
 		List<String> experimentalConditions =
 			this.experimentalConditionsStep.getExperimentalConditions();
 		this.fastqSamplesEditor.setSelectableConditions(experimentalConditions);
+
+		Optional<Map<String, FastqReadsSamples>> conditionSamples =
+			this.experimentalConditionsStep.getExperimentalConditionsAndSamples();
+		if (conditionSamples.isPresent()) {
+			this.setSamples(conditionSamples.get());
+		}
+	}
+
+	private void setSamples(
+		Map<String, FastqReadsSamples> conditionSamples) {
+		if (conditionSamples != null) {
+			this.fastqSamplesEditor.setSamples(conditionSamples.values()
+				.stream().flatMap(List::stream).collect(Collectors.toList()));
+			samplesListEdited();
+		}
 	}
 
 	public FastqReadsSamples getSamples() {

@@ -3,7 +3,9 @@ package org.sing_group.rnaseq.gui.components.wizard.components;
 import static java.util.Arrays.asList;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -11,11 +13,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
 
 import org.jdesktop.swingx.JXTextField;
-import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
-
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 
 public class TwoConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {
@@ -100,5 +101,16 @@ public class TwoConditionsSelectionPanel extends JPanel
 		ExperimentalConditionsEditorListener l
 	) {
 		this.listenerList.add(ExperimentalConditionsEditorListener.class, l);
+	}
+
+	@Override
+	public void setSelectedConditions(Set<String> selectedConditions) {
+		List<String> conditions = new ArrayList<>(selectedConditions);
+		if (conditions.size() > 0) {
+			this.conditionAtf.setText(conditions.get(0));
+			if (conditions.size() > 1) {
+				this.conditionBtf.setText(conditions.get(1));
+			}
+		}
 	}
 }

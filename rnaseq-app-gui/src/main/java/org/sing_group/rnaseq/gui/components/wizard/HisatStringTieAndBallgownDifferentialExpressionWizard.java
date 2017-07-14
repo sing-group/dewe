@@ -44,6 +44,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 	 * specified parent window dialog.
 	 *
 	 * @param parent the parent window dialog
+	 * @return a new {@code HisatStringTieAndBallgownDifferentialExpressionWizard} 
 	 */
 	public static HisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
 		Window parent

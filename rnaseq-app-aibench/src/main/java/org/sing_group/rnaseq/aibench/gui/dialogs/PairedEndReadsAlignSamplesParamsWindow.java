@@ -1,17 +1,20 @@
 package org.sing_group.rnaseq.aibench.gui.dialogs;
 
-import static org.sing_group.rnaseq.gui.sample.FastqSampleEditor.*;
+import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.lookForReadsFile2;
+import static org.sing_group.rnaseq.gui.sample.FastqSampleEditor.isValidFile;
+
 import java.io.File;
 import java.util.Optional;
 
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
+import org.sing_group.gc4s.event.DocumentAdapter;
+
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.inputgui.FileParamProvider;
 import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 import es.uvigo.ei.aibench.workbench.inputgui.ParamsWindow;
-import org.sing_group.gc4s.event.DocumentAdapter;
 
 /**
  * An extension of {@code ParamsWindow} to use in operations that take as input

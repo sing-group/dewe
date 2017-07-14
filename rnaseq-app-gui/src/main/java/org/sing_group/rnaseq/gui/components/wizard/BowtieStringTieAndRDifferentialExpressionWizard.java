@@ -45,6 +45,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	 * specified parent window dialog.
 	 *
 	 * @param parent the parent window dialog
+	 * @return a new {@code BowtieStringTieAndRDifferentialExpressionWizard} 
 	 */
 	public static BowtieStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent

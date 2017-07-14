@@ -1,5 +1,8 @@
 package org.sing_group.rnaseq.gui.sample;
 
+import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.FASTQ_EXTENSIONS;
+import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.lookForReadsFile2;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ItemEvent;
@@ -19,10 +22,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.FileFilter;
 
-import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
-import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
-import org.sing_group.rnaseq.gui.util.CommonFileChooser;
-
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
 import org.sing_group.gc4s.filechooser.JFileChooserPanel;
@@ -30,12 +29,22 @@ import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.rnaseq.api.entities.FastqReadsSample;
+import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
+import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
+import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
+/**
+ * A graphical component that allows the edition of {@code FastqReadsSample}
+ * objects.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class FastqSampleEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String NO_CONDITION = "<Select a condition>";
-	private static final String[] FASTQ_EXTENSIONS =
-		{ ".fq", ".fastq", ".fastq.gz" };
 
 	private static final List<FileFilter> FASTQ_FILE_FILTERS = Arrays.asList(
 		new ExtensionFileFilter(".*\\" + FASTQ_EXTENSIONS[0],
@@ -53,10 +62,19 @@ public class FastqSampleEditor extends JPanel {
 	private JFileChooserPanel reads1FileChooser;
 	private JFileChooserPanel reads2FileChooser;
 
+	/**
+	 * Creates an empty {@code FastqSampleEditor}.
+	 */
 	public FastqSampleEditor() {
 		this(Collections.emptyList());
 	}
 
+	/**
+	 * Creates an empty {@code FastqSampleEditor} with the specified list of
+	 * selectable conditions.
+	 *
+	 * @param selectableConditions the list of selectable conditions
+	 */
 	public FastqSampleEditor(List<String> selectableConditions) {
 		this.selectableConditions = new LinkedList<>(selectableConditions);
 		this.selectableConditions.add(NO_CONDITION);
@@ -98,7 +116,7 @@ public class FastqSampleEditor extends JPanel {
 				public void insertUpdate(DocumentEvent e) {
 					sampleEdited();
 				}
-				
+
 				@Override
 				public void removeUpdate(DocumentEvent e) {
 					sampleEdited();
@@ -123,7 +141,7 @@ public class FastqSampleEditor extends JPanel {
 			}
 		});
 		return new InputParameter(
-			"Condition", selectableConditionsCombo, 
+			"Condition", selectableConditionsCombo,
 			"The experimental condition of the sample"
 		);
 	}
@@ -141,7 +159,7 @@ public class FastqSampleEditor extends JPanel {
 		reads1FileChooser.addFileChooserListener(this::readsFile1Changed);
 		reads1FileChooser.setOpaque(false);
 
-		return new InputParameter("Reads 1", 
+		return new InputParameter("Reads 1",
 			reads1FileChooser, "The reads file 1");
 	}
 
@@ -161,10 +179,10 @@ public class FastqSampleEditor extends JPanel {
 		reads2FileChooser.addFileChooserListener(this::readsFileChanged);
 		reads2FileChooser.setOpaque(false);
 
-		return new InputParameter("Reads 2", 
+		return new InputParameter("Reads 2",
 			reads2FileChooser, "The reads file 2");
 	}
-	
+
 	private void readsFileChanged(ChangeEvent e) {
 		this.sampleEdited();
 	}
@@ -180,19 +198,6 @@ public class FastqSampleEditor extends JPanel {
 
 			setSampleName(readsFile1);
 		}
-	}
-
-	public static Optional<File> lookForReadsFile2(File readsFile1) {
-		for(String extension : FASTQ_EXTENSIONS) {
-			File readsFile2 = new File(
-				readsFile1.getAbsolutePath()
-				.replace("_1" + extension, "_2" + extension)
-			);
-			if (readsFile2.exists() && !readsFile1.equals(readsFile2)) {
-				return Optional.of(readsFile2);
-			}
-		}
-		return Optional.empty();
 	}
 
 	private void setSampleName(File readsFile1) {
@@ -211,7 +216,7 @@ public class FastqSampleEditor extends JPanel {
 	/**
 	 * Returns the name of a reads file by removing the file extension and the
 	 * {@code _1} or {@code _2} markers.
-	 * 
+	 *
 	 * @param readsFile the reads file
 	 * @return a string with the name
 	 */
@@ -226,6 +231,11 @@ public class FastqSampleEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Sets the list of selectable conditions.
+	 *
+	 * @param selectableConditions the list of selectable conditions
+	 */
 	public void setSelectableConditions(List<String> selectableConditions) {
 		Object selectedItem = this.selectableConditionsModel.getSelectedItem();
 		this.selectableConditionsModel.removeAllElements();
@@ -242,6 +252,13 @@ public class FastqSampleEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Returns {@code true} if the current values are valid for creating a new
+	 * {@code FastqReadsSample} object and {@code false} otherwise.
+	 *
+	 * @return {@code true} if the current values are valid for creating a new
+	 * {@code FastqReadsSample} object and {@code false} otherwise.
+	 */
 	public boolean isValidValue() {
 		return 	isValidSampleName()	&&
 				isValidCondition()	&&
@@ -257,19 +274,28 @@ public class FastqSampleEditor extends JPanel {
 		return 	!this.selectableConditionsModel.getSelectedItem()
 				.equals(NO_CONDITION);
 	}
-	
-	public boolean isValidReadsFile1() {
+
+	private boolean isValidReadsFile1() {
 		return isValidFile(reads1FileChooser.getSelectedFile());
 	}
 
-	public boolean isValidReadsFile2() {
+	private boolean isValidReadsFile2() {
 		return isValidFile(reads2FileChooser.getSelectedFile());
 	}
 
-	public static boolean isValidFile(File selectedFile) {
-		return 	selectedFile != null 	&& 
-				selectedFile.exists()	&& 
-				hasValidFileExtension(selectedFile);
+	/**
+	 * Returns {@code true} if {@code selectedFile} is a valid file, that is: it
+	 * is not null, it exists in the file system and it has a valid reads file
+	 * extension. Otherwise, it returns {@code false}
+	 *
+	 * @param file the file that must be checked
+	 * @return {@code true} if the given file is valid and {@code false}
+	 *         otherwise
+	 */
+	public static boolean isValidFile(File file) {
+		return 	file != null 	&&
+				file.exists()	&&
+				hasValidFileExtension(file);
 	}
 
 	private static boolean hasValidFileExtension(File file) {
@@ -281,13 +307,32 @@ public class FastqSampleEditor extends JPanel {
 		return false;
 	}
 
+	/**
+	 * Returns a new {@code DefaultFastqReadsSample} created with the current
+	 * values of the editor.
+	 *
+	 * @return a new {@code DefaultFastqReadsSample} created with the current
+	 *         values of the editor
+	 */
 	public DefaultFastqReadsSample getSample() {
 		return 	new DefaultFastqReadsSample(
 					this.sampleNameTextField.getText(),
-					this.selectableConditionsModel.getSelectedItem().toString(), 
-					reads1FileChooser.getSelectedFile(), 
+					this.selectableConditionsModel.getSelectedItem().toString(),
+					reads1FileChooser.getSelectedFile(),
 					reads2FileChooser.getSelectedFile()
 				);
+	}
+
+	/**
+	 * Sets a {@code FastqReadsSample} to edit.
+	 *
+	 * @param sample a {@code FastqReadsSample} to edit.
+	 */
+	public void setSample(FastqReadsSample sample) {
+		this.sampleNameTextField.setText(sample.getName());
+		this.selectableConditionsModel.setSelectedItem(sample.getCondition());
+		this.reads1FileChooser.setSelectedFile(sample.getReadsFile1());
+		this.reads2FileChooser.setSelectedFile(sample.getReadsFile2());
 	}
 
 	private void sampleEdited() {
@@ -296,10 +341,20 @@ public class FastqSampleEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Adds the specified {@code SampleEditorListener} to the listeners list.
+	 *
+	 * @param l a {@code SampleEditorListener}
+	 */
 	public synchronized void addSampleEditorListener(SampleEditorListener l) {
 		this.listenerList.add(SampleEditorListener.class, l);
 	}
 
+	/**
+	 * Returns the list of all registered {@code SampleEditorListener}s.
+	 *
+	 * @return the list of all registered {@code SampleEditorListener}s
+	 */
 	public synchronized SampleEditorListener[] getdSampleEditorListeners() {
 		return this.listenerList.getListeners(SampleEditorListener.class);
 	}
