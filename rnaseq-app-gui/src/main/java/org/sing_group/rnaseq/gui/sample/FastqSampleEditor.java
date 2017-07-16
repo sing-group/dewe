@@ -17,7 +17,6 @@ import java.util.Optional;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.FileFilter;
@@ -29,10 +28,12 @@ import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.text.ExtendedJXTextField;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
+import org.sing_group.rnaseq.gui.util.UISettings;
 
 /**
  * A graphical component that allows the edition of {@code FastqReadsSample}
@@ -58,7 +59,7 @@ public class FastqSampleEditor extends JPanel {
 	private List<String> selectableConditions;
 	private InputParametersPanel inputParametersPanel = new InputParametersPanel();
 	private DefaultComboBoxModel<String> selectableConditionsModel;
-	private JTextField sampleNameTextField;
+	private ExtendedJXTextField sampleNameTextField;
 	private JFileChooserPanel reads1FileChooser;
 	private JFileChooserPanel reads2FileChooser;
 
@@ -109,7 +110,8 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private InputParameter getSampleNameParameter() {
-		sampleNameTextField = new JTextField();
+		sampleNameTextField = new ExtendedJXTextField("Sample name");
+		sampleNameTextField.setEmptyTextFieldColor(UISettings.COLOR_ERROR);
 		sampleNameTextField.getDocument()
 			.addDocumentListener(new DocumentAdapter() {
 				@Override
