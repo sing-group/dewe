@@ -47,6 +47,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	public static final ImageConfigurationParameter DEFAULT_IMAGES_CONFIGURATION = null;
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
+	private static final String NOT_SET = "<Not set>";
 	private static final String STEP_ALIGN = "Align reads";
 	private static final String STEP_SAM_TO_BAM = "Converting sam to bam";
 	private static final String STEP_STRINGTIE = "Running StringTie";
@@ -352,6 +353,16 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		LOGGER.info("STEP:" + message);
 	}
 
+	/**
+	 * Creates a summary containing all the provided information.
+	 * 
+	 * @param referenceGenome the reference genome index
+	 * @param referenceAnnotationFile the reference annotation file
+	 * @param workingDirectory the working directory
+	 * @param samples a list of {@code FastqReadsSamples}
+	 * 
+	 * @return a summary containing all the provided information.
+	 */
 	public static String getSummary(ReferenceGenomeIndex referenceGenome,
 		File referenceAnnotationFile, File workingDirectory,
 		FastqReadsSamples samples
@@ -380,26 +391,59 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			.append("Experiment samples: ")
 			.append(NEW_LINE);
 
+		sb.append(getSamplesSummary(samples));
+
+		return sb.toString();
+	}
+
+	/**
+	 * Creates a summary with the specified list of samples.
+	 * 
+	 * @param samples a list of {@code FastqReadsSamples}
+	 * 
+	 * @return a summary with the specified samples
+	 */
+	public static String getSamplesSummary(FastqReadsSamples samples) {
+		StringBuilder sb = new StringBuilder();
 		samples.forEach(s -> {
 			sb
 				.append(TAB)
 				.append("- Sample name: ")
-				.append(s.getName())
+				.append(getSampleName(s))
 				.append(" [Condition: ")
-				.append(s.getCondition() + "]")
+				.append(getSampleCondition(s) + "]")
 				.append(NEW_LINE)
 				.append(TAB)
 				.append(TAB)
 				.append("Reads file 1 file: ")
-				.append(s.getReadsFile1().getName())
+				.append(getSampleRedasFile1(s))
 				.append(NEW_LINE)
 				.append(TAB)
 				.append(TAB)
 				.append("Reads file 2 file: ")
-				.append(s.getReadsFile2().getName())
+				.append(getSampleRedasFile2(s))
 				.append(NEW_LINE);
 		});
 		return sb.toString();
+	}
+
+	private static String getSampleName(FastqReadsSample s) {
+		return s.getName() != null && !s.getName().isEmpty() ? s.getName()
+			: NOT_SET;
+	}
+
+	private static String getSampleCondition(FastqReadsSample s) {
+		return s.getCondition() != null ? s.getCondition() : NOT_SET;
+	}
+
+	private static String getSampleRedasFile1(FastqReadsSample s) {
+		return s.getReadsFile1() != null ? s.getReadsFile1().getName()
+			: NOT_SET;
+	}
+
+	private static String getSampleRedasFile2(FastqReadsSample s) {
+		return s.getReadsFile2() != null ? s.getReadsFile2().getName()
+			: NOT_SET;
 	}
 
 	private static Set<String> getConditions(FastqReadsSamples samples) {

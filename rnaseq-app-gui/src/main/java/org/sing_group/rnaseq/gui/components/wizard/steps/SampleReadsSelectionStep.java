@@ -4,8 +4,11 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,9 @@ import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
 public class SampleReadsSelectionStep extends WizardStep
 	implements SamplesEditorListener {
+
+	private static final String WARNING_SAMPLES_CONDITION =
+		"At least two samples must be assigned to each condition.";
 
 	private ExperimentalConditionsStep experimentalConditionsStep;
 	private FastqSamplesEditor fastqSamplesEditor;
@@ -51,8 +57,61 @@ public class SampleReadsSelectionStep extends WizardStep
 
 	@Override
 	public boolean isStepCompleted() {
-		return this.fastqSamplesEditor.isValidSelection()
-			&& checkSamplesPerCondition();
+		if (this.fastqSamplesEditor.isValidSelection()) {
+			return checkSamplesSelection();
+		} else {
+			return false;
+		}
+	}
+
+	private boolean checkSamplesSelection() {
+		boolean samplesPerCondition = checkSamplesPerCondition();
+		List<String> duplicatedSampleNames = findDuplicateSampleNames();
+		boolean allSampleNamesAreUnique = duplicatedSampleNames.isEmpty();
+
+		if (samplesPerCondition && allSampleNamesAreUnique) {
+			this.fastqSamplesEditor.removeWarningMessages();
+			return true;
+		} else {
+			final List<String> warningMessages =
+				getWarningMessages(samplesPerCondition, duplicatedSampleNames);
+			this.fastqSamplesEditor.setWarningMessages(warningMessages);
+			return false;
+		}
+	}
+
+	private List<String> findDuplicateSampleNames() {
+		Map<Object, Long> counts = this.fastqSamplesEditor.getSamples().stream()
+			.map(FastqReadsSample::getName)
+			.collect(groupingBy(e -> e, counting()));
+
+		List<String> duplicatedNames = new LinkedList<>();
+		for (Entry<Object, Long> entry : counts.entrySet()) {
+			if (entry.getValue() > 1) {
+				duplicatedNames.add(entry.getKey().toString());
+			}
+		}
+
+		return duplicatedNames;
+	}
+
+	private List<String> getWarningMessages(boolean samplesPerCondition,
+		List<String> duplicatedSampleNames
+	) {
+		boolean allSampleNamesAreUnique = duplicatedSampleNames.isEmpty();
+		final List<String> warningMessages = new ArrayList<>();
+
+		if (!samplesPerCondition) {
+			warningMessages.add(WARNING_SAMPLES_CONDITION);
+		}
+
+		if(!allSampleNamesAreUnique) {
+			duplicatedSampleNames.stream()
+				.map(n -> "Sample name '" + n + " 'is duplicated.")
+				.forEach(n -> warningMessages.add(n));
+		}
+
+		return warningMessages;
 	}
 
 	private boolean checkSamplesPerCondition() {

@@ -1,9 +1,15 @@
 package org.sing_group.rnaseq.gui.sample;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getSamplesSummary;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,14 +20,18 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
+import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
@@ -43,12 +53,17 @@ import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 public class FastqSamplesEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final int DEFAULT_INITIAL_NUM_SAMPLES = 2;
+	private static final ImageIcon ICON_WARNING = Icons.ICON_WARNING_COLOR_24;
+	private static final String WARNING_SAMPLES = "Some samples are not valid.";
+	private static final ImageIcon ICON_OK = Icons.ICON_OK_COLOR_24;
 
 	private List<SampleEditorComponent> samples = new LinkedList<>();
 	private JPanel samplesPanel;
 	private List<String> selectableConditions = Collections.emptyList();
 	private int initialSamples;
 	private JScrollPane samplesPaneScroll;
+	private JLabel configurationStatusLabel;
+	private List<String> warningsMessages = Collections.emptyList();
 
 	/**
 	 * Creates a new {@code FastqSamplesEditor} with the default number of
@@ -78,20 +93,8 @@ public class FastqSamplesEditor extends JPanel {
 	private JComponent createButtonsPanel() {
 		JToolBar buttonsToolbar = new JToolBar();
 		buttonsToolbar.setOpaque(false);
+		buttonsToolbar.setFloatable(false);
 		buttonsToolbar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 10));
-		JButton addBtn = JButtonBuilder.newJButtonBuilder()
-			.withText("Add sample")
-			.withTooltip("Adds a new sample to the analysis")
-			.withIcon(Icons.ICON_ADD_16)
-			.thatDoes(new AbstractAction() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					addSampleEditorComponent();
-				}
-			})
-			.build();
 		JButton removeSamplesBtn = JButtonBuilder.newJButtonBuilder()
 			.withText("Remove all samples")
 			.withTooltip("Removes all samples from the analysis")
@@ -105,10 +108,41 @@ public class FastqSamplesEditor extends JPanel {
 				}
 			})
 			.build();
+		JButton addBtn = JButtonBuilder.newJButtonBuilder()
+			.withText("Add sample")
+			.withTooltip("Adds a new sample to the analysis")
+			.withIcon(Icons.ICON_ADD_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					addSampleEditorComponent();
+				}
+			})
+			.build();
+		JButton summaryBtn = JButtonBuilder.newJButtonBuilder()
+			.withText("Summary")
+			.withTooltip("Shows a summary of all samples")
+			.withIcon(Icons.ICON_INFO_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showSamplesSummary();
+				}
+			})
+			.build();
+
+		configurationStatusLabel = new JLabel(ICON_WARNING);
 
 		buttonsToolbar.add(removeSamplesBtn);
 		buttonsToolbar.add(Box.createHorizontalGlue());
+		buttonsToolbar.add(configurationStatusLabel);
+		buttonsToolbar.add(Box.createHorizontalGlue());
 		buttonsToolbar.add(addBtn);
+		buttonsToolbar.add(summaryBtn);
 
 		return buttonsToolbar;
 	}
@@ -135,6 +169,11 @@ public class FastqSamplesEditor extends JPanel {
 		this.updateUI();
 	}
 
+	private void showSamplesSummary() {
+		showMessageDialog(getParent(), getSamplesSummary(getSamples()),
+			"Samples summary", JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	protected FastqSampleEditor getFastqSampleEditor() {
 		return new FastqSampleEditor(selectableConditions);
 	}
@@ -144,7 +183,10 @@ public class FastqSamplesEditor extends JPanel {
 	{
 		private static final long serialVersionUID = 1L;
 
+		private static final String WARNING_LABEL_TOOLTIP =
+			"Some sample data is missing, please, revise it.";
 		private FastqSampleEditor editor;
+		private JLabel warningLabel;
 
 		public SampleEditorComponent(FastqSampleEditor editor) {
 			this.editor = editor;
@@ -156,7 +198,22 @@ public class FastqSamplesEditor extends JPanel {
 			this.setLayout(new FlowLayout());
 			this.setOpaque(false);
 			this.add(editor);
-			this.add(getRemoveButton());
+			this.add(getButtonsPanel());
+		}
+
+		private JPanel getButtonsPanel() {
+			JPanel buttonsPanel = new JPanel(new GridLayout(2, 1));
+			warningLabel = new JLabel(ICON_WARNING);
+			warningLabel.setToolTipText(WARNING_LABEL_TOOLTIP);
+			warningLabel.setVisible(!this.editor.isValidValue());
+
+			buttonsPanel.add(getRemoveButton());
+			buttonsPanel.add(warningLabel);
+			buttonsPanel.setOpaque(false);
+
+			CenteredJPanel toret = new CenteredJPanel(buttonsPanel);
+			toret.setOpaque(false);
+			return toret;
 		}
 
 		private JButton getRemoveButton() {
@@ -189,6 +246,7 @@ public class FastqSamplesEditor extends JPanel {
 
 		@Override
 		public void onSampleEdited(ChangeEvent event) {
+			this.warningLabel.setVisible(!this.editor.isValidValue());
 			sampleEdited();
 		}
 
@@ -206,6 +264,40 @@ public class FastqSamplesEditor extends JPanel {
 		});
 	}
 
+	private void updateConfigurationStatusLabel() {
+		this.configurationStatusLabel.setToolTipText(null);
+		boolean validSelection = this.isValidSelection();
+		if (validSelection && !hasWarnings()) {
+			this.configurationStatusLabel.setIcon(ICON_OK);
+		} else {
+			this.configurationStatusLabel.setIcon(ICON_WARNING);
+			String warningsMessage = null;
+			if (!validSelection) {
+				warningsMessage = getWarningsMessage(WARNING_SAMPLES);
+			} else {
+				warningsMessage = getWarningsMessage();
+			}
+			this.configurationStatusLabel.setToolTipText(warningsMessage);
+		}
+	}
+
+	private String getWarningsMessage(String...warnings) {
+		List<String> allWarnings = new ArrayList<>();
+		allWarnings.addAll(Arrays.asList(warnings));
+		allWarnings.addAll(warningsMessages);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><p>Warnings:</p><ul>");
+		sb.append(allWarnings.stream().collect(Collectors.joining("</li><li>", "<li>", "</li>")));
+		sb.append("</ul></html>");
+
+		return sb.toString();
+	}
+
+	private boolean hasWarnings() {
+		return !this.warningsMessages.isEmpty();
+	}
+
 	/**
 	 * Returns {@code true} if the current values are valid for creating a new
 	 * {@code FastqReadsSample} objects and {@code false} otherwise.
@@ -221,18 +313,21 @@ public class FastqSamplesEditor extends JPanel {
 	}
 
 	private void sampleAdded() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleAdded(new ChangeEvent(this));
 		}
 	}
 
 	private void sampleRemoved() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleRemoved(new ChangeEvent(this));
 		}
 	}
 
 	private void sampleEdited() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
 		}
@@ -316,5 +411,24 @@ public class FastqSamplesEditor extends JPanel {
 		samplesPanel.add(editor);
 		samples.add(editor);
 		sampleAdded();
+	}
+
+	/**
+	 * Sets the warning icon visible with the specified warning messages as
+	 * tooltip.
+	 *
+	 * @param warningMessages the warning message to use as tooltip
+	 */
+	public void setWarningMessages(List<String> warningMessages) {
+		this.warningsMessages = warningMessages;
+		this.updateConfigurationStatusLabel();
+	}
+
+	/**
+	 * Hides the warning icon.
+	 */
+	public void removeWarningMessages() {
+		this.warningsMessages = Collections.emptyList();
+		this.updateConfigurationStatusLabel();
 	}
 }
