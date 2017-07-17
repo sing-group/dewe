@@ -1,10 +1,10 @@
 package org.sing_group.rnaseq.gui.sample;
 
 import static javax.swing.JOptionPane.showMessageDialog;
-import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getSamplesSummary;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -36,6 +37,7 @@ import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
@@ -170,8 +172,25 @@ public class FastqSamplesEditor extends JPanel {
 	}
 
 	private void showSamplesSummary() {
-		showMessageDialog(getParent(), getSamplesSummary(getSamples()),
+		showMessageDialog(getParent(), getSamplesSummary(),
 			"Samples summary", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private JComponent getSamplesSummary() {
+		JTextArea textArea = new JTextArea();
+		textArea.setTabSize(2);
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setOpaque(false);
+		textArea.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+		textArea.setText(AbstractDifferentialExpressionWorkflow
+			.getSamplesSummary(getSamples()));
+		JScrollPane toret = new JScrollPane(textArea);
+		Dimension preferredSize = new Dimension(600, 400);
+		toret.setPreferredSize(preferredSize);
+		textArea.setSelectionStart(0);
+		textArea.setSelectionEnd(0);
+		return toret;
 	}
 
 	protected FastqSampleEditor getFastqSampleEditor() {
