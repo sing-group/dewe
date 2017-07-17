@@ -2,6 +2,7 @@ package org.sing_group.rnaseq.gui.components.wizard.steps;
 
 import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
+import java.awt.FlowLayout;
 import java.awt.Window;
 import java.io.File;
 import java.util.LinkedList;
@@ -13,13 +14,16 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.sing_group.gc4s.ui.CenteredJPanel;
+import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
@@ -31,6 +35,18 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalCondi
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 public class ExperimentalConditionsStep extends WizardStep {
+
+	private static final String TOOLTIP_IMPORT_CONDITIONS = "<html>"
+		+ "This option allows you to import the experimental conditions and "
+		+ "their samples from a directory. <br/><br/>To do that, the directory "
+		+ "that you select here must be organized as follows:<ul>"
+		+ "<li>It must contain two folders and the name of each folder will "
+		+ "correspond to a condition.</li>"
+		+ "<li>Each of the two folders must contain the pairwise files of the "
+		+ "samples and these files must be in .fq, .fastq or .fastq.gz format."
+		+ "</li></ul>"
+		+ "Note that samples are paired-end and the first read file must "
+		+ "end in _1 and the second in _2.";
 
 	private JPanel stepComponent;
 	private int minConditions;
@@ -79,14 +95,25 @@ public class ExperimentalConditionsStep extends WizardStep {
 		selectionPanel.setOpaque(false);
 		JXLabel descriptionLabel = new JXLabel(
 			"Introduce the experimental conditions:");
+		descriptionLabel.setAlignmentX(SwingConstants.LEFT);
 		selectionPanel.add(Box.createHorizontalGlue());
 		selectionPanel.add(descriptionLabel);
 		selectionPanel.add(getExperimentalConditionsPanel());
 		selectionPanel.add(Box.createHorizontalStrut(30));
+
+		JPanel importConditionsPanel = new JPanel();
+		importConditionsPanel.setLayout(new FlowLayout());
+		importConditionsPanel.setOpaque(false);
 		JXButton importConditions = new JXButton(new ExtendedAbstractAction(
 			"Or import them from a data directory", this::importConditions));
-		selectionPanel.add(importConditions);
+		importConditionsPanel.add(importConditions);
+		JLabel importConditionsInfo = new JLabel(Icons.ICON_INFO_16);
+		importConditionsInfo.setToolTipText(TOOLTIP_IMPORT_CONDITIONS);
+		importConditionsPanel.add(importConditionsInfo);
+
+		selectionPanel.add(importConditionsPanel);
 		selectionPanel.add(Box.createHorizontalGlue());
+
 		return selectionPanel;
 	}
 
