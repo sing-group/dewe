@@ -11,7 +11,7 @@
 
 	<artifactId>rnaseq-app-core</artifactId>
 	<packaging>jar</packaging>
-	<name>RNASeq App Core</name>
+	<name>DEWE Core</name>
 
 	<dependencies>
 		<dependency>

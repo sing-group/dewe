@@ -11,7 +11,7 @@
 
 	<artifactId>rnaseq-app-aibench</artifactId>
 	<packaging>jar</packaging>
-	<name>RNASeq App</name>
+	<name>DEWE</name>
 	
 	<dependencies>
 		<dependency>

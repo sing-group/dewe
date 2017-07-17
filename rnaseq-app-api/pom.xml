@@ -11,5 +11,5 @@
 
 	<artifactId>rnaseq-app-api</artifactId>
 	<packaging>jar</packaging>
-	<name>RNASeq App API</name>
+	<name>DEWE API</name>
 </project>

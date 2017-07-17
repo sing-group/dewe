@@ -11,7 +11,7 @@
 
 	<artifactId>rnaseq-app-gui</artifactId>
 	<packaging>jar</packaging>
-	<name>RNASeq App GUI</name>
+	<name>DEWE GUI</name>
 
 	<dependencies>
 		<dependency>
