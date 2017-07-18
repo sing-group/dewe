@@ -1,8 +1,8 @@
 package org.sing_group.rnaseq.gui.components.wizard.components;
 
 import static java.util.Arrays.asList;
-import static org.sing_group.rnaseq.gui.util.UISettings.COLOR_ERROR;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,19 +13,20 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
 
+import org.jdesktop.swingx.JXTextField;
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
-import org.sing_group.gc4s.text.ExtendedJXTextField;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
+import org.sing_group.rnaseq.gui.util.UISettings;
 
 public class TwoConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {
 	private static final long serialVersionUID = 1L;
 
 	private InputParametersPanel inputParametersPanel;
-	private ExtendedJXTextField conditionAtf;
-	private ExtendedJXTextField conditionBtf;
+	private JXTextField conditionAtf;
+	private JXTextField conditionBtf;
 
 	private DocumentListener documentListener = new DocumentAdapter() {
 		public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -64,22 +65,21 @@ public class TwoConditionsSelectionPanel extends JPanel
 	}
 
 	private InputParameter getConditionAParameter() {
-		conditionAtf = new ExtendedJXTextField("Condition A");
-		conditionAtf.setEmptyTextFieldColor(COLOR_ERROR);
+		conditionAtf = new JXTextField("Condition A");
 		conditionAtf.getDocument().addDocumentListener(documentListener);
 		return new InputParameter("Condition A", conditionAtf,
 			"The first condition");
 	}
 
 	private InputParameter getConditionBParameter() {
-		conditionBtf = new ExtendedJXTextField("Condition B");
-		conditionBtf.setEmptyTextFieldColor(COLOR_ERROR);
+		conditionBtf = new JXTextField("Condition B");
 		conditionBtf.getDocument().addDocumentListener(documentListener);
 		return new InputParameter("Condition B", conditionBtf,
 			"The second condition");
 	}
 
 	private void conditionsChanged() {
+		checkConditions();
 		for (ExperimentalConditionsEditorListener l : this
 			.getListeners(ExperimentalConditionsEditorListener.class)
 		) {
@@ -87,10 +87,34 @@ public class TwoConditionsSelectionPanel extends JPanel
 		}
 	}
 
+	private void checkConditions() {
+		conditionAtf.setBackground(getConditionABackgroundColor());
+		conditionBtf.setBackground(getConditionBBackgroundColor());
+	}
+
+	private Color getConditionABackgroundColor() {
+		return isConditionAValid() ? null : UISettings.COLOR_ERROR;
+	}
+
+	private Color getConditionBBackgroundColor() {
+		return isConditionBValid() ? null : UISettings.COLOR_ERROR;
+	}
+
 	@Override
 	public boolean isValidSelection() {
-		return !conditionAtf.getText().isEmpty()
-			&& !conditionBtf.getText().isEmpty();
+		return isConditionAValid() && isConditionBValid();
+	}
+
+	private boolean isConditionAValid() {
+		return !conditionAtf.getText().isEmpty() && areConditionsDifferent();
+	}
+
+	private boolean isConditionBValid() {
+		return !conditionBtf.getText().isEmpty() && areConditionsDifferent();
+	}
+
+	private boolean areConditionsDifferent() {
+		return !conditionAtf.getText().equals(conditionBtf.getText());
 	}
 
 	@Override
