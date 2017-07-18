@@ -1,14 +1,19 @@
 package org.sing_group.rnaseq.gui.components.wizard.components;
 
 import static java.util.Arrays.asList;
+import static javax.swing.SwingUtilities.getWindowAncestor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
@@ -17,6 +22,8 @@ import org.jdesktop.swingx.JXTextField;
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.rnaseq.gui.components.wizard.steps.ControlAndTreatmentConditionsDialog;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 import org.sing_group.rnaseq.gui.util.UISettings;
 
@@ -42,13 +49,17 @@ public class TwoConditionsSelectionPanel extends JPanel
 		};
 	};
 
+	private JButton controlTreatmentButton;
+
 
 	public TwoConditionsSelectionPanel() {
 		this.init();
 	}
 
 	private void init() {
-		this.add(getInputParametersPanel());
+		this.setLayout(new BorderLayout());
+		this.add(getInputParametersPanel(), BorderLayout.CENTER);
+		this.add(getSouthComponent(), BorderLayout.EAST);
 	}
 
 	private Component getInputParametersPanel() {
@@ -90,6 +101,7 @@ public class TwoConditionsSelectionPanel extends JPanel
 	private void checkConditions() {
 		conditionAtf.setBackground(getConditionABackgroundColor());
 		conditionBtf.setBackground(getConditionBBackgroundColor());
+		controlTreatmentButton.setEnabled(isValidSelection());
 	}
 
 	private Color getConditionABackgroundColor() {
@@ -115,6 +127,39 @@ public class TwoConditionsSelectionPanel extends JPanel
 
 	private boolean areConditionsDifferent() {
 		return !conditionAtf.getText().equals(conditionBtf.getText());
+	}
+
+	public JComponent getSouthComponent() {
+		controlTreatmentButton = new JButton(
+			new ExtendedAbstractAction(
+				"<html>Define control <br/>and treatment</html>",
+				this::defineControlAndTreatment)
+		);
+		controlTreatmentButton.setEnabled(false);
+		return controlTreatmentButton;
+	}
+
+	private void defineControlAndTreatment() {
+		ControlAndTreatmentConditionsDialog dialog =
+			new ControlAndTreatmentConditionsDialog(getWindowAncestor(this),
+			conditionAtf.getText(), conditionBtf.getText());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			updateConditionNames(dialog.getConditionMapping());
+		}
+	}
+
+	private void updateConditionNames(Map<String, String> conditionMapping) {
+		this.conditionAtf.setText(
+			conditionMapping.get(this.conditionAtf.getText()));
+		this.conditionBtf.setText(
+			conditionMapping.get(this.conditionBtf.getText()));
+		for (ExperimentalConditionsEditorListener l : this
+			.getListeners(ExperimentalConditionsEditorListener.class)
+		) {
+			l.experimentalConditionsRenamed(new ChangeEvent(this), conditionMapping);
+		}
 	}
 
 	@Override

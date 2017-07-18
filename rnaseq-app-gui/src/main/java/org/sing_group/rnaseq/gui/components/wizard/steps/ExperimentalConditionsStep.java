@@ -5,9 +5,11 @@ import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.config
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import javax.swing.Box;
@@ -131,6 +133,12 @@ public class ExperimentalConditionsStep extends WizardStep {
 				public void experimentalConditionsChanged(ChangeEvent event) {
 					conditionsListChanged();
 				}
+
+				@Override
+				public void experimentalConditionsRenamed(ChangeEvent event,
+					Map<String, String> renameMap) {
+					conditionsRenamed(renameMap);
+				}
 			}
 		);
 
@@ -160,6 +168,23 @@ public class ExperimentalConditionsStep extends WizardStep {
 
 	private void conditionsListChanged() {
 		notifyWizardStepStatus();
+	}
+
+	protected void conditionsRenamed(Map<String, String> renameMap) {
+		renameConditions(renameMap);
+		notifyWizardStepStatus();
+	}
+
+	private void renameConditions(Map<String, String> renameMap) {
+		if (this.experimentalConditionsAndSamples != null) {
+			Map<String, FastqReadsSamples> newExperimentalConditionsAndSamples = new HashMap<>();
+			for (Entry<String, FastqReadsSamples> entry : experimentalConditionsAndSamples
+				.entrySet()) {
+				newExperimentalConditionsAndSamples
+					.put(renameMap.get(entry.getKey()), entry.getValue());
+			}
+			this.experimentalConditionsAndSamples = newExperimentalConditionsAndSamples;
+		}
 	}
 
 	@Override
