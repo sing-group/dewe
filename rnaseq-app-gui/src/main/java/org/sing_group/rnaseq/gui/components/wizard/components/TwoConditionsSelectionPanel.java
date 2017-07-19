@@ -60,6 +60,7 @@ public class TwoConditionsSelectionPanel extends JPanel
 		this.setLayout(new BorderLayout());
 		this.add(getInputParametersPanel(), BorderLayout.CENTER);
 		this.add(getSouthComponent(), BorderLayout.EAST);
+		this.checkConditions();
 	}
 
 	private Component getInputParametersPanel() {
