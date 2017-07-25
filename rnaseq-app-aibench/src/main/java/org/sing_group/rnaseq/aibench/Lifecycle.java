@@ -13,10 +13,12 @@ import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
+import org.sing_group.gc4s.demo.DemoUtils;
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
@@ -29,10 +31,11 @@ import es.uvigo.ei.aibench.TextAreaAppender;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
-import org.sing_group.gc4s.demo.DemoUtils;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	public static final String APP_CONFIGURATION_FILE = "conf/app.conf";
+	private static final ImageIcon ICON =
+		new ImageIcon(Lifecycle.class.getResource("/icons/app-icon.png"));
 
 	@Override
 	public void start() {
@@ -59,6 +62,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		window.getDocumentTabbedPane().getParent().setBackground(Color.WHITE);
 
 		JFrame mainFrame = Workbench.getInstance().getMainFrame();
+		mainFrame.setIconImage(ICON.getImage());
 		mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
