@@ -12,7 +12,6 @@ public class DefaultSystemBinaries implements SystemBinaries {
 	private File[] baseDirectories;
 	private String cmdJoin;
 	private String cmdSed;
-	private String cmdEnsgidsToSymbols;
 	private String cmdAwk;
 
 	public DefaultSystemBinaries(String...paths) {
@@ -25,20 +24,16 @@ public class DefaultSystemBinaries implements SystemBinaries {
 			this.baseDirectories[i] = new File(paths[i]);
 		}
 		this.cmdJoin = getAbsolutePath(
-			findParentDirectory(baseDirectories, defaultJoin()).get(), 
+			findParentDirectory(baseDirectories, defaultJoin()).get(),
 			defaultJoin()
 		);
 		this.cmdSed = getAbsolutePath(
-			findParentDirectory(baseDirectories, defaultSed()).get(), 
+			findParentDirectory(baseDirectories, defaultSed()).get(),
 			defaultSed()
 		);
 		this.cmdAwk = getAbsolutePath(
 			findParentDirectory(baseDirectories, defaultAwk()).get(),
 			defaultAwk()
-		);
-		this.cmdEnsgidsToSymbols = getAbsolutePath(
-			findParentDirectory(baseDirectories, defaultEnsgidsToSymbols()).get(), 
-			defaultEnsgidsToSymbols()
 		);
 	}
 
@@ -49,15 +44,11 @@ public class DefaultSystemBinaries implements SystemBinaries {
 	private String defaultSed() {
 		return DefaultSystemEnvironment.getInstance().getDefaultSed();
 	}
-	
+
 	private String defaultAwk(){
 		return DefaultSystemEnvironment.getInstance().getDefaultAwk();
 	}
 
-	private String defaultEnsgidsToSymbols() {
-		return DefaultSystemEnvironment.getInstance().getDefaultEnsgidsToSymbols();
-	}
-	
 	@Override
 	public String getJoin() {
 		return this.cmdJoin;
@@ -67,14 +58,9 @@ public class DefaultSystemBinaries implements SystemBinaries {
 	public String getSed() {
 		return this.cmdSed;
 	}
-	
+
 	@Override
 	public String getAwk(){
 		return this.cmdAwk;
-	}
-	
-	@Override
-	public String getEnsgidsToSymbols() {
-		return this.cmdEnsgidsToSymbols;
 	}
 }

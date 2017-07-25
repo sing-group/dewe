@@ -19,12 +19,12 @@ import org.slf4j.LoggerFactory;
 public class DefaultSystemBinariesExecutor
 	extends AbstractBinariesExecutor<SystemBinaries>
 	implements SystemBinariesExecutor {
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultSystemBinariesExecutor.class);  
-	
+	private final static Logger LOG = LoggerFactory.getLogger(DefaultSystemBinariesExecutor.class);
+
 	public DefaultSystemBinariesExecutor(SystemBinaries binaries) throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
 	public void setBinaries(SystemBinaries binaries) throws BinaryCheckException {
 		super.setBinaries(binaries);
@@ -40,9 +40,9 @@ public class DefaultSystemBinariesExecutor
 	public ExecutionResult join(File a, File b, File result)
 		throws ExecutionException, InterruptedException {
 		return 	executeCommand(
-			result, 
-			LOG, 
-			this.binaries.getJoin(), 
+			result,
+			LOG,
+			this.binaries.getJoin(),
 			asString(new File[]{a, b})
 		);
 	}
@@ -57,7 +57,7 @@ public class DefaultSystemBinariesExecutor
 		StringBuilder errThreadTxtSb = new StringBuilder();
 
 		File nextJoinAFile = files[0];
-		
+
 		for(int i = 1; i < files.length; i++) {
 			File nextJoinBFile = files[i];
 			try {
@@ -83,22 +83,10 @@ public class DefaultSystemBinariesExecutor
 		throws ExecutionException, InterruptedException {
 		return executeCommand(LOG, this.binaries.getSed(), params);
 	}
-	
+
 	@Override
 	public ExecutionResult awk(File output, String...params)
 		throws ExecutionException, InterruptedException {
 		return executeCommand(output, LOG, this.binaries.getAwk(), params);
-	}
-
-
-	@Override
-	public ExecutionResult ensgidsToSymbols(File referenceAnnotationFile,
-			File outputFile) throws ExecutionException, InterruptedException {
-		return 	executeCommand(
-			LOG, 
-			this.binaries.getEnsgidsToSymbols(), 
-			referenceAnnotationFile.getAbsolutePath(), 
-			outputFile.getAbsolutePath()
-		);
 	}
 }

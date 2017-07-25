@@ -6,6 +6,4 @@ public interface SystemEnvironment {
 	public abstract String getDefaultSed();
 
 	public abstract String getDefaultAwk();
-
-	public abstract String getDefaultEnsgidsToSymbols();
 }

@@ -10,6 +10,4 @@ public interface SystemBinaries extends Binaries {
 	public abstract String getSed();
 
 	public abstract String getAwk();
-
-	public abstract String getEnsgidsToSymbols();
 }
