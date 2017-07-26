@@ -34,7 +34,45 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 	@Override
 	public void checkJoin() throws BinaryCheckException {
 		String runCommand = this.binaries.getJoin() + " --help";
-		checkCommand(runCommand, 43);
+		checkFirstLineCommandStartsWith(runCommand, "Usage: join");
+	}
+
+
+	public void checkFirstLineCommandStartsWith(String runCommand,
+		String expectedFirstLineStart
+	) throws BinaryCheckException {
+		final Runtime runtime = Runtime.getRuntime();
+
+		try {
+			final Process process = runtime.exec(runCommand);
+
+			final BufferedReader br = new BufferedReader(
+				new InputStreamReader(process.getInputStream()));
+
+			StringBuilder sb = new StringBuilder();
+
+			String line;
+			int countLines = 0;
+			while ((line = br.readLine()) != null) {
+				sb.append(line).append('\n');
+				countLines++;
+			}
+			if (countLines > 0 && sb.toString().startsWith(expectedFirstLineStart)) {
+				throw new BinaryCheckException("Unrecognized version output", runCommand);
+			}
+
+			final int exitStatus = process.waitFor();
+			if (exitStatus != 0) {
+				throw new BinaryCheckException(
+					"Invalid exit status: " + exitStatus,
+					runCommand
+				);
+			}
+		} catch (IOException e) {
+			throw new BinaryCheckException("Error while checking version", e, runCommand);
+		} catch (InterruptedException e) {
+			throw new BinaryCheckException("Error while checking version", e, runCommand);
+		}
 	}
 
 	@Override
@@ -61,7 +99,6 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 				sb.append(line).append('\n');
 				countLines++;
 			}
-
 			if (countLines != expectedOutputLines) {
 				throw new BinaryCheckException("Unrecognized version output", runCommand);
 			}
