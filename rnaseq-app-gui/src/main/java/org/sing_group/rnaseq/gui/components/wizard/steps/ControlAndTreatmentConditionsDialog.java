@@ -64,12 +64,9 @@ public class ControlAndTreatmentConditionsDialog extends AbstractInputJDialog {
 
 	@Override
 	protected String getDescription() {
-		return "This dialog allows you to define which condition should be used"
+		return "This dialog allows you to define which condition should be used "
 			+ "as control and which condition as treatment (or case). To do "
-			+ "that, use the radio buttons to define your selection. The "
-			+ "program will add the prefixes \"Control_\" and \"Treatment_\" "
-			+ "to the current conditions' names so that they can be identified "
-			+ "during the analysis.";
+			+ "that, use the radio buttons to define your selection.";
 	}
 
 	@Override
