@@ -338,7 +338,7 @@ public class FastqSampleEditor extends JPanel {
 	}
 
 	private void sampleEdited() {
-		for (SampleEditorListener l : getdSampleEditorListeners()) {
+		for (SampleEditorListener l : getSampleEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
 		}
 	}
@@ -357,7 +357,7 @@ public class FastqSampleEditor extends JPanel {
 	 *
 	 * @return the list of all registered {@code SampleEditorListener}s
 	 */
-	public synchronized SampleEditorListener[] getdSampleEditorListeners() {
+	public synchronized SampleEditorListener[] getSampleEditorListeners() {
 		return this.listenerList.getListeners(SampleEditorListener.class);
 	}
 }
