@@ -247,8 +247,7 @@
 					<exclude>dist-scripts</exclude>
 					<exclude>assembly/**/*</exclude>
 					<exclude>assembly</exclude>
-					<exclude>windows-installer*/**/*</exclude>
-					<exclude>windows-installer*</exclude>
+					<exclude>dewe.properties</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -256,6 +255,7 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>plugin.xml</include>
+					<include>dewe.properties</include>
 				</includes>
 			</resource>
 		</resources>

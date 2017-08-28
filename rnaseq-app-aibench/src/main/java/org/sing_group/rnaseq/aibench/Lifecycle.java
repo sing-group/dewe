@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
 import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.rnaseq.aibench.gui.AboutFrame;
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
@@ -47,6 +48,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		configureLocale();
 		configureMainWindow();
 		configureAIBenchToolbar();
+		configureAIBenchMenuBar();
 		configureApp();
 	}
 
@@ -78,6 +80,11 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		}
 	}
 
+	private void configureAIBenchMenuBar() {
+		AboutFrame.getInstance()
+			.addToJMenubar(Workbench.getInstance().getMenuBar(), false);
+	}
+
 	private void configureApp() {
 		AppEnvironment environment = null;
 		try {
@@ -103,7 +110,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	public void updateReferenceGenomeManagerComponent() {
-		ReferenceGenomeIndexManagerComponent component = 
+		ReferenceGenomeIndexManagerComponent component =
 			(ReferenceGenomeIndexManagerComponent) Workbench.getInstance()
 				.getComponentAtSlot("referencegenomemanager");
 		component.setReferenceGenomeDatabaseManager(
