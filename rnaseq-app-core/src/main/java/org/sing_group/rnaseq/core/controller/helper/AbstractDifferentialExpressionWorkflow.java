@@ -31,11 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>
  * Abstract class for a differential expression workflow involving four steps:
  * reads alignment, sam to bam conversion, StringTie and differential expression
  * analysis.
- * </p>
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
@@ -355,12 +353,12 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	/**
 	 * Creates a summary containing all the provided information.
-	 * 
+	 *
 	 * @param referenceGenome the reference genome index
 	 * @param referenceAnnotationFile the reference annotation file
 	 * @param workingDirectory the working directory
 	 * @param samples a list of {@code FastqReadsSamples}
-	 * 
+	 *
 	 * @return a summary containing all the provided information.
 	 */
 	public static String getSummary(ReferenceGenomeIndex referenceGenome,
@@ -398,9 +396,9 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	/**
 	 * Creates a summary with the specified list of samples.
-	 * 
+	 *
 	 * @param samples a list of {@code FastqReadsSamples}
-	 * 
+	 *
 	 * @return a summary with the specified samples
 	 */
 	public static String getSamplesSummary(FastqReadsSamples samples) {

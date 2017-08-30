@@ -13,11 +13,30 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
+/**
+ * A concrete {@code AbstractDifferentialExpressionWorkflow} implementation to
+ * run a complete differential expression analysis using Bowtie2, StringTie and
+ * R packages (Ballgown and edgeR).
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class BowtieStringTieAndRDifferentialExpression
 	extends AbstractDifferentialExpressionWorkflow {
 
 	private Bowtie2Controller bowtie2Controller;
 
+	/**
+	 * Creates a new {@code BowtieStringTieAndRDifferentialExpression} instance
+	 * in order to perform a differential expression analysis.
+	 *
+	 * @param referenceGenome the reference genome to use in the analysis
+	 * @param reads the {@code FastqReadsSamples} to analyze
+	 * @param referenceAnnotationFile the reference annotation file
+	 * @param workingDirectory the working directory to store the analysis
+	 * 		  results
+	 */
 	public BowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
 		File referenceAnnotationFile, File workingDirectory
@@ -43,7 +62,7 @@ public class BowtieStringTieAndRDifferentialExpression
 		status.setStageProgress(0f);
 		status.setSubStage("Ballgown");
 		ballgownDifferentialExpressionAnalysis(
-			reads,referenceAnnotationFile, workingDirectory, imageConfiguration);
+			reads, workingDirectory, imageConfiguration);
 		status.setStageProgress(0.5f);
 		status.setSubStage("EdgeR");
 		edgeRDifferentialExpressionAnalysis(
