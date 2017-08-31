@@ -7,8 +7,14 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 
+/**
+ * The default {@code RController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultRController implements RController {
-	
 	private RBinariesExecutor rBinariesExecutor;
 
 	@Override
@@ -18,7 +24,7 @@ public class DefaultRController implements RController {
 
 	@Override
 	public void runScript(File script, String... args)
-			throws ExecutionException, InterruptedException {
+		throws ExecutionException, InterruptedException {
 		 final ExecutionResult result =
 			this.rBinariesExecutor.runScript(script, args);
 		

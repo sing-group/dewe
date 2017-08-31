@@ -17,15 +17,29 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultRBinariesCh
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The default {@code RBinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultRBinariesExecutor
-	extends AbstractBinariesExecutor<RBinaries>
-	implements RBinariesExecutor {
+	extends AbstractBinariesExecutor<RBinaries> implements RBinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultRBinariesExecutor.class);  
 	
-	public DefaultRBinariesExecutor(RBinaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultRBinariesExecutor} instance to execute
+	 * the specified {@code RBinaries}.
+	 * 
+	 * @param binaries the {@code RBinaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultRBinariesExecutor(RBinaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
 	public void setBinaries(RBinaries binaries) throws BinaryCheckException {
 		super.setBinaries(binaries);
@@ -38,8 +52,8 @@ public class DefaultRBinariesExecutor
 	}
 
 	@Override
-	public ExecutionResult runScript(File script, String...args)
-			throws ExecutionException, InterruptedException {
+	public ExecutionResult runScript(File script, String... args)
+		throws ExecutionException, InterruptedException {
 		final String[] newArgsArray = new String[args.length+1];
 		newArgsArray[0] = script.getAbsolutePath();
 		System.arraycopy(args, 0, newArgsArray, 1, args.length);

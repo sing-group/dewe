@@ -19,6 +19,13 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDiff
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
+/**
+ * An AIBench extension of the {@code BowtieStringTieAndRDifferentialExpressionWizard}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	extends BowtieStringTieAndRDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +44,13 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 		super(parent, wizardTitle, steps);
 	}
 
+	/**
+	 * Creates a new
+	 * {@code AIBenchBowtieStringTieAndRDifferentialExpressionWizard}.
+	 * 
+	 * @param parent the parent component of the wizard dialog.
+	 * @return a new wizard dialog
+	 */
 	public static AIBenchBowtieStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
@@ -48,6 +62,11 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 		return new AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider();
 	}
 
+	/**
+	 * Shows the wizard. Note that the wizard requires at least one Bowtie2
+	 * index. This method checks this prerequisite and asks user to import or
+	 * build an index if no one is available.
+	 */
 	public static void showWizard() {
 		while (shouldCreateBowtie2Index()) {
 			if (!askUserImportOrBuild("Bowtie2", IMPORT_INDEX, BUILD_INDEX)) {

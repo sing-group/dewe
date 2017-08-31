@@ -46,6 +46,12 @@ public class DefaultBallgownWorkingDirectoryController
 
 	private File workingDirectory;
 
+	/**
+	 * Creates a new {@code DefaultBallgownWorkingDirectoryController} for the
+	 * specified directory.
+	 * 
+	 * @param workingDirectory the working directory to be controlled
+	 */
 	public DefaultBallgownWorkingDirectoryController(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
 	}

@@ -19,6 +19,15 @@ import org.sing_group.rnaseq.core.log.LogConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
+/**
+ * An abstract class providing a base implementation of the
+ * {@code BinariesExecutor} interface.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ * @param <B> the type of the {@code Binaries} to execute
+ */
 public abstract class AbstractBinariesExecutor<B extends Binaries>
 	implements BinariesExecutor<B> {
 	protected B binaries;

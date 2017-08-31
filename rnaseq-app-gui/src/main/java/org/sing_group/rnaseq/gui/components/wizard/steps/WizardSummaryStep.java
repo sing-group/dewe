@@ -11,20 +11,42 @@ import javax.swing.JTextArea;
 
 import org.sing_group.gc4s.wizard.WizardStep;
 
+/**
+ * A {@code WizardStep} implementation that shows a wizard summary provided by a
+ * {@code WizardSummaryProvider}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class WizardSummaryStep extends WizardStep {
 	private WizardSummaryProvider wizardSummaryProvider;
 	private JTextArea textArea;
 
 	private JScrollPane scrollPane;
 
+	/**
+	 * Creates an empty {@code WizardSummaryStep}.
+	 */
 	public WizardSummaryStep() {
 		this(null);
 	}
 
+	/**
+	 * Creates a new {@code WizardSummaryStep} with the specified wizard summary
+	 * provider.
+	 * 
+	 * @param wizardSummaryProvider a {@code WizardSummaryProvider}
+	 */
 	public WizardSummaryStep(WizardSummaryProvider wizardSummaryProvider) {
 		this.wizardSummaryProvider = wizardSummaryProvider;
 	}
 
+	/**
+	 * Sets the {@code WizardSummaryProvider}.
+	 * 
+	 * @param wizardSummaryProvider a {@code WizardSummaryProvider}
+	 */
 	public void setWizardSummaryProvider(WizardSummaryProvider wizardSummaryProvider) {
 		this.wizardSummaryProvider = wizardSummaryProvider;
 	}

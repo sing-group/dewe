@@ -13,6 +13,14 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalCondi
 
 import org.sing_group.gc4s.input.JInputList;
 
+/**
+ * A component that allows the introduction of several condition labels using 
+ * a list.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class MultipleConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {
 	private static final long serialVersionUID = 1L;
@@ -21,6 +29,13 @@ public class MultipleConditionsSelectionPanel extends JPanel
 	private int minConditions;
 	private int maxConditions;
 
+	/**
+	 * Creates a new {@code MultipleConditionsSelectionPanel} for the
+	 * introduction of a number of conditions in the specified range.
+	 * 
+	 * @param minConditions the minimum number of conditions
+	 * @param maxConditions the maximum number of conditions
+	 */
 	public MultipleConditionsSelectionPanel(int minConditions,
 		int maxConditions
 	) {

@@ -1,5 +1,12 @@
 package org.sing_group.rnaseq.aibench.gui.util;
 
+/**
+ * Constants to use in the configuration of operation ports.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class PortConfiguration {
 
 	public static final String EXTRAS_BAM_FILES = "selectionMode=files, " +

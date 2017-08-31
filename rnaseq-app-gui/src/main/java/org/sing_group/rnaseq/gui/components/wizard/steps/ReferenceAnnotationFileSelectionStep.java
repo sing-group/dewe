@@ -8,6 +8,14 @@ import javax.swing.filechooser.FileFilter;
 import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
 import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
+/**
+ * A {@code FileSelectionStep} that allows the selection of a reference
+ * annotation file.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class ReferenceAnnotationFileSelectionStep extends FileSelectionStep {
 
 	@Override

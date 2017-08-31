@@ -8,6 +8,13 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 
+/**
+ * The default {@code Hisat2Controller} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultHisat2Controller implements Hisat2Controller {
 	private Hisat2BinariesExecutor hisat2BinariesExecutor;
 

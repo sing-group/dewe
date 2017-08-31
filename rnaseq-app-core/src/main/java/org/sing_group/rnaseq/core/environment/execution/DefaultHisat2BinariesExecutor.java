@@ -12,17 +12,32 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultHisat2Binar
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultHisat2BinariesExecutor
-		extends AbstractBinariesExecutor<Hisat2Binaries>
-		implements Hisat2BinariesExecutor {
+/**
+ * The default {@code Hisat2BinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class DefaultHisat2BinariesExecutor extends
+	AbstractBinariesExecutor<Hisat2Binaries> implements Hisat2BinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultHisat2BinariesExecutor.class);	  
 	
-	public DefaultHisat2BinariesExecutor(Hisat2Binaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultHisat2BinariesExecutor} instance to execute
+	 * the specified {@code Hisat2Binaries}.
+	 * 
+	 * @param binaries the {@code Hisat2Binaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultHisat2BinariesExecutor(Hisat2Binaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
 	
 	@Override
-	public void setBinaries(Hisat2Binaries binaries) throws BinaryCheckException {
+	public void setBinaries(Hisat2Binaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}

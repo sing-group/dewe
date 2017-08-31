@@ -23,6 +23,13 @@ import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSystemBinaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
+/**
+ * The default {@code AppEnvironment} implementation. 
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultAppEnvironment implements AppEnvironment {
 	
 	public static final String PROP_NUM_THREADS = "threads";
@@ -41,6 +48,18 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultHisat2Binaries hisat2Binaries;
 	private DefaultReferenceGenomeIndexDatabaseManager referenceGenomeDatabaseManager;
 
+	/**
+	 * Creates a new {@code DefaultAppEnvironment} that is configured using the
+	 * specified properties file.
+	 * 
+	 * @param propertiesFile the properties file with the environment 
+	 *        configuration
+	 * @throws FileNotFoundException if the file does not exist, is a directory 
+	 *        rather than a regular file, or for some other reason cannot be 
+	 *        opened for reading.
+	 * @throws IOException if an error occurred when reading from the input 
+	 *        stream
+	 */
 	public DefaultAppEnvironment(File propertiesFile) 
 		throws FileNotFoundException, IOException {
 		this.propertiesFile = propertiesFile;

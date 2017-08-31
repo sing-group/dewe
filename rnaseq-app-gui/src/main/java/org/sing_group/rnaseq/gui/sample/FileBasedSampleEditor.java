@@ -12,20 +12,32 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.Mode;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 import org.sing_group.rnaseq.api.entities.FileBasedSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
-import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel.Mode;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
-
+/**
+ * An abstract, generic component that allows the introduction of a
+ * {@code FileBasedSample}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ * @param <T>
+ *            the type of the sample
+ */
 public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JFileChooserPanel fileChooser;
 	private JTextField sampleNameTf;
 	private JTextField sampleTypeTf;
 
+	/**
+	 * Creates a new {@code FileBasedSampleEditor} component.
+	 */
 	public FileBasedSampleEditor() {
 		this.init();
 	}
@@ -94,8 +106,21 @@ public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends J
 		}
 	};
 	
-	public abstract T getSample();
 	
+	/**
+	 * Returns the selected sample.
+	 * 
+	 * @return the selected sample
+	 */
+	public abstract T getSample();
+
+	/**
+	 * Returns {@code true} if the current selection is valid and {@code false}
+	 * otherwise.
+	 * 
+	 * @return {@code true} if the current selection is valid and {@code false}
+	 *         otherwise
+	 */	
 	public boolean isValidValue() {
 		return this.fileChooser.getSelectedFile() != null &&
 				isValidString(this.sampleNameTf.getText()) &&
@@ -118,10 +143,20 @@ public abstract class FileBasedSampleEditor<T extends FileBasedSample> extends J
 		return this.sampleNameTf.getText();
 	}
 	
+	/**
+	 * Adds the specified {@code SampleEditorListener} to the listeners list.
+	 *
+	 * @param l a {@code SampleEditorListener}
+	 */
 	public synchronized void addSampleEditorListener(SampleEditorListener l) {
 		this.listenerList.add(SampleEditorListener.class, l);
 	}
 
+	/**
+	 * Returns the list of all registered {@code SampleEditorListener}s.
+	 *
+	 * @return the list of all registered {@code SampleEditorListener}s
+	 */
 	public synchronized SampleEditorListener[] getSampleEditorListeners() {
 		return this.listenerList.getListeners(SampleEditorListener.class);
 	}

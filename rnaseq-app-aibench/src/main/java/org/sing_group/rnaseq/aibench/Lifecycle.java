@@ -33,6 +33,14 @@ import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
 
+/**
+ * The lifecycle of the AIBench application. Its main purpose is to configure 
+ * the application when it is started.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	public static final String APP_CONFIGURATION_FILE = "conf/app.conf";
 	private static final ImageIcon ICON =

@@ -7,11 +7,28 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.core.environment.DefaultREnvironment;
 
+/**
+ * The default {@code RBinaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultRBinaries implements RBinaries {
 	private File baseDirectory;
 	private String cmdRscript;
 
-	public DefaultRBinaries(String path) {
+	/**
+	 * Creates a new {@code DefaultRBinaries} with the specified base
+	 * directory.
+	 * 
+	 * @param baseDirectoryPath the directory where the binaries are located
+	 */
+	public DefaultRBinaries(String baseDirectoryPath) {
+		this.setBaseDirectory(baseDirectoryPath);
+	}
+
+	private void setBaseDirectory(String path) {
 		this.setBaseDirectory(
 			path == null || path.isEmpty() ? null : new File(path)
 		);

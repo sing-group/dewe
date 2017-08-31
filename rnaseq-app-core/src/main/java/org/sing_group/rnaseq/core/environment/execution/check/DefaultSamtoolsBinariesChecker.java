@@ -8,10 +8,23 @@ import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.SamtoolsBinariesChecker;
 
+/**
+ * The default {@code SamtoolsBinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSamtoolsBinariesChecker implements SamtoolsBinariesChecker {
 
 	private SamtoolsBinaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultSamtoolsBinariesChecker} instance to check the
+	 * specified {@code SamtoolsBinaries}.
+	 * 
+	 * @param binaries the {@code SamtoolsBinaries} to execute
+	 */
 	public DefaultSamtoolsBinariesChecker(SamtoolsBinaries binaries) {
 		this.setBinaries(binaries);
 	}

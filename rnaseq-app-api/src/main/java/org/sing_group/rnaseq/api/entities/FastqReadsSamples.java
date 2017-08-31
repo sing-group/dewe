@@ -12,5 +12,4 @@ import java.util.List;
  */
 public interface FastqReadsSamples
 	extends List<FastqReadsSample>, Serializable {
-
 }

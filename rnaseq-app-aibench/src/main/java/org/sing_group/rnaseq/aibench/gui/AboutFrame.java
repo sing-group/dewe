@@ -40,6 +40,13 @@ import org.sing_group.gc4s.ui.icons.Icons;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
+/**
+ * The "About" frame of the AIBench application.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class AboutFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 

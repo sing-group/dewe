@@ -31,6 +31,12 @@ public class DefaultEdgeRWorkingDirectoryController
 
 	private File workingDirectory;
 
+	/**
+	 * Creates a new {@code DefaultEdgeRWorkingDirectoryController} for the
+	 * specified directory.
+	 * 
+	 * @param workingDirectory the working directory to be controlled
+	 */
 	public DefaultEdgeRWorkingDirectoryController(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
 	}

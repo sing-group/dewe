@@ -5,6 +5,14 @@ import org.sing_group.rnaseq.core.entities.edgeR.DefaultEdgeRSample;
 
 import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
+/**
+ * A {@code FileBasedSampleEditor} implementation to the introduction of an
+ * {@code EdgeRSample}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class EdgeRSampleEditor extends FileBasedSampleEditor<EdgeRSample> {
 	private static final long serialVersionUID = 1L;
 	

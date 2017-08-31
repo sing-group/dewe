@@ -3,6 +3,13 @@ package org.sing_group.rnaseq.core.log;
 import org.slf4j.Marker;
 import org.slf4j.helpers.BasicMarkerFactory;
 
+/**
+ * Log configuration settings.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class LogConfiguration {
 	public static final String EXECUTION_STD_MARKER_LABEL = "EXECUTION_STD";
 	public static final String EXECUTION_ERROR_MARKER_LABEL = "EXECUTION_ERROR";

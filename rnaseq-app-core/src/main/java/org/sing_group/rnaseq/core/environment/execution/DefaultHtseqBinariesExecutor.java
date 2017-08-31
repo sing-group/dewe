@@ -11,17 +11,33 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultHtseqBinari
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultHtseqBinariesExecutor
-	extends AbstractBinariesExecutor<HtseqBinaries>
-	implements HtseqBinariesExecutor {
+/**
+ * The default {@code HtseqBinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class DefaultHtseqBinariesExecutor extends
+	AbstractBinariesExecutor<HtseqBinaries> implements HtseqBinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultHtseqBinariesExecutor.class);  
 	
-	public DefaultHtseqBinariesExecutor(HtseqBinaries binaries) throws BinaryCheckException {
+	
+	/**
+	 * Creates a new {@code DefaultHtseqBinariesExecutor} instance to execute
+	 * the specified {@code Bowtie2Binaries}.
+	 * 
+	 * @param binaries the {@code HtseqBinaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultHtseqBinariesExecutor(HtseqBinaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
-	public void setBinaries(HtseqBinaries binaries) throws BinaryCheckException {
+	public void setBinaries(HtseqBinaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}
@@ -33,8 +49,8 @@ public class DefaultHtseqBinariesExecutor
 
 	@Override
 	public ExecutionResult countBamReverseExon(File referenceAnnotationFile,
-			File inputBam, File output)
-			throws ExecutionException, InterruptedException {
+		File inputBam, File output)
+		throws ExecutionException, InterruptedException {
 		return executeCommand(
 			output,
 			LOG, 

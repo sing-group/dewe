@@ -13,17 +13,33 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultBowtie2Bina
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The default {@code Bowtie2BinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultBowtie2BinariesExecutor
-		extends AbstractBinariesExecutor<Bowtie2Binaries>
-		implements Bowtie2BinariesExecutor {
+	extends AbstractBinariesExecutor<Bowtie2Binaries>
+	implements Bowtie2BinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultBowtie2BinariesExecutor.class);  
 	
-	public DefaultBowtie2BinariesExecutor(Bowtie2Binaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultBowtie2BinariesExecutor} instance to execute
+	 * the specified {@code Bowtie2Binaries}.
+	 * 
+	 * @param binaries the {@code Bowtie2Binaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultBowtie2BinariesExecutor(Bowtie2Binaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
-	public void setBinaries(Bowtie2Binaries binaries) throws BinaryCheckException {
+	public void setBinaries(Bowtie2Binaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}

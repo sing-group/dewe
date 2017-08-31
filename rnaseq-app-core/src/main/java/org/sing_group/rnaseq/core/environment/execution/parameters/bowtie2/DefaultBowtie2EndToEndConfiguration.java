@@ -2,6 +2,17 @@ package org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2;
 
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 
+/**
+ * The default {@code Bowtie2EndToEndConfiguration} implementation. It is
+ * implemented as an enum that defines the preset options in the end to end
+ * mode.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ * @see <a href=
+ *      "http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#options">Bowtie2
+ *      reference manual</a>
+ */
 public enum DefaultBowtie2EndToEndConfiguration
 	implements Bowtie2EndToEndConfiguration {
 	SENSITIVE("--sensitive", "Same as: -D 15 -R 2 -L 22 -i S,1,1.15 (default in --end-to-end mode)"),

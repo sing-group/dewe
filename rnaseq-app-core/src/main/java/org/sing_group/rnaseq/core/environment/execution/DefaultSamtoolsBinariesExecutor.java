@@ -11,17 +11,33 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultSamtoolsBin
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The default {@code SamtoolsBinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSamtoolsBinariesExecutor
-		extends AbstractBinariesExecutor<SamtoolsBinaries>
-		implements SamtoolsBinariesExecutor {
+	extends AbstractBinariesExecutor<SamtoolsBinaries>
+	implements SamtoolsBinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultSamtoolsBinariesExecutor.class);  
 	
-	public DefaultSamtoolsBinariesExecutor(SamtoolsBinaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultSamtoolsBinariesExecutor} instance to execute
+	 * the specified {@code SamtoolsBinaries}.
+	 * 
+	 * @param binaries the {@code SamtoolsBinaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */	
+	public DefaultSamtoolsBinariesExecutor(SamtoolsBinaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
-	public void setBinaries(SamtoolsBinaries binaries) throws BinaryCheckException {
+	public void setBinaries(SamtoolsBinaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}
@@ -33,7 +49,7 @@ public class DefaultSamtoolsBinariesExecutor
 
 	@Override
 	public ExecutionResult samToBam(File sam, File bam)
-			throws ExecutionException, InterruptedException {
+		throws ExecutionException, InterruptedException {
 		return executeCommand(
 			LOG,
 			this.binaries.getSamToBam(),

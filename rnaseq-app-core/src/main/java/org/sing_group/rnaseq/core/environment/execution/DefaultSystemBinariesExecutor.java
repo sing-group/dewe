@@ -16,17 +16,33 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultSystemBinar
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The default {@code SystemBinariesExecutor} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSystemBinariesExecutor
 	extends AbstractBinariesExecutor<SystemBinaries>
 	implements SystemBinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultSystemBinariesExecutor.class);
 
-	public DefaultSystemBinariesExecutor(SystemBinaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultSystemBinariesExecutor} instance to execute
+	 * the specified {@code SystemBinaries}.
+	 * 
+	 * @param binaries the {@code SystemBinaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultSystemBinariesExecutor(SystemBinaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
 
 	@Override
-	public void setBinaries(SystemBinaries binaries) throws BinaryCheckException {
+	public void setBinaries(SystemBinaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}

@@ -7,11 +7,28 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.core.environment.DefaultStringTieEnvironment;
 
+/**
+ * The default {@code StringTieBinaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultStringTieBinaries implements StringTieBinaries {
 	private File baseDirectory;
 	private String cmdStringTie;
 
-	public DefaultStringTieBinaries(String path) {
+	/**
+	 * Creates a new {@code DefaultStringTieBinaries} with the specified base
+	 * directory.
+	 * 
+	 * @param baseDirectoryPath the directory where the binaries are located
+	 */
+	public DefaultStringTieBinaries(String baseDirectoryPath) {
+		this.setBaseDirectory(baseDirectoryPath);
+	}
+
+	private void setBaseDirectory(String path) {
 		this.setBaseDirectory(
 			path == null || path.isEmpty() ? null : new File(path)
 		);

@@ -24,12 +24,26 @@ import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
 import org.sing_group.gc4s.ui.CenteredJPanel;
 
+/**
+ * A panel that shows a workflow catalog, displaying their titles, descriptions
+ * and a "run workflow" button.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class WorkflowCatalogPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static final Color BG_COLOR = Color.WHITE;
 	private List<WorkflowDescription> workflows;
-	
+
+	/**
+	 * Creates a new {@code WorkflowCatalogPanel} to show the specified
+	 * workflows.
+	 * 
+	 * @param workflows a list of {@code WorkflowDescription}.
+	 */
 	public WorkflowCatalogPanel(List<WorkflowDescription> workflows) {
 		this.workflows = Objects.requireNonNull(workflows);
 

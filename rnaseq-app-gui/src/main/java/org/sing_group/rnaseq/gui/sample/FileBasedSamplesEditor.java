@@ -23,12 +23,23 @@ import org.sing_group.rnaseq.api.entities.FileBasedSamples;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
+/**
+ * An abstract, generic component to select a list of {@code FileBasedSample}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ * @param <T> the type of the list
+ * @param <E> the type of the elements in the list
+ */
 public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E extends FileBasedSample>
-	extends JPanel 
-{
+	extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private List<FileBasedSampleEditorComponent> samples = new LinkedList<>();
 
+	/**
+	 * Creates a new {@code FileBasedSamplesEditor}.
+	 */
 	public FileBasedSamplesEditor() {
 		this.init();
 	}
@@ -133,6 +144,11 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 		});
 	}
 
+	/**
+	 * The list of selected samples.
+	 * 
+	 * @return list of selected samples
+	 */
 	public abstract T getSamples();
 
 	protected List<E> getSamplesList() {
@@ -141,6 +157,13 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 				.collect(toList());
 	}
 
+	/**
+	 * Returns {@code true} if the current selection is valid and {@code false}
+	 * otherwise.
+	 * 
+	 * @return {@code true} if the current selection is valid and {@code false}
+	 *         otherwise
+	 */
 	public boolean isValidSelection() {
 		return 	!this.samples.stream()
 				.map(FileBasedSampleEditorComponent::isValidValue)
@@ -166,10 +189,20 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 		}
 	}
 
+	/**
+	 * Adds the specified {@code SamplesEditorListener} to the listeners list.
+	 *
+	 * @param l a {@code SamplesEditorListener}
+	 */
 	public synchronized void addSamplesEditorListener(SamplesEditorListener l) {
 		this.listenerList.add(SamplesEditorListener.class, l);
 	}
 
+	/**
+	 * Returns the list of all registered {@code SamplesEditorListener}s.
+	 *
+	 * @return the list of all registered {@code SamplesEditorListener}s
+	 */
 	public synchronized SamplesEditorListener[] getSamplesEditorListeners() {
 		return this.listenerList.getListeners(SamplesEditorListener.class);
 	}

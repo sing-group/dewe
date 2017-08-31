@@ -8,8 +8,14 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
 import org.sing_group.rnaseq.core.util.FileUtils;
 
+/**
+ * The default {@code HtseqController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultHtseqController implements HtseqController {
-	
 	private HtseqBinariesExecutor htseqBinariesExecutor;
 
 	@Override
@@ -19,7 +25,7 @@ public class DefaultHtseqController implements HtseqController {
 
 	@Override
 	public void countBamReverseExon(File referenceAnnotationFile, File inputBam,
-			File output) throws ExecutionException, InterruptedException {
+		File output) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = 
 			this.htseqBinariesExecutor.countBamReverseExon(
 				referenceAnnotationFile, inputBam, output);

@@ -5,6 +5,14 @@ import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownSample;
 
 import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
+/**
+ * A {@code FileBasedSampleEditor} implementation to the introduction of an
+ * {@code BallgownSample}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class BallgownSampleEditor extends FileBasedSampleEditor<BallgownSample> {
 	private static final long serialVersionUID = 1L;
 	

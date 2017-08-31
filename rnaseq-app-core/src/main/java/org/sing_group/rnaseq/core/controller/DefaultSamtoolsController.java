@@ -7,8 +7,14 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 
+/**
+ * The default {@code SamtoolsController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSamtoolsController implements SamtoolsController {
-	
 	private SamtoolsBinariesExecutor samtoolsBinariesExecutor;
 
 	@Override

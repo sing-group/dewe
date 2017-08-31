@@ -7,6 +7,13 @@ import javax.swing.JOptionPane;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
+/**
+ * A class with utility methods for AIBench wizards.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class AIBenchWizardUtil {
 
 	public static final int IMPORT_INDEX = 0;
@@ -56,6 +63,12 @@ public class AIBenchWizardUtil {
 		Workbench.getInstance().executeOperationAndWait(uid);
 	}
 
+	/**
+	 * Fixes the size of the dialog.
+	 * 
+	 * @param visible whether the dialog is visible or not
+	 * @param dialog the dialog whose size must be fixed
+	 */
 	public static void fixDialogSize(boolean visible, JDialog dialog) {
 		if (visible) {
 			dialog.setResizable(true);

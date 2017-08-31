@@ -8,10 +8,23 @@ import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.SystemBinariesChecker;
 
+/**
+ * The default {@code SystemBinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 
 	private SystemBinaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultSystemBinariesChecker} instance to check the
+	 * specified {@code SystemBinaries}.
+	 * 
+	 * @param binaries the {@code SystemBinaries} to execute
+	 */
 	public DefaultSystemBinariesChecker(SystemBinaries binaries) {
 		this.setBinaries(binaries);
 	}

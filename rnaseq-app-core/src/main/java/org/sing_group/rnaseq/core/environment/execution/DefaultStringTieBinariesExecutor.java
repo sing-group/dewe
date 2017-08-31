@@ -14,17 +14,33 @@ import org.sing_group.rnaseq.core.environment.execution.check.DefaultStringTieBi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The default {@code StringTieBinaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultStringTieBinariesExecutor
 	extends AbstractBinariesExecutor<StringTieBinaries>
 	implements StringTieBinariesExecutor {
 	private final static Logger LOG = LoggerFactory.getLogger(DefaultStringTieBinariesExecutor.class);  
 	
-	public DefaultStringTieBinariesExecutor(StringTieBinaries binaries) throws BinaryCheckException {
+	/**
+	 * Creates a new {@code DefaultStringTieBinariesExecutor} instance to execute
+	 * the specified {@code StringTieBinaries}.
+	 * 
+	 * @param binaries the {@code StringTieBinaries} to execute
+	 * @throws BinaryCheckException if any of the commands can't be executed
+	 */
+	public DefaultStringTieBinariesExecutor(StringTieBinaries binaries)
+		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
-	
+
 	@Override
-	public void setBinaries(StringTieBinaries binaries) throws BinaryCheckException {
+	public void setBinaries(StringTieBinaries binaries)
+		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
 	}

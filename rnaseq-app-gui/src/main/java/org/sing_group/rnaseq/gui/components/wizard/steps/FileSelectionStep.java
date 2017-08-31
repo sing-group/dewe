@@ -20,8 +20,15 @@ import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.wizard.WizardStep;
 
+/**
+ * An abstract {@code WizardStep} implementation that allows the selection of a
+ * file.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public abstract class FileSelectionStep extends WizardStep {
-
 	private JPanel stepComponent;
 	private JFileChooserPanel fileChooser;
 
@@ -87,6 +94,11 @@ public abstract class FileSelectionStep extends WizardStep {
 	public void stepEntered() {
 	}
 
+	/**
+	 * Returns the file selected by the user.
+	 * 
+	 * @return the file selected by the user
+	 */
 	public File getSelectedFile() {
 		return this.fileChooser.getSelectedFile();
 	}

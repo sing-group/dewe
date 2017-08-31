@@ -7,8 +7,14 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 
+/**
+ * The default {@code SystemController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSystemController implements SystemController {
-	
 	private SystemBinariesExecutor systemBinariesExecutor;
 
 	@Override

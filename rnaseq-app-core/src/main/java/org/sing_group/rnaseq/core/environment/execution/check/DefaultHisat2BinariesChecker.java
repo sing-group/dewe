@@ -8,10 +8,22 @@ import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.Hisat2BinariesChecker;
 
+/**
+ * The default {@code Hisat2BinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultHisat2BinariesChecker implements Hisat2BinariesChecker {
-
 	private Hisat2Binaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultHisat2BinariesChecker} instance to check the
+	 * specified {@code Hisat2Binaries}.
+	 * 
+	 * @param binaries the {@code Hisat2Binaries} to execute
+	 */
 	public DefaultHisat2BinariesChecker(Hisat2Binaries binaries) {
 		this.setBinaries(binaries);
 	}

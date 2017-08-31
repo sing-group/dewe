@@ -19,6 +19,13 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgo
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
+/**
+ * An AIBench extension of the {@code HisatStringTieAndBallgownDifferentialExpressionWizard}.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	extends HisatStringTieAndBallgownDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +44,13 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 		super(parent, wizardTitle, steps);
 	}
 
+	/**
+	 * Creates a new
+	 * {@code AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard}.
+	 * 
+	 * @param parent the parent component of the wizard dialog.
+	 * @return a new wizard dialog
+	 */
 	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
@@ -48,6 +62,11 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider();
 	}
 
+	/**
+	 * Shows the wizard. Note that the wizard requires at least one HISAT2
+	 * index. This method checks this prerequisite and asks user to import or
+	 * build an index if no one is available.
+	 */
 	public static void showWizard() {
 		while (shouldCreateHisat2Index()) {
 			if (!askUserImportOrBuild("HISAT2", IMPORT_INDEX, BUILD_INDEX)) {

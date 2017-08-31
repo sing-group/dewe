@@ -21,6 +21,13 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.FastqSamplesEditor;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
+/**
+ * A {@code WizardStep} that allows the introduction of sample reads.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class SampleReadsSelectionStep extends WizardStep
 	implements SamplesEditorListener {
 
@@ -32,6 +39,17 @@ public class SampleReadsSelectionStep extends WizardStep
 	private int minSamplesPerCondition;
 	private int initialNumSamples;
 
+	/**
+	 * Creates a new {@code SampleReadsSelectionStep} with the specified
+	 * configuration. The {@code ExperimentalConditionsStep} is used to obtain
+	 * the experimental conditions that can be associated to samples and the
+	 * samples selection if available.
+	 * 
+	 * @param experimentalConditionsStep a {@code ExperimentalConditionsStep}
+	 * @param minSamplesPerCondition the minimum number of samples required
+	 *        in each condition
+	 * @param initialNumSamples the initial number of sample editors
+	 */
 	public SampleReadsSelectionStep(
 		ExperimentalConditionsStep experimentalConditionsStep,
 		int minSamplesPerCondition,
@@ -157,6 +175,11 @@ public class SampleReadsSelectionStep extends WizardStep
 		}
 	}
 
+	/**
+	 * Returns a list containing the introduced {@code FastqReadsSample}s.
+	 * 
+	 * @return a list containing the introduced {@code FastqReadsSample}s
+	 */
 	public FastqReadsSamples getSamples() {
 		return this.fastqSamplesEditor.getSamples();
 	}

@@ -2,6 +2,13 @@ package org.sing_group.rnaseq.gui.workflow;
 
 import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
+/**
+ * The HISAT2, StringTie and Ballgown workflow description.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class Hisat2StringTieBallgownDifferentialExpressionWorkflowDescription
 	implements WorkflowDescription {
 

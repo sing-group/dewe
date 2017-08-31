@@ -2,6 +2,13 @@ package org.sing_group.rnaseq.gui.workflow;
 
 import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
+/**
+ * The Bowtie2, StringTie and R packages workflow description.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class Bowtie2StringTieDifferentialExpressionWorkflowDescription
 	implements WorkflowDescription {
 

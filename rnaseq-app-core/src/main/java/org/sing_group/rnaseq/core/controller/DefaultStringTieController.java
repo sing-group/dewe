@@ -9,10 +9,16 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 
+/**
+ * The default {@code StringTieController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultStringTieController implements StringTieController {
-
 	private StringTieBinariesExecutor stringTieBinariesExecutor;
-	private SystemBinariesExecutor    systemBinariesExecutor;
+	private SystemBinariesExecutor systemBinariesExecutor;
 
 	@Override
 	public void setStringTieBinariesExecutor(StringTieBinariesExecutor executor) {
@@ -25,9 +31,9 @@ public class DefaultStringTieController implements StringTieController {
 	}
 
 	@Override
-	public void obtainLabeledTranscripts(File referenceAnnotationFile, File inputBam,
-			File outputTranscripts, String label)
-			throws ExecutionException, InterruptedException {
+	public void obtainLabeledTranscripts(File referenceAnnotationFile,
+		File inputBam, File outputTranscripts, String label)
+		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainLabeledTranscripts(
 				referenceAnnotationFile, inputBam, outputTranscripts, label);
@@ -69,8 +75,8 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void mergeTranscripts(File referenceAnnotationFile,
-			List<File> inputAnnotationFiles, File mergedAnnotationFile)
-			throws ExecutionException, InterruptedException {
+		List<File> inputAnnotationFiles, File mergedAnnotationFile)
+		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.mergeTranscripts(
 				referenceAnnotationFile, inputAnnotationFiles, mergedAnnotationFile);

@@ -36,6 +36,17 @@ import org.sing_group.rnaseq.gui.components.wizard.components.TwoConditionsSelec
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
+/**
+ * A {@code WizardStep} implementation that allows the introduction of
+ * experimental conditions. It also provides an option to import them from
+ * a directory: this directory must contain one sub directory for each
+ * experimental condition and these sub directories must contain the fastq
+ * sample files. 
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class ExperimentalConditionsStep extends WizardStep {
 
 	private static final String TOOLTIP_IMPORT_CONDITIONS = "<html>"
@@ -56,10 +67,26 @@ public class ExperimentalConditionsStep extends WizardStep {
 	private ExperimentalConditionsSelectionComponent conditionsSelectionComponent;
 	private Map<String, FastqReadsSamples> experimentalConditionsAndSamples;
 
+	/**
+	 * Creates a new {@code ExperimentalConditionsStep} component that requires
+	 * the selection of at least the specified number of conditions.
+	 * 
+	 * @param minConditions the minimum number of conditions that must be 
+	 * 		  selected
+	 */
 	public ExperimentalConditionsStep(int minConditions) {
 		this(minConditions, Integer.MAX_VALUE);
 	}
 
+	/**
+	 * Creates a new {@code ExperimentalConditionsStep} component that requires
+	 * the selection of a number of condition between the specified limits.
+	 * 
+	 * @param minConditions the minimum number of conditions that must be 
+	 * 		  selected
+	* @param maxConditions the maximum number of conditions that must be 
+	 * 		  selected
+	 */
 	public ExperimentalConditionsStep(int minConditions, int maxConditions) {
 		checkConditions(minConditions, maxConditions);
 		this.minConditions = minConditions;
@@ -196,11 +223,22 @@ public class ExperimentalConditionsStep extends WizardStep {
 	public void stepEntered() {
 	}
 
+	/**
+	 * Returns a list with the experimental conditions introduced by the user.
+	 * 
+	 * @return a list with the experimental conditions introduced by the user
+	 */
 	public List<String> getExperimentalConditions() {
 		return new LinkedList<>(
 			conditionsSelectionComponent.getSelectedConditions());
 	}
 
+	/**
+	 * Returns the samples associated to the experimental conditions wrapped as
+	 * an optional because users may introduce them manually.
+	 *  
+	 * @return the samples associated to the experimental conditions
+	 */
 	public Optional<Map<String, FastqReadsSamples>> getExperimentalConditionsAndSamples() {
 		return Optional.ofNullable(this.experimentalConditionsAndSamples);
 	}

@@ -12,10 +12,16 @@ import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
 
+/**
+ * An {@code AbstractParamProvider} implementation to allow the selection of a
+ * list of {@code BallgownSample}s.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class BallgownDifferentialExpressionAnalysisParamProvider
-	extends AbstractParamProvider 
-	implements SamplesEditorListener 
-{
+	extends AbstractParamProvider implements SamplesEditorListener {
 	private BallgownSamplesEditor ballgownSamplesEditor;
 
 	@Override

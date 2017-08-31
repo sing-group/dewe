@@ -7,7 +7,7 @@ import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
 /**
- * The interface for running Bowtie2 binares.
+ * The interface for running Bowtie2 binaries.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez

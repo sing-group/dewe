@@ -9,6 +9,13 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
+/**
+ * The default {@code Bowtie2Controller} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultBowtie2Controller implements Bowtie2Controller {
 	private Bowtie2BinariesExecutor bowtie2BinariesExecutor;
 

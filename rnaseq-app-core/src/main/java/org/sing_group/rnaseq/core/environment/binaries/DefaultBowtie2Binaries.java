@@ -7,12 +7,24 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.DefaultBowtie2Environment;
 
+/**
+ * The default {@code Bowtie2Binaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultBowtie2Binaries implements Bowtie2Binaries {
-
 	private File baseDirectory;
 	private String cmdBuildIndex;
 	private String cmdAlign;
 
+	/**
+	 * Creates a new {@code DefaultBowtie2Binaries} with the specified base
+	 * directory.
+	 * 
+	 * @param baseDirectoryPath the directory where the binaries are located
+	 */
 	public DefaultBowtie2Binaries(String baseDirectoryPath) {
 		this.setBaseDirectory(baseDirectoryPath);
 	}

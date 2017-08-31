@@ -8,10 +8,22 @@ import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.Bowtie2BinariesChecker;
 
+/**
+ * The default {@code Bowtie2BinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultBowtie2BinariesChecker implements Bowtie2BinariesChecker {
-
 	private Bowtie2Binaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultBowtie2BinariesChecker} instance to check the
+	 * specified {@code Bowtie2Binaries}.
+	 * 
+	 * @param binaries the {@code Bowtie2Binaries} to execute
+	 */
 	public DefaultBowtie2BinariesChecker(Bowtie2Binaries binaries) {
 		this.setBinaries(binaries);
 	}

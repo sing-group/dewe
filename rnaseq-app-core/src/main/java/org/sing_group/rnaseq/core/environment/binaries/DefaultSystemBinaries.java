@@ -8,12 +8,25 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.core.environment.DefaultSystemEnvironment;
 
+/**
+ * The default {@code SystemBinaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultSystemBinaries implements SystemBinaries {
 	private File[] baseDirectories;
 	private String cmdJoin;
 	private String cmdSed;
 	private String cmdAwk;
 
+	/**
+	 * Creates a new {@code DefaultSystemBinaries} with the specified base
+	 * directories.
+	 * 
+	 * @param paths the directories where the binaries are located
+	 */
 	public DefaultSystemBinaries(String...paths) {
 		this.setBaseDirectory(paths);
 	}

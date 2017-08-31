@@ -8,10 +8,22 @@ import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.HtseqBinariesChecker;
 
+/**
+ * The default {@code HtseqBinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultHtseqBinariesChecker implements HtseqBinariesChecker {
-
 	private HtseqBinaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultHtseqBinariesChecker} instance to check the
+	 * specified {@code HtseqBinaries}.
+	 * 
+	 * @param binaries the {@code HtseqBinaries} to execute
+	 */
 	public DefaultHtseqBinariesChecker(HtseqBinaries binaries) {
 		this.setBinaries(binaries);
 	}

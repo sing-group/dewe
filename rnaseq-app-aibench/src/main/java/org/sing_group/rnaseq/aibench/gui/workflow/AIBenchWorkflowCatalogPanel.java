@@ -7,6 +7,15 @@ import java.util.List;
 import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 import org.sing_group.rnaseq.gui.workflow.WorkflowCatalogPanel;
 
+/**
+ * An extension of {@code WorkflowCatalogPanel} to use as AIBench component.
+ * This class defines the available workflows and overrides the
+ * {@code runWorkflow} method in order to execute them.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class AIBenchWorkflowCatalogPanel extends WorkflowCatalogPanel {
 	private static final long serialVersionUID = 1L;
 
@@ -15,6 +24,9 @@ public class AIBenchWorkflowCatalogPanel extends WorkflowCatalogPanel {
 		new Hisat2StringTieBallgownDifferentialExpressionAIBenchWorkflowDescription()
 	);
 
+	/**
+	 * Creates a new {@code AIBenchWorkflowCatalogPanel} component.
+	 */
 	public AIBenchWorkflowCatalogPanel() {
 		super(WORKFLOWS);
 	}

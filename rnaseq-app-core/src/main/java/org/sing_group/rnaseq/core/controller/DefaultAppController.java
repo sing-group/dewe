@@ -36,6 +36,13 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesE
 import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSystemBinariesExecutor;
 
+/**
+ * The default {@code AppController} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;
 	private AppEnvironment environment;
@@ -50,6 +57,11 @@ public class DefaultAppController implements AppController {
 	private DefaultWorkflowController workflowController;
 	private DefaultHisat2Controller hisat2Controller;
 
+	/**
+	 * Returns the singleton {@code DefaultAppController} instance.
+	 * 
+	 * @return the singleton {@code DefaultAppController} instance
+	 */
 	public static DefaultAppController getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new DefaultAppController();

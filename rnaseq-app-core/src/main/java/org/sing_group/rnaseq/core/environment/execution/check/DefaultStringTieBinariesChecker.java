@@ -8,10 +8,23 @@ import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.StringTieBinariesChecker;
 
+/**
+ * The default {@code StringTieBinariesChecker} implementation.
+ *  
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultStringTieBinariesChecker implements StringTieBinariesChecker {
 
 	private StringTieBinaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultStringTieBinariesChecker} instance to check the
+	 * specified {@code StringTieBinaries}.
+	 * 
+	 * @param binaries the {@code StringTieBinaries} to execute
+	 */
 	public DefaultStringTieBinariesChecker(StringTieBinaries binaries) {
 		this.setBinaries(binaries);
 	}

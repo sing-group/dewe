@@ -7,12 +7,24 @@ import java.io.File;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.core.environment.DefaultHisat2Environment;
 
+/**
+ * The default {@code Hisat2Binaries} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultHisat2Binaries implements Hisat2Binaries {
-
 	private File baseDirectory;
 	private String cmdBuildIndex;
 	private String cmdAlign;
 
+	/**
+	 * Creates a new {@code DefaultHisat2Binaries} with the specified base
+	 * directory.
+	 * 
+	 * @param baseDirectoryPath the directory where the binaries are located
+	 */
 	public DefaultHisat2Binaries(String baseDirectoryPath) {
 		this.setBaseDirectory(baseDirectoryPath);
 	}

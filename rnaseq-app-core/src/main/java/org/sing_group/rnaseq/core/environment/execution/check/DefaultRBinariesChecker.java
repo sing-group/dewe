@@ -11,10 +11,23 @@ import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.environment.execution.check.RBinariesChecker;
 
+/**
+ * The default {@code RBinariesChecker} implementation.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class DefaultRBinariesChecker implements RBinariesChecker {
 
 	private RBinaries binaries;
 
+	/**
+	 * Creates a new {@code DefaultRBinariesChecker} instance to check the
+	 * specified {@code RBinaries}.
+	 * 
+	 * @param binaries the {@code RBinaries} to execute
+	 */
 	public DefaultRBinariesChecker(RBinaries binaries) {
 		this.setBinaries(binaries);
 	}

@@ -11,7 +11,6 @@ import java.io.Serializable;
  *
  */
 public interface FastqReadsSample extends Serializable {
-
 	/**
 	 * Returns the sample name.
 	 *

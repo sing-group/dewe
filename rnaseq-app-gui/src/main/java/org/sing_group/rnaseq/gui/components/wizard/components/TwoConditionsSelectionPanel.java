@@ -27,6 +27,14 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.ControlAndTreatmentCond
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
 import org.sing_group.rnaseq.gui.util.UISettings;
 
+/**
+ * A component that allows the introduction of two condition labels using 
+ * text fields.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class TwoConditionsSelectionPanel extends JPanel
 	implements ExperimentalConditionsSelectionComponent {
 	private static final long serialVersionUID = 1L;
@@ -51,7 +59,9 @@ public class TwoConditionsSelectionPanel extends JPanel
 
 	private JButton controlTreatmentButton;
 
-
+	/**
+	 * Creates a new {@code TwoConditionsSelectionPanel} component.
+	 */
 	public TwoConditionsSelectionPanel() {
 		this.init();
 	}

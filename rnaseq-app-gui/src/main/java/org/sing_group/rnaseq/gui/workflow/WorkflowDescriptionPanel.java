@@ -15,10 +15,23 @@ import org.sing_group.rnaseq.api.entities.WorkflowDescription;
 
 import org.sing_group.gc4s.text.MultilineLabel;
 
+/**
+ * A panel to show the workflow description.
+ * 
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
 public class WorkflowDescriptionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private WorkflowDescription workflow;
 
+	/**
+   * Creates a new {@code WorkflowDescriptionPanel} to show the description of
+   * the specified {@code workflow}.
+   * 
+   * @param workflow a {@code WorkflowDescription}
+   */
 	public WorkflowDescriptionPanel(WorkflowDescription workflow) {
 		this.workflow = workflow;
 
