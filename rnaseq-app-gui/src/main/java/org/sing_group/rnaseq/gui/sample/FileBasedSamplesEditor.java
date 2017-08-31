@@ -4,18 +4,30 @@ import static java.util.stream.Collectors.toList;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 
+import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.builder.JButtonBuilder;
 import org.sing_group.rnaseq.api.entities.FileBasedSample;
@@ -25,7 +37,7 @@ import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
 /**
  * An abstract, generic component to select a list of {@code FileBasedSample}.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -35,7 +47,15 @@ import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E extends FileBasedSample>
 	extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private List<FileBasedSampleEditorComponent> samples = new LinkedList<>();
+	private static final ImageIcon ICON_WARNING = Icons.ICON_WARNING_COLOR_24;
+	private static final String WARNING_SAMPLES = "Some samples are not valid.";
+	private static final ImageIcon ICON_OK = Icons.ICON_OK_COLOR_24;
+
+	private JPanel samplesPanel;
+	private JScrollPane samplesPaneScroll;
+	protected List<FileBasedSampleEditorComponent> samples = new LinkedList<>();
+	private JLabel configurationStatusLabel;
+	private List<String> warningsMessages = Collections.emptyList();
 
 	/**
 	 * Creates a new {@code FileBasedSamplesEditor}.
@@ -45,52 +65,97 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 	}
 
 	private void init() {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		this.add(createButtonsPanel());
-		for(int i = 0; i < 2; i++) {
-			addSampleEditorComponent();
-		}
+		this.setLayout(new BorderLayout());
+		this.add(createButtonsPanel(), BorderLayout.NORTH);
+		this.add(createSamplesPanel(), BorderLayout.CENTER);
 	}
 
-	private JPanel createButtonsPanel() {
-		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		JButton addBtn = JButtonBuilder.newJButtonBuilder()
-				.withText("Add sample")
-				.withTooltip("Adds a new sample to the analysis")
-				.withIcon(Icons.ICON_ADD_16)
-				.thatDoes(new AbstractAction() {
-					private static final long serialVersionUID = 1L;
+	private JComponent createButtonsPanel() {
+		JToolBar buttonsToolbar = new JToolBar();
+		buttonsToolbar.setOpaque(false);
+		buttonsToolbar.setFloatable(false);
+		buttonsToolbar.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 10));
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						addSampleEditorComponent();
-						
-					}
-				})
-				.build();
-		buttonsPanel.add(addBtn, BorderLayout.EAST);
-		return buttonsPanel;
+		JButton removeSamplesBtn = JButtonBuilder.newJButtonBuilder()
+			.withText("Remove all samples")
+			.withTooltip("Removes all samples from the analysis")
+			.withIcon(Icons.ICON_TRASH_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeAllSamples();
+				}
+			})
+			.build();
+
+		JButton addBtn = JButtonBuilder.newJButtonBuilder()
+			.withText("Add sample")
+			.withTooltip("Adds a new sample to the analysis")
+			.withIcon(Icons.ICON_ADD_16)
+			.thatDoes(new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					addSampleEditorComponent();
+
+				}
+			})
+			.build();
+
+		configurationStatusLabel = new JLabel(ICON_WARNING);
+
+		buttonsToolbar.add(removeSamplesBtn);
+		buttonsToolbar.add(Box.createHorizontalGlue());
+		buttonsToolbar.add(configurationStatusLabel);
+		buttonsToolbar.add(Box.createHorizontalGlue());
+		buttonsToolbar.add(addBtn);
+
+		return buttonsToolbar;
+	}
+
+	private void removeAllSamples() {
+		this.samples.clear();
+		this.samplesPanel.removeAll();
+		sampleRemoved();
+		this.updateUI();
 	}
 
 	private void addSampleEditorComponent() {
-		FileBasedSampleEditorComponent editor = 
+		FileBasedSampleEditorComponent editor =
 			new FileBasedSampleEditorComponent(getFileBasedSampleEditor());
 		editor.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-		this.add(editor);
+		samplesPanel.add(editor);
 		samples.add(editor);
 		sampleAdded();
 		this.updateUI();
 	}
 
+	private JComponent createSamplesPanel() {
+		samplesPanel = new JPanel();
+		samplesPanel.setOpaque(false);
+		samplesPanel.setLayout(new BoxLayout(samplesPanel, BoxLayout.Y_AXIS));
+		for (int i = 0; i < 2; i++) {
+			addSampleEditorComponent();
+		}
+		samplesPaneScroll = new JScrollPane(samplesPanel);
+
+		return samplesPaneScroll;
+	}
+
 	protected abstract FileBasedSampleEditor<E> getFileBasedSampleEditor();
 
-	class FileBasedSampleEditorComponent extends JPanel 
-		implements SampleEditorListener 
+	class FileBasedSampleEditorComponent extends JPanel
+		implements SampleEditorListener
 	{
 		private static final long serialVersionUID = 1L;
+		private static final String WARNING_LABEL_TOOLTIP =
+			"Some sample data is missing, please, revise it.";
 
 		private FileBasedSampleEditor<E> editor;
+		private JLabel warningLabel;
 
 		public FileBasedSampleEditorComponent(FileBasedSampleEditor<E> editor) {
 			this.editor = editor;
@@ -101,7 +166,23 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 		private void init() {
 			this.setLayout(new FlowLayout());
 			this.add(editor);
-			this.add(getRemoveButton());
+			this.add(getButtonsPanel());
+		}
+
+		private JPanel getButtonsPanel() {
+			JPanel buttonsPanel = new JPanel(new GridLayout(2, 1));
+			warningLabel = new JLabel(ICON_WARNING);
+			warningLabel.setToolTipText(WARNING_LABEL_TOOLTIP);
+			warningLabel.setVisible(!this.editor.isValidValue());
+
+			buttonsPanel.add(getRemoveButton());
+			buttonsPanel.add(warningLabel);
+			buttonsPanel.setOpaque(false);
+
+			CenteredJPanel toret = new CenteredJPanel(buttonsPanel);
+			toret.setOpaque(false);
+
+			return toret;
 		}
 
 		private JButton getRemoveButton() {
@@ -114,7 +195,7 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						removeEditorComponent(FileBasedSampleEditorComponent.this);
-						
+
 					}
 				})
 				.build();
@@ -131,14 +212,15 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 
 		@Override
 		public void onSampleEdited(ChangeEvent event) {
+			this.warningLabel.setVisible(!this.editor.isValidValue());
 			sampleEdited();
 		}
 	}
-	
+
 	private void removeEditorComponent(FileBasedSampleEditorComponent component) {
 		SwingUtilities.invokeLater(() -> {
 			this.samples.remove(component);
-			this.remove(component);
+			samplesPanel.remove(component);
 			sampleRemoved();
 			this.updateUI();
 		});
@@ -146,7 +228,7 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 
 	/**
 	 * The list of selected samples.
-	 * 
+	 *
 	 * @return list of selected samples
 	 */
 	public abstract T getSamples();
@@ -160,33 +242,93 @@ public abstract class FileBasedSamplesEditor<T extends FileBasedSamples<E>, E ex
 	/**
 	 * Returns {@code true} if the current selection is valid and {@code false}
 	 * otherwise.
-	 * 
+	 *
 	 * @return {@code true} if the current selection is valid and {@code false}
 	 *         otherwise
 	 */
 	public boolean isValidSelection() {
-		return 	!this.samples.stream()
-				.map(FileBasedSampleEditorComponent::isValidValue)
-				.filter(valid -> (valid == false))
-				.findAny().isPresent();
+		return allSamplesAreValid();
+	}
+
+	private boolean allSamplesAreValid() {
+		return !this.samples.stream()
+			.map(FileBasedSampleEditorComponent::isValidValue)
+			.filter(valid -> (valid == false)).findAny().isPresent();
 	}
 
 	private void sampleAdded() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleAdded(new ChangeEvent(this));
 		}
 	}
 
 	private void sampleRemoved() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleRemoved(new ChangeEvent(this));
 		}
 	}
 
 	private void sampleEdited() {
+		updateConfigurationStatusLabel();
 		for (SamplesEditorListener l : getSamplesEditorListeners()) {
 			l.onSampleEdited(new ChangeEvent(this));
 		}
+	}
+
+	private void updateConfigurationStatusLabel() {
+		this.configurationStatusLabel.setToolTipText(null);
+		boolean validSelection = this.isValidSelection();
+		if (validSelection && !hasWarnings()) {
+			this.configurationStatusLabel.setIcon(ICON_OK);
+		} else {
+			this.configurationStatusLabel.setIcon(ICON_WARNING);
+			String warningsMessage = null;
+			if (!this.allSamplesAreValid()) {
+				warningsMessage = getWarningsMessage(WARNING_SAMPLES);
+			} else {
+				warningsMessage = getWarningsMessage();
+			}
+			this.configurationStatusLabel.setToolTipText(warningsMessage);
+		}
+	}
+
+
+	private String getWarningsMessage(String...warnings) {
+		List<String> allWarnings = new ArrayList<>();
+		allWarnings.addAll(Arrays.asList(warnings));
+		allWarnings.addAll(warningsMessages);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><p>Warnings:</p><ul>");
+		sb.append(allWarnings.stream().collect(Collectors.joining("</li><li>", "<li>", "</li>")));
+		sb.append("</ul></html>");
+
+		return sb.toString();
+	}
+
+	private boolean hasWarnings() {
+		return !this.warningsMessages.isEmpty();
+	}
+
+	/**
+	 * Sets the warning icon visible with the specified warning messages as
+	 * tooltip.
+	 *
+	 * @param warningMessages the warning message to use as tooltip
+	 */
+	protected void setWarningMessages(List<String> warningMessages) {
+		this.warningsMessages = warningMessages;
+		this.updateConfigurationStatusLabel();
+	}
+
+	/**
+	 * Hides the warning icon.
+	 */
+	protected void removeWarningMessages() {
+		this.warningsMessages = Collections.emptyList();
+		this.updateConfigurationStatusLabel();
 	}
 
 	/**
