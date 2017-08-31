@@ -129,7 +129,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	private void configureFileChooser(AppEnvironment env) {
 		String defaultDirectory = System.getProperty("user.home");
 		if (env.hasProperty("default.directory")) {
-			defaultDirectory = env.getProperty("default.directory");
+			defaultDirectory = env.getProperty("default.directory").get();
 		}
 		SINGLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));
 		MULTIPLE_FILE_CHOOSER.setCurrentDirectory(new File(defaultDirectory));

@@ -1,5 +1,7 @@
 package org.sing_group.rnaseq.api.environment;
 
+import java.util.Optional;
+
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
@@ -74,17 +76,18 @@ public interface AppEnvironment {
 	public abstract ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager();
 
 	/**
-	 * Returns the value of the specified property. Note that the method returns
-	 * {@code null} if the property is not found.
+	 * Returns the value of the specified property, wrapped as an optional which
+	 * can be empty if the property is not found.
 	 * 
 	 * @param propertyName the name of the property to look for
 	 * @return the value of the specified property.
 	 */
-	public abstract String getProperty(String propertyName);
+	public abstract Optional<String> getProperty(String propertyName);
 
 	/**
-	 * Returns {@code true} if the environment contains a property with the
-	 * specified name and {@code false} otherwise.
+	 * Returns {@code true} if the environment (system or application
+	 * configuration) contains a property with the specified name and
+	 * {@code false} otherwise.
 	 * 
 	 * @param propertyName the name of the property to look for
 	 * @return {@code true} if the environment contains a property with the

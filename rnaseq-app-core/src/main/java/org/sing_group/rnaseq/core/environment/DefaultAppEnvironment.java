@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
@@ -87,29 +88,29 @@ public class DefaultAppEnvironment implements AppEnvironment {
 			}
 		}
 
-		this.cores = Integer.valueOf(getProperty(PROP_NUM_THREADS));
+		this.cores = Integer.valueOf(_getProperty(PROP_NUM_THREADS));
 
 		this.bowtie2Binaries = new DefaultBowtie2Binaries(
-			this.getProperty(Bowtie2Binaries.BASE_DIRECTORY_PROP)
+			this._getProperty(Bowtie2Binaries.BASE_DIRECTORY_PROP)
 		);
 		this.samtoolsBinaries = new DefaultSamtoolsBinaries(
-			this.getProperty(SamtoolsBinaries.BASE_DIRECTORY_PROP)
+			this._getProperty(SamtoolsBinaries.BASE_DIRECTORY_PROP)
 		);
 		this.stringTieBinaries = new DefaultStringTieBinaries(
-			this.getProperty(StringTieBinaries.BASE_DIRECTORY_PROP)
+			this._getProperty(StringTieBinaries.BASE_DIRECTORY_PROP)
 		);
 		this.htseqBinaries = new DefaultHtseqBinaries(
-			this.getProperty(HtseqBinaries.BASE_DIRECTORY_PROP)
+			this._getProperty(HtseqBinaries.BASE_DIRECTORY_PROP)
 		);
 		this.rBinaries = new DefaultRBinaries(
-			this.getProperty(RBinaries.BASE_DIRECTORY_PROP)
+			this._getProperty(RBinaries.BASE_DIRECTORY_PROP)
 		);
 		this.systemBinaries = new DefaultSystemBinaries(
-			this.getProperty(SystemBinaries.BASE_DIRECTORY_PROP),
-			this.getProperty(SystemBinaries.BASE_DIRECTORY_2_PROP)
+			this._getProperty(SystemBinaries.BASE_DIRECTORY_PROP),
+			this._getProperty(SystemBinaries.BASE_DIRECTORY_2_PROP)
 		);
 		this.hisat2Binaries = new DefaultHisat2Binaries(
-			this.getProperty(Hisat2Binaries.BASE_DIRECTORY_PROP)
+			this._getProperty(Hisat2Binaries.BASE_DIRECTORY_PROP)
 		);		
 		
 		try {
@@ -136,22 +137,26 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	}
 
 	private File getDatabasesDirectory() {
-		File databasesDirectory = new File(getProperty(PROP_DATABASES_DIR));
+		File databasesDirectory = new File(_getProperty(PROP_DATABASES_DIR));
 		if (!databasesDirectory.exists()) {
 			databasesDirectory.mkdirs();
 		}
 		return databasesDirectory;
 	}
 
+	private String _getProperty(String propertyName) {
+		return getProperty(propertyName).get();
+	}
+
 	@Override
-	public String getProperty(String propertyName) {
+	public Optional<String> getProperty(String propertyName) {
 		String propertyValue = System.getProperty(propertyName);
 
 		if (propertyValue == null) {
 			propertyValue = this.defaultProperties.getProperty(propertyName);
 		}
 
-		return propertyValue;
+		return Optional.ofNullable(propertyValue);
 	}
 	
 	@Override
