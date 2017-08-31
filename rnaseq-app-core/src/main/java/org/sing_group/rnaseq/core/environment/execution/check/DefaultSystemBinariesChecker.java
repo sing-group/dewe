@@ -10,7 +10,7 @@ import org.sing_group.rnaseq.api.environment.execution.check.SystemBinariesCheck
 
 /**
  * The default {@code SystemBinariesChecker} implementation.
- *  
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -22,7 +22,7 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 	/**
 	 * Creates a new {@code DefaultSystemBinariesChecker} instance to check the
 	 * specified {@code SystemBinaries}.
-	 * 
+	 *
 	 * @param binaries the {@code SystemBinaries} to execute
 	 */
 	public DefaultSystemBinariesChecker(SystemBinaries binaries) {
@@ -42,6 +42,8 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 	@Override
 	public void checkAll() throws BinaryCheckException {
 		this.checkJoin();
+		this.checkSed();
+		this.checkAwk();
 	}
 
 	@Override
@@ -49,7 +51,6 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 		String runCommand = this.binaries.getJoin() + " --help";
 		checkFirstLineCommandStartsWith(runCommand, "Usage: join");
 	}
-
 
 	public void checkFirstLineCommandStartsWith(String runCommand,
 		String expectedFirstLineStart
@@ -92,6 +93,12 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 	public void checkSed() throws BinaryCheckException {
 		String runCommand = this.binaries.getSed() + " --version";
 		checkCommand(runCommand, 12);
+	}
+
+	@Override
+	public void checkAwk() throws BinaryCheckException {
+		String runCommand = this.binaries.getAwk() + " -W version";
+		checkCommand(runCommand, 2);
 	}
 
 	public void checkCommand(String runCommand, int expectedOutputLines)
