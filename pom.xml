@@ -7,8 +7,8 @@
 	<version>0.1.0-SNAPSHOT</version>
 
 	<name>DEWE</name>
-	<description>DEWE for RNASeq</description>
-	<inceptionYear>2017</inceptionYear>
+	<description>Differential Workflow Executor (DEWE) for RNA-Seq</description>
+	<inceptionYear>2016</inceptionYear>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -60,6 +60,15 @@
 				<role>Researcher</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Borja Sánchez García</name>
+			<organization>Department of Microbiology and Biochemistry, IPLA - CSIC (Consejo Superior de Investigaciones)</organization>
+			<organizationUrl>http://www.ipla.csic.es/</organizationUrl>
+			<email>borja.sanchez@csic.es</email>
+			<roles>
+				<role>Researcher</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 	<properties>
@@ -68,16 +77,19 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<!-- License configuration -->
+		<license.licenseName>gpl_v3</license.licenseName>
+		<license.copyrightOwners>Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
+			Borja Sánchez, and Anália Lourenço</license.copyrightOwners>
+		<license.organizationName>SING Research Group (Universidade de Vigo) and
+			Probiotics and Prebiotics group (IPLA: Dairy Institute of Asturias, CSIC)
+		</license.organizationName>
+		<license.addJavaLicenseAfterPackage>false</license.addJavaLicenseAfterPackage>
+
 		<!-- Build -->
 		<project.builds.directory>${project.build.directory}/builds</project.builds.directory>
 		<should.skip.distributable>true</should.skip.distributable>
 		<should.skip.download>true</should.skip.download>
-
-		<!-- License configuration -->
-		<license.licenseName>gpl_v3</license.licenseName>
-		<license.copyrightOwners>Hugo López-Fernández, Aitor Blanco-Míguez, Anália Lourenço, Florentino Fdez-Riverola</license.copyrightOwners>
-		<license.organizationName>SING Group (Universidade de Vigo)</license.organizationName>
-		<license.addJavaLicenseAfterPackage>false</license.addJavaLicenseAfterPackage>
 
 		<!-- Plugins dependencies -->
 		<license-maven-plugin.version>1.8</license-maven-plugin.version>
@@ -253,15 +265,24 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<version>${license-maven-plugin.version}</version>
 				<configuration>
-					    <excludes>
+					<excludes>
 						<exclude>**/assembly/*.xml</exclude>
 						<exclude>**/*scripts/*.sh</exclude>
 						<exclude>**/dist-scripts/*.sh</exclude>
 						<exclude>**/*.htm</exclude>
 						<exclude>**/*.HTM</exclude>
 						<exclude>**/*.properties</exclude>
-					    </excludes>
+					</excludes>
 				</configuration>
+				<executions>
+					<execution>
+						<id>first</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
