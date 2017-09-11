@@ -74,7 +74,7 @@ public class BowtieStringTieAndRDifferentialExpression
 		bowtie2Controller.alignReads(
 			(Bowtie2ReferenceGenomeIndex) referenceGenome,
 			readsFile1, readsFile2,
-			DefaultBowtie2EndToEndConfiguration.VERY_SENSITIVE,
+			DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE,
 			output, true);
 	}
 

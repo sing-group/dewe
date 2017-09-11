@@ -62,7 +62,8 @@ public class Bowtie2AlignSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = REFERENCE_GENOME,
-		description = "Reference genome index.",
+		description = "The reference genome index to use. It must have been "
+			+ "previously built or imported into the application.",
 		allowNull = false,
 		order = 1
 	)
@@ -112,11 +113,12 @@ public class Bowtie2AlignSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Presets",
-		description = "Presets options for the --end-to-end mode",
+		description = "Presets options for the --end-to-end mode.",
 		allowNull = false,
 		order = 5,
 		extras = "mode=radiobuttons, numrows=1, numcolumns=4",
-		advanced = true
+		advanced = true,
+		defaultValue = DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE_STR
 	)
 	public void setBowtie2EndToEndConfiguration(
 		DefaultBowtie2EndToEndConfiguration configuration
@@ -127,7 +129,7 @@ public class Bowtie2AlignSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Output file",
-		description = "Output file.",
+		description = "The output file to save the alignments.",
 		allowNull = true,
 		order = 6,
 		extras = "selectionMode=files",

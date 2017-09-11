@@ -60,7 +60,8 @@ public class Hisat2AlignSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = REFERENCE_GENOME,
-		description = "Reference genome index.",
+		description = "The reference genome index to use. It must have been "
+			+ "previously built or imported into the application.",
 		allowNull = false,
 		order = 1
 	)
@@ -110,12 +111,17 @@ public class Hisat2AlignSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Transcript assemblers",
-		description = "Reports alignments tailored for transcript assemblers",
+		description = "Whether to report alignments tailored for transcript "
+			+ "assemblers (including Stringtie) or not. With this option, "
+			+ "HISAT2 requires longer anchor lengths for de novo discovery "
+			+ "of splice sites. This leads to fewer alignments with "
+			+ "short-anchors, which helps transcript assemblers improve "
+			+ "significantly in computation and memory usage.",
 		allowNull = false,
 		order = 5,
 		defaultValue = "false",
 		advanced = false
-		)
+	)
 	public void setDta(boolean dta) {
 		this.dta = dta;
 	}
