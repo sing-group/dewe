@@ -47,7 +47,7 @@ public class SamtoolsConvertToBam {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input sam file",
-		description = "Input sam file",
+		description = "The nput sam file.",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_SAM_FILES
@@ -60,7 +60,8 @@ public class SamtoolsConvertToBam {
 		direction = Direction.INPUT, 
 		name = "Output bam file",
 		description = "Optionally, an output bam file. "
-			+ "If not provided, a file with the same name that the input sam file will be used",
+			+ "If not provided, a file with the same name that the input sam "
+			+ "file with \".bam\" extension will be used.",
 		allowNull = true,
 		order = 2,
 		extras="selectionMode=files"

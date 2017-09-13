@@ -42,7 +42,7 @@ public class SamtoolsBatchConvertToBam {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input sam files",
-		description = "Input sam files",
+		description = "The input sam files.",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_SAM_FILES
