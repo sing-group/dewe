@@ -37,8 +37,8 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Reconstruct transcripts using StringTie", 
-	description = "Reconstructs transcripts using StringTie."
+	name = "Merge transcripts using StringTie", 
+	description = "Assembles transcripts from multiple input files generating a unified non-redundant set of isoforms."
 )
 public class StringTieMerge {
 	private File referenceAnnotationFile;
@@ -48,7 +48,7 @@ public class StringTieMerge {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Reference annotation file",
-		description = "Reference annotation file (.gtf)",
+		description = "The reference annotation file (.gtf).",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_GTF_FILES
@@ -60,7 +60,7 @@ public class StringTieMerge {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input annotation files",
-		description = "Input annotation files.",
+		description = "The input annotation files (.gft).",
 		allowNull = false,
 		order = 2,
 		extras = EXTRAS_GTF_FILES
@@ -73,7 +73,8 @@ public class StringTieMerge {
 		direction = Direction.INPUT, 
 		name = "Output transcripts file",
 		description = "Optionally, an output transcripts file (.gtf)." + 
-			"If not provided, it will be created in the same directory than the reference annotation file",
+			"If not provided, it will be created in the same directory "
+			+ "than the reference annotation file with name mergedAnnotation.gtf",
 		allowNull = true,
 		order = 3,
 		extras = "selectionMode=files"

@@ -42,7 +42,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
 	name = "Reconstruct transcripts using StringTie", 
-	description = "Reconstructs transcripts using StringTie."
+	description = "Assembles RNA-Seq alignments into potential transcripts using StringTie."
 )
 public class StringTie {
 	private FileOperationStatus status = new FileOperationStatus();	
@@ -53,7 +53,7 @@ public class StringTie {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Reference annotation file",
-		description = "Reference annotation file (.gtf)",
+		description = "The reference annotation file (.gtf).",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_GTF_FILES
@@ -65,7 +65,7 @@ public class StringTie {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input bam file",
-		description = "Input bam file.",
+		description = "The input bam file.",
 		allowNull = false,
 		order = 2,
 		extras = EXTRAS_BAM_FILES

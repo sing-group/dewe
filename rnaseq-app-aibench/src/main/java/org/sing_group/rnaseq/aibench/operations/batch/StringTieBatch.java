@@ -35,7 +35,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 
 @Operation(
 	name = "Reconstruct transcripts using StringTie", 
-	description = "Reconstructs transcripts using StringTie."
+	description = "Assembles RNA-Seq alignments into potential transcripts using StringTie."
 )
 public class StringTieBatch {
 	private File referenceAnnotationFile;
@@ -44,7 +44,7 @@ public class StringTieBatch {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Reference annotation file",
-		description = "Reference annotation file (.gtf)",
+		description = "The reference annotation file (.gtf).",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_GTF_FILES
@@ -56,7 +56,7 @@ public class StringTieBatch {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input bam files",
-		description = "Input bam files.",
+		description = "The input bam files.",
 		allowNull = false,
 		order = 2,
 		extras = EXTRAS_BAM_FILES

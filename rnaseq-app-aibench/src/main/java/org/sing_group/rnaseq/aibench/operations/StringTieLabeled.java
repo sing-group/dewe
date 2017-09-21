@@ -41,7 +41,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
 	name = "Reconstruct labeled transcripts using StringTie", 
-	description = "Reconstructs labeled transcripts using StringTie."
+	description = "Assembles RNA-Seq alignments into potential labeled transcripts using StringTie."
 )
 public class StringTieLabeled {
 	private FileOperationStatus status = new FileOperationStatus();
@@ -96,6 +96,7 @@ public class StringTieLabeled {
 		direction = Direction.INPUT, 
 		name = "Label",
 		description = "Optionally, the label for the -l option of StringTie. "
+			+ "This label is the name prefix for output transcripts. "
 			+ "If not provided, it will be used the file name.",
 		allowNull = true,
 		order = 4

@@ -28,6 +28,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.sing_group.rnaseq.core.util.FileUtils;
+
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -35,11 +37,12 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 
 @Operation(
 	name = "Reconstruct transcripts using StringTie", 
-	description = "Reconstructs transcripts using StringTie."
+	description = "Assembles RNA-Seq alignments into potential labeled transcripts using StringTie."
 )
 public class StringTieLabeledBatch {
 	private File referenceAnnotationFile;
 	private File[] inputBamFiles;
+	private String label;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -63,10 +66,23 @@ public class StringTieLabeledBatch {
 	)
 	public void setInputBamFile(File[] inputBamFiles) {
 		this.inputBamFiles = inputBamFiles;
-
-		this.runOperation();
 	}
 
+	@Port(
+		direction = Direction.INPUT, 
+		name = "Label",
+		description = "Optionally, the label for the -l option of StringTie. "
+			+ "This label is the name prefix for output transcripts. "
+			+ "If not provided, it will be used the file name.",
+		allowNull = true,
+		order = 3
+	)
+	public void setLabel(String label) {
+		this.label = label;
+		
+		this.runOperation();
+	}
+	
 	private void runOperation() {
 		for(final File f : inputBamFiles) {
 			Core.getInstance().executeOperation(
@@ -77,7 +93,10 @@ public class StringTieLabeledBatch {
 	}
 
 	private List<?> stringTieLabeledParams(File f) {
-		return Arrays.asList(this.referenceAnnotationFile, f, null, null);
+		return Arrays.asList(this.referenceAnnotationFile, f, null, getLabel(f));
+	}
+
+	private String getLabel(File f) {
+		return label == null ? FileUtils.removeExtension(f) : label;
 	}
 }
-
