@@ -38,7 +38,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
 	name = "Calculate reads counts using htseq-count", 
-	description = "Takes an alignment file in SAM/BAM format and a feature "
+	description = "Takes an alignment file in BAM format and a feature "
 		+ "file in GFF format and calculates for each feature the number of "
 		+ "reads mapping to it."
 )
@@ -50,7 +50,7 @@ public class HtseqCountBam {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Reference annotation file",
-		description = "Reference annotation file (.gtf)",
+		description = "The teference annotation file (.gtf).",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_GTF_FILES
@@ -62,7 +62,7 @@ public class HtseqCountBam {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input bam file",
-		description = "Input bam file.",
+		description = "The input bam file.",
 		allowNull = false,
 		order = 2,
 		extras = EXTRAS_BAM_FILES
@@ -74,7 +74,7 @@ public class HtseqCountBam {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Output file",
-		description = "The output file",
+		description = "The output file where results are stored.",
 		allowNull = false,
 		order = 3,
 		extras="selectionMode=files"
