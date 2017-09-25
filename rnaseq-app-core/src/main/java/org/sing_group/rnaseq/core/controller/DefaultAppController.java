@@ -2,19 +2,19 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -26,6 +26,7 @@ import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.controller.EdgeRController;
+import org.sing_group.rnaseq.api.controller.FastQcController;
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.controller.HtseqController;
 import org.sing_group.rnaseq.api.controller.RController;
@@ -35,6 +36,7 @@ import org.sing_group.rnaseq.api.controller.SystemController;
 import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
@@ -42,6 +44,7 @@ import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.FastQcBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
@@ -51,6 +54,7 @@ import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultFastQcBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHisat2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor;
@@ -60,7 +64,7 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultSystemBinariesExe
 
 /**
  * The default {@code AppController} implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -78,10 +82,11 @@ public class DefaultAppController implements AppController {
 	private DefaultSystemController systemController;
 	private DefaultWorkflowController workflowController;
 	private DefaultHisat2Controller hisat2Controller;
+	private DefaultFastQcController fastQcController;
 
 	/**
 	 * Returns the singleton {@code DefaultAppController} instance.
-	 * 
+	 *
 	 * @return the singleton {@code DefaultAppController} instance
 	 */
 	public static DefaultAppController getInstance() {
@@ -105,6 +110,7 @@ public class DefaultAppController implements AppController {
 		this.setSystemController();
 		this.setHisat2Controller();
 		this.setWorkflowController();
+		this.setFastQcController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -151,7 +157,7 @@ public class DefaultAppController implements AppController {
 			this.createRBinariesExecutor(this.environment.getRBinaries())
 		);
 	}
-	
+
 	private void setEdgeRController() throws BinaryCheckException {
 		this.edgeRController = new DefaultEdgeRController();
 		this.edgeRController.setRBinariesExecutor(
@@ -175,12 +181,25 @@ public class DefaultAppController implements AppController {
 		this.hisat2Controller.setHisat2BinariesExecutor(
 			this.createHisat2BinariesExecutor(this.environment.getHisat2Binaries())
 		);
-	}	
+	}
 
 	private Bowtie2BinariesExecutor createBowtie2BinariesExecutor(
 		Bowtie2Binaries bowtie2Binaries
 	) throws BinaryCheckException {
 		return new DefaultBowtie2BinariesExecutor(bowtie2Binaries);
+	}
+
+	private void setFastQcController() throws BinaryCheckException {
+		this.fastQcController = new DefaultFastQcController();
+		this.fastQcController.setFastQcBinariesExecutor(
+			this.createFastQcBinariesExecutor(this.environment.getFastQcBinaries())
+		);
+	}
+
+	private FastQcBinariesExecutor createFastQcBinariesExecutor(
+		FastQcBinaries fastQcBinaries
+	) throws BinaryCheckException {
+		return new DefaultFastQcBinariesExecutor(fastQcBinaries);
 	}
 
 	@Override
@@ -193,7 +212,7 @@ public class DefaultAppController implements AppController {
 	) throws BinaryCheckException {
 		return new DefaultSamtoolsBinariesExecutor(samtoolsBinaries);
 	}
-	
+
 	@Override
 	public SamtoolsController getSamtoolsController() {
 		return this.samtoolsController;
@@ -243,7 +262,7 @@ public class DefaultAppController implements AppController {
 	public StringTieController getStringTieController() {
 		return this.stringTieController;
 	}
-	
+
 	@Override
 	public HtseqController getHtseqController() {
 		return this.htseqController;
@@ -253,7 +272,7 @@ public class DefaultAppController implements AppController {
 	public BallgownController getBallgownController() {
 		return this.ballgownController;
 	}
-	
+
 	@Override
 	public EdgeRController getEdgeRController() {
 		return this.edgeRController;
@@ -267,6 +286,11 @@ public class DefaultAppController implements AppController {
 	@Override
 	public WorkflowController getWorkflowController() {
 		return this.workflowController;
+	}
+
+	@Override
+	public FastQcController getFastQcController() {
+		return this.fastQcController;
 	}
 
 	@Override

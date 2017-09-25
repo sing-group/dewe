@@ -31,6 +31,7 @@ import java.util.Properties;
 
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
+import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
@@ -38,6 +39,7 @@ import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultFastQcBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHisat2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHtseqBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
@@ -69,6 +71,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultRBinaries rBinaries;
 	private DefaultSystemBinaries systemBinaries;
 	private DefaultHisat2Binaries hisat2Binaries;
+	private DefaultFastQcBinaries fastQcBinaries;
 	private DefaultReferenceGenomeIndexDatabaseManager referenceGenomeDatabaseManager;
 
 	/**
@@ -101,6 +104,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				SystemBinaries.BASE_DIRECTORY_PROP,
 				SystemBinaries.BASE_DIRECTORY_2_PROP,
 				Hisat2Binaries.BASE_DIRECTORY_PROP,
+				FastQcBinaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR,
 				PROP_NUM_THREADS
 		}) {
@@ -133,7 +137,10 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		);
 		this.hisat2Binaries = new DefaultHisat2Binaries(
 			this._getProperty(Hisat2Binaries.BASE_DIRECTORY_PROP)
-		);		
+		);
+		this.fastQcBinaries = new DefaultFastQcBinaries(
+			this._getProperty(FastQcBinaries.BASE_DIRECTORY_PROP)
+		);
 		
 		try {
 			this.initReferenceGenomeDatabaseManager();
@@ -220,6 +227,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public Hisat2Binaries getHisat2Binaries() {
 		return hisat2Binaries;
+	}
+
+	@Override
+	public FastQcBinaries getFastQcBinaries() {
+		return fastQcBinaries;
 	}
 
 	@Override

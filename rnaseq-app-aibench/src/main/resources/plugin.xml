@@ -126,7 +126,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.StringTie"
 		>
 			<operation-description
-				name="Reconstruct transcripts using StringTie"
+				menuName="Reconstruct transcripts"
 				uid="operations.stringtie"
 				path="4@Transcripts/1@StringTie"
 			/>
@@ -137,7 +137,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.StringTieLabeled"
 		>
 			<operation-description
-				name="Reconstruct labeled transcripts using StringTie"
+				menuName="Reconstruct labeled transcripts"
 				uid="operations.stringtielabeled"
 				path="4@Transcripts/1@StringTie"
 			/>
@@ -148,7 +148,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.StringTieMerge"
 		>
 			<operation-description
-				name="Merge transcripts using StringTie"
+				menuName="Merge transcripts"
 				uid="operations.stringtiemerge"
 				path="4@Transcripts/2@StringTie"
 			/>
@@ -159,7 +159,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.batch.StringTieBatch"
 		>
 			<operation-description
-				name="Batch reconstruct transcripts using StringTie"
+				menuName="Batch reconstruct transcripts"
 				uid="operations.stringtiebatch"
 				path="4@Transcripts/3@StringTie"
 			/>
@@ -170,7 +170,7 @@
 			class="org.sing_group.rnaseq.aibench.operations.batch.StringTieLabeledBatch"
 		>
 			<operation-description
-				name="Batch reconstruct labeled transcripts using StringTie"
+				menuName="Batch reconstruct labeled transcripts"
 				uid="operations.stringtielabeledbatch"
 				path="4@Transcripts/3@StringTie"
 			/>
@@ -203,12 +203,11 @@
 			class="org.sing_group.rnaseq.aibench.operations.EdgeRDifferentialExpressionAnalysis"
 		>
 			<operation-description
-				name="Differential expression analysis with EdgeR"
+				name="Differential expression analysis with edgeR"
 				uid="operations.edgerdifferentialexpressionanalysis"
 				path="6@Differential Expression"
 			/>
 		</extension>
-
 
 		<!-- Workflow operations -->
 
@@ -252,6 +251,17 @@
 				uid="operations.viewedgerworkingdirectory"
 				path="7@View results"
 			/>
+		</extension>
+
+		<extension
+		uid="aibench.core" name="aibench.core.operation-definition"
+		class="org.sing_group.rnaseq.aibench.operations.FastQc"
+		>
+		<operation-description
+			name="FastQC"
+			uid="operations.fastqc"
+			path="8@Quality control"
+		/>
 		</extension>
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
