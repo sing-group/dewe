@@ -23,11 +23,12 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow.SAMPLES;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow.SAMPLES_DESCRIPTION;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
-import org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -48,8 +49,8 @@ public class BallgownDifferentialExpressionAnalysis {
 
 	@Port(
 		direction = Direction.INPUT,
-		name = BallgownDifferentialExpressionAnalysisParamsWindow.SAMPLES,
-		description = "List of samples to analyze",
+		name = SAMPLES,
+		description = SAMPLES_DESCRIPTION,
 		allowNull = false,
 		order = 1
 	)
@@ -60,7 +61,7 @@ public class BallgownDifferentialExpressionAnalysis {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Directory",
-		description = "Directory to store analysis results",
+		description = "The output directory where results are stored.",
 		allowNull = false,
 		order = 2,
 		extras="selectionMode=directories"

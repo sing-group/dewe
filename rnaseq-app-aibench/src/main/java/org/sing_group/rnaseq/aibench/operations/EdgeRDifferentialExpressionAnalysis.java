@@ -22,12 +22,14 @@
  */
 package org.sing_group.rnaseq.aibench.operations;
 
+
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow.SAMPLES;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow.SAMPLES_DESCRIPTION;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
-import org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow;
 import org.sing_group.rnaseq.api.entities.edger.EdgeRSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
@@ -39,8 +41,8 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Differential expression analysis with EdgeR",
-	description = "Performs a differential expression analysis using EdgeR."
+	name = "Differential expression analysis with edgeR",
+	description = "Performs a differential expression analysis using edgeR."
 )
 public class EdgeRDifferentialExpressionAnalysis {
 	private File workingDir;
@@ -50,7 +52,7 @@ public class EdgeRDifferentialExpressionAnalysis {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Working directory",
-		description = "Working directory.",
+		description = "Te output directory where results are stored.",
 		allowNull = false,
 		order = 1,
 		extras="selectionMode=directories"
@@ -62,7 +64,7 @@ public class EdgeRDifferentialExpressionAnalysis {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Reference annotation file",
-		description = "Reference annotation file (.gtf)",
+		description = "The reference annotation file (.gtf).",
 		allowNull = false,
 		order = 2,
 		extras="selectionMode=files"
@@ -73,8 +75,8 @@ public class EdgeRDifferentialExpressionAnalysis {
 
 	@Port(
 		direction = Direction.INPUT,
-		name = EdgeRDifferentialExpressionAnalysisParamsWindow.SAMPLES,
-		description = "Samples",
+		name = SAMPLES,
+		description = SAMPLES_DESCRIPTION,
 		allowNull = false,
 		order = 3
 	)

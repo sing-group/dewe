@@ -90,6 +90,7 @@ public class EdgeRDifferentialExpressionAnalysis {
 				String name = r.getName();
 				String type = r.getCondition();
 				File bam = getBamFile(r, workingDirectory);
+
 				return new DefaultEdgeRSample(name, type, bam);
 			}).collect(Collectors.toList())
 		);

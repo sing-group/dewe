@@ -38,6 +38,17 @@ public class BallgownDifferentialExpressionAnalysisParamsWindow
 	extends ParamsWindow {
 	private static final long serialVersionUID = 1L;
 	public static final String SAMPLES = "Samples";
+	public static final String SAMPLES_DESCRIPTION = 
+		"<html>The Ballgown samples to analyze. For each sample, "
+		+ "you must provide:<ul>"
+		+ "<li>File: the directory where files required by Ballgown are "
+		+ "located.<br/> The files required by Ballgown are: e2t.ctab, "
+		+ "e_data.ctab, i2t.ctab, i_data.ctab, and t_data.ctab. These files "
+		+ "can be produced with StringTie.</li>"
+		+ "<li>Name: the name of the sample.</li>"
+		+ "<li>Type: the type or experimental condition of the sample. Note "
+		+ "that this analysis requires two conditions with at least two "
+		+ "samples each</li></ul></html>";
 
 	protected ParamProvider getParamProvider(final Port arg0,
 		final Class<?> arg1, final Object arg2) {
