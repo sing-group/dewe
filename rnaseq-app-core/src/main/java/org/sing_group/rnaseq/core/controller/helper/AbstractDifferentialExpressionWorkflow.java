@@ -47,6 +47,7 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultSampleAlignmentStatistics;
+import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 import org.sing_group.rnaseq.core.io.alignment.DefaultAlignmentLogParser;
 import org.sing_group.rnaseq.core.util.LoggingUtils;
 import org.slf4j.Logger;
@@ -64,7 +65,9 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractDifferentialExpressionWorkflow {
 	private static final Logger LOGGER =
 		LoggerFactory.getLogger(AbstractDifferentialExpressionWorkflow.class);
-	public static final ImageConfigurationParameter DEFAULT_IMAGES_CONFIGURATION = null;
+
+	public static final ImageConfigurationParameter DEFAULT_IMAGES_CONFIGURATION = DefaultImageConfigurationParameter.DEFAULT;
+
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
 	private static final String NOT_SET = "<Not set>";
@@ -79,7 +82,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	protected FastqReadsSamples reads;
 	protected File referenceAnnotationFile;
 	protected File workingDirectory;
-	protected ImageConfigurationParameter imageConfiguration;
+	protected ImageConfigurationParameter imageConfiguration = DEFAULT_IMAGES_CONFIGURATION;
 	private FileAppender workflowLogFileAppender;
 
 	/**
