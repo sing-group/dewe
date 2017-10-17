@@ -42,6 +42,7 @@ import javax.swing.JToolBar;
 
 import org.sing_group.gc4s.demo.DemoUtils;
 import org.sing_group.rnaseq.aibench.gui.AboutFrame;
+import org.sing_group.rnaseq.aibench.gui.HelpFrame;
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
@@ -65,7 +66,7 @@ import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
  */
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	public static final String APP_CONFIGURATION_FILE = "conf/app.conf";
-	private static final ImageIcon ICON =
+	public static final ImageIcon ICON =
 		new ImageIcon(Lifecycle.class.getResource("/icons/app-icon.png"));
 
 	@Override
@@ -112,6 +113,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 
 	private void configureAIBenchMenuBar() {
 		AboutFrame.getInstance()
+			.addToJMenubar(Workbench.getInstance().getMenuBar(), false);
+		HelpFrame.getInstance()
 			.addToJMenubar(Workbench.getInstance().getMenuBar(), false);
 	}
 
