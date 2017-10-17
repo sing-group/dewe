@@ -2,7 +2,7 @@
  * #%L
  * DEWE API
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,21 @@
  */
 package org.sing_group.rnaseq.api.persistence.entities;
 
-/**
- * The interface that defines a genome index generated with HISAT2.
- * 
- * @author Hugo López-Fernández
- * @author Aitor Blanco-Míguez
- *
- */
-public interface Hisat2ReferenceGenomeIndex extends ReferenceGenomeIndex {
-	public static final String TYPE = "HISAT2";
+import java.io.File;
+import java.io.Serializable;
+import java.util.Map;
 
-	@Override
-	default String getType() {
-		return TYPE;
-	}
+import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+
+public interface DifferentialExpressionWorkflowConfiguration
+	extends Serializable {
+	public ReferenceGenomeIndex getReferenceGenome();
+
+	public FastqReadsSamples getReads();
+
+	public File getReferenceAnnotationFile();
+
+	public File getWorkingDirectory();
+
+	public Map<String, FastqReadsSamples> getExperimentalConditionsAndSamples();
 }

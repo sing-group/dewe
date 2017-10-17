@@ -22,12 +22,18 @@
  */
 package org.sing_group.rnaseq.gui.components.wizard;
 
+import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
@@ -38,8 +44,6 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFile
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WorkingDirectorySelectionStep;
-
-import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * This class extends {@code AbstractDifferentialExpressionWizard} to provide a
@@ -53,12 +57,34 @@ import org.sing_group.gc4s.wizard.WizardStep;
 public class HisatStringTieAndBallgownDifferentialExpressionWizard
 	extends AbstractDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
+
 	protected static final String TITLE = "Differential expression analysis";
 
 	private Hisat2ReferenceGenomeIndexSelectionStep genomeSelectionStep;
+	private ExperimentalConditionsStep experimentalConditionsStep;
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
+
+	private DifferentialExpressionWorkflowConfiguration workflowConfiguration;
+
+	/**
+	 * Creates a new
+	 * {@code HisatStringTieAndBallgownDifferentialExpressionWizard}
+	 * using the specified workflow configuration.
+	 *
+	 * @param parent the parent component of the wizard dialog
+	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
+	 *
+	 * @return a new {@code HisatStringTieAndBallgownDifferentialExpressionWizard} 
+	 */	
+	public static HisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+		Window parent, 
+		DifferentialExpressionWorkflowConfiguration configuration
+	) {
+		return new HisatStringTieAndBallgownDifferentialExpressionWizard(
+			parent,	TITLE, getWizardSteps(), configuration);
+	}
 
 	/**
 	 * Creates a new
@@ -75,17 +101,28 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 			parent,	TITLE, getWizardSteps());
 	}
 
-	protected HisatStringTieAndBallgownDifferentialExpressionWizard(Window parent,
-		String wizardTitle, List<WizardStep> steps
+	protected HisatStringTieAndBallgownDifferentialExpressionWizard(
+		Window parent, String wizardTitle, List<WizardStep> steps
+	) {
+		this(parent, wizardTitle, steps, null);
+	}
+
+	protected HisatStringTieAndBallgownDifferentialExpressionWizard(
+		Window parent, String wizardTitle, List<WizardStep> steps,
+		DifferentialExpressionWorkflowConfiguration workflowConfiguration
 	) {
 		super(parent, wizardTitle, steps);
+		this.workflowConfiguration = workflowConfiguration;
 		this.init();
 	}
 
 	private void init() {
 		genomeSelectionStep =
 			(Hisat2ReferenceGenomeIndexSelectionStep) getSteps().get(1);
-
+		
+		experimentalConditionsStep = (ExperimentalConditionsStep) getSteps()
+			.get(2);
+		
 		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
 
@@ -96,6 +133,41 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
 		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
+		
+		this.setWorkflowConfiguration();
+	}
+
+	private void setWorkflowConfiguration() {
+		if (this.workflowConfiguration != null) {
+			if (this.workflowConfiguration.getReferenceGenome()
+				.isValidIndex()
+			) {			
+				this.genomeSelectionStep.setSelectedReferenceGenomeIndex(
+					(Hisat2ReferenceGenomeIndex) this.workflowConfiguration
+						.getReferenceGenome(),
+					true);
+			} else {
+				JOptionPane.showMessageDialog(getParentForDialog(),
+					"The imported reference genome index is not valid (maybe "
+					+ "its files has been removed or renamed). You will need "
+					+ "to import or build one later.",
+					"Invalid reference genome index", JOptionPane.WARNING_MESSAGE);
+			}
+
+			this.experimentalConditionsStep
+				.setExperimentalConditionsAndSamples(this.workflowConfiguration
+					.getExperimentalConditionsAndSamples());
+
+			this.referenceAnnotationFileSelectionStep.setSelectedFile(
+				this.workflowConfiguration.getReferenceAnnotationFile());
+
+			this.workingDirectorySelectionStep.setSelectedFile(
+				this.workflowConfiguration.getWorkingDirectory());
+		}
+	}
+
+	private Component getParentForDialog() {
+		return SwingUtilities.getRootPane(this);
 	}
 
 	protected static List<WizardStep> getWizardSteps() {
@@ -118,7 +190,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
 		wizardSteps.add(new WizardSummaryStep());
-
+		
 		return wizardSteps;
 	}
 

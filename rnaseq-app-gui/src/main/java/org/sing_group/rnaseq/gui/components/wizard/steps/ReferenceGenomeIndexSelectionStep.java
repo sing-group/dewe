@@ -222,6 +222,41 @@ public abstract class ReferenceGenomeIndexSelectionStep<T extends ReferenceGenom
 		return referenceGenomeClass.cast(selectedItem.getItem());
 	}
 
+	public boolean setSelectedReferenceGenomeIndex(T selected,
+		boolean addIfNotExists
+	) {
+		int selectedIndex = findReferenceGenomeIndex(selected);
+		if (addIfNotExists) {
+			this.databaseManager.addIndex(selected);
+			selectedIndex = findReferenceGenomeIndex(selected);
+		}
+
+		this.combobox.setSelectedIndex(selectedIndex);
+
+		if (selectedIndex == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private int findReferenceGenomeIndex(T selected) {
+		for (int i = 0; i < this.combobox.getModel().getSize(); i++) {
+			ReferenceGenomeIndex item =
+				this.combobox.getModel().getElementAt(i).getItem();
+
+			if (item.getName().equals(selected.getName())
+				&& item.getReferenceGenomeIndex()
+					.equals(selected.getReferenceGenomeIndex())
+				&& item.getType().equals(selected.getType())
+			) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
 	@Override
 	public void referenceGenomeIndexAdded() {
 		updateComboboxItems();

@@ -49,6 +49,7 @@ import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultSampleAlignmentStatistics;
 import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 import org.sing_group.rnaseq.core.io.alignment.DefaultAlignmentLogParser;
+import org.sing_group.rnaseq.core.persistence.entities.DefaultDifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.core.util.LoggingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,6 +145,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		throws ExecutionException, InterruptedException {
 		createWorkflowLogger();
 		writeWorkflowSummary();
+		writeWorkflowConfiguration();
 
 		alignReads(status);
 		convertSamToBam(status);
@@ -340,7 +342,16 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	private static File getStringTieWorkingDir(File workingdir){
 		File outputFile = new File(workingdir, "stringtie");
 		outputFile.mkdirs();
+
 		return outputFile;
+	}
+
+	private void writeWorkflowConfiguration() {
+		File destFile = new File(workingDirectory, "workflow.dewe");
+		DefaultDifferentialExpressionWorkflowConfiguration
+			.persistWorkflowConfiguration(referenceGenome,
+				reads, referenceAnnotationFile, workingDirectory, destFile
+		);
 	}
 
 	private void writeWorkflowSummary() {

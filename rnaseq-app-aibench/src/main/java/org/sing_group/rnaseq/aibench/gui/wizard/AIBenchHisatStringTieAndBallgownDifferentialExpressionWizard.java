@@ -2,7 +2,7 @@
  * #%L
  * DEWE
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,27 @@
  */
 package org.sing_group.rnaseq.aibench.gui.wizard;
 
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.DEWE_EXTENSION;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.askUserImportOrBuild;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.fixDialogSize;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.getFile;
 
 import java.awt.Window;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.entities.DefaultDifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndBallgownDifferentialExpressionWizard;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 
@@ -43,7 +50,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 
 /**
  * An AIBench extension of the {@code HisatStringTieAndBallgownDifferentialExpressionWizard}.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -58,7 +65,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 
 	public static final ExtendedAbstractAction SHOW_WIZARD = new ExtendedAbstractAction(
 		"Differential expression wizard",
-		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard::showWizard);
+		() -> AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(false));
 
 	protected AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps
@@ -66,11 +73,36 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 		super(parent, wizardTitle, steps);
 	}
 
+	protected AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+		Window parent, String wizardTitle, List<WizardStep> steps,
+		DifferentialExpressionWorkflowConfiguration configuration
+	) {
+		super(parent, wizardTitle, steps, configuration);
+	}
+
+	/**
+	 * Creates a new
+	 * {@code AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard}
+	 * using the specified workflow configuration.
+	 *
+	 * @param parent the parent component of the wizard dialog
+	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
+	 *
+	 * @return a new wizard dialog
+	 */
+	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+		Window parent, DifferentialExpressionWorkflowConfiguration configuration
+	) {
+		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+			parent, TITLE, getWizardSteps(getStepProvider()), configuration);
+	}
+
 	/**
 	 * Creates a new
 	 * {@code AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard}.
-	 * 
-	 * @param parent the parent component of the wizard dialog.
+	 *
+	 * @param parent the parent component of the wizard dialog
+	 *
 	 * @return a new wizard dialog
 	 */
 	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
@@ -85,18 +117,53 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	}
 
 	/**
-	 * Shows the wizard. Note that the wizard requires at least one HISAT2
+	 * Shows the wizard. Note that the wizard requires at least one Bowtie2
 	 * index. This method checks this prerequisite and asks user to import or
 	 * build an index if no one is available.
+	 *
+	 * @param importWorkflow whether a workflow file must be required to user
+	 * 		  before showing the wizard or not
 	 */
-	public static void showWizard() {
-		while (shouldCreateHisat2Index()) {
-			if (!askUserImportOrBuild("HISAT2", IMPORT_INDEX, BUILD_INDEX)) {
-				return;
+	public static void showWizard(boolean importWorkflow) {
+		if(importWorkflow) {
+			importWorkflowAndShowWizard();
+		} else {
+			while (shouldCreateHisat2Index()) {
+				if (!askUserImportOrBuild("HISAT2", IMPORT_INDEX, BUILD_INDEX)) {
+					return;
+				}
 			}
+			AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
+				.getWizard(getParentForDialog()).setVisible(true);
 		}
-		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
-			.getWizard(Workbench.getInstance().getMainFrame()).setVisible(true);
+	}
+
+	private static Window getParentForDialog() {
+		return Workbench.getInstance().getMainFrame();
+	}
+
+	private static void importWorkflowAndShowWizard() {
+		Window parent = getParentForDialog();
+
+		Optional<File> configurationFile = getFile(parent, DEWE_EXTENSION);
+		if(configurationFile.isPresent()) {
+			try {
+			DifferentialExpressionWorkflowConfiguration config =
+				DefaultDifferentialExpressionWorkflowConfiguration
+					.loadWorkflowConfiguration(configurationFile.get());
+				if (config.getReferenceGenome().getType()
+					.equals(Hisat2ReferenceGenomeIndex.TYPE)
+				) {
+					AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
+						.getWizard(parent, config).setVisible(true);
+					return;
+				}
+			} catch(RuntimeException ex) { }
+
+			JOptionPane.showMessageDialog(parent,
+				"The selected file does not contain the required information for this workflow.",
+				"Invalid workflow file", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private static boolean shouldCreateHisat2Index() {

@@ -207,6 +207,11 @@ public class ExperimentalConditionsStep extends WizardStep {
 	private void importConditions(File conditionsDir) {
 		Map<String, FastqReadsSamples> conditions = ImportExperimentalConditions
 			.importDirectory(conditionsDir);
+		updateExperimentalConditions(conditions);
+	}
+
+	private void updateExperimentalConditions(
+		Map<String, FastqReadsSamples> conditions) {
 		this.conditionsSelectionComponent.setSelectedConditions(conditions.keySet());
 		this.experimentalConditionsAndSamples = conditions;
 	}
@@ -257,11 +262,22 @@ public class ExperimentalConditionsStep extends WizardStep {
 
 	/**
 	 * Returns the samples associated to the experimental conditions wrapped as
-	 * an optional because users may introduce them manually.
+	 * an optional because users may want to introduce them manually.
 	 *  
 	 * @return the samples associated to the experimental conditions
 	 */
 	public Optional<Map<String, FastqReadsSamples>> getExperimentalConditionsAndSamples() {
 		return Optional.ofNullable(this.experimentalConditionsAndSamples);
+	}
+
+	/**
+	 * Sets the experimental conditions and the samples associated to them.
+	 * 
+	 * @param experimentalConditionsAndSamples the samples associated to the 
+	 *        experimental conditions
+	 */
+	public void setExperimentalConditionsAndSamples(
+		Map<String, FastqReadsSamples> experimentalConditionsAndSamples) {
+		updateExperimentalConditions(experimentalConditionsAndSamples);
 	}
 }

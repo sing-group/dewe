@@ -61,4 +61,13 @@ public class AIBenchWorkflowCatalogPanel extends WorkflowCatalogPanel {
 			super.runWorkflow(workflow);
 		}
 	}
+
+	@Override
+	protected void importWorkflow(WorkflowDescription workflow) {
+		if (workflow instanceof AIBenchWorkflowDescription) {
+			((AIBenchWorkflowDescription) workflow).importWorkflow();
+		} else {
+			super.importWorkflow(workflow);
+		}
+	}
 }

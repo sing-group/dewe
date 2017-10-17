@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,19 @@
  */
 package org.sing_group.rnaseq.gui.components.wizard;
 
+import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeIndexSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardPresentationStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
@@ -38,8 +44,6 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFile
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WorkingDirectorySelectionStep;
-
-import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * This class extends {@code AbstractDifferentialExpressionWizard} to provide a
@@ -57,9 +61,30 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	protected static final String TITLE = "Differential expression analysis";
 
 	private Bowtie2ReferenceGenomeIndexSelectionStep genomeSelectionStep;
+	private ExperimentalConditionsStep experimentalConditionsStep;
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
+
+	private DifferentialExpressionWorkflowConfiguration workflowConfiguration;
+
+	/**
+	 * Creates a new
+	 * {@code BowtieStringTieAndRDifferentialExpressionWizard}
+	 * using the specified workflow configuration.
+	 *
+	 * @param parent the parent component of the wizard dialog
+	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
+	 *
+	 * @return a new {@code BowtieStringTieAndRDifferentialExpressionWizard}
+	 */
+	public static BowtieStringTieAndRDifferentialExpressionWizard getWizard(
+		Window parent, 
+		DifferentialExpressionWorkflowConfiguration configuration
+	) {
+		return new BowtieStringTieAndRDifferentialExpressionWizard(
+			parent,	TITLE, getWizardSteps(), configuration);
+	}
 
 	/**
 	 * Creates a new
@@ -67,25 +92,36 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	 * specified parent window dialog.
 	 *
 	 * @param parent the parent window dialog
-	 * @return a new {@code BowtieStringTieAndRDifferentialExpressionWizard} 
+	 * @return a new {@code BowtieStringTieAndRDifferentialExpressionWizard}
 	 */
 	public static BowtieStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
-		return new BowtieStringTieAndRDifferentialExpressionWizard(
-			parent,	TITLE, getWizardSteps());
+		return new BowtieStringTieAndRDifferentialExpressionWizard(parent,
+			TITLE, getWizardSteps());
 	}
 
 	protected BowtieStringTieAndRDifferentialExpressionWizard(Window parent,
 		String wizardTitle, List<WizardStep> steps
 	) {
+		this(parent, wizardTitle, steps, null);
+	}
+
+	protected BowtieStringTieAndRDifferentialExpressionWizard(Window parent,
+		String wizardTitle, List<WizardStep> steps,
+		DifferentialExpressionWorkflowConfiguration workflowConfiguration
+	) {
 		super(parent, wizardTitle, steps);
+		this.workflowConfiguration = workflowConfiguration;
 		this.init();
 	}
 
 	private void init() {
 		genomeSelectionStep =
 			(Bowtie2ReferenceGenomeIndexSelectionStep) getSteps().get(1);
+
+		experimentalConditionsStep = (ExperimentalConditionsStep) getSteps()
+			.get(2);
 
 		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
@@ -97,6 +133,41 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
 		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
+
+		this.setWorkflowConfiguration();
+	}
+
+	private void setWorkflowConfiguration() {
+		if (this.workflowConfiguration != null) {
+			if (this.workflowConfiguration.getReferenceGenome()
+				.isValidIndex()
+			) {
+				this.genomeSelectionStep.setSelectedReferenceGenomeIndex(
+					(Bowtie2ReferenceGenomeIndex) this.workflowConfiguration
+						.getReferenceGenome(),
+					true);
+			} else {
+				JOptionPane.showMessageDialog(getParentForDialog(),
+					"The imported reference genome index is not valid (maybe "
+					+ "its files has been removed or renamed). You will need "
+					+ "to import or build one later.",
+					"Invalid reference genome index", JOptionPane.WARNING_MESSAGE);
+			}
+
+			this.experimentalConditionsStep
+				.setExperimentalConditionsAndSamples(this.workflowConfiguration
+					.getExperimentalConditionsAndSamples());
+
+			this.referenceAnnotationFileSelectionStep.setSelectedFile(
+				this.workflowConfiguration.getReferenceAnnotationFile());
+
+			this.workingDirectorySelectionStep.setSelectedFile(
+				this.workflowConfiguration.getWorkingDirectory());
+		}
+	}
+
+	private Component getParentForDialog() {
+		return SwingUtilities.getRootPane(this);
 	}
 
 	protected static List<WizardStep> getWizardSteps() {

@@ -39,6 +39,11 @@ public class Bowtie2StringTieDifferentialExpressionAIBenchWorkflowDescription
 
 	@Override
 	public void launchWorkflowWizard() {
-		AIBenchBowtieStringTieAndRDifferentialExpressionWizard.showWizard();
+		AIBenchBowtieStringTieAndRDifferentialExpressionWizard.showWizard(false);
+	}
+
+	@Override
+	public void importWorkflow() {
+		AIBenchBowtieStringTieAndRDifferentialExpressionWizard.showWizard(true);
 	}
 }

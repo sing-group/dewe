@@ -51,8 +51,6 @@ public interface FastQcController {
 	 * @param reads the input sequence files
 	 * @param outputDir the output directory to generate the reports
 	 * 
-	 * @return the {@code ExecutionResult}
-	 * 
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
@@ -65,8 +63,6 @@ public interface FastQcController {
 	 * created in the same directory as the sequence file which was processed.
 	 * 
 	 * @param reads the input sequence files
-	 * 
-	 * @return the {@code ExecutionResult}
 	 * 
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 

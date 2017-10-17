@@ -30,5 +30,10 @@ package org.sing_group.rnaseq.api.persistence.entities;
  *
  */
 public interface Bowtie2ReferenceGenomeIndex extends ReferenceGenomeIndex {
+	public static final String TYPE = "Bowtie2";
 
+	@Override
+	default String getType() {
+		return TYPE;
+	}
 }

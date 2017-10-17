@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ import org.sing_group.gc4s.ui.CenteredJPanel;
 /**
  * A panel that shows a workflow catalog, displaying their titles, descriptions
  * and a "run workflow" button.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -63,7 +63,7 @@ public class WorkflowCatalogPanel extends JPanel {
 	/**
 	 * Creates a new {@code WorkflowCatalogPanel} to show the specified
 	 * workflows.
-	 * 
+	 *
 	 * @param workflows a list of {@code WorkflowDescription}.
 	 */
 	public WorkflowCatalogPanel(List<WorkflowDescription> workflows) {
@@ -89,7 +89,7 @@ public class WorkflowCatalogPanel extends JPanel {
 	protected String getWorkflowCatalogTitle() {
 		return "Workflow catalog";
 	}
-	
+
 	protected JComponent getDescriptionsPanel() {
 		JPanel descriptionsPanel = new JPanel();
 		descriptionsPanel.setOpaque(false);
@@ -131,6 +131,14 @@ public class WorkflowCatalogPanel extends JPanel {
 					runWorkflow(workflow);
 				}
 			}));
+			buttonsPanel.add(new JButton(new AbstractAction("Import workflow") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					importWorkflow(workflow);
+				}
+			}));
 			return buttonsPanel;
 		}
 	}
@@ -142,5 +150,8 @@ public class WorkflowCatalogPanel extends JPanel {
 	}
 
 	protected void runWorkflow(WorkflowDescription workflow) {
+	}
+
+	protected void importWorkflow(WorkflowDescription workflow) {
 	}
 }

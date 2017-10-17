@@ -99,11 +99,6 @@ public class DefaultHisat2ReferenceGenomeIndex
 	}
 
 	@Override
-	public String getType() {
-		return "HISAT2";
-	}
-
-	@Override
 	public String getName() {
 		return this.name;
 	}

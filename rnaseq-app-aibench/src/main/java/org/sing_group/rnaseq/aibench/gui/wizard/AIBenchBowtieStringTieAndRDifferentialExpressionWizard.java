@@ -2,7 +2,7 @@
  * #%L
  * DEWE
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,27 @@
  */
 package org.sing_group.rnaseq.aibench.gui.wizard;
 
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.DEWE_EXTENSION;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.askUserImportOrBuild;
 import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.fixDialogSize;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchWizardUtil.getFile;
 
 import java.awt.Window;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
+import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
+import org.sing_group.rnaseq.core.persistence.entities.DefaultDifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.gui.components.wizard.BowtieStringTieAndRDifferentialExpressionWizard;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 
@@ -43,7 +50,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 
 /**
  * An AIBench extension of the {@code BowtieStringTieAndRDifferentialExpressionWizard}.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -58,7 +65,14 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 
 	public static final ExtendedAbstractAction SHOW_WIZARD = new ExtendedAbstractAction(
 		"Differential expression wizard",
-		AIBenchBowtieStringTieAndRDifferentialExpressionWizard::showWizard);
+		() -> AIBenchBowtieStringTieAndRDifferentialExpressionWizard.showWizard(false));
+
+	protected AIBenchBowtieStringTieAndRDifferentialExpressionWizard(
+		Window parent, String wizardTitle, List<WizardStep> steps,
+		DifferentialExpressionWorkflowConfiguration workflowConfiguration
+	) {
+		super(parent, wizardTitle, steps, workflowConfiguration);
+	}
 
 	protected AIBenchBowtieStringTieAndRDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps
@@ -69,7 +83,7 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	/**
 	 * Creates a new
 	 * {@code AIBenchBowtieStringTieAndRDifferentialExpressionWizard}.
-	 * 
+	 *
 	 * @param parent the parent component of the wizard dialog.
 	 * @return a new wizard dialog
 	 */
@@ -80,6 +94,23 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 			parent, TITLE, getWizardSteps(getStepProvider()));
 	}
 
+	/**
+	 * Creates a new
+	 * {@code AIBenchBowtieStringTieAndRDifferentialExpressionWizard}
+	 * using the specified workflow configuration.
+	 *
+	 * @param parent the parent component of the wizard dialog
+	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
+	 *
+	 * @return a new wizard dialog
+	 */
+	public static AIBenchBowtieStringTieAndRDifferentialExpressionWizard getWizard(
+		Window parent, DifferentialExpressionWorkflowConfiguration configuration
+	) {
+		return new AIBenchBowtieStringTieAndRDifferentialExpressionWizard(
+			parent, TITLE, getWizardSteps(getStepProvider()), configuration);
+	}
+
 	private static BowtieStringTieAndRDifferentialExpressionWizardStepProvider getStepProvider() {
 		return new AIBenchBowtieStringTieAndRDifferentialExpressionStepProvider();
 	}
@@ -88,16 +119,51 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	 * Shows the wizard. Note that the wizard requires at least one Bowtie2
 	 * index. This method checks this prerequisite and asks user to import or
 	 * build an index if no one is available.
+	 *
+	 * @param importWorkflow whether a workflow file must be required to user
+	 * 		  before showing the wizard or not
 	 */
-	public static void showWizard() {
-		while (shouldCreateBowtie2Index()) {
-			if (!askUserImportOrBuild("Bowtie2", IMPORT_INDEX, BUILD_INDEX)) {
+	public static void showWizard(boolean importWorkflow) {
+		if(importWorkflow) {
+			importWorkflowAndShowWizard();
+		} else {
+			while (shouldCreateBowtie2Index()) {
+				if (!askUserImportOrBuild("Bowtie2", IMPORT_INDEX, BUILD_INDEX)) {
+					return;
+				}
+			}
+
+			AIBenchBowtieStringTieAndRDifferentialExpressionWizard
+				.getWizard(getParentForDialog()).setVisible(true);
+		}
+	}
+
+	private static Window getParentForDialog() {
+		return Workbench.getInstance().getMainFrame();
+	}
+
+	private static void importWorkflowAndShowWizard() {
+		Window parent = getParentForDialog();
+
+		Optional<File> configurationFile = getFile(parent, DEWE_EXTENSION);
+		if (configurationFile.isPresent()) {
+			try {
+				DifferentialExpressionWorkflowConfiguration config = DefaultDifferentialExpressionWorkflowConfiguration
+					.loadWorkflowConfiguration(configurationFile.get());
+
+			if (config.getReferenceGenome().getType()
+				.equals(Bowtie2ReferenceGenomeIndex.TYPE)) {
+				AIBenchBowtieStringTieAndRDifferentialExpressionWizard
+					.getWizard(Workbench.getInstance().getMainFrame(), config)
+					.setVisible(true);
 				return;
 			}
-		}
+		} catch(RuntimeException ex) { }
 
-		AIBenchBowtieStringTieAndRDifferentialExpressionWizard
-			.getWizard(Workbench.getInstance().getMainFrame()).setVisible(true);
+		JOptionPane.showMessageDialog(parent,
+			"The selected file does not contain the required information for this workflow.",
+			"Invalid workflow file", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private static boolean shouldCreateBowtie2Index() {

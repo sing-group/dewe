@@ -39,6 +39,11 @@ public class Hisat2StringTieBallgownDifferentialExpressionAIBenchWorkflowDescrip
 
 	@Override
 	public void launchWorkflowWizard() {
-		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard();
+		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(false);
+	}
+
+	@Override
+	public void importWorkflow() {
+		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(true);
 	}
 }

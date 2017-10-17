@@ -33,4 +33,6 @@ import org.sing_group.rnaseq.api.entities.WorkflowDescription;
  */
 public interface AIBenchWorkflowDescription extends WorkflowDescription {
 	public abstract void launchWorkflowWizard();
+
+	public abstract void importWorkflow();
 }

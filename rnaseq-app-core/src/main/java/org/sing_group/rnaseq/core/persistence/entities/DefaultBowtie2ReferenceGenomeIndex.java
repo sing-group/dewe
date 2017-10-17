@@ -99,11 +99,6 @@ public class DefaultBowtie2ReferenceGenomeIndex
 	}
 
 	@Override
-	public String getType() {
-		return "Bowtie2";
-	}
-
-	@Override
 	public String getName() {
 		return this.name;
 	}

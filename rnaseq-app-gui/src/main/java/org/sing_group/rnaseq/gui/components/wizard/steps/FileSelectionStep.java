@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ import org.sing_group.gc4s.wizard.WizardStep;
 /**
  * An abstract {@code WizardStep} implementation that allows the selection of a
  * file.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -118,10 +118,19 @@ public abstract class FileSelectionStep extends WizardStep {
 
 	/**
 	 * Returns the file selected by the user.
-	 * 
+	 *
 	 * @return the file selected by the user
 	 */
 	public File getSelectedFile() {
 		return this.fileChooser.getSelectedFile();
+	}
+
+	/**
+	 * Sets the selected file.
+	 *
+	 * @param file the selected file
+	 */
+	public void setSelectedFile(File file) {
+		this.fileChooser.setSelectedFile(file);
 	}
 }
