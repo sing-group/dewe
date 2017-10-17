@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
@@ -50,7 +51,7 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 	private static DefaultReferenceGenomeIndexDatabaseManager INSTANCE = null;
 	private DefaultReferenceGenomeIndexDatabase database = 
 		new DefaultReferenceGenomeIndexDatabase();
-	private File file;
+	private Supplier<File> file;
 	
 	private DefaultReferenceGenomeIndexDatabaseManager() {
 	}
@@ -69,17 +70,17 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 	}
 
 	/**
-	 * Sets the file where the database must be saved.
+	 * Sets the supplier of the file where the database must be saved.
 	 * 
-	 * @param file the file where the database must be saved.
+	 * @param supplier the suppleir of the file where the database must be saved
 	 */
-	public void setPersistenceStorageFile(File file) {
-		this.file = file;
+	public void setPersistenceStorageFileProvider(Supplier<File> supplier) {
+		this.file = supplier;
 	}
 	
 	/**
 	 * Loads the database using the persistence storage file established with
-	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFile(File)}.
+	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier<File>)}.
 	 * 
 	 * @throws FileNotFoundException if the file does not exist
 	 * @throws IOException if an error occurs when reading the file
@@ -89,7 +90,7 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 	public void loadDatabase() 
 		throws FileNotFoundException, IOException, ClassNotFoundException 
 	{
-		FileInputStream fis = new FileInputStream(this.file);
+		FileInputStream fis = new FileInputStream(this.file.get());
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		DefaultReferenceGenomeIndexDatabase readObject = 
 			(DefaultReferenceGenomeIndexDatabase) ois.readObject();
@@ -100,12 +101,12 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 
 	/**
 	 * Saves the database in the persistence storage file established with
-	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFile(File)}.
+	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier<File>)}.
 	 * 
 	 * @throws IOException if an error occurs when reading the file
 	 */
 	public void persistDatabase() throws IOException {
-		FileOutputStream fos = new FileOutputStream(this.file);
+		FileOutputStream fos = new FileOutputStream(this.file.get());
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(this.database);
 		oos.close();

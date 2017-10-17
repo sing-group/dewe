@@ -152,9 +152,8 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private void initReferenceGenomeDatabaseManager() throws IOException, ClassNotFoundException {
 		referenceGenomeDatabaseManager = DefaultReferenceGenomeIndexDatabaseManager.getInstance();
 		
-		File referenceGenomeDatabasefile = getReferenceGenomeDatabaseFile();
-		referenceGenomeDatabaseManager.setPersistenceStorageFile(referenceGenomeDatabasefile);
-		if(!referenceGenomeDatabasefile.exists()) {
+		referenceGenomeDatabaseManager.setPersistenceStorageFileProvider(this::getReferenceGenomeDatabaseFile);
+		if(!this.getReferenceGenomeDatabaseFile().exists()) {
 			referenceGenomeDatabaseManager.persistDatabase();
 		}
 		referenceGenomeDatabaseManager.loadDatabase();
