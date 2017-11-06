@@ -24,7 +24,7 @@ package org.sing_group.rnaseq.aibench.operations;
 
 import static org.sing_group.rnaseq.aibench.operations.util.OperationsUtils.getSamOutputFile;
 import static javax.swing.SwingUtilities.invokeLater;
-import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSamplesParamsWindow.REFERENCE_GENOME;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow.REFERENCE_GENOME;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2;
@@ -48,7 +48,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 	name = "Align reads using HISAT2",
 	description = "Aligns paired-end reads using HISAT2."
 )
-public class Hisat2AlignSamples {
+public class Hisat2AlignPairedEndSamples {
 	private Hisat2ReferenceGenomeIndex referenceGenome;
 	private File readsFile1;
 	private File readsFile2;

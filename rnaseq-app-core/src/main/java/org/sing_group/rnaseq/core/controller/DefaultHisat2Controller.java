@@ -65,6 +65,16 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	}
 
 	@Override
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+		boolean dta, File output
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result = this.hisat2BinariesExecutor
+			.alignReads(genome, reads, dta, output);
+
+		checkResult(result);
+	}
+
+	@Override
 	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
@@ -73,6 +83,18 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 				getAlignmentLogFile(output));
 		} else {
 			alignReads(genome, reads1, reads2, dta, output);
+		}
+	}
+
+	@Override
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+		boolean dta, File output, boolean saveAlignmentLog
+	) throws ExecutionException, InterruptedException {
+		if(saveAlignmentLog) {
+			alignReads(genome, reads, dta, output,
+				getAlignmentLogFile(output));
+		} else {
+			alignReads(genome, reads, dta, output);
 		}
 	}
 
@@ -86,6 +108,16 @@ public class DefaultHisat2Controller implements Hisat2Controller {
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.hisat2BinariesExecutor
 			.alignReads(genome, reads1, reads2, dta, output, alignmentLog);
+
+		checkResult(result);
+	}
+
+	@Override
+	public void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+		boolean dta, File output, File alignmentLog
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result = this.hisat2BinariesExecutor
+			.alignReads(genome, reads, dta, output, alignmentLog);
 
 		checkResult(result);
 	}

@@ -69,6 +69,16 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
+		Bowtie2EndToEndConfiguration configuration, File output
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result = this.bowtie2BinariesExecutor
+			.alignReads(genome, reads, configuration, output);
+
+		checkResult(result);
+	}
+
+	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		boolean saveAlignmentLog
@@ -82,12 +92,36 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
+		Bowtie2EndToEndConfiguration configuration, File output,
+		boolean saveAlignmentLog
+	) throws ExecutionException, InterruptedException {
+		if(saveAlignmentLog) {
+			alignReads(genome, reads, configuration, output,
+				getAlignmentLogFile(output));
+		} else {
+			alignReads(genome, reads, configuration, output);
+		}
+	}
+
+	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
 		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
 		File alignmentLogFile
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor.alignReads(
 			genome, reads1, reads2, configuration, output, alignmentLogFile);
+
+		checkResult(result);
+	}
+
+	@Override
+	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
+		Bowtie2EndToEndConfiguration configuration, File output,
+		File alignmentLogFile
+	) throws ExecutionException, InterruptedException {
+		final ExecutionResult result = this.bowtie2BinariesExecutor.alignReads(
+			genome, reads, configuration, output, alignmentLogFile);
 
 		checkResult(result);
 	}

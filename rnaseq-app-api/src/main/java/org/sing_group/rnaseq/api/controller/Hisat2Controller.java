@@ -60,7 +60,7 @@ public interface Hisat2Controller {
 		throws ExecutionException, InterruptedException;
 
 	/**
-	 * Aligns paired reads in files {@code reads1} and {@code reads2} using the
+	 * Aligns paired-end reads in files {@code reads1} and {@code reads2} using the
 	 * specified reference genome, storing the result in {@code output} file.
 	 * 
 	 * @param genome the {@code Hisat2ReferenceGenome} 
@@ -77,7 +77,23 @@ public interface Hisat2Controller {
 		throws ExecutionException, InterruptedException;
 
 	/**
-	 * Aligns paired reads in files {@code reads1} and {@code reads2} using the
+	 * Aligns single-end reads in file {@code reads} using the
+	 * specified reference genome, storing the result in {@code output} file.
+	 * 
+	 * @param genome the {@code Hisat2ReferenceGenome} 
+	 * @param reads the single-end reads file
+	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param output the file to store the result of the alignment
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system 
+	 *         binary
+	 */
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+		boolean dta, File output)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Aligns paired-end reads in files {@code reads1} and {@code reads2} using the
 	 * specified reference genome, storing the result in {@code output} file. If
 	 * {@code saveAlignmentLog} is {@code true}, then the {@code stderr} output
 	 * of HISAT2 where the alignment rates are printed is stored alongside the
@@ -98,7 +114,27 @@ public interface Hisat2Controller {
 			throws ExecutionException, InterruptedException;
 
 	/**
-	 * Aligns paired reads in files {@code reads1} and {@code reads2} using the
+	 * Aligns single-end reads in file {@code reads} using the
+	 * specified reference genome, storing the result in {@code output} file. If
+	 * {@code saveAlignmentLog} is {@code true}, then the {@code stderr} output
+	 * of HISAT2 where the alignment rates are printed is stored alongside the
+	 * output file (adding {@code txt} extension}.
+	 * 
+	 * @param genome the {@code Hisat2ReferenceGenome}
+	 * @param reads the single-end reads file
+	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param output the file to store the result of the alignment
+	 * @param saveAlignmentLog whether the alignment log must be stored or not.
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system 
+	 *         binary
+	 */
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+			boolean dta, File output, boolean saveAlignmentLog)
+			throws ExecutionException, InterruptedException;
+
+	/**
+	 * Aligns paired-end reads in files {@code reads1} and {@code reads2} using the
 	 * specified reference genome, storing the result in {@code output} file.
 	 * The {@code alignmentLog} file is used to store the {@code stderr} output
 	 * of HISAT2 where the alignment rates are printed.
@@ -115,5 +151,24 @@ public interface Hisat2Controller {
 	 */
 	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
 		File reads2, boolean dta, File output, File alignmentLog)
+			throws ExecutionException, InterruptedException;
+
+	/**
+	 * Aligns single-end reads in files {@code reads} using the
+	 * specified reference genome, storing the result in {@code output} file.
+	 * The {@code alignmentLog} file is used to store the {@code stderr} output
+	 * of HISAT2 where the alignment rates are printed.
+	 * 
+	 * @param genome the {@code Hisat2ReferenceGenome} 
+	 * @param reads the single-end reads file
+	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param output the file to store the result of the alignment
+	 * @param alignmentLog the file to store the  {@code stderr} output
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system 
+	 *         binary
+	 */
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
+		boolean dta, File output, File alignmentLog)
 			throws ExecutionException, InterruptedException;
 }

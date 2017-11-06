@@ -27,14 +27,14 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 
 /**
  * This extension of {@link PairedEndReadsAlignSamplesParamsWindow} provides a
- * {@link Bowtie2ReferenceGenomeIndexParamProvider} to select the reference genome.
+ * {@link Hisat2ReferenceGenomeIndexParamProvider} to select the reference genome.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class Bowtie2AlignSamplesParamsWindow
-	extends PairedEndReadsAlignSamplesParamsWindow {
+public class Hisat2AlignSingleEndSamplesParamsWindow
+	extends SingleEndReadsAlignSamplesParamsWindow {
 	private static final long serialVersionUID = 1L;
 	public static final String REFERENCE_GENOME = "Reference genome";
 
@@ -42,7 +42,7 @@ public class Bowtie2AlignSamplesParamsWindow
 		final Class<?> arg1, final Object arg2
 	) {
 		if (arg0.name().equals(REFERENCE_GENOME)) {
-			return new Bowtie2ReferenceGenomeIndexParamProvider();
+			return new Hisat2ReferenceGenomeIndexParamProvider();
 		}
 
 		return super.getParamProvider(arg0, arg1, arg2);

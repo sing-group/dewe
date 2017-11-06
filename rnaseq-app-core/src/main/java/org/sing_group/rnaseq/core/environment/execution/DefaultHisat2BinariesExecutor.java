@@ -90,6 +90,13 @@ public class DefaultHisat2BinariesExecutor extends
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads, boolean dta, File output
+	) throws ExecutionException, InterruptedException {
+		return alignReads(genome, reads, dta, output, null);
+	}
+
+	@Override
+	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
 		File reads1, File reads2, boolean dta, File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(
@@ -106,6 +113,27 @@ public class DefaultHisat2BinariesExecutor extends
 			reads1.getAbsolutePath(),
 			"-2",
 			reads2.getAbsolutePath(),
+			"-S",
+			output.getAbsolutePath()
+		);
+	}
+	
+	@Override
+	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads, boolean dta, File output, File alignmentLog
+	) throws ExecutionException, InterruptedException {
+		return executeCommand(
+			null,
+			alignmentLog,
+			LOG,
+			this.binaries.getAlignReads(),
+			"--threads",
+			getThreads(),
+			dta ? "--dta" : "",
+			"-x",
+			genome.getReferenceGenomeIndex(),
+			"-U",
+			reads.getAbsolutePath(),
 			"-S",
 			output.getAbsolutePath()
 		);

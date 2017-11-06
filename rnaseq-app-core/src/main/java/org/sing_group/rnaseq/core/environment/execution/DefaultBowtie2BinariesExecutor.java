@@ -93,6 +93,14 @@ public class DefaultBowtie2BinariesExecutor
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
+		File reads, Bowtie2EndToEndConfiguration configuration,
+		File output
+	) throws ExecutionException, InterruptedException {
+		return alignReads(genome, reads, configuration, output, null);
+	}
+
+	@Override
+	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
 		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
 		File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
@@ -110,6 +118,28 @@ public class DefaultBowtie2BinariesExecutor
 			reads1.getAbsolutePath(),
 			"-2",
 			reads2.getAbsolutePath(),
+			"-S",
+			output.getAbsolutePath()
+		);
+	}
+
+	@Override
+	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
+		File reads, Bowtie2EndToEndConfiguration configuration,
+		File output, File alignmentLog
+	) throws ExecutionException, InterruptedException {
+		return executeCommand(
+			null,
+			alignmentLog,
+			LOG,
+			this.binaries.getAlignReads(),
+			"--threads",
+			getThreads(),
+			configuration.getParameter(),
+			"-x",
+			genome.getReferenceGenomeIndex(),
+			"-U",
+			reads.getAbsolutePath(),
 			"-S",
 			output.getAbsolutePath()
 		);

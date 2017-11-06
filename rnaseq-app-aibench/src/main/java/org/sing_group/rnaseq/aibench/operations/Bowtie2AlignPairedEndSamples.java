@@ -23,7 +23,7 @@
 package org.sing_group.rnaseq.aibench.operations;
 
 import static javax.swing.SwingUtilities.invokeLater;
-import static org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow.REFERENCE_GENOME;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignPairedEndSamplesParamsWindow.REFERENCE_GENOME;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_1_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2;
@@ -50,7 +50,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 	name = "Align reads using Bowtie2",
 	description = "Aligns paired-end reads using Bowtie2."
 )
-public class Bowtie2AlignSamples {
+public class Bowtie2AlignPairedEndSamples {
 	private Bowtie2ReferenceGenomeIndex referenceGenome;
 	private File readsFile1;
 	private File readsFile2;

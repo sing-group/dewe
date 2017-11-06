@@ -79,22 +79,44 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignSamples"
+			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignPairedEndSamples"
 		>
 			<operation-description
-				name="Reads using Bowtie2"
-				uid="operations.bowtie2alignsamples"
+				name="Align paired-end reads using Bowtie2"
+				uid="operations.bowtie2alignpairedendsamples"
 				path="2@Align"
 			/>
 		</extension>
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignSamples"
+			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignSingleEndSamples"
 		>
 			<operation-description
-				name="Reads using HISAT2"
-				uid="operations.hisat2alignsamples"
+				name="Align single-end reads using Bowtie2"
+				uid="operations.bowtie2alignsingleendsamples"
+				path="2@Align"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignPairedEndSamples"
+		>
+			<operation-description
+				name="Align paired-end reads using HISAT2"
+				uid="operations.hisat2alignpairedendsamples"
+				path="2@Align"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignSingleEndSamples"
+		>
+			<operation-description
+				name="Align single-end reads using HISAT2"
+				uid="operations.hisat2alignsingleendsamples"
 				path="2@Align"
 			/>
 		</extension>
@@ -287,12 +309,20 @@
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.bowtie2alignsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSamplesParamsWindow"
+				operation="operations.bowtie2alignpairedendsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignPairedEndSamplesParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.hisat2alignsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSamplesParamsWindow"
+				operation="operations.hisat2alignpairedendsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.bowtie2alignsingleendsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSingleEndSamplesParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.hisat2alignsingleendsamples"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSingleEndSamplesParamsWindow"
 		    />
 		    <gui-operation
 				operation="operations.ballgowndifferentialexpressionanalysis"
