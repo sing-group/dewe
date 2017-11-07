@@ -80,7 +80,7 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 	
 	/**
 	 * Loads the database using the persistence storage file established with
-	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier<File>)}.
+	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier)}.
 	 * 
 	 * @throws FileNotFoundException if the file does not exist
 	 * @throws IOException if an error occurs when reading the file
@@ -101,7 +101,7 @@ public class DefaultReferenceGenomeIndexDatabaseManager
 
 	/**
 	 * Saves the database in the persistence storage file established with
-	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier<File>)}.
+	 * {@link DefaultReferenceGenomeIndexDatabaseManager#setPersistenceStorageFileProvider(Supplier)}.
 	 * 
 	 * @throws IOException if an error occurs when reading the file
 	 */
