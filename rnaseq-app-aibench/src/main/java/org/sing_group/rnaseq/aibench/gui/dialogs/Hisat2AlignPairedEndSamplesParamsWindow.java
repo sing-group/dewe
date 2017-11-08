@@ -36,6 +36,13 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 public class Hisat2AlignPairedEndSamplesParamsWindow
 	extends PairedEndReadsAlignSamplesParamsWindow {
 	private static final long serialVersionUID = 1L;
+	public static final String TRANSCRIPT_ASSEMBLERS_DESCRIPTION = 
+		"<html>Whether to report alignments tailored for transcript "
+		+ "assemblers (including Stringtie) or not. <br/>With this option, "
+		+ "HISAT2 requires longer anchor lengths for de novo discovery "
+		+ "of splice sites. <br/>This leads to fewer alignments with "
+		+ "short-anchors, which helps transcript assemblers improve "
+		+ "significantly in computation and memory usage.</html>";
 	public static final String REFERENCE_GENOME = "Reference genome";
 
 	protected ParamProvider getParamProvider(final Port arg0,

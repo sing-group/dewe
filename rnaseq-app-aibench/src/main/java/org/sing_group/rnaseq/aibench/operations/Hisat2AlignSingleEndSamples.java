@@ -25,6 +25,7 @@ package org.sing_group.rnaseq.aibench.operations;
 import static org.sing_group.rnaseq.aibench.operations.util.OperationsUtils.getSamOutputFile;
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSingleEndSamplesParamsWindow.REFERENCE_GENOME;
+import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSingleEndSamplesParamsWindow.TRANSCRIPT_ASSEMBLERS_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.SingleEndReadsAlignSamplesParamsWindow.READS_FILE;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.SingleEndReadsAlignSamplesParamsWindow.READS_FILE_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FASTQ_FILES;
@@ -95,12 +96,7 @@ public class Hisat2AlignSingleEndSamples {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Transcript assemblers",
-		description = "Whether to report alignments tailored for transcript "
-			+ "assemblers (including Stringtie) or not. With this option, "
-			+ "HISAT2 requires longer anchor lengths for de novo discovery "
-			+ "of splice sites. This leads to fewer alignments with "
-			+ "short-anchors, which helps transcript assemblers improve "
-			+ "significantly in computation and memory usage.",
+		description = TRANSCRIPT_ASSEMBLERS_DESCRIPTION,
 		allowNull = false,
 		order = 5,
 		defaultValue = "false",

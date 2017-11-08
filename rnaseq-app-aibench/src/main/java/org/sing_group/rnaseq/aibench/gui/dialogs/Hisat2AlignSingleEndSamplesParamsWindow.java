@@ -36,6 +36,8 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 public class Hisat2AlignSingleEndSamplesParamsWindow
 	extends SingleEndReadsAlignSamplesParamsWindow {
 	private static final long serialVersionUID = 1L;
+	public static final String TRANSCRIPT_ASSEMBLERS_DESCRIPTION = 
+		Hisat2AlignPairedEndSamplesParamsWindow.TRANSCRIPT_ASSEMBLERS_DESCRIPTION;
 	public static final String REFERENCE_GENOME = "Reference genome";
 
 	protected ParamProvider getParamProvider(final Port arg0,
