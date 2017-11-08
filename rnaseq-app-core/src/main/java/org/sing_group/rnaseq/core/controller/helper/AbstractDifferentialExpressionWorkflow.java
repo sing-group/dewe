@@ -388,11 +388,11 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	}
 
 	protected static final void stepLog(String message) {
-		LOGGER.info("STEP:" + message);
+		LOGGER.info("STEP: " + message);
 	}
 
 	protected static final void stepFinishedLog(String message) {
-		LOGGER.info("STEP FINISHED:" + message + "\n");
+		LOGGER.info("STEP FINISHED: " + message + "\n");
 	}
 
 	/**
