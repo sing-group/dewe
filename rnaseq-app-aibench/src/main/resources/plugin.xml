@@ -82,9 +82,9 @@
 			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignPairedEndSamples"
 		>
 			<operation-description
-				name="Align paired-end reads using Bowtie2"
+				name="Bowtie2"
 				uid="operations.bowtie2alignpairedendsamples"
-				path="2@Align"
+        path="2@Align/1@Paired-end reads"
 			/>
 		</extension>
 
@@ -93,9 +93,9 @@
 			class="org.sing_group.rnaseq.aibench.operations.Bowtie2AlignSingleEndSamples"
 		>
 			<operation-description
-				name="Align single-end reads using Bowtie2"
+				name="Bowtie2"
 				uid="operations.bowtie2alignsingleendsamples"
-				path="2@Align"
+        path="2@Align/2@Single-end reads"
 			/>
 		</extension>
 
@@ -104,9 +104,9 @@
 			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignPairedEndSamples"
 		>
 			<operation-description
-				name="Align paired-end reads using HISAT2"
+				name="HISAT2"
 				uid="operations.hisat2alignpairedendsamples"
-				path="2@Align"
+        path="2@Align/1@Paired-end reads"
 			/>
 		</extension>
 
@@ -115,9 +115,9 @@
 			class="org.sing_group.rnaseq.aibench.operations.Hisat2AlignSingleEndSamples"
 		>
 			<operation-description
-				name="Align single-end reads using HISAT2"
+				name="HISAT2"
 				uid="operations.hisat2alignsingleendsamples"
-				path="2@Align"
+        path="2@Align/2@Single-end reads"
 			/>
 		</extension>
 
