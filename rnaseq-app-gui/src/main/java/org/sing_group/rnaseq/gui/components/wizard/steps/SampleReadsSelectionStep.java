@@ -180,12 +180,15 @@ public class SampleReadsSelectionStep extends WizardStep
 		List<String> experimentalConditions =
 			this.experimentalConditionsStep.getExperimentalConditions();
 		this.fastqSamplesEditor.setSelectableConditions(experimentalConditions);
+		this.fastqSamplesEditor
+			.setSampleType(this.experimentalConditionsStep.getSampleType());
 
 		Optional<Map<String, FastqReadsSamples>> conditionSamples =
 			this.experimentalConditionsStep.getExperimentalConditionsAndSamples();
 		if (conditionSamples.isPresent()) {
 			this.setSamples(conditionSamples.get());
 		}
+		this.fastqSamplesEditor.checkConfigurationStatus();
 	}
 
 	private void setSamples(

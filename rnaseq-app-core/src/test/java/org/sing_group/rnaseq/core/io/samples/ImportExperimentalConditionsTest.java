@@ -37,14 +37,14 @@ import junit.framework.Assert;
 public class ImportExperimentalConditionsTest {
 
 	public static final File DATA_DIR = new File(
-		"src/test/resources/data/samples/import-directory");
+		"src/test/resources/data/samples/import-PE-directory");
 	private static final Set<String> EXPECTED_CONDITIONS =
 		new HashSet<>(asList("conditionA", "conditionB", "conditionC"));
 
 	@Test
 	public void importExperimentalConditionsTest() {
 		Map<String, FastqReadsSamples> conditions = ImportExperimentalConditions
-			.importDirectory(DATA_DIR);
+			.importDirectory(DATA_DIR, true);
 		Assert.assertEquals(EXPECTED_CONDITIONS, conditions.keySet());
 	}
 }

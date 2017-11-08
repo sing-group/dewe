@@ -36,7 +36,7 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
- * @see ImportPairedSamplesDirectory
+ * @see ImportPairedEndSamplesDirectory
  */
 public class ImportExperimentalConditions {
 
@@ -45,17 +45,19 @@ public class ImportExperimentalConditions {
 	 * Each condition is represented by a directory. For each condition's
 	 * directory, it imports the paired samples in them.
 	 * 
-	 * @param directory  the directory where the conditions are stored
+	 * @param directory the directory where the conditions are stored
+	 * @param pairedEnd whether samples are paired end or not
 	 * @return a map from condition labels to their corresponding
 	 *         {@code FastqReadsSamples} lists.
 	 */
 	public static Map<String, FastqReadsSamples> importDirectory(
-		File directory
+		File directory, boolean pairedEnd
 	) {
 		Map<String, FastqReadsSamples> toret = new HashMap<>();
 		for(File subDirectory : directory.listFiles(f -> f.isDirectory())) {
-			FastqReadsSamples subDirectorySamples = 
-				ImportPairedSamplesDirectory.importDirectory(subDirectory);
+			FastqReadsSamples subDirectorySamples = pairedEnd ?
+				ImportPairedEndSamplesDirectory.importDirectory(subDirectory) :
+				ImportSingleEndSamplesDirectory.importDirectory(subDirectory);
 			toret.put(subDirectory.getName(), subDirectorySamples);
 		}
 		return toret;

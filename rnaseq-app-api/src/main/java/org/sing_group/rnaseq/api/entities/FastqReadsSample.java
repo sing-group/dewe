@@ -2,7 +2,7 @@
  * #%L
  * DEWE API
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.sing_group.rnaseq.api.entities;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * The interface that defines a sample with a pair of fastq reads files.
@@ -55,9 +56,21 @@ public interface FastqReadsSample extends Serializable {
 	abstract File getReadsFile1();
 
 	/**
-	 * Returns the sample reads file (or mate) 2.
+	 * Return {@code true} if the sample is paired-end and {@code false}
+	 * otherwise.
+	 *
+	 * @return {@code true} if the sample is paired-end and {@code false}
+	 * 			otherwise
+	 */
+	default boolean isPairedEnd() {
+		return this.getReadsFile2().isPresent();
+	}
+
+	/**
+	 * Returns the sample reads file (or mate) 2 wrapped as an optional because
+	 * it may not be present if the sample is single-end.
 	 *
 	 * @return the sample reads file (or mate) 2
 	 */
-	abstract File getReadsFile2();
+	abstract Optional<File> getReadsFile2();
 }

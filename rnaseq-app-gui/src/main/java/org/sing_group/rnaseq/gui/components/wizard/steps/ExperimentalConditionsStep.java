@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.sing_group.rnaseq.gui.components.wizard.steps;
 
 import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.io.File;
@@ -36,6 +37,7 @@ import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -46,6 +48,8 @@ import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
@@ -56,21 +60,21 @@ import org.sing_group.rnaseq.gui.components.wizard.components.ExperimentalCondit
 import org.sing_group.rnaseq.gui.components.wizard.components.MultipleConditionsSelectionPanel;
 import org.sing_group.rnaseq.gui.components.wizard.components.TwoConditionsSelectionPanel;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
+import org.sing_group.rnaseq.gui.sample.FastqSampleEditor.SampleType;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 /**
  * A {@code WizardStep} implementation that allows the introduction of
- * experimental conditions. It also provides an option to import them from
- * a directory: this directory must contain one sub directory for each
- * experimental condition and these sub directories must contain the fastq
- * sample files. 
- * 
+ * experimental conditions and the type of the samples. It also provides an
+ * option to import them from a directory: this directory must contain one sub
+ * directory for each experimental condition and these sub directories must
+ * contain the paired-end or single-end fastq sample files.
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
 public class ExperimentalConditionsStep extends WizardStep {
-
 	private static final String TOOLTIP_IMPORT_CONDITIONS = "<html>"
 		+ "This option allows you to import the experimental conditions and "
 		+ "their samples from a directory. <br/><br/>To do that, the directory "
@@ -86,14 +90,15 @@ public class ExperimentalConditionsStep extends WizardStep {
 	private JPanel stepComponent;
 	private int minConditions;
 	private int maxConditions;
+	private JComboBox<SampleType> sampleTypeCombo;
 	private ExperimentalConditionsSelectionComponent conditionsSelectionComponent;
 	private Map<String, FastqReadsSamples> experimentalConditionsAndSamples;
 
 	/**
 	 * Creates a new {@code ExperimentalConditionsStep} component that requires
 	 * the selection of at least the specified number of conditions.
-	 * 
-	 * @param minConditions the minimum number of conditions that must be 
+	 *
+	 * @param minConditions the minimum number of conditions that must be
 	 * 		  selected
 	 */
 	public ExperimentalConditionsStep(int minConditions) {
@@ -103,10 +108,10 @@ public class ExperimentalConditionsStep extends WizardStep {
 	/**
 	 * Creates a new {@code ExperimentalConditionsStep} component that requires
 	 * the selection of a number of condition between the specified limits.
-	 * 
-	 * @param minConditions the minimum number of conditions that must be 
+	 *
+	 * @param minConditions the minimum number of conditions that must be
 	 * 		  selected
-	* @param maxConditions the maximum number of conditions that must be 
+	* @param maxConditions the maximum number of conditions that must be
 	 * 		  selected
 	 */
 	public ExperimentalConditionsStep(int minConditions, int maxConditions) {
@@ -148,6 +153,8 @@ public class ExperimentalConditionsStep extends WizardStep {
 			"Introduce the experimental conditions:");
 		descriptionLabel.setAlignmentX(SwingConstants.LEFT);
 		selectionPanel.add(Box.createHorizontalGlue());
+		selectionPanel.add(getSampleTypeSelectionPanel());
+		selectionPanel.add(Box.createVerticalStrut(10));
 		selectionPanel.add(descriptionLabel);
 		selectionPanel.add(getExperimentalConditionsPanel());
 		selectionPanel.add(Box.createHorizontalStrut(30));
@@ -166,6 +173,15 @@ public class ExperimentalConditionsStep extends WizardStep {
 		selectionPanel.add(Box.createHorizontalGlue());
 
 		return selectionPanel;
+	}
+
+	private Component getSampleTypeSelectionPanel() {
+		this.sampleTypeCombo = new JComboBox<SampleType>(SampleType.values());
+		InputParameter sampleTypeParameter = new InputParameter("Samples type: ", this.sampleTypeCombo, "The reads type.");
+		InputParametersPanel sampleTypePanel = new InputParametersPanel(sampleTypeParameter);
+		sampleTypePanel.setOpaque(false);
+
+		return sampleTypePanel;
 	}
 
 	private JComponent getExperimentalConditionsPanel() {
@@ -200,13 +216,14 @@ public class ExperimentalConditionsStep extends WizardStep {
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = fileChooser.showOpenDialog(getDialogParent());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			importConditions(fileChooser.getSelectedFile());
+			importConditions(fileChooser.getSelectedFile(),
+				(SampleType) sampleTypeCombo.getSelectedItem());
 		}
 	}
 
-	private void importConditions(File conditionsDir) {
+	private void importConditions(File conditionsDir, SampleType sampleType) {
 		Map<String, FastqReadsSamples> conditions = ImportExperimentalConditions
-			.importDirectory(conditionsDir);
+			.importDirectory(conditionsDir, sampleType.isPairedEnd());
 		updateExperimentalConditions(conditions);
 	}
 
@@ -252,7 +269,7 @@ public class ExperimentalConditionsStep extends WizardStep {
 
 	/**
 	 * Returns a list with the experimental conditions introduced by the user.
-	 * 
+	 *
 	 * @return a list with the experimental conditions introduced by the user
 	 */
 	public List<String> getExperimentalConditions() {
@@ -263,7 +280,7 @@ public class ExperimentalConditionsStep extends WizardStep {
 	/**
 	 * Returns the samples associated to the experimental conditions wrapped as
 	 * an optional because users may want to introduce them manually.
-	 *  
+	 *
 	 * @return the samples associated to the experimental conditions
 	 */
 	public Optional<Map<String, FastqReadsSamples>> getExperimentalConditionsAndSamples() {
@@ -271,13 +288,37 @@ public class ExperimentalConditionsStep extends WizardStep {
 	}
 
 	/**
+	 * Returns the selected {@code SampleType}.
+	 *
+	 * @return the selected {@code SampleType}
+	 */
+	public SampleType getSampleType() {
+		return (SampleType) this.sampleTypeCombo.getSelectedItem();
+	}
+
+	/**
 	 * Sets the experimental conditions and the samples associated to them.
-	 * 
-	 * @param experimentalConditionsAndSamples the samples associated to the 
+	 *
+	 * @param experimentalConditionsAndSamples the samples associated to the
 	 *        experimental conditions
 	 */
 	public void setExperimentalConditionsAndSamples(
 		Map<String, FastqReadsSamples> experimentalConditionsAndSamples) {
 		updateExperimentalConditions(experimentalConditionsAndSamples);
+		updateSampleType();
+	}
+
+	private void updateSampleType() {
+		if (!this.experimentalConditionsAndSamples.isEmpty()) {
+			FastqReadsSamples samples = this.experimentalConditionsAndSamples
+				.values().iterator().next();
+			if (!samples.isEmpty()) {
+				if (samples.get(0).isPairedEnd()) {
+					this.sampleTypeCombo.setSelectedItem(SampleType.PAIRED_END);
+				} else {
+					this.sampleTypeCombo.setSelectedItem(SampleType.SINGLE_END);
+				}
+			}
+		}
 	}
 }

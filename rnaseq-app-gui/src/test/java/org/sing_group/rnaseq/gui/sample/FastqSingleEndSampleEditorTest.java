@@ -31,7 +31,7 @@ import javax.swing.event.ChangeEvent;
 
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 
-public class FastqSampleEditorTest {
+public class FastqSingleEndSampleEditorTest {
 
 	public static void main(String[] args) {
 		setNimbusLookAndFeel();
@@ -46,12 +46,14 @@ public class FastqSampleEditorTest {
 	}
 
 	private static FastqSampleEditor createComponent() {
-		FastqSampleEditor editor = new FastqSampleEditor();
+		FastqSampleEditor editor = new FastqSampleEditor(false);
 		editor.addSampleEditorListener(new SampleEditorListener() {
 			
 			@Override
 			public void onSampleEdited(ChangeEvent event) {
+				System.err.println("Sample edited. Is valid value? " + editor.isValidValue());
 				System.err.println(editor.getSample());
+				System.err.println();
 			}
 		});
 		return editor;

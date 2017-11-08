@@ -29,7 +29,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	ImportExperimentalConditionsTest.class,
-	ImportPairedSamplesDirectoryTest.class
+	ImportPairedEndSamplesDirectoryTest.class,
+	ImportSingleEndSamplesDirectoryTest.class
 })
 public class SamplesTestSuite {
 

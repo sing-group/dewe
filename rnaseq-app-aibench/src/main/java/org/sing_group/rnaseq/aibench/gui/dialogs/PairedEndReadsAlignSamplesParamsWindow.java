@@ -22,7 +22,7 @@
  */
 package org.sing_group.rnaseq.aibench.gui.dialogs;
 
-import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.lookForReadsFile2;
+import static org.sing_group.rnaseq.core.io.samples.ImportSamplesDirectory.lookForReadsFile2;
 import static org.sing_group.rnaseq.gui.sample.FastqSampleEditor.isValidFile;
 
 import java.io.File;

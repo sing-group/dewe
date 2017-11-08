@@ -167,7 +167,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			status.setSubStage("Sample: " + sample.getName());
 
 			File output = getSamFile(sample, workingDirectory);
-			alignReads(sample.getReadsFile1(), sample.getReadsFile2(), output);
+			alignReads(sample, output);
 			statistics.add(alignmentStatistics(sample.getName(), output));
 			status.setStageProgress(status.getStageProgress() + stageProgress);
 		}
@@ -178,6 +178,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setStageProgress(0f);
 
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
+		stepFinishedLog(STEP_ALIGN);
 	}
 
 	private void writeAlignmentStatistics(
@@ -210,8 +211,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		return new DefaultSampleAlignmentStatistics(sampleName, statistics);
 	}
 
-	protected abstract void alignReads(File readsFile1, File readsFile2,
-		File output) throws ExecutionException, InterruptedException;
+	protected abstract void alignReads(FastqReadsSample sample, File output)
+		throws ExecutionException, InterruptedException;
 
 	private void convertSamToBam(OperationStatus status
 	) throws ExecutionException, InterruptedException {
@@ -236,6 +237,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setStageProgress(0f);
 
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
+		stepFinishedLog(STEP_SAM_TO_BAM);
 	}
 
 	private void stringTie(OperationStatus status)
@@ -283,6 +285,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setStageProgress(0f);
 
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
+		stepFinishedLog(STEP_STRINGTIE);
 	}
 
 	private void differentialExpressionAnalysis(OperationStatus status)
@@ -295,6 +298,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setSubStage("");
 		status.setStageProgress(0f);
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
+		stepFinishedLog(STEP_DE);
 	}
 
 	protected abstract void performDifferentialExpressionAnalysis(
@@ -387,6 +391,10 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		LOGGER.info("STEP:" + message);
 	}
 
+	protected static final void stepFinishedLog(String message) {
+		LOGGER.info("STEP FINISHED:" + message + "\n");
+	}
+
 	/**
 	 * Creates a summary containing all the provided information.
 	 *
@@ -425,7 +433,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			.append("Experiment samples: ")
 			.append(NEW_LINE);
 
-		sb.append(getSamplesSummary(samples));
+		sb.append(getSamplesSummary(samples, false));
 
 		return sb.toString();
 	}
@@ -434,10 +442,14 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 * Creates a summary with the specified list of samples.
 	 *
 	 * @param samples a list of {@code FastqReadsSamples}
+	 * @param forceShowReadsFile2 whether reads file 2 value must be shown even
+	 * 		  when it may be not present (single-end sample) 
 	 *
 	 * @return a summary with the specified samples
 	 */
-	public static String getSamplesSummary(FastqReadsSamples samples) {
+	public static String getSamplesSummary(FastqReadsSamples samples,
+		boolean forceShowReadsFile2
+	) {
 		StringBuilder sb = new StringBuilder();
 		samples.forEach(s -> {
 			sb
@@ -450,13 +462,17 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 				.append(TAB)
 				.append(TAB)
 				.append("Reads file 1 file: ")
-				.append(getSampleRedasFile1(s))
-				.append(NEW_LINE)
-				.append(TAB)
-				.append(TAB)
-				.append("Reads file 2 file: ")
-				.append(getSampleRedasFile2(s))
+				.append(getSampleReadsFile1(s))
 				.append(NEW_LINE);
+
+			if (forceShowReadsFile2 || s.isPairedEnd()) {
+				sb
+					.append(TAB)
+					.append(TAB)
+					.append("Reads file 2 file: ")
+					.append(getSampleReadsFile2(s))
+					.append(NEW_LINE);
+			}
 		});
 		return sb.toString();
 	}
@@ -470,13 +486,13 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		return s.getCondition() != null ? s.getCondition() : NOT_SET;
 	}
 
-	private static String getSampleRedasFile1(FastqReadsSample s) {
+	private static String getSampleReadsFile1(FastqReadsSample s) {
 		return s.getReadsFile1() != null ? s.getReadsFile1().getName()
 			: NOT_SET;
 	}
 
-	private static String getSampleRedasFile2(FastqReadsSample s) {
-		return s.getReadsFile2() != null ? s.getReadsFile2().getName()
+	private static String getSampleReadsFile2(FastqReadsSample s) {
+		return s.getReadsFile2().isPresent() ? s.getReadsFile2().get().getName()
 			: NOT_SET;
 	}
 

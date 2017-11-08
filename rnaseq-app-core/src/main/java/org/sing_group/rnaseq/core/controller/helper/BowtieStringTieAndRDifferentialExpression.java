@@ -28,6 +28,7 @@ import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpr
 import java.io.File;
 
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
+import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
@@ -69,13 +70,22 @@ public class BowtieStringTieAndRDifferentialExpression
 			DefaultAppController.getInstance().getBowtie2Controller();
 	}
 
-	protected void alignReads(File readsFile1, File readsFile2, File output)
+	protected void alignReads(FastqReadsSample sample, File output)
 		throws ExecutionException, InterruptedException {
-		bowtie2Controller.alignReads(
-			(Bowtie2ReferenceGenomeIndex) referenceGenome,
-			readsFile1, readsFile2,
-			DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE,
-			output, true);
+
+		if (sample.isPairedEnd()) {
+			bowtie2Controller.alignReads(
+				(Bowtie2ReferenceGenomeIndex) referenceGenome,
+				sample.getReadsFile1(), sample.getReadsFile2().get(),
+				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE, output,
+				true);
+		} else {
+			bowtie2Controller.alignReads(
+				(Bowtie2ReferenceGenomeIndex) referenceGenome,
+				sample.getReadsFile1(),
+				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE, output,
+				true);
+		}
 	}
 
 	@Override

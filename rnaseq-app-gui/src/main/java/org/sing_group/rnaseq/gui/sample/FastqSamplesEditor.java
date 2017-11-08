@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
+import org.sing_group.rnaseq.gui.sample.FastqSampleEditor.SampleType;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.sample.listener.SamplesEditorListener;
 
@@ -81,6 +82,7 @@ public class FastqSamplesEditor extends JPanel {
 	private static final String WARNING_SAMPLES = "Some samples are not valid.";
 	private static final ImageIcon ICON_OK = Icons.ICON_OK_COLOR_24;
 
+	private SampleType sampleType = SampleType.PAIRED_END;
 	private List<SampleEditorComponent> samples = new LinkedList<>();
 	private JPanel samplesPanel;
 	private List<String> selectableConditions = Collections.emptyList();
@@ -206,7 +208,7 @@ public class FastqSamplesEditor extends JPanel {
 		textArea.setOpaque(false);
 		textArea.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 		textArea.setText(AbstractDifferentialExpressionWorkflow
-			.getSamplesSummary(getSamples()));
+			.getSamplesSummary(getSamples(), isPairedEnd()));
 		JScrollPane toret = new JScrollPane(textArea);
 		Dimension preferredSize = new Dimension(600, 400);
 		toret.setPreferredSize(preferredSize);
@@ -215,8 +217,13 @@ public class FastqSamplesEditor extends JPanel {
 		return toret;
 	}
 
+	private boolean isPairedEnd() {
+		return this.sampleType.isPairedEnd();
+	}
+
 	protected FastqSampleEditor getFastqSampleEditor() {
-		return new FastqSampleEditor(selectableConditions);
+		return new FastqSampleEditor(sampleType.isPairedEnd(),
+			selectableConditions);
 	}
 
 	class SampleEditorComponent extends JPanel
@@ -287,12 +294,20 @@ public class FastqSamplesEditor extends JPanel {
 
 		@Override
 		public void onSampleEdited(ChangeEvent event) {
-			this.warningLabel.setVisible(!this.editor.isValidValue());
+			checkConfigurationStatus();
 			sampleEdited();
 		}
 
 		public void setSample(FastqReadsSample s) {
 			this.editor.setSample(s);
+		}
+
+		public void setSampleType(SampleType sampleType) {
+			this.editor.setSampleType(sampleType);
+		}
+
+		public void checkConfigurationStatus() {
+			this.warningLabel.setVisible(!this.editor.isValidValue());
 		}
 	}
 
@@ -303,6 +318,14 @@ public class FastqSamplesEditor extends JPanel {
 			sampleRemoved();
 			this.updateUI();
 		});
+	}
+
+	/**
+	 * Tells the component to check if the current configuration is valid.
+	 */
+	public void checkConfigurationStatus() {
+		this.samples.forEach(s -> s.checkConfigurationStatus());
+		this.updateConfigurationStatusLabel();
 	}
 
 	private void updateConfigurationStatusLabel() {
@@ -471,5 +494,18 @@ public class FastqSamplesEditor extends JPanel {
 	public void removeWarningMessages() {
 		this.warningsMessages = Collections.emptyList();
 		this.updateConfigurationStatusLabel();
+	}
+
+
+	/**
+	 * Sets the {@code SampleType}.
+	 *
+	 * @param sampleType the {@code SampleType}
+	 */
+	public void setSampleType(SampleType sampleType) {
+		this.sampleType = sampleType;
+		this.samples.forEach(s -> {
+			s.setSampleType(sampleType);
+		});
 	}
 }

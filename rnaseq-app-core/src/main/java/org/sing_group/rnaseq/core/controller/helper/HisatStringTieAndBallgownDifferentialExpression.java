@@ -27,6 +27,7 @@ import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialE
 import java.io.File;
 
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
+import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
@@ -68,12 +69,19 @@ public class HisatStringTieAndBallgownDifferentialExpression
 	}
 
 	@Override
-	protected void alignReads(File readsFile1, File readsFile2, File output)
+	protected void alignReads(FastqReadsSample sample, File output)
 		throws ExecutionException, InterruptedException {
-		hisat2Controller.alignReads(
-			(Hisat2ReferenceGenomeIndex) referenceGenome,
-			readsFile1, readsFile2, true, output, true
-		);
+
+		if (sample.isPairedEnd()) {
+			hisat2Controller.alignReads(
+				(Hisat2ReferenceGenomeIndex) referenceGenome,
+				sample.getReadsFile1(), sample.getReadsFile2().get(), true,
+				output, true);
+		} else {
+			hisat2Controller.alignReads(
+				(Hisat2ReferenceGenomeIndex) referenceGenome,
+				sample.getReadsFile1(), true, output, true);
+		}
 	}
 
 	@Override

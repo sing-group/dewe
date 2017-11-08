@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
  */
 package org.sing_group.rnaseq.gui.sample;
 
-import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.FASTQ_EXTENSIONS;
-import static org.sing_group.rnaseq.core.io.samples.ImportPairedSamplesDirectory.lookForReadsFile2;
+import static org.sing_group.rnaseq.core.io.samples.ImportSamplesDirectory.FASTQ_EXTENSIONS;
+import static org.sing_group.rnaseq.core.io.samples.ImportSamplesDirectory.lookForReadsFile2;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -67,6 +67,26 @@ import org.sing_group.rnaseq.gui.util.UISettings;
  */
 public class FastqSampleEditor extends JPanel {
 	private static final long serialVersionUID = 1L;
+
+	public enum SampleType {
+		PAIRED_END("Paired-end"), SINGLE_END("Single-end");
+
+		private String description;
+
+		private SampleType(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String toString() {
+			return this.description;
+		}
+
+		public boolean isPairedEnd() {
+			return this.equals(PAIRED_END);
+		}
+	};
+
 	private static final String NO_CONDITION = "<Select a condition>";
 
 	private static final List<FileFilter> FASTQ_FILE_FILTERS = Arrays.asList(
@@ -78,18 +98,22 @@ public class FastqSampleEditor extends JPanel {
 			"Compressed FASTQ (.fastq.gz) format files")
 	);
 
+	private boolean pairedEnd;
 	private List<String> selectableConditions;
 	private InputParametersPanel inputParametersPanel = new InputParametersPanel();
 	private DefaultComboBoxModel<String> selectableConditionsModel;
 	private ExtendedJXTextField sampleNameTextField;
 	private JFileChooserPanel reads1FileChooser;
 	private JFileChooserPanel reads2FileChooser;
+	private InputParameter reads2Parameter;
 
 	/**
 	 * Creates an empty {@code FastqSampleEditor}.
+	 *
+	 * @param pairedEnd whether the editor is for paired-end samples or not
 	 */
-	public FastqSampleEditor() {
-		this(Collections.emptyList());
+	public FastqSampleEditor(boolean pairedEnd) {
+		this(pairedEnd, Collections.emptyList());
 	}
 
 	/**
@@ -97,8 +121,11 @@ public class FastqSampleEditor extends JPanel {
 	 * selectable conditions.
 	 *
 	 * @param selectableConditions the list of selectable conditions
+	 * @param pairedEnd whether the editor is for paired-end samples or not
 	 */
-	public FastqSampleEditor(List<String> selectableConditions) {
+	public FastqSampleEditor(boolean pairedEnd,
+		List<String> selectableConditions) {
+		this.pairedEnd = pairedEnd;
 		this.selectableConditions = new LinkedList<>(selectableConditions);
 		this.selectableConditions.add(NO_CONDITION);
 
@@ -113,22 +140,26 @@ public class FastqSampleEditor extends JPanel {
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.add(getInputParamtersPanel(), BorderLayout.CENTER);
+
+		this.inputParametersPanel.setVisible(reads2Parameter, this.pairedEnd);
 	}
 
 	private Component getInputParamtersPanel() {
 		JFileChooserPanel.clearSharedLastFileFilter();
 		this.inputParametersPanel = new InputParametersPanel(getParameters());
 		this.inputParametersPanel.setOpaque(false);
+
 		return this.inputParametersPanel;
 	}
 
 	private InputParameter[] getParameters() {
-		InputParameter[] parameters = new InputParameter[4];
-		parameters[0] = getSampleNameParameter();
-		parameters[1] = getSampleConditionParameter();
-		parameters[2] = getReadsFile1Parameter();
-		parameters[3] = getReadsFile2Parameter();
-		return parameters;
+		List<InputParameter> parameters = new LinkedList<>();
+		parameters.add(getSampleNameParameter());
+		parameters.add(getSampleConditionParameter());
+		parameters.add(getReadsFile1Parameter());
+		parameters.add(getReadsFile2Parameter());
+
+		return parameters.toArray(new InputParameter[parameters.size()]);
 	}
 
 	private InputParameter getSampleNameParameter() {
@@ -203,8 +234,10 @@ public class FastqSampleEditor extends JPanel {
 		reads2FileChooser.addFileChooserListener(this::readsFileChanged);
 		reads2FileChooser.setOpaque(false);
 
-		return new InputParameter("Reads 2",
+		reads2Parameter =  new InputParameter("Reads 2",
 			reads2FileChooser, "The reads file 2");
+
+		return reads2Parameter;
 	}
 
 	private void readsFileChanged(ChangeEvent e) {
@@ -215,9 +248,11 @@ public class FastqSampleEditor extends JPanel {
 		if (isValidReadsFile1()) {
 			File readsFile1 = reads1FileChooser.getSelectedFile();
 
-			Optional<File> readsFile2 = lookForReadsFile2(readsFile1);
-			if (readsFile2.isPresent()) {
-				this.reads2FileChooser.setSelectedFile(readsFile2.get());
+			if (this.pairedEnd) {
+				Optional<File> readsFile2 = lookForReadsFile2(readsFile1);
+				if (readsFile2.isPresent()) {
+					this.reads2FileChooser.setSelectedFile(readsFile2.get());
+				}
 			}
 
 			setSampleName(readsFile1);
@@ -287,7 +322,7 @@ public class FastqSampleEditor extends JPanel {
 		return 	isValidSampleName()	&&
 				isValidCondition()	&&
 				isValidReadsFile1()	&&
-				isValidReadsFile2();
+				(!this.pairedEnd || isValidReadsFile2());
 	}
 
 	private boolean isValidSampleName() {
@@ -339,12 +374,18 @@ public class FastqSampleEditor extends JPanel {
 	 *         values of the editor
 	 */
 	public DefaultFastqReadsSample getSample() {
-		return 	new DefaultFastqReadsSample(
-					this.sampleNameTextField.getText(),
-					this.selectableConditionsModel.getSelectedItem().toString(),
-					reads1FileChooser.getSelectedFile(),
-					reads2FileChooser.getSelectedFile()
-				);
+		if (this.pairedEnd) {
+			return new DefaultFastqReadsSample(
+				this.sampleNameTextField.getText(),
+				this.selectableConditionsModel.getSelectedItem().toString(),
+				reads1FileChooser.getSelectedFile(),
+				reads2FileChooser.getSelectedFile());
+		} else {
+			return new DefaultFastqReadsSample(
+				this.sampleNameTextField.getText(),
+				this.selectableConditionsModel.getSelectedItem().toString(),
+				reads1FileChooser.getSelectedFile());
+		}
 	}
 
 	/**
@@ -356,7 +397,22 @@ public class FastqSampleEditor extends JPanel {
 		this.sampleNameTextField.setText(sample.getName());
 		this.selectableConditionsModel.setSelectedItem(sample.getCondition());
 		this.reads1FileChooser.setSelectedFile(sample.getReadsFile1());
-		this.reads2FileChooser.setSelectedFile(sample.getReadsFile2());
+		if (sample.isPairedEnd()) {
+			this.reads2FileChooser
+				.setSelectedFile(sample.getReadsFile2().get());
+		}
+	}
+
+	/**
+	 * Sets the {@code SampleType}.
+	 *
+	 * @param sampleType the {@code SampleType}
+	 */
+	public void setSampleType(SampleType sampleType) {
+		this.pairedEnd = sampleType.isPairedEnd();
+		this.inputParametersPanel.setVisible(
+			this.reads2Parameter, sampleType.isPairedEnd());
+		this.updateUI();
 	}
 
 	private void sampleEdited() {

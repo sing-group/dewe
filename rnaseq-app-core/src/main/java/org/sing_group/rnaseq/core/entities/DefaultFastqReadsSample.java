@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.sing_group.rnaseq.core.entities;
 
 import java.io.File;
+import java.util.Optional;
 
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 
@@ -42,8 +43,23 @@ public class DefaultFastqReadsSample implements FastqReadsSample {
 	private File readsFile2;
 
 	/**
-	 * Creates a new {@code DefaultFastqReadsSample} with the specified initial
-	 * values.
+	 * Creates a new single-end {@code DefaultFastqReadsSample} with the 
+	 * specified initial values.
+	 *
+	 * @param name the sample name
+	 * @param type the sample condition
+	 * @param readsFile the sample reads file
+	 */
+	public DefaultFastqReadsSample(String name, String type, File readsFile) {
+		this.name = name;
+		this.condition = type;
+		this.readsFile1 = readsFile;
+		this.readsFile2 = null;
+	}
+
+	/**
+	 * Creates a new paired-end {@code DefaultFastqReadsSample} with the 
+	 * specified initial values.
 	 *
 	 * @param name the sample name
 	 * @param type the sample condition
@@ -75,8 +91,8 @@ public class DefaultFastqReadsSample implements FastqReadsSample {
 	}
 
 	@Override
-	public File getReadsFile2() {
-		return this.readsFile2;
+	public Optional<File> getReadsFile2() {
+		return Optional.ofNullable(this.readsFile2);
 	}
 
 	@Override
@@ -108,6 +124,9 @@ public class DefaultFastqReadsSample implements FastqReadsSample {
 		return this.name.equals(that.name)
 			&& this.condition.equals(that.condition)
 			&& this.readsFile1.equals(that.readsFile1)
-			&& that.readsFile2.equals(that.readsFile2);
+			&& (
+				this.isPairedEnd() == that.isPairedEnd() ||
+				this.getReadsFile2().get().equals(that.getReadsFile2().get())
+			);
 	}
 }
