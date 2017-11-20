@@ -323,63 +323,46 @@
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
-				operation="operations.genome.bowtie2importindex"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+				  operation="operations.genome.bowtie2importindex"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.genome.bowtie2buildindex"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
+				  operation="operations.genome.bowtie2buildindex"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.ReferenceGenomeOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.bowtie2alignpairedendsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignPairedEndSamplesParamsWindow"
+				  operation="operations.bowtie2alignpairedendsamples"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignPairedEndSamplesParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.hisat2alignpairedendsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow"
+				  operation="operations.hisat2alignpairedendsamples"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.bowtie2alignsingleendsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSingleEndSamplesParamsWindow"
+				  operation="operations.bowtie2alignsingleendsamples"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.Bowtie2AlignSingleEndSamplesParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.hisat2alignsingleendsamples"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSingleEndSamplesParamsWindow"
+				  operation="operations.hisat2alignsingleendsamples"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignSingleEndSamplesParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.ballgowndifferentialexpressionanalysis"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow"
+				  operation="operations.ballgowndifferentialexpressionanalysis"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.BallgownDifferentialExpressionAnalysisParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.edgerdifferentialexpressionanalysis"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow"
+				  operation="operations.edgerdifferentialexpressionanalysis"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.trimmomatic.singleend"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticSingleEndOperationParamsWindow"
+				  operation="operations.trimmomatic.singleend"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticSingleEndOperationParamsWindow"
 		    />
 		    <gui-operation
-				operation="operations.trimmomatic.pairedend"
-				class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticPairedEndOperationParamsWindow"
+				  operation="operations.trimmomatic.pairedend"
+				  class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticPairedEndOperationParamsWindow"
 		    />
 		</extension>
-
-		<!--
-		<extension uid="aibench.workbench" name="aibench.workbench.view">
-			<icon-operation
-				operation="operation-uid"
-				icon="icons/icon.png"
-			/>
-			<big-icon-operation
-				operation="operation-uid"
-				icon="icons/icon.png"
-			/>
-			<icon-datatype
-				datatype="datatype-class"
-				icon="icons/icon.png"
-			/>
-		</extension>
-		-->
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<component
@@ -391,7 +374,11 @@
 		</extension>
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
-			<welcomescreen class="org.sing_group.rnaseq.aibench.gui.workflow.AIBenchWorkflowCatalogPanel" title="Workflow catalog" closeable="false"/>
+			<welcomescreen 
+			 class="org.sing_group.rnaseq.aibench.gui.workflow.AIBenchWorkflowCatalogPanel" 
+			 title="Workflow catalog" 
+			 closeable="false"
+			/>
 		</extension>
 	</extensions>
 </plugin>
