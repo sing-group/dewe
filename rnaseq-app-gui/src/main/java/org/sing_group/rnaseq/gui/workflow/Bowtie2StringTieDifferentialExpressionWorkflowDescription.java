@@ -43,8 +43,12 @@ public class Bowtie2StringTieDifferentialExpressionWorkflowDescription
 	public String getShortDescription() {
 		return	"This workflow allows performing a differential expression "
 			+ "analysis using Bowtie2 to align sample reads, StringTie to "
-			+ "assemble transcripts and two R libraries, Ballgown and EdgeR, to "
-			+ "perform the differential expression itself. This pipeline is "
-			+ "able to compare two conditions with at least two samples each.";
+			+ "assemble transcripts and two R libraries, Ballgown and EdgeR, "
+			+ "to perform the differential expression itself. This workflow is "
+			+ "able to compare two conditions with at least two samples each. "
+			+ "This workflow has been described by Griffith, M. et al. in "
+			+ "'Informatics for RNA Sequencing: A Web Resource for Analysis "
+			+ "on the Cloud' (PLOS Computational Biology (2015), "
+			+ "doi:10.1371/journal.pcbi.1004393).";
 	}
 }
