@@ -27,7 +27,9 @@ import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FA
 
 import java.io.File;
 
+import org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticSingleEndOperationParamsWindow;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.trimmomatic.TrimmomaticParameter;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -37,45 +39,55 @@ import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
-	name = "Reads quality control using FastQC",
-	description = "Generates a reads quality control report using FastQC."
+	name = "Single-end reads filtering using Trimmomatic",
+	description = "Filters single-end reads using Trimmomatic."
 )
-public class FastQc {
-	private File[] inputFiles;
+public class TrimmomaticSingleEnd {
+	private File inputFile;
 	private File outputDir;
+	private TrimmomaticParameter[] parameters;
 
 	@Port(
 		direction = Direction.INPUT,
-		name = "Input files",
-		description = "The input files.",
+		name = "Input file",
+		description = "The input file.",
 		allowNull = false,
 		order = 1,
 		extras = EXTRAS_FASTQ_FILES
 	)
-	public void setInputFiles(File[] inputFiles) {
-		this.inputFiles = inputFiles;
+	public void setInputBamFile(File inputFile) {
+		this.inputFile = inputFile;
+	}
+
+	@Port(
+		direction = Direction.INPUT,
+		name = TrimmomaticSingleEndOperationParamsWindow.PORT_NAME,
+		description = "Parameters for Trimmomatic",
+		allowNull = false,
+		order = 2
+	)
+	public void setParameters(TrimmomaticParameter[] parameters) {
+		this.parameters = parameters;;
 	}
 
 	@Port(
 		direction = Direction.INPUT,
 		name = "Ouput directory",
-		description = "Optionally, the directory where the reports must be "
-			+ "generated. If not provided, the output report for each reads "
-			+ "file is created in the same directory as the reads file "
-			+ "being processed.",
+		description = "Optionally, the directory where the filtered file must "
+			+ "be created. If not provided, the output file is created in the "
+			+ "same directory as the reads file being filtered.",
 		allowNull = true,
-		order = 2,
+		order = 3,
 		extras = "selectionMode=directories"
 	)
-	public void setOutputDirectory(File outputDir) {
+	public void setReferenceAnnotationFile(File outputDir) {
 		this.outputDir = outputDir;
-
 		this.runOperation();
 	}
 
 	private void runOperation() {
 		try {
-			runFastQc();
+			runTrimmomatic();
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());
@@ -84,22 +96,25 @@ public class FastQc {
 		}
 	}
 
-	private void runFastQc() throws ExecutionException, InterruptedException {
+	private void runTrimmomatic() throws ExecutionException, InterruptedException {
 		DefaultAppController appController = DefaultAppController.getInstance();
 		if (this.outputDir == null) {
-			appController.getFastQcController().fastqc(inputFiles);
-		} else {
-			appController.getFastQcController().fastqc(inputFiles, outputDir);
-		}
+			this.outputDir = this.inputFile.getParentFile();
+		} 
+		
+		File outputFile = new File(outputDir, inputFile.getName() + "_filtered");
+		
+		appController.getTrimmomaticController()
+			.filterSingleEndReads(inputFile, outputFile, this.parameters);
 	}
 
 	private void succeed() {
-		Workbench.getInstance().info("FastQC reports successfully created.");
+		Workbench.getInstance().info("Trimmomatic successfuly executed.");
 	}
 
 	@Progress(
 		progressDialogTitle = "Progress",
-		workingLabel = "Running FastQC",
+		workingLabel = "Running Trimmomatic",
 		preferredHeight = 200,
 		preferredWidth = 300
 	)

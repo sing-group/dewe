@@ -22,6 +22,8 @@
  */
 package org.sing_group.rnaseq.core.controller;
 
+import java.util.Optional;
+
 import org.sing_group.rnaseq.api.controller.AppController;
 import org.sing_group.rnaseq.api.controller.BallgownController;
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
@@ -33,6 +35,7 @@ import org.sing_group.rnaseq.api.controller.RController;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.controller.SystemController;
+import org.sing_group.rnaseq.api.controller.TrimmomaticController;
 import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
@@ -43,6 +46,7 @@ import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.TrimmomaticBinaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.FastQcBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
@@ -51,6 +55,7 @@ import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SystemBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.TrimmomaticBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesExecutor;
@@ -61,6 +66,7 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSystemBinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultTrimmomaticBinariesExecutor;
 
 /**
  * The default {@code AppController} implementation.
@@ -71,6 +77,7 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultSystemBinariesExe
  */
 public class DefaultAppController implements AppController {
 	private static DefaultAppController INSTANCE;
+
 	private AppEnvironment environment;
 	private DefaultBowtie2Controller bowtie2Controller;
 	private DefaultSamtoolsController samtoolsController;
@@ -83,6 +90,7 @@ public class DefaultAppController implements AppController {
 	private DefaultWorkflowController workflowController;
 	private DefaultHisat2Controller hisat2Controller;
 	private DefaultFastQcController fastQcController;
+	private DefaultTrimmomaticController trimmomaticController;
 
 	/**
 	 * Returns the singleton {@code DefaultAppController} instance.
@@ -111,6 +119,7 @@ public class DefaultAppController implements AppController {
 		this.setHisat2Controller();
 		this.setWorkflowController();
 		this.setFastQcController();
+		this.setTrimmomaticController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -200,6 +209,19 @@ public class DefaultAppController implements AppController {
 		FastQcBinaries fastQcBinaries
 	) throws BinaryCheckException {
 		return new DefaultFastQcBinariesExecutor(fastQcBinaries);
+	}
+
+	private void setTrimmomaticController() throws BinaryCheckException {
+		this.trimmomaticController = new DefaultTrimmomaticController();
+		this.trimmomaticController.setTrimmomaticBinariesExecutor(
+			this.createTrimmomaticBinariesExecutor(this.environment.getTrimmomaticBinaries())
+		);
+	}
+
+	private TrimmomaticBinariesExecutor createTrimmomaticBinariesExecutor(
+		TrimmomaticBinaries trimmomaticBinaries
+	) throws BinaryCheckException {
+		return new DefaultTrimmomaticBinariesExecutor(trimmomaticBinaries);
 	}
 
 	@Override
@@ -294,6 +316,11 @@ public class DefaultAppController implements AppController {
 	}
 
 	@Override
+	public TrimmomaticController getTrimmomaticController() {
+		return this.trimmomaticController;
+	}
+
+	@Override
 	public ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager() {
 		return this.environment.getReferenceGenomeDatabaseManager();
 	}
@@ -301,5 +328,14 @@ public class DefaultAppController implements AppController {
 	@Override
 	public int getThreads() {
 		return this.environment.getThreads();
+	}
+
+	@Override
+	public Optional<String> getProperty(String propertyName) {
+		if (this.environment != null) {
+			return this.environment.getProperty(propertyName);
+		} else {
+			return Optional.empty();
+		}
 	}
 }

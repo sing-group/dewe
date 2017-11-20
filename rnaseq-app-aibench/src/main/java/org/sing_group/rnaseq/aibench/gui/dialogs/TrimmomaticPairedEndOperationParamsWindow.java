@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE API
+ * DEWE
  * %%
  * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,23 +20,32 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.environment.execution.check;
+package org.sing_group.rnaseq.aibench.gui.dialogs;
 
-import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
 
 /**
- * The interface that defines a StringTie binaries checker.
+/**
+ * This extension of {@link PairedEndReadsAlignSamplesParamsWindow} provides a
+ * {@link TrimmomaticParametersParamProvider} to select Trimmomatic parameters.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface StringTieBinariesChecker
-	extends BinariesChecker<StringTieBinaries> {
-	/**
-	 * Checks the StringTie command.
-	 * 
-	 * @throws BinaryCheckException if the command can't be executed
-	 */
-	public void checkStringTie() throws BinaryCheckException;
+public class TrimmomaticPairedEndOperationParamsWindow
+	extends PairedEndReadsAlignSamplesParamsWindow {
+	private static final long serialVersionUID = 1L;
+	public static final String PORT_NAME = "Trimmomatic parameters";
+
+	protected ParamProvider getParamProvider(final Port arg0,
+		final Class<?> arg1, final Object arg2
+	) {
+		if (arg0.name().equals(PORT_NAME)) {
+			return new TrimmomaticParametersParamProvider();
+		}
+
+		return super.getParamProvider(arg0, arg1, arg2);
+	}
 }

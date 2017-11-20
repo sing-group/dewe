@@ -32,6 +32,7 @@ import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.TrimmomaticBinaries;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 
 /**
@@ -97,6 +98,13 @@ public interface AppEnvironment {
 	 * @return the {@code FastQcBinaries}
 	 */
 	public abstract FastQcBinaries getFastQcBinaries();
+
+	/**
+	 * Returns the {@code TrimmomaticBinaries}.
+	 *
+	 * @return the {@code TrimmomaticBinaries}
+	 */
+	public abstract TrimmomaticBinaries getTrimmomaticBinaries();
 
 	/**
 	 * Returns the {@code ReferenceGenomeIndexDatabaseManager}.

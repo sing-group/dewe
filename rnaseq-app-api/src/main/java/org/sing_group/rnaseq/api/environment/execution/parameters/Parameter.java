@@ -22,6 +22,8 @@
  */
 package org.sing_group.rnaseq.api.environment.execution.parameters;
 
+import java.io.Serializable;
+
 /**
  * The interface that defines a parameter.
  * 
@@ -29,7 +31,7 @@ package org.sing_group.rnaseq.api.environment.execution.parameters;
  * @author Aitor Blanco-Míguez
  *
  */
-public interface Parameter {
+public interface Parameter extends Serializable {
 
 	/**
 	 * Returns the parameter name.

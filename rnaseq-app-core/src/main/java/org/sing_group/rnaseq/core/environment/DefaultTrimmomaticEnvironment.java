@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE API
+ * DEWE Core
  * %%
  * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,23 +20,36 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.environment.execution.check;
+package org.sing_group.rnaseq.core.environment;
 
-import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import org.sing_group.rnaseq.api.environment.TrimmomaticEnvironment;
 
 /**
- * The interface that defines a StringTie binaries checker.
+ * The default {@code TrimmomaticEnvironment} implementation.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface StringTieBinariesChecker
-	extends BinariesChecker<StringTieBinaries> {
+public class DefaultTrimmomaticEnvironment implements TrimmomaticEnvironment {
+
+	private static DefaultTrimmomaticEnvironment INSTANCE;
+
 	/**
-	 * Checks the StringTie command.
+	 * Returns the {@code DefaultTrimmomaticEnvironment} singleton instance.
 	 * 
-	 * @throws BinaryCheckException if the command can't be executed
+	 * @return the {@code DefaultTrimmomaticEnvironment} singleton instance
 	 */
-	public void checkStringTie() throws BinaryCheckException;
+	public static DefaultTrimmomaticEnvironment getInstance() {
+		if
+		(INSTANCE == null) {
+			INSTANCE = new DefaultTrimmomaticEnvironment();
+		}
+		return INSTANCE;
+	}
+
+	@Override
+	public String getDefaultTrimmomatic() {
+		return "trimmomatic-wrapper";
+	}
 }

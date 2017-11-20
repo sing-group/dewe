@@ -39,5 +39,4 @@ public interface FastQcBinariesChecker
 	 * @throws BinaryCheckException if the command can't be executed
 	 */
 	public void checkFastQc() throws BinaryCheckException;
-
 }

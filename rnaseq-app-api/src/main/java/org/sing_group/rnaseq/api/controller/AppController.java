@@ -22,6 +22,8 @@
  */
 package org.sing_group.rnaseq.api.controller;
 
+import java.util.Optional;
+
 import org.sing_group.rnaseq.api.environment.AppEnvironment;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
@@ -122,6 +124,13 @@ public interface AppController {
 	public abstract FastQcController getFastQcController();
 
 	/**
+	 * Returns the {@code TrimmomaticController}.
+	 *
+	 * @return the {@code TrimmomaticController}
+	 */
+	public abstract TrimmomaticController getTrimmomaticController();
+
+	/**
 	 * Returns the {@code ReferenceGenomeIndexDatabaseManager}.
 	 *
 	 * @return the {@code ReferenceGenomeIndexDatabaseManager}
@@ -134,4 +143,13 @@ public interface AppController {
 	 * @return the configured number of threads
 	 */
 	public abstract int getThreads();
+
+	/**
+	 * Returns the value of the specified property, wrapped as an optional which
+	 * can be empty if the property is not found.
+	 *
+	 * @param propertyName the name of the property to look for
+	 * @return the value of the specified property.
+	 */
+	public abstract Optional<String> getProperty(String propertyName);
 }

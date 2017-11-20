@@ -20,23 +20,20 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.environment.execution.check;
-
-import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+package org.sing_group.rnaseq.api.environment;
 
 /**
- * The interface that defines a StringTie binaries checker.
+ * The interface that defines the Trimmomatic environment.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface StringTieBinariesChecker
-	extends BinariesChecker<StringTieBinaries> {
+public interface TrimmomaticEnvironment {
 	/**
-	 * Checks the StringTie command.
+	 * Returns the name of the default Trimmomatic command.
 	 * 
-	 * @throws BinaryCheckException if the command can't be executed
+	 * @return the name of the default Trimmomatic command
 	 */
-	public void checkStringTie() throws BinaryCheckException;
+	public abstract String getDefaultTrimmomatic();
 }

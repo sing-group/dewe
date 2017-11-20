@@ -276,13 +276,35 @@
 		</extension>
 
 		<extension
-		uid="aibench.core" name="aibench.core.operation-definition"
-		class="org.sing_group.rnaseq.aibench.operations.FastQc"
+  		uid="aibench.core" name="aibench.core.operation-definition"
+		  class="org.sing_group.rnaseq.aibench.operations.FastQc"
 		>
 		<operation-description
 			name="FastQC"
 			uid="operations.fastqc"
 			path="8@Quality control"
+		/>
+		</extension>
+
+		<extension
+		  uid="aibench.core" name="aibench.core.operation-definition"
+		  class="org.sing_group.rnaseq.aibench.operations.TrimmomaticSingleEnd"
+		>
+		<operation-description
+			name="Single-end reads filtering"
+			uid="operations.trimmomatic.singleend"
+			path="8@Quality control/1@Trimmomatic"
+		/>
+		</extension>
+
+		<extension
+		  uid="aibench.core" name="aibench.core.operation-definition"
+		  class="org.sing_group.rnaseq.aibench.operations.TrimmomaticPairedEnd"
+		>
+		<operation-description
+			name="Paired-end reads filtering"
+			uid="operations.trimmomatic.pairedend"
+			path="8@Quality control/2@Trimmomatic"
 		/>
 		</extension>
 
@@ -331,6 +353,14 @@
 		    <gui-operation
 				operation="operations.edgerdifferentialexpressionanalysis"
 				class="org.sing_group.rnaseq.aibench.gui.dialogs.EdgeRDifferentialExpressionAnalysisParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.trimmomatic.singleend"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticSingleEndOperationParamsWindow"
+		    />
+		    <gui-operation
+				operation="operations.trimmomatic.pairedend"
+				class="org.sing_group.rnaseq.aibench.gui.dialogs.TrimmomaticPairedEndOperationParamsWindow"
 		    />
 		</extension>
 

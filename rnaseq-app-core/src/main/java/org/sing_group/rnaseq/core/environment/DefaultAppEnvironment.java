@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SystemBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.TrimmomaticBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultFastQcBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHisat2Binaries;
@@ -46,21 +47,22 @@ import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSystemBinaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultTrimmomaticBinaries;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 /**
- * The default {@code AppEnvironment} implementation. 
- * 
+ * The default {@code AppEnvironment} implementation.
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
 public class DefaultAppEnvironment implements AppEnvironment {
-	
+
 	public static final String PROP_NUM_THREADS = "threads";
 	public static final String PROP_DATABASES_DIR = "databases.directory";
 	public static final String PROP_REFERENCE_GENOME_FILE = "genomes.db";
-	
+
 	private File propertiesFile;
 	private Properties defaultProperties;
 	private int cores;
@@ -72,25 +74,26 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultSystemBinaries systemBinaries;
 	private DefaultHisat2Binaries hisat2Binaries;
 	private DefaultFastQcBinaries fastQcBinaries;
+	private DefaultTrimmomaticBinaries trimmomaticBinaries;
 	private DefaultReferenceGenomeIndexDatabaseManager referenceGenomeDatabaseManager;
 
 	/**
 	 * Creates a new {@code DefaultAppEnvironment} that is configured using the
 	 * specified properties file.
-	 * 
-	 * @param propertiesFile the properties file with the environment 
+	 *
+	 * @param propertiesFile the properties file with the environment
 	 *        configuration
-	 * @throws FileNotFoundException if the file does not exist, is a directory 
-	 *        rather than a regular file, or for some other reason cannot be 
+	 * @throws FileNotFoundException if the file does not exist, is a directory
+	 *        rather than a regular file, or for some other reason cannot be
 	 *        opened for reading.
-	 * @throws IOException if an error occurred when reading from the input 
+	 * @throws IOException if an error occurred when reading from the input
 	 *        stream
 	 */
-	public DefaultAppEnvironment(File propertiesFile) 
+	public DefaultAppEnvironment(File propertiesFile)
 		throws FileNotFoundException, IOException {
 		this.propertiesFile = propertiesFile;
 		this.defaultProperties = new Properties();
-		
+
 		if (this.propertiesFile != null) {
 			this.defaultProperties.load(new FileReader(this.propertiesFile));
 		}
@@ -105,6 +108,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				SystemBinaries.BASE_DIRECTORY_2_PROP,
 				Hisat2Binaries.BASE_DIRECTORY_PROP,
 				FastQcBinaries.BASE_DIRECTORY_PROP,
+				TrimmomaticBinaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR,
 				PROP_NUM_THREADS
 		}) {
@@ -141,7 +145,10 @@ public class DefaultAppEnvironment implements AppEnvironment {
 		this.fastQcBinaries = new DefaultFastQcBinaries(
 			this._getProperty(FastQcBinaries.BASE_DIRECTORY_PROP)
 		);
-		
+		this.trimmomaticBinaries = new DefaultTrimmomaticBinaries(
+			this._getProperty(TrimmomaticBinaries.BASE_DIRECTORY_PROP)
+		);
+
 		try {
 			this.initReferenceGenomeDatabaseManager();
 		} catch (ClassNotFoundException e) {
@@ -151,7 +158,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 
 	private void initReferenceGenomeDatabaseManager() throws IOException, ClassNotFoundException {
 		referenceGenomeDatabaseManager = DefaultReferenceGenomeIndexDatabaseManager.getInstance();
-		
+
 		referenceGenomeDatabaseManager.setPersistenceStorageFileProvider(this::getReferenceGenomeDatabaseFile);
 		if(!this.getReferenceGenomeDatabaseFile().exists()) {
 			referenceGenomeDatabaseManager.persistDatabase();
@@ -186,7 +193,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 
 		return Optional.ofNullable(propertyValue);
 	}
-	
+
 	@Override
 	public boolean hasProperty(String propertyName) {
 		return System.getProperty(propertyName) != null ||
@@ -202,12 +209,12 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	public SamtoolsBinaries getSamtoolsBinaries() {
 		return this.samtoolsBinaries;
 	}
-	
+
 	@Override
 	public StringTieBinaries getStringTieBinaries() {
 		return this.stringTieBinaries;
 	}
-	
+
 	@Override
 	public HtseqBinaries getHtseqBinaries() {
 		return this.htseqBinaries;
@@ -231,6 +238,11 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	@Override
 	public FastQcBinaries getFastQcBinaries() {
 		return fastQcBinaries;
+	}
+
+	@Override
+	public TrimmomaticBinaries getTrimmomaticBinaries() {
+		return trimmomaticBinaries;
 	}
 
 	@Override

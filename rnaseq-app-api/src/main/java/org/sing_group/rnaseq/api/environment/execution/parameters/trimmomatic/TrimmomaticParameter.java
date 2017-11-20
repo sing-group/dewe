@@ -2,7 +2,7 @@
  * #%L
  * DEWE API
  * %%
- * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2017 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -20,23 +20,10 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.environment.execution.check;
+package org.sing_group.rnaseq.api.environment.execution.parameters.trimmomatic;
 
-import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import org.sing_group.rnaseq.api.environment.execution.parameters.Parameter;
 
-/**
- * The interface that defines a StringTie binaries checker.
- * 
- * @author Hugo López-Fernández
- * @author Aitor Blanco-Míguez
- *
- */
-public interface StringTieBinariesChecker
-	extends BinariesChecker<StringTieBinaries> {
-	/**
-	 * Checks the StringTie command.
-	 * 
-	 * @throws BinaryCheckException if the command can't be executed
-	 */
-	public void checkStringTie() throws BinaryCheckException;
+public interface TrimmomaticParameter extends Parameter {
+
 }

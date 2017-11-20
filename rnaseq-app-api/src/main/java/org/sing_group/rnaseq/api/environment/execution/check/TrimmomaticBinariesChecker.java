@@ -22,21 +22,21 @@
  */
 package org.sing_group.rnaseq.api.environment.execution.check;
 
-import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.TrimmomaticBinaries;
 
 /**
- * The interface that defines a StringTie binaries checker.
+ * The interface that defines a Trimmomatic binaries checker.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface StringTieBinariesChecker
-	extends BinariesChecker<StringTieBinaries> {
+public interface TrimmomaticBinariesChecker
+	extends BinariesChecker<TrimmomaticBinaries> {
 	/**
-	 * Checks the StringTie command.
+	 * Checks the Trimmomatic command.
 	 * 
 	 * @throws BinaryCheckException if the command can't be executed
 	 */
-	public void checkStringTie() throws BinaryCheckException;
+	public void checkTrimmomatic() throws BinaryCheckException;
 }

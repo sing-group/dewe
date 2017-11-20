@@ -39,5 +39,4 @@ public interface SamtoolsBinariesChecker
 	 * @throws BinaryCheckException if the command can't be executed
 	 */
 	public void checkConvertSamToBam() throws BinaryCheckException;
-
 }
