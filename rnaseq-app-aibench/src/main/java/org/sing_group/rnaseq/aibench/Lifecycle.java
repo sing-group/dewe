@@ -96,7 +96,6 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 
 		JFrame mainFrame = Workbench.getInstance().getMainFrame();
 		mainFrame.setIconImage(ICON.getImage());
-		mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	private void configureAIBenchToolbar() {
