@@ -34,13 +34,12 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 
-import org.sing_group.rnaseq.gui.util.CommonFileChooser;
-
 import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.filechooser.SelectionMode;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.wizard.WizardStep;
+import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 /**
  * An abstract {@code WizardStep} implementation that allows the selection of a

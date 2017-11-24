@@ -22,10 +22,9 @@
  */
 package org.sing_group.rnaseq.gui.sample;
 
+import org.sing_group.gc4s.filechooser.SelectionMode;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownSample;
 import org.sing_group.rnaseq.core.entities.ballgown.DefaultBallgownSample;
-
-import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 
 /**
  * A {@code FileBasedSampleEditor} implementation to the introduction of an
