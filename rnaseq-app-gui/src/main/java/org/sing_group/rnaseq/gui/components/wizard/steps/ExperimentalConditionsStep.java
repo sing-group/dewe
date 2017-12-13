@@ -54,7 +54,10 @@ import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
+import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSamples;
 import org.sing_group.rnaseq.core.io.samples.ImportExperimentalConditions;
 import org.sing_group.rnaseq.gui.components.wizard.components.ExperimentalConditionsSelectionComponent;
 import org.sing_group.rnaseq.gui.components.wizard.components.MultipleConditionsSelectionPanel;
@@ -224,7 +227,12 @@ public class ExperimentalConditionsStep extends WizardStep {
 	private void importConditions(File conditionsDir, SampleType sampleType) {
 		Map<String, FastqReadsSamples> conditions = ImportExperimentalConditions
 			.importDirectory(conditionsDir, sampleType.isPairedEnd());
+		setManualConditionIntroductionEnabled(false);
 		updateExperimentalConditions(conditions);
+	}
+
+	private void setManualConditionIntroductionEnabled(boolean enabled) {
+		this.conditionsSelectionComponent.setExperimentalConditionIntroductionEnabled(enabled);
 	}
 
 	private void updateExperimentalConditions(
@@ -250,9 +258,19 @@ public class ExperimentalConditionsStep extends WizardStep {
 		if (this.experimentalConditionsAndSamples != null) {
 			Map<String, FastqReadsSamples> newExperimentalConditionsAndSamples = new HashMap<>();
 			for (Entry<String, FastqReadsSamples> entry : experimentalConditionsAndSamples
-				.entrySet()) {
-				newExperimentalConditionsAndSamples
-					.put(renameMap.get(entry.getKey()), entry.getValue());
+				.entrySet()
+			) {
+				String newCondition = renameMap.get(entry.getKey());
+
+				FastqReadsSamples newSamples = new DefaultFastqReadsSamples();
+				for(FastqReadsSample s: entry.getValue()) {
+					newSamples.add(new DefaultFastqReadsSample(
+						s.getName(), newCondition, 
+						s.getReadsFile1(), s.getReadsFile2().get()
+					));
+				}
+
+				newExperimentalConditionsAndSamples.put(newCondition, newSamples);
 			}
 			this.experimentalConditionsAndSamples = newExperimentalConditionsAndSamples;
 		}

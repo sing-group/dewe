@@ -136,4 +136,9 @@ public class MultipleConditionsSelectionPanel extends JPanel
 		conditionsInputList.addElements(
 			selectedConditions.toArray(new String[selectedConditions.size()]));
 	}
+
+	@Override
+	public void setExperimentalConditionIntroductionEnabled(boolean enabled) {
+		this.conditionsInputList.setElementIntroductionEnabled(enabled);
+	}
 }

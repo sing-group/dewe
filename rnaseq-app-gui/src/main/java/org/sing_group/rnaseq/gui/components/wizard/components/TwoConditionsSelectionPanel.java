@@ -218,4 +218,10 @@ public class TwoConditionsSelectionPanel extends JPanel
 			}
 		}
 	}
+	
+	@Override
+	public void setExperimentalConditionIntroductionEnabled(boolean enabled) {
+		this.conditionAtf.setEnabled(enabled);
+		this.conditionBtf.setEnabled(enabled);
+	}
 }

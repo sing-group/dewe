@@ -66,4 +66,12 @@ public interface ExperimentalConditionsSelectionComponent {
 	 * @param l a {@code ExperimentalConditionsEditorListener}
 	 */
 	public void addExperimentalConditionsEditorListener(ExperimentalConditionsEditorListener l);
+
+	/**
+	 * Enables or disables the introduction of experimental conditions.
+	 * 
+	 * @param enabled whether the introduction of experimental conditions must
+	 * 		  be enabled or not.
+	 */
+	public void setExperimentalConditionIntroductionEnabled(boolean enabled);
 }
