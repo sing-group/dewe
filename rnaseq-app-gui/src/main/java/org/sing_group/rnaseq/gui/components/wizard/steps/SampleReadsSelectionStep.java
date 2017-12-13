@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 
-import org.sing_group.gc4s.wizard.WizardStep;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.gui.sample.FastqSamplesEditor;

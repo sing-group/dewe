@@ -30,13 +30,13 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.sing_group.gc4s.input.combobox.ComboBoxItem;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 
 import es.uvigo.ei.aibench.core.CoreUtils;
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
-import org.sing_group.gc4s.combobox.ComboBoxItem;
 
 /**
  * An abstract extension of {@code AbstractParamProvider} that shows a combobox

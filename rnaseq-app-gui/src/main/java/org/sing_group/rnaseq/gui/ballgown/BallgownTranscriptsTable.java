@@ -27,7 +27,7 @@ import static org.sing_group.jsparklines_factory.builders.JSparklinesBarChartTab
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.MAXIMUM_FOLD_CHANGE;
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.ROW_COUNT_SORT_LIMIT;
 
-import org.sing_group.gc4s.table.ExtendedJXTable;
+import org.sing_group.gc4s.visualization.table.ExtendedJXTable;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownTranscripts;
 
 /**

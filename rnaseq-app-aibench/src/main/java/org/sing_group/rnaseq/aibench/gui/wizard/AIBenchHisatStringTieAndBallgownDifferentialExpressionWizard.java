@@ -36,8 +36,8 @@ import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;

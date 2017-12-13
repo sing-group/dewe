@@ -31,7 +31,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import org.sing_group.gc4s.wizard.WizardStep;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;

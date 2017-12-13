@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
-import org.sing_group.gc4s.text.DoubleTextField;
+import org.sing_group.gc4s.input.text.DoubleTextField;
 
 /**
  * A dialog that allows the user to configure the settings to export a genes

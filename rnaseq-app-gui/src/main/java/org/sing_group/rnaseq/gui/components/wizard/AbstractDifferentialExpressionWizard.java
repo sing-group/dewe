@@ -26,13 +26,12 @@ import java.awt.Window;
 import java.io.File;
 import java.util.List;
 
+import org.sing_group.gc4s.dialog.wizard.Wizard;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryProvider;
-
-import org.sing_group.gc4s.wizard.Wizard;
-import org.sing_group.gc4s.wizard.WizardStep;
 
 /**
  * An abstract extension of {@code Wizard} that implements

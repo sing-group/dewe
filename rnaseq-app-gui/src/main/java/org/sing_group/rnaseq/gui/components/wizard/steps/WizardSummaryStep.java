@@ -31,7 +31,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.sing_group.gc4s.wizard.WizardStep;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 
 /**
  * A {@code WizardStep} implementation that shows a wizard summary provided by a

@@ -38,11 +38,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXLabel;
-import org.sing_group.gc4s.combobox.ComboBoxItem;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
+import org.sing_group.gc4s.dialog.wizard.event.WizardStepEvent;
+import org.sing_group.gc4s.input.combobox.ComboBoxItem;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
-import org.sing_group.gc4s.wizard.WizardStep;
-import org.sing_group.gc4s.wizard.event.WizardStepEvent;
 import org.sing_group.rnaseq.api.persistence.ReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.persistence.entities.event.ReferenceGenomeIndexDatabaseListener;

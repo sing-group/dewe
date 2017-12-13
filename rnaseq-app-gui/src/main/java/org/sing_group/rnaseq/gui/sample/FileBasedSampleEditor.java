@@ -34,9 +34,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.Mode;
-import org.sing_group.gc4s.filechooser.SelectionMode;
+import org.sing_group.gc4s.input.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.input.filechooser.Mode;
+import org.sing_group.gc4s.input.filechooser.SelectionMode;
 import org.sing_group.rnaseq.api.entities.FileBasedSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;

@@ -22,8 +22,8 @@
  */
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
-import org.sing_group.gc4s.wizard.event.WizardStepEvent;
-import org.sing_group.gc4s.wizard.event.WizardStepListener;
+import org.sing_group.gc4s.dialog.wizard.event.WizardStepEvent;
+import org.sing_group.gc4s.dialog.wizard.event.WizardStepListener;
 
 public class DefaultWizardStepListener implements WizardStepListener {
 

@@ -44,13 +44,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.FileFilter;
 
 import org.sing_group.gc4s.event.DocumentAdapter;
-import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
-import org.sing_group.gc4s.filechooser.SelectionMode;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
-import org.sing_group.gc4s.text.ExtendedJXTextField;
+import org.sing_group.gc4s.input.filechooser.ExtensionFileFilter;
+import org.sing_group.gc4s.input.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.input.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.input.filechooser.SelectionMode;
+import org.sing_group.gc4s.input.text.ExtendedJXTextField;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.core.entities.DefaultFastqReadsSample;
 import org.sing_group.rnaseq.gui.sample.listener.SampleEditorListener;

@@ -37,7 +37,7 @@ import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import org.sing_group.gc4s.table.ExtendedJXTable;
+import org.sing_group.gc4s.visualization.table.ExtendedJXTable;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownGenes;
 import org.sing_group.rnaseq.core.io.ballgown.BallgownGenesFileWriter;
 

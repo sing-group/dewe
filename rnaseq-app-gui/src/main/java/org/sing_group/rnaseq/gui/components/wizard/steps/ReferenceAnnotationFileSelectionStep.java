@@ -27,8 +27,8 @@ import java.util.List;
 
 import javax.swing.filechooser.FileFilter;
 
-import org.sing_group.gc4s.filechooser.ExtensionFileFilter;
-import org.sing_group.gc4s.filechooser.SelectionMode;
+import org.sing_group.gc4s.input.filechooser.ExtensionFileFilter;
+import org.sing_group.gc4s.input.filechooser.SelectionMode;
 
 /**
  * A {@code FileSelectionStep} that allows the selection of a reference

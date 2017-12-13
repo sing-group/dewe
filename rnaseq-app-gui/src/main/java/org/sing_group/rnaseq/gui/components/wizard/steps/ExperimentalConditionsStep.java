@@ -48,12 +48,12 @@ import javax.swing.event.ChangeEvent;
 
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
+import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.ui.CenteredJPanel;
 import org.sing_group.gc4s.ui.icons.Icons;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.gc4s.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.core.io.samples.ImportExperimentalConditions;
 import org.sing_group.rnaseq.gui.components.wizard.components.ExperimentalConditionsSelectionComponent;

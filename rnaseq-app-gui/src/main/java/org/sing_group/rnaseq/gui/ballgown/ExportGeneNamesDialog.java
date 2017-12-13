@@ -31,13 +31,13 @@ import javax.swing.event.DocumentEvent;
 
 import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import org.sing_group.gc4s.event.DocumentAdapter;
-import org.sing_group.gc4s.filechooser.FileChooserListener;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.input.RadioButtonsPanel;
-import org.sing_group.gc4s.text.JIntegerTextField;
+import org.sing_group.gc4s.input.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.input.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.input.filechooser.event.FileChooserListener;
+import org.sing_group.gc4s.input.text.JIntegerTextField;
 import org.sing_group.rnaseq.core.operations.ballgown.BallgownGenesOperations;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 

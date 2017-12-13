@@ -31,9 +31,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.sing_group.gc4s.input.list.JInputList;
 import org.sing_group.rnaseq.gui.components.wizard.steps.event.ExperimentalConditionsEditorListener;
-
-import org.sing_group.gc4s.input.JInputList;
 
 /**
  * A component that allows the introduction of several condition labels using 
