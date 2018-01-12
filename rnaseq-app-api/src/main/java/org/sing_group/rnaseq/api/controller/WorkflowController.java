@@ -64,7 +64,7 @@ public interface WorkflowController {
 
 	/**
 	 * Runs the differential expression workflow using HISAT2, StringTie and the
-	 * ballgown R library.
+	 * ballgown R package.
 	 *
 	 * @param referenceGenome a {@code Hisat2ReferenceGenomeIndex} index
 	 * @param reads the {@code FastqReadsSamples} list

@@ -45,7 +45,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizardPresentationStep
 		+ "<li>Conversion of the aligned reads into bam files using samtools.</li>"
 		+ "<li>Transcript assembling using StringTie.</li>"
 		+ "<li>And, finally, the differential expression analysis using two "
-		+ "R libraries: ballgown and edgeR.</li>"
+		+ "R packages: ballgown and edgeR.</li>"
 		+ "</ol>"
 
 		+ "Once you have finished this wizard, the pipeline execution starts "

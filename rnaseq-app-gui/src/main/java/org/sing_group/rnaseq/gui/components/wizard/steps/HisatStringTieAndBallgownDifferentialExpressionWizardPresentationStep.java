@@ -50,7 +50,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizardPresentationSt
 		+ "<li>Conversion of the aligned reads into bam files using samtools.</li>"
 		+ "<li>Transcript assembling using StringTie.</li>"
 		+ "<li>And, finally, the differential expression analysis using the "
-		+ "ballgown R library.</li>"
+		+ "ballgown R package.</li>"
 		+ "</ol>"
 
 		+ "Once you have finished this wizard, the pipeline execution starts "
