@@ -9,6 +9,8 @@ library(ballgown)
 
 args <- commandArgs(TRUE)
 
+pdf(NULL)
+
 ## Parse input parameters
 workingDirectory <- args[1];
 if(substring(workingDirectory, nchar(workingDirectory)) != "/") {
