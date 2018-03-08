@@ -70,4 +70,13 @@ public interface ReferenceGenomeIndex extends Serializable {
 	 * @return the reference genome index
 	 */
 	public abstract String getReferenceGenomeIndex();
+	
+	/**
+	 * Returns the quoted reference genome index.
+	 *
+	 * @return the quoted reference genome index
+	 */
+	default String getQuotedReferenceGenomeIndex() {
+		return "'" + getReferenceGenomeIndex() + "'";
+	}
 }
