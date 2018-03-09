@@ -110,11 +110,11 @@ public class DefaultHisat2BinariesExecutor extends
 			"-x",
 			genome.getQuotedReferenceGenomeIndex(),
 			"-1",
-			reads1.getAbsolutePath(),
+			escapeWhiteSpaces(reads1),
 			"-2",
-			reads2.getAbsolutePath(),
+			escapeWhiteSpaces(reads2),
 			"-S",
-			output.getAbsolutePath()
+			escapeWhiteSpaces(output)
 		);
 	}
 	
@@ -133,9 +133,9 @@ public class DefaultHisat2BinariesExecutor extends
 			"-x",
 			genome.getQuotedReferenceGenomeIndex(),
 			"-U",
-			reads.getAbsolutePath(),
+			escapeWhiteSpaces(reads),
 			"-S",
-			output.getAbsolutePath()
+			escapeWhiteSpaces(output)
 		);
 	}
 }

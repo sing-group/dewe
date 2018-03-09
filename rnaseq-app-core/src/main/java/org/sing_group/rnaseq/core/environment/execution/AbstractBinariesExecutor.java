@@ -495,4 +495,8 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			}
 		}
 	}
+
+	protected static String escapeWhiteSpaces(File file) {
+		return file.getAbsolutePath().replace(" ", "\\ ");
+	}
 }
