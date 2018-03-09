@@ -34,7 +34,7 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamProvider;
  *
  */
 public class Bowtie2AlignPairedEndSamplesParamsWindow
-	extends SingleEndReadsAlignSamplesParamsWindow {
+	extends PairedEndReadsAlignSamplesParamsWindow {
 	private static final long serialVersionUID = 1L;
 	public static final String REFERENCE_GENOME = "Reference genome";
 
