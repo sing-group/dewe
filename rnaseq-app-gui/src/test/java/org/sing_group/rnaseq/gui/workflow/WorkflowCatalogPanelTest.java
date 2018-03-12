@@ -22,8 +22,8 @@
  */
 package org.sing_group.rnaseq.gui.workflow;
 
-import static org.sing_group.gc4s.demo.DemoUtils.setNimbusLookAndFeel;
-import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.setNimbusLookAndFeel;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.showComponent;
 import static java.util.Arrays.asList;
 
 import javax.swing.JComponent;

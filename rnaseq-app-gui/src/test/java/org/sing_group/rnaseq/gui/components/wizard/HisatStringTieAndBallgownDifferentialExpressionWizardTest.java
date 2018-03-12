@@ -26,15 +26,15 @@ import javax.swing.JFrame;
 
 import org.sing_group.rnaseq.gui.util.TestUtils;
 
-import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.visualization.VisualizationUtils;
 
 public class HisatStringTieAndBallgownDifferentialExpressionWizardTest {
 
 	public static void main(String[] args) {
-		DemoUtils.setNimbusLookAndFeel();
+		VisualizationUtils.setNimbusLookAndFeel();
 		TestUtils.createReferenceGenomeDatabaseManager();
 
-		DemoUtils.showDialog(
+		VisualizationUtils.showDialog(
 			HisatStringTieAndBallgownDifferentialExpressionWizard.getWizard(
 				new JFrame()
 			)

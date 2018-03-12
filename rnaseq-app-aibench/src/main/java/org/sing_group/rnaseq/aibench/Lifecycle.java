@@ -40,7 +40,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 
-import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.visualization.VisualizationUtils;
 import org.sing_group.rnaseq.aibench.gui.AboutFrame;
 import org.sing_group.rnaseq.aibench.gui.HelpFrame;
 import org.sing_group.rnaseq.aibench.gui.components.ReferenceGenomeIndexManagerComponent;
@@ -89,7 +89,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	private void configureMainWindow() {
-		DemoUtils.setNimbusKeepAlternateRowColor();
+		VisualizationUtils.setNimbusKeepAlternateRowColor();
 
 		MainWindow window = (MainWindow) Workbench.getInstance().getMainFrame();
 		window.getDocumentTabbedPane().getParent().setBackground(Color.WHITE);

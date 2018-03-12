@@ -22,9 +22,9 @@
  */
 package org.sing_group.rnaseq.gui.ballgown;
 
-import static org.sing_group.gc4s.demo.DemoUtils.setNimbusKeepAlternateRowColor;
-import static org.sing_group.gc4s.demo.DemoUtils.setNimbusLookAndFeel;
-import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.setNimbusKeepAlternateRowColor;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.setNimbusLookAndFeel;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.showComponent;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import static org.sing_group.rnaseq.core.io.ballgown.BallgownGenesCsvFileLoader.loadFile;
 

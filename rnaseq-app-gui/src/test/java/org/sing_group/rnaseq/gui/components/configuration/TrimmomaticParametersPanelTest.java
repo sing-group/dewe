@@ -22,7 +22,7 @@
  */
 package org.sing_group.rnaseq.gui.components.configuration;
 
-import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.showComponent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

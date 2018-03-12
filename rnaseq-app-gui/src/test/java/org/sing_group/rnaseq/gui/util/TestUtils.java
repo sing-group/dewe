@@ -26,7 +26,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.visualization.VisualizationUtils;
 import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
@@ -46,8 +46,8 @@ public class TestUtils {
 		));
 
 	public static void showStepComponent(WizardStep step) {
-		DemoUtils.setNimbusLookAndFeel();
-		DemoUtils.showComponent(step.getStepComponent());
+		VisualizationUtils.setNimbusLookAndFeel();
+		VisualizationUtils.showComponent(step.getStepComponent());
 		step.stepEntered();
 	}
 
