@@ -41,7 +41,7 @@ public interface WorkflowController {
 
 	/**
 	 * Runs the differential expression workflow using bowtie2, StringTie and R
-	 * (ballgown/edgeR).
+	 * (Ballgown/edgeR).
 	 *
 	 * @param referenceGenome a {@code Bowtie2ReferenceGenomeIndex} index
 	 * @param reads the {@code FastqReadsSamples} list
@@ -63,8 +63,8 @@ public interface WorkflowController {
 		throws ExecutionException, InterruptedException;
 
 	/**
-	 * Runs the differential expression workflow using HISAT2, StringTie and the
-	 * ballgown R package.
+	 * Runs the differential expression workflow using HISAT2, StringTie and R
+	 * (Ballgown/edgeR).
 	 *
 	 * @param referenceGenome a {@code Hisat2ReferenceGenomeIndex} index
 	 * @param reads the {@code FastqReadsSamples} list
@@ -76,7 +76,7 @@ public interface WorkflowController {
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract void runHisatStringTieAndBallgownDifferentialExpression(
+	public abstract void runHisatStringTieAndRDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,

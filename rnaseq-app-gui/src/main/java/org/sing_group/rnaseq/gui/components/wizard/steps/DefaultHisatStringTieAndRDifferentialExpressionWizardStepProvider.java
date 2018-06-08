@@ -26,16 +26,16 @@ import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabas
 
 /**
  * The default
- * {@code HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider}
+ * {@code HisatStringTieAndRDifferentialExpressionWizardStepProvider}
  * implementation.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider
+public class DefaultHisatStringTieAndRDifferentialExpressionWizardStepProvider
 	implements
-	HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider {
+	HisatStringTieAndRDifferentialExpressionWizardStepProvider {
 
 	@Override
 	public Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep() {

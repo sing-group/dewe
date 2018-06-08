@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE
+ * DEWE GUI
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,30 +20,21 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.gui.workflow;
-
-import org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard;
-import org.sing_group.rnaseq.gui.workflow.Hisat2StringTieBallgownDifferentialExpressionWorkflowDescription;
+package org.sing_group.rnaseq.gui.components.wizard.steps;
 
 /**
- * The AIBench description for the differential expression workflow that uses
- * HISAT2, StringTie and Ballgown.
- * 
+ * The interface that defines a step provider for the HISAT2, StringTie and R 
+ * wizard.
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class Hisat2StringTieBallgownDifferentialExpressionAIBenchWorkflowDescription
-	extends Hisat2StringTieBallgownDifferentialExpressionWorkflowDescription 
-	implements AIBenchWorkflowDescription {
-
-	@Override
-	public void launchWorkflowWizard() {
-		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(false);
-	}
-
-	@Override
-	public void importWorkflow() {
-		AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(true);
-	}
+public interface HisatStringTieAndRDifferentialExpressionWizardStepProvider {
+	/**
+	 * Returns a {@code Hisat2ReferenceGenomeSelectionStep}.
+	 *
+	 * @return a {@code Hisat2ReferenceGenomeSelectionStep}
+	 */
+	public abstract Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep();
 }

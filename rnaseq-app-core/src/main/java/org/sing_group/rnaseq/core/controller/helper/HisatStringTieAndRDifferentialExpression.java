@@ -23,6 +23,7 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
 import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialExpressionAnalysis.ballgownDifferentialExpressionAnalysis;
+import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.edgeRDifferentialExpressionAnalysis;
 
 import java.io.File;
 
@@ -35,21 +36,21 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 
 /**
- * A concrete {@code HisatStringTieAndBallgownDifferentialExpression}
- * implementation to run a complete differential expression analysis using
- * HISAT2, StringTie and the Ballgown R package.
+ * A concrete {@code AbstractDifferentialExpressionWorkflow} implementation to 
+ * run a complete differential expression analysis using HISAT2, StringTie and 
+ * R packages (Ballgown and edgeR).
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class HisatStringTieAndBallgownDifferentialExpression
+public class HisatStringTieAndRDifferentialExpression
 	extends AbstractDifferentialExpressionWorkflow {
 
 	private Hisat2Controller hisat2Controller;
 
 	/**
-	 * Creates a new {@code HisatStringTieAndBallgownDifferentialExpression}
+	 * Creates a new {@code HisatStringTieAndRDifferentialExpression}
 	 * instance in order to perform a differential expression analysis.
 	 *
 	 * @param referenceGenome the reference genome to use in the analysis
@@ -58,7 +59,7 @@ public class HisatStringTieAndBallgownDifferentialExpression
 	 * @param workingDirectory the working directory to store the analysis
 	 * 		  results
 	 */
-	public HisatStringTieAndBallgownDifferentialExpression(
+	public HisatStringTieAndRDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
 		File referenceAnnotationFile, File workingDirectory
 	) {
@@ -91,6 +92,10 @@ public class HisatStringTieAndBallgownDifferentialExpression
 		status.setSubStage("Ballgown");
 		ballgownDifferentialExpressionAnalysis(
 			reads, workingDirectory, imageConfiguration);
+		status.setStageProgress(0.5f);
+		status.setSubStage("EdgeR");
+		edgeRDifferentialExpressionAnalysis(
+			reads, referenceAnnotationFile, workingDirectory);
 		status.setStageProgress(1f);
 	}
 }

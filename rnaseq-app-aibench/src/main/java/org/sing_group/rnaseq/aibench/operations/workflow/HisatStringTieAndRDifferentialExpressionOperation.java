@@ -23,10 +23,12 @@
 package org.sing_group.rnaseq.aibench.operations.workflow;
 
 import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
+import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
+import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -42,10 +44,10 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.core.operation.annotation.Progress;
 
 @Operation(
-	name = "Gisat2, StringTie and Ballgown differential expression",
-	description = "Runs the differential expression workflow using Hisat2, StringTie and Ballgown."
+	name = "HISAT2, StringTie and R (ballgown/edgeR) differential expression",
+	description = "Runs the differential expression workflow using HISTA2, StringTie and R (ballgown/edgeR)."
 )
-public class HisatStringTieAndBallgownDifferentialExpressionOperation {
+public class HisatStringTieAndRDifferentialExpressionOperation {
 
 	private AIBenchOperationStatus status = new AIBenchOperationStatus();
 	private Hisat2ReferenceGenomeIndex referenceGenome;
@@ -55,8 +57,8 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 
 	@Port(
 		direction = Direction.INPUT,
-		name = "Hisat2 reference genome",
-		description = "Hisat2 reference genome",
+		name = "HISAT2 reference genome",
+		description = "HISAT2 reference genome",
 		allowNull = false,
 		order = 1
 	)
@@ -104,7 +106,7 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 	private void runAnalysis() {
 		try {
 			DefaultAppController.getInstance().getWorkflowController()
-				.runHisatStringTieAndBallgownDifferentialExpression(
+				.runHisatStringTieAndRDifferentialExpression(
 					this.referenceGenome, this.samples,
 					this.referenceAnnotationFile, this.workingDirectory,
 					this.status);
@@ -121,6 +123,13 @@ public class HisatStringTieAndBallgownDifferentialExpressionOperation {
 			);
 		Core.getInstance().getClipboard()
 			.putItem(ballgownDirectory, ballgownDirectory.getName());
+
+		EdgeRWorkingDirectory edgeRDirectory =
+			new EdgeRWorkingDirectory(
+				getEdgeRWorkingDir(this.workingDirectory)
+			);
+		Core.getInstance().getClipboard()
+			.putItem(edgeRDirectory, edgeRDirectory.getName());
 	}
 
 	@Progress(

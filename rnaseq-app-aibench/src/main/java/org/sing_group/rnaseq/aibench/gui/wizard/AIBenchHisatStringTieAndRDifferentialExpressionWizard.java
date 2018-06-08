@@ -38,25 +38,25 @@ import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.aibench.gui.wizard.steps.AIBenchHisatStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabaseManager;
 import org.sing_group.rnaseq.core.persistence.entities.DefaultDifferentialExpressionWorkflowConfiguration;
-import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndBallgownDifferentialExpressionWizard;
-import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.gui.components.wizard.HisatStringTieAndRDifferentialExpressionWizard;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardStepProvider;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
 /**
- * An AIBench extension of the {@code HisatStringTieAndBallgownDifferentialExpressionWizard}.
+ * An AIBench extension of the {@code HisatStringTieAndRDifferentialExpressionWizard}.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
-	extends HisatStringTieAndBallgownDifferentialExpressionWizard {
+public class AIBenchHisatStringTieAndRDifferentialExpressionWizard
+	extends HisatStringTieAndRDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
 
 	public static final String IMPORT_INDEX = "operations.genome.hisat2importindex";
@@ -65,15 +65,15 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 
 	public static final ExtendedAbstractAction SHOW_WIZARD = new ExtendedAbstractAction(
 		"Differential expression wizard",
-		() -> AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.showWizard(false));
+		() -> AIBenchHisatStringTieAndRDifferentialExpressionWizard.showWizard(false));
 
-	protected AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+	protected AIBenchHisatStringTieAndRDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps
 	) {
 		super(parent, wizardTitle, steps);
 	}
 
-	protected AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+	protected AIBenchHisatStringTieAndRDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps,
 		DifferentialExpressionWorkflowConfiguration configuration
 	) {
@@ -82,7 +82,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 
 	/**
 	 * Creates a new
-	 * {@code AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard}
+	 * {@code AIBenchHisatStringTieAndRDifferentialExpressionWizard}
 	 * using the specified workflow configuration.
 	 *
 	 * @param parent the parent component of the wizard dialog
@@ -90,30 +90,30 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 	 *
 	 * @return a new wizard dialog
 	 */
-	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+	public static AIBenchHisatStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent, DifferentialExpressionWorkflowConfiguration configuration
 	) {
-		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+		return new AIBenchHisatStringTieAndRDifferentialExpressionWizard(
 			parent, TITLE, getWizardSteps(getStepProvider()), configuration);
 	}
 
 	/**
 	 * Creates a new
-	 * {@code AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard}.
+	 * {@code AIBenchHisatStringTieAndRDifferentialExpressionWizard}.
 	 *
 	 * @param parent the parent component of the wizard dialog
 	 *
 	 * @return a new wizard dialog
 	 */
-	public static AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+	public static AIBenchHisatStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
-		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard(
+		return new AIBenchHisatStringTieAndRDifferentialExpressionWizard(
 			parent, TITLE, getWizardSteps(getStepProvider()));
 	}
 
-	private static HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider getStepProvider() {
-		return new AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider();
+	private static HisatStringTieAndRDifferentialExpressionWizardStepProvider getStepProvider() {
+		return new AIBenchHisatStringTieAndRDifferentialExpressionWizardStepProvider();
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 					return;
 				}
 			}
-			AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
+			AIBenchHisatStringTieAndRDifferentialExpressionWizard
 				.getWizard(getParentForDialog()).setVisible(true);
 		}
 	}
@@ -154,7 +154,7 @@ public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
 				if (config.getReferenceGenome().getType()
 					.equals(Hisat2ReferenceGenomeIndex.TYPE)
 				) {
-					AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard
+					AIBenchHisatStringTieAndRDifferentialExpressionWizard
 						.getWizard(parent, config).setVisible(true);
 					return;
 				}

@@ -245,10 +245,10 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.workflow.HisatStringTieAndBallgownDifferentialExpressionOperation"
+			class="org.sing_group.rnaseq.aibench.operations.workflow.HisatStringTieAndRDifferentialExpressionOperation"
 		>
 			<operation-description
-				name="DE Workflow: hisat2, StringTie and ballgown"
+				name="DE Workflow: hisat2, StringTie and R (ballgown/edgeR)"
 				uid="operations.hisatstringtiedifferentialexpression"
 			/>
 		</extension>

@@ -43,7 +43,7 @@ public class AIBenchWorkflowCatalogPanel extends WorkflowCatalogPanel {
 
 	private static final List<WorkflowDescription> WORKFLOWS = asList(
 		new Bowtie2StringTieDifferentialExpressionAIBenchWorkflowDescription(),
-		new Hisat2StringTieBallgownDifferentialExpressionAIBenchWorkflowDescription()
+		new Hisat2StringTieDifferentialExpressionAIBenchWorkflowDescription()
 	);
 
 	/**

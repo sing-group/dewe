@@ -23,8 +23,8 @@
 package org.sing_group.rnaseq.aibench.gui.wizard.steps;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.BUILD_INDEX;
-import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndBallgownDifferentialExpressionWizard.IMPORT_INDEX;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndRDifferentialExpressionWizard.BUILD_INDEX;
+import static org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndRDifferentialExpressionWizard.IMPORT_INDEX;
 import static org.sing_group.rnaseq.gui.components.wizard.steps.StepUtils.configureStepComponent;
 
 import java.awt.BorderLayout;

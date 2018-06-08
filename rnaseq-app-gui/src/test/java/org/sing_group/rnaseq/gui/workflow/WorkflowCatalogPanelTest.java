@@ -38,7 +38,7 @@ public class WorkflowCatalogPanelTest {
 	private static JComponent createComponent() {
 		return new WorkflowCatalogPanel(asList(
 			new Bowtie2StringTieDifferentialExpressionWorkflowDescription(),
-			new Hisat2StringTieBallgownDifferentialExpressionWorkflowDescription()
+			new Hisat2StringTieDifferentialExpressionWorkflowDescription()
 		));
 	}
 }

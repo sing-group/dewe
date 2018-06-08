@@ -29,13 +29,13 @@ package org.sing_group.rnaseq.gui.components.wizard.steps;
  * @author Aitor Blanco-Míguez
  *
  */
-public class HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep
+public class HisatStringTieAndRDifferentialExpressionWizardPresentationStep
 	extends AbstractHtmlTextStep {
 
 	public static final String TEXT = "<html>"
 		+ "<p>This wizard will guide you through the steps to configure the "
 		+ "differential expression pipeline using HISAT2, samtools, StringTie, "
-		+ "and Ballgown.</p>"
+		+ " and two R libraries, Ballgown and edgeR.</p>"
 
 		+ "<p>This pipeline has been described by Pertea, M. et al. in <i>"
 		+ "Transcript-level expression analysis of RNA-seq experiments with "
@@ -49,8 +49,8 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizardPresentationSt
 		+ "<li>Reads alignment using HISAT2.</li>"
 		+ "<li>Conversion of the aligned reads into bam files using samtools.</li>"
 		+ "<li>Transcript assembling using StringTie.</li>"
-		+ "<li>And, finally, the differential expression analysis using the "
-		+ "ballgown R package.</li>"
+		+ "<li>And, finally, the differential expression analysis using two "
+		+ "R packages: ballgown and edgeR.</li>"
 		+ "</ol>"
 
 		+ "Once you have finished this wizard, the pipeline execution starts "

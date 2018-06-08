@@ -20,15 +20,24 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.gui.components.wizard.steps;
+package org.sing_group.rnaseq.gui.components.wizard;
+
+import javax.swing.JFrame;
 
 import org.sing_group.rnaseq.gui.util.TestUtils;
 
-public class HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStepTest {
+import org.sing_group.gc4s.visualization.VisualizationUtils;
+
+public class HisatStringTieAndRDifferentialExpressionWizardTest {
 
 	public static void main(String[] args) {
-		HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep step = 
-			new HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep();
-		TestUtils.showStepComponent(step);
+		VisualizationUtils.setNimbusLookAndFeel();
+		TestUtils.createReferenceGenomeDatabaseManager();
+
+		VisualizationUtils.showDialog(
+			HisatStringTieAndRDifferentialExpressionWizard.getWizard(
+				new JFrame()
+			)
+		);
 	}
 }

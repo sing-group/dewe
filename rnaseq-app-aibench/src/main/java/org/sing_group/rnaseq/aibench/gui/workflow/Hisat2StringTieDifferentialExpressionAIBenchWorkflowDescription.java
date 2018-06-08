@@ -20,25 +20,30 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.gui.wizard.steps;
+package org.sing_group.rnaseq.aibench.gui.workflow;
 
-import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
-import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.aibench.gui.wizard.AIBenchHisatStringTieAndRDifferentialExpressionWizard;
+import org.sing_group.rnaseq.gui.workflow.Hisat2StringTieDifferentialExpressionWorkflowDescription;
 
 /**
- * An implementation of
- * {@code HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider} to use in
- * the AIBench module.
+ * The AIBench description for the differential expression workflow that uses
+ * HISAT2,  StringTie and R packages.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class AIBenchHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider
-	implements HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider {
+public class Hisat2StringTieDifferentialExpressionAIBenchWorkflowDescription
+	extends Hisat2StringTieDifferentialExpressionWorkflowDescription 
+	implements AIBenchWorkflowDescription {
 
 	@Override
-	public Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep() {
-		return new AIBenchHisat2ReferenceGenomeIndexSelectionStep();
+	public void launchWorkflowWizard() {
+		AIBenchHisatStringTieAndRDifferentialExpressionWizard.showWizard(false);
+	}
+
+	@Override
+	public void importWorkflow() {
+		AIBenchHisatStringTieAndRDifferentialExpressionWizard.showWizard(true);
 	}
 }

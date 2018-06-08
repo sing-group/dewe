@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE GUI
+ * DEWE
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,21 +20,25 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.gui.components.wizard.steps;
+package org.sing_group.rnaseq.aibench.gui.wizard.steps;
+
+import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardStepProvider;
 
 /**
- * The interface that defines a step provider for the HISAT2, StringTie and
- * Ballgown wizard.
- *
+ * An implementation of
+ * {@code HisatStringTieAndRDifferentialExpressionWizardStepProvider} to use in
+ * the AIBench module.
+ * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider {
-	/**
-	 * Returns a {@code Hisat2ReferenceGenomeSelectionStep}.
-	 *
-	 * @return a {@code Hisat2ReferenceGenomeSelectionStep}
-	 */
-	public abstract Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep();
+public class AIBenchHisatStringTieAndRDifferentialExpressionWizardStepProvider
+	implements HisatStringTieAndRDifferentialExpressionWizardStepProvider {
+
+	@Override
+	public Hisat2ReferenceGenomeIndexSelectionStep getHisat2ReferenceGenomeSelectionStep() {
+		return new AIBenchHisat2ReferenceGenomeIndexSelectionStep();
+	}
 }

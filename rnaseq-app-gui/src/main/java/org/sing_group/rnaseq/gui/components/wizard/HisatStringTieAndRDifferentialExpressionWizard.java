@@ -35,11 +35,11 @@ import org.sing_group.gc4s.dialog.wizard.WizardStep;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
-import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
-import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep;
-import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardPresentationStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.SampleReadsSelectionStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.WizardSummaryStep;
@@ -48,13 +48,13 @@ import org.sing_group.rnaseq.gui.components.wizard.steps.WorkingDirectorySelecti
 /**
  * This class extends {@code AbstractDifferentialExpressionWizard} to provide a
  * wizard that allows user configuring a differential expression workflow using
- * HISAT2, StringTie and Ballgown.
+ * HISAT2, StringTie and R packages.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class HisatStringTieAndBallgownDifferentialExpressionWizard
+public class HisatStringTieAndRDifferentialExpressionWizard
 	extends AbstractDifferentialExpressionWizard {
 	private static final long serialVersionUID = 1L;
 
@@ -70,44 +70,44 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 
 	/**
 	 * Creates a new
-	 * {@code HisatStringTieAndBallgownDifferentialExpressionWizard}
+	 * {@code HisatStringTieAndRDifferentialExpressionWizard}
 	 * using the specified workflow configuration.
 	 *
 	 * @param parent the parent component of the wizard dialog
 	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
 	 *
-	 * @return a new {@code HisatStringTieAndBallgownDifferentialExpressionWizard} 
+	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard} 
 	 */	
-	public static HisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+	public static HisatStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent, 
 		DifferentialExpressionWorkflowConfiguration configuration
 	) {
-		return new HisatStringTieAndBallgownDifferentialExpressionWizard(
+		return new HisatStringTieAndRDifferentialExpressionWizard(
 			parent,	TITLE, getWizardSteps(), configuration);
 	}
 
 	/**
 	 * Creates a new
-	 * {@code HisatStringTieAndBallgownDifferentialExpressionWizard} with the
+	 * {@code HisatStringTieAndRDifferentialExpressionWizard} with the
 	 * specified parent window dialog.
 	 *
 	 * @param parent the parent window dialog
-	 * @return a new {@code HisatStringTieAndBallgownDifferentialExpressionWizard} 
+	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard} 
 	 */
-	public static HisatStringTieAndBallgownDifferentialExpressionWizard getWizard(
+	public static HisatStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
 	) {
-		return new HisatStringTieAndBallgownDifferentialExpressionWizard(
+		return new HisatStringTieAndRDifferentialExpressionWizard(
 			parent,	TITLE, getWizardSteps());
 	}
 
-	protected HisatStringTieAndBallgownDifferentialExpressionWizard(
+	protected HisatStringTieAndRDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps
 	) {
 		this(parent, wizardTitle, steps, null);
 	}
 
-	protected HisatStringTieAndBallgownDifferentialExpressionWizard(
+	protected HisatStringTieAndRDifferentialExpressionWizard(
 		Window parent, String wizardTitle, List<WizardStep> steps,
 		DifferentialExpressionWorkflowConfiguration workflowConfiguration
 	) {
@@ -172,15 +172,15 @@ public class HisatStringTieAndBallgownDifferentialExpressionWizard
 
 	protected static List<WizardStep> getWizardSteps() {
 		return getWizardSteps(
-			new DefaultHisatStringTieAndBallgownDifferentialExpressionWizardStepProvider());
+			new DefaultHisatStringTieAndRDifferentialExpressionWizardStepProvider());
 	}
 
 	protected static List<WizardStep> getWizardSteps(
-		HisatStringTieAndBallgownDifferentialExpressionWizardStepProvider stepProvider
+		HisatStringTieAndRDifferentialExpressionWizardStepProvider stepProvider
 	) {
 		List<WizardStep> wizardSteps = new LinkedList<>();
 		wizardSteps.add(
-			new HisatStringTieAndBallgownDifferentialExpressionWizardPresentationStep());
+			new HisatStringTieAndRDifferentialExpressionWizardPresentationStep());
 		wizardSteps.add(stepProvider.getHisat2ReferenceGenomeSelectionStep());
 		ExperimentalConditionsStep experimentalConditionsStep =
 			new ExperimentalConditionsStep(2, 2);

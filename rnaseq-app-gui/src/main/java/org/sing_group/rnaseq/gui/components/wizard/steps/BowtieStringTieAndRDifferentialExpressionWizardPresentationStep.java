@@ -35,7 +35,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizardPresentationStep
 	public static final String TEXT = "<html>"
 		+ "<p>This wizard will guide you through the steps to configure the "
 		+ "differential expression pipeline using Bowtie2, samtools, StringTie"
-		+ ", Ballgown and EdgeR.</p>"
+		+ " and two R libraries, Ballgown and edgeR.</p>"
 
 		+ "<p>This pipeline is able to compare two conditions with at least "
 		+ "two samples each.</p>"

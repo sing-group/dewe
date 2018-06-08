@@ -31,7 +31,7 @@ import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeInde
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.helper.BowtieStringTieAndRDifferentialExpression;
-import org.sing_group.rnaseq.core.controller.helper.HisatStringTieAndBallgownDifferentialExpression;
+import org.sing_group.rnaseq.core.controller.helper.HisatStringTieAndRDifferentialExpression;
 
 /**
  * The default {@link WorkflowController} implementation.
@@ -58,15 +58,15 @@ public class DefaultWorkflowController implements WorkflowController {
 	}
 
 	@Override
-	public void runHisatStringTieAndBallgownDifferentialExpression(
+	public void runHisatStringTieAndRDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads, 
 		File referenceAnnotationFile,
 		File workingDirectory, 
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
-		HisatStringTieAndBallgownDifferentialExpression workflow =
-			new HisatStringTieAndBallgownDifferentialExpression(
+		HisatStringTieAndRDifferentialExpression workflow =
+			new HisatStringTieAndRDifferentialExpression(
 				referenceGenome, reads, 
 				referenceAnnotationFile, workingDirectory);
 		workflow.runAnalysis(status);
