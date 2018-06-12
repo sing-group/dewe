@@ -4,6 +4,16 @@
 ##  1.- working directory: path to the directory that contains the ballgown data structure.
 ##  2.- p-value: the maximum p-value of transcripts.
 
+getFpkmPlus1 <- function(ballgownData) {
+	fpkm <- texpr(bg, meas="FPKM")
+	fpkm <- fpkm+1
+
+	fpkm.table <- cbind(geneNames(bg), geneIDs(bg), transcriptNames(bg), fpkm)
+	colnames(fpkm.table) <- c("gene", "geneID", "transcript", colnames(fpkm))
+	
+	return(fpkm.table)
+}
+
 args <- commandArgs(TRUE)
 
 ## Parse input parameters
@@ -39,6 +49,9 @@ results_transcripts = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs
 sig_transcripts = subset(results_transcripts, results_transcripts$pval<pValue)
 
 write.table(sig_transcripts, row.names = FALSE, paste(tablesDirectory, "/transcript_results_sig_", pValue, ".tsv",sep=""), sep="\t")
+
+fpkm.table <- getFpkmPlus1(bg)
+write.table(fpkm.table[as.numeric(as.character(sig_transcripts$id)),], row.names = FALSE, paste(tablesDirectory, "/transcript_results_sig_", pValue,"_fpkm_plus_1.tsv",sep=""), sep="\t")
 
 ## Exit the R session
 quit(save="no")
