@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -28,12 +28,11 @@ import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
-import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 
 /**
  * The default {@code Bowtie2Controller} implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -47,11 +46,11 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 	}
 
 	@Override
-	public void buildIndex(File genome, File outDir, String baseName) 
+	public void buildIndex(File genome, File outDir, String baseName)
 	throws ExecutionException, InterruptedException {
-		final ExecutionResult result = 
+		final ExecutionResult result =
 			this.bowtie2BinariesExecutor.buildIndex(genome, outDir, baseName);
-		
+
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
 				"Error executing bowtie2-build. Please, check error log.", "");
@@ -60,68 +59,68 @@ public class DefaultBowtie2Controller implements Bowtie2Controller {
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
-		File reads2, Bowtie2EndToEndConfiguration configuration, File output
+		File reads2, String params, File output
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor
-			.alignReads(genome, reads1, reads2, configuration, output);
+			.alignReads(genome, reads1, reads2, params, output);
 
 		checkResult(result);
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
-		Bowtie2EndToEndConfiguration configuration, File output
+		String params, File output
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor
-			.alignReads(genome, reads, configuration, output);
+			.alignReads(genome, reads, params, output);
 
 		checkResult(result);
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
-		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
+		File reads2, String params, File output,
 		boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
 		if(saveAlignmentLog) {
-			alignReads(genome, reads1, reads2, configuration, output,
+			alignReads(genome, reads1, reads2, params, output,
 				getAlignmentLogFile(output));
 		} else {
-			alignReads(genome, reads1, reads2, configuration, output);
+			alignReads(genome, reads1, reads2, params, output);
 		}
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
-		Bowtie2EndToEndConfiguration configuration, File output,
+		String params, File output,
 		boolean saveAlignmentLog
 	) throws ExecutionException, InterruptedException {
 		if(saveAlignmentLog) {
-			alignReads(genome, reads, configuration, output,
+			alignReads(genome, reads, params, output,
 				getAlignmentLogFile(output));
 		} else {
-			alignReads(genome, reads, configuration, output);
+			alignReads(genome, reads, params, output);
 		}
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads1,
-		File reads2, Bowtie2EndToEndConfiguration configuration, File output,
+		File reads2, String params, File output,
 		File alignmentLogFile
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor.alignReads(
-			genome, reads1, reads2, configuration, output, alignmentLogFile);
+			genome, reads1, reads2, params, output, alignmentLogFile);
 
 		checkResult(result);
 	}
 
 	@Override
 	public void alignReads(Bowtie2ReferenceGenomeIndex genome, File reads,
-		Bowtie2EndToEndConfiguration configuration, File output,
+		String params, File output,
 		File alignmentLogFile
 	) throws ExecutionException, InterruptedException {
 		final ExecutionResult result = this.bowtie2BinariesExecutor.alignReads(
-			genome, reads, configuration, output, alignmentLogFile);
+			genome, reads, params, output, alignmentLogFile);
 
 		checkResult(result);
 	}

@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,14 @@
 package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
-import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.environment.execution.check.DefaultBowtie2BinariesChecker;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The default {@code Bowtie2BinariesExecutor} implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -45,12 +46,12 @@ import org.slf4j.LoggerFactory;
 public class DefaultBowtie2BinariesExecutor
 	extends AbstractBinariesExecutor<Bowtie2Binaries>
 	implements Bowtie2BinariesExecutor {
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultBowtie2BinariesExecutor.class);  
-	
+	private final static Logger LOG = LoggerFactory.getLogger(DefaultBowtie2BinariesExecutor.class);
+
 	/**
 	 * Creates a new {@code DefaultBowtie2BinariesExecutor} instance to execute
 	 * the specified {@code Bowtie2Binaries}.
-	 * 
+	 *
 	 * @param binaries the {@code Bowtie2Binaries} to execute
 	 * @throws BinaryCheckException if any of the commands can't be executed
 	 */
@@ -85,63 +86,69 @@ public class DefaultBowtie2BinariesExecutor
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File reads1, File reads2, String params,
 		File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads1, reads2, configuration, output, null);
+		return alignReads(genome, reads1, reads2, params, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads, Bowtie2EndToEndConfiguration configuration,
+		File reads, String params,
 		File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads, configuration, output, null);
+		return alignReads(genome, reads, params, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads1, File reads2, Bowtie2EndToEndConfiguration configuration,
+		File reads1, File reads2, String params,
 		File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.add("--threads");
+		paramsList.add(getThreads());
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-x");
+		paramsList.add(genome.getQuotedReferenceGenomeIndex());
+		paramsList.add("-1");
+		paramsList.add(reads1.getAbsolutePath());
+		paramsList.add("-2");
+		paramsList.add(reads2.getAbsolutePath());
+		paramsList.add("-S");
+		paramsList.add(output.getAbsolutePath());
+
 		return executeCommand(
 			null,
 			alignmentLog,
 			LOG,
 			this.binaries.getAlignReads(),
-			"--threads",
-			getThreads(),
-			configuration.getParameter(),
-			"-x",
-			genome.getQuotedReferenceGenomeIndex(),
-			"-1",
-			reads1.getAbsolutePath(),
-			"-2",
-			reads2.getAbsolutePath(),
-			"-S",
-			output.getAbsolutePath()
+			toParamArray(paramsList)
 		);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads, Bowtie2EndToEndConfiguration configuration,
+		File reads, String params,
 		File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.add("--threads");
+		paramsList.add(getThreads());
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-x");
+		paramsList.add(genome.getQuotedReferenceGenomeIndex());
+		paramsList.add("-U");
+		paramsList.add(reads.getAbsolutePath());
+		paramsList.add("-S");
+		paramsList.add(output.getAbsolutePath());
+
 		return executeCommand(
 			null,
 			alignmentLog,
 			LOG,
 			this.binaries.getAlignReads(),
-			"--threads",
-			getThreads(),
-			configuration.getParameter(),
-			"-x",
-			genome.getQuotedReferenceGenomeIndex(),
-			"-U",
-			reads.getAbsolutePath(),
-			"-S",
-			output.getAbsolutePath()
+			toParamArray(paramsList)
 		);
 	}
 }

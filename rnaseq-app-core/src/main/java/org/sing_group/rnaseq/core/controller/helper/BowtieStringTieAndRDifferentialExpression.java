@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -77,13 +77,13 @@ public class BowtieStringTieAndRDifferentialExpression
 			bowtie2Controller.alignReads(
 				(Bowtie2ReferenceGenomeIndex) referenceGenome,
 				sample.getReadsFile1(), sample.getReadsFile2().get(),
-				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE, output,
+				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE.getParameter(), output,
 				true);
 		} else {
 			bowtie2Controller.alignReads(
 				(Bowtie2ReferenceGenomeIndex) referenceGenome,
 				sample.getReadsFile1(),
-				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE, output,
+				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE.getParameter(), output,
 				true);
 		}
 	}

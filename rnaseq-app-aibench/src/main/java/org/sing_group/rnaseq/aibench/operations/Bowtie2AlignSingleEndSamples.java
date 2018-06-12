@@ -2,7 +2,7 @@
  * #%L
  * DEWE
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ public class Bowtie2AlignSingleEndSamples {
 	private boolean saveAlignmentLog;
 	private FileOperationStatus status = new FileOperationStatus();
 	private Bowtie2EndToEndConfiguration configuration;
+	private String additionalCommandParameters;
 
 	@Port(
 		direction = Direction.INPUT,
@@ -112,10 +113,26 @@ public class Bowtie2AlignSingleEndSamples {
 
 	@Port(
 		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. By indicating any "
+			+ "parameters here, presets choice is ignored.",
+		allowNull = false,
+		order = 6,
+		advanced = true,
+		defaultValue = ""
+	)
+	public void setAdditionalCommandParameters(
+		String additionalCommandParameters
+	) {
+		this.additionalCommandParameters = additionalCommandParameters;
+	}
+
+	@Port(
+		direction = Direction.INPUT,
 		name = "Output file",
 		description = "The output file to save the alignments.",
 		allowNull = true,
-		order = 6,
+		order = 7,
 		extras = "selectionMode=files",
 		advanced = false
 	)
@@ -129,11 +146,19 @@ public class Bowtie2AlignSingleEndSamples {
 		try {
 			this.status.setStage(outputFile.getName());
 			DefaultAppController.getInstance().getBowtie2Controller()
-				.alignReads(referenceGenome, readsFile, 
-					configuration, outputFile, saveAlignmentLog);
+				.alignReads(referenceGenome, readsFile,
+					getCmdParams(), outputFile, saveAlignmentLog);
 			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {
 			Workbench.getInstance().error(e, e.getMessage());
+		}
+	}
+
+	private String getCmdParams() {
+		if(additionalCommandParameters.isEmpty()) {
+			return this.configuration.getParameter();
+		} else {
+			return this.additionalCommandParameters;
 		}
 	}
 
