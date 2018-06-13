@@ -2,19 +2,19 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ import org.slf4j.Marker;
 /**
  * An abstract class providing a base implementation of the
  * {@code BinariesExecutor} interface.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -84,7 +85,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			callback.inputFinished();
 		}
 	}
-	
+
 	protected static void notifyInfo(List<InputLineCallback> callbacks,
 		String message
 	) {
@@ -108,7 +109,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			callback.error(message, e);
 		}
 	}
-	
+
 	protected static ExecutionResult executeCommand(final Logger log,
 		final boolean logOutput, List<InputLineCallback> callbacks,
 		String command, String... params
@@ -118,28 +119,28 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			return executeCommand(log, logOutput, command, params);
 		} else {
 			final List<InputLineCallback> newCallbacks = new ArrayList<>(callbacks);
-			
+
 			class LoggerNoOutputCallback implements InputLineCallback {
 				@Override
 				public void line(String line) {}
-				
+
 				@Override
 				public void inputFinished() {}
-				
+
 				@Override
 				public void inputStarted() {}
-				
+
 				@Override
 				public void info(String message) {
 					log.info(LogConfiguration.MARKER_EXECUTION_STD, message);
 				}
-				
+
 				@Override
 				public void error(String message, Exception e) {
 					log.error(LogConfiguration.MARKER_EXECUTION_ERROR, message, e);
 				}
 			};
-			
+
 			class LoggerCallback extends LoggerNoOutputCallback {
 				@Override
 				public void line(String line) {
@@ -147,17 +148,17 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 						log.info(LogConfiguration.MARKER_EXECUTION_STD, line);
 				}
 			};
-			
+
 			if (logOutput) {
 				newCallbacks.add(new LoggerCallback());
 			} else {
 				newCallbacks.add(new LoggerNoOutputCallback());
 			}
-			
+
 			return executeCommand(newCallbacks, command, params);
 		}
 	}
-	
+
 	protected static ExecutionResult executeCommand(
 		List<InputLineCallback> callbacks, String command, String... params
 	) throws ExecutionException, InterruptedException {
@@ -165,105 +166,105 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		final String commandString = commandToString(command, params);
 
 		notifyInfo(callbacks, "Executing command: " + commandString);
-		
+
 		final Runtime runtime = Runtime.getRuntime();
-		
+
 		try {
 			inputStarted(callbacks);
-			
+
 			final String[] cmdarray = new String[params.length+1];
 			cmdarray[0] = command;
 			System.arraycopy(params, 0, cmdarray, 1, params.length);
-			
+
 			final Process process = runtime.exec(cmdarray);
-			
-			final LoggerCallbackInputThread inThread = 
+
+			final LoggerCallbackInputThread inThread =
 				new LoggerCallbackInputThread(
 					commandString, process.getInputStream(), callbacks
 				);
-			final LoggerCallbackErrorThread errThread = 
+			final LoggerCallbackErrorThread errThread =
 				new LoggerCallbackErrorThread(
 					commandString, process.getErrorStream(), callbacks
 				);
-				
+
 			inThread.start();
 			errThread.start();
-			
+
 			final int outputCode = process.waitFor();
-			
+
 			inThread.join();
 			errThread.join();
-			
+
 			return new DefaultExecutionResult(outputCode);
 		} catch (IOException e) {
 			notifyError(callbacks, "Error executing command: " + commandString, e);
-			
+
 			throw new ExecutionException(-1, e, command);
 		} finally {
 			inputFinished(callbacks);
 		}
 	}
-	
+
 	protected static ExecutionResult executeCommand(Logger log, String command,
 		String... params
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(log, true, command, params);
 	}
-	
+
 	protected static ExecutionResult executeCommand(Logger log,
 		boolean logOutput, String command, String... params
 	) throws ExecutionException, InterruptedException {
 		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
-		
+
 //		log.info("Executing command: " + commandString);
-		
+
 		final Runtime runtime = Runtime.getRuntime();
-		
+
 		try {
 			final String[] cmdarray = new String[params.length+1];
 			cmdarray[0] = command;
 			System.arraycopy(params, 0, cmdarray, 1, params.length);
-			
+
 			final Process process = runtime.exec(cmdarray);
-			
+
 			final LoggerThread inThread = new LoggerThread(
 				commandString, process.getInputStream(), log, logOutput, LogConfiguration.MARKER_EXECUTION_STD
 			);
 			final LoggerThread errThread = new LoggerThread(
 				commandString, process.getErrorStream(), log, true, LogConfiguration.MARKER_EXECUTION_ERROR
 			);
-				
+
 			inThread.start();
 			errThread.start();
-			
+
 			final int outputCode = process.waitFor();
-			
+
 			inThread.join();
 			errThread.join();
-			
+
 			return new DefaultExecutionResult(outputCode, inThread.getText(), errThread.getText());
 		} catch (IOException e) {
 			log.error(LogConfiguration.MARKER_EXECUTION_ERROR, "Error executing command: " + commandString, e);
-			
+
 			throw new ExecutionException(-1, e, command);
 		}
 	}
-	
+
 	protected static ExecutionResult executeCommand(File redirectOutput,
 		Logger log, String command, String... params
 	) throws ExecutionException, InterruptedException {
 		return executeCommand(redirectOutput, null, log, command, params);
 	}
-	
+
 	protected static ExecutionResult executeCommand(File redirectOutput,
 		File redirectError, Logger log, String command, String... params
 	) throws ExecutionException, InterruptedException {
 		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
-		
+
 //		log.info("Executing command: " + commandString);
-		
+
 		try {
 			final String[] cmdarray = new String[params.length+1];
 			cmdarray[0] = command;
@@ -287,16 +288,19 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			);
 			errThread.start();
 
-
 			final int outputCode = process.waitFor();
-			
+
+			if(outputCode == 1) {
+				throw new IOException("See " + redirectError.getName() + " file for details.");
+			}
+
 			inThread.join();
 			errThread.join();
-			
+
 			return new DefaultExecutionResult(outputCode, inThread.getText(), errThread.getText());
 		} catch (IOException e) {
 			log.error(LogConfiguration.MARKER_EXECUTION_ERROR, "Error executing command: " + commandString, e);
-			
+
 			throw new ExecutionException(-1, e, command);
 		}
 	}
@@ -322,28 +326,28 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			return executeCommand(log, logOutput, command, params);
 		} else {
 			final List<InputLineCallback> newCallbacks = new ArrayList<>(callbacks);
-			
+
 			class LoggerNoOutputCallback implements InputLineCallback {
 				@Override
 				public void line(String line) {}
-				
+
 				@Override
 				public void inputFinished() {}
-				
+
 				@Override
 				public void inputStarted() {}
-				
+
 				@Override
 				public void info(String message) {
 					log.info(LogConfiguration.MARKER_EXECUTION_STD, message);
 				}
-				
+
 				@Override
 				public void error(String message, Exception e) {
 					log.error(LogConfiguration.MARKER_EXECUTION_ERROR, message, e);
 				}
 			};
-			
+
 			class LoggerCallback extends LoggerNoOutputCallback {
 				@Override
 				public void line(String line) {
@@ -351,53 +355,53 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 						log.info(LogConfiguration.MARKER_EXECUTION_STD, line);
 				}
 			};
-			
+
 			if (logOutput) {
 				newCallbacks.add(new LoggerCallback());
 			} else {
 				newCallbacks.add(new LoggerNoOutputCallback());
 			}
-			
+
 			return executeCommand(newCallbacks, envp, workingDirectory, command, params);
 		}
 	}
-	
+
 	protected static ExecutionResult executeCommand(
-		List<InputLineCallback> callbacks, 
+		List<InputLineCallback> callbacks,
 		String[] envp, File workingDirectory, String command,
 		String ... params
 	) throws ExecutionException, InterruptedException {
 		params = removeEmptyParams(params);
 		final String commandString = commandToString(command, params);
-		
+
 		notifyInfo(callbacks, "Executing command: " + commandString);
-		
+
 		final Runtime runtime = Runtime.getRuntime();
-		
+
 		try {
 			inputStarted(callbacks);
-			
+
 			final String[] cmdarray = new String[params.length+1];
 			cmdarray[0] = command;
 			System.arraycopy(params, 0, cmdarray, 1, params.length);
-			
+
 			final Process process = runtime.exec(cmdarray, envp, workingDirectory);
-			
+
 			final LoggerCallbackInputThread inThread = new LoggerCallbackInputThread(commandString, process.getInputStream(), callbacks);
 			final LoggerCallbackErrorThread errThread = new LoggerCallbackErrorThread(commandString, process.getErrorStream(), callbacks);
-				
+
 			inThread.start();
 			errThread.start();
-			
+
 			final int outputCode = process.waitFor();
-			
+
 			inThread.join();
 			errThread.join();
-			
+
 			return new DefaultExecutionResult(outputCode);
 		} catch (IOException e) {
 			notifyError(callbacks, "Error executing command: " + commandString, e);
-			
+
 			throw new ExecutionException(-1, e, command);
 		} finally {
 			inputFinished(callbacks);
@@ -411,10 +415,10 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		private final boolean logOutput;
 		private final Marker marker;
 		private final StringBuilder sb;
-		
+
 		public LoggerThread(String command, InputStream is, Logger logger, boolean logOutput, Marker marker) {
 			this.setDaemon(true);
-			
+
 			this.command = command;
 			this.reader = new BufferedReader(new InputStreamReader(is));
 			this.logger = logger;
@@ -422,12 +426,12 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 			this.marker = marker;
 			this.sb = new StringBuilder();
 		}
-		
+
 		@Override
 		public void run() {
 			try {
 				this.logger.info(this.marker, "Executing command: " + command);
-				
+
 				String line;
 				while ((line = this.reader.readLine()) != null) {
 					if (this.logOutput)
@@ -438,7 +442,7 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 				this.logger.error(this.marker, "Error executing command", e);
 			}
 		}
-		
+
 		public String getText() {
 			return this.sb.toString();
 		}
@@ -448,15 +452,15 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		private final String command;
 		private final BufferedReader reader;
 		private final List<InputLineCallback> callbacks;
-		
+
 		public LoggerCallbackInputThread(String command, InputStream is, List<InputLineCallback> callbacks) {
 			this.setDaemon(true);
-			
+
 			this.command = command;
 			this.reader = new BufferedReader(new InputStreamReader(is));
 			this.callbacks =  callbacks;
 		}
-		
+
 		@Override
 		public void run() {
 			try {
@@ -474,15 +478,15 @@ public abstract class AbstractBinariesExecutor<B extends Binaries>
 		private final String command;
 		private final BufferedReader reader;
 		private final List<InputLineCallback> callbacks;
-		
+
 		public LoggerCallbackErrorThread(String command, InputStream is, List<InputLineCallback> callbacks) {
 			this.setDaemon(true);
-			
+
 			this.command = command;
 			this.reader = new BufferedReader(new InputStreamReader(is));
 			this.callbacks =  callbacks;
 		}
-		
+
 		@Override
 		public void run() {
 			try {
