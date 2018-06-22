@@ -278,8 +278,8 @@ if(image.color){
 	colors = colorRampPalette(c("white", "blue","red","green","yellow"))
 }
 par(mfrow=c(1,2))
-plot(x,y)
-smoothScatter(x,y, colramp = colors)
+plot(x,y, xlab=paste(conditions[1],"log2(FPKM+1)",sep=" "), ylab=paste(conditions[2],"log2(FPKM+1)",sep=" "))
+smoothScatter(x,y, colramp = colors, xlab=paste(conditions[1],"log2(FPKM+1)",sep=" "), ylab=paste(conditions[2],"log2(FPKM+1)",sep=" "))
 
 dev.off()
 
