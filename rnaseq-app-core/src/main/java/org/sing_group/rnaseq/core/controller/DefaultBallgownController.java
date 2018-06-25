@@ -302,11 +302,15 @@ public class DefaultBallgownController implements BallgownController {
 		ExecutionResult result;
 		try {
 			checkWorkingDirectoryContainsBallgownData(workingDirectory);
-
+			final ImageConfigurationParameter imageConfiguration = DefaultImageConfigurationParameter.DEFAULT;
 			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_TABLE_GENES_SIG, "ballgown-table-genes-"),
 				workingDirectory.getAbsolutePath(),
-				String.valueOf(pValue));
+				String.valueOf(pValue),
+				imageConfiguration.getFormat().getExtension(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase());
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),

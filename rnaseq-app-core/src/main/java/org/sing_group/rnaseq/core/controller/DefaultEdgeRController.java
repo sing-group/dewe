@@ -45,6 +45,8 @@ import org.sing_group.rnaseq.api.entities.edger.EdgeRSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
 
 /**
  * The default {@code EdgeRController} implementation.
@@ -78,9 +80,14 @@ public class DefaultEdgeRController implements EdgeRController {
   		ExecutionResult result;
   		try {
 			checkWorkingDir(workingDir);
+			final ImageConfigurationParameter imageConfiguration = DefaultImageConfigurationParameter.DEFAULT;
   			result = this.rBinariesExecutor.runScript(
 				asScriptFile(SCRIPT_DE_ANALYSIS, "edgeR-analysis-"),
-				workingDir.getAbsolutePath());
+				workingDir.getAbsolutePath(),
+				imageConfiguration.getFormat().getExtension(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase());
 
 			if (result.getExitStatus() != 0) {
 				throw new ExecutionException(result.getExitStatus(),
