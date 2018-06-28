@@ -36,6 +36,7 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.parameters.bowtie2.Bowtie2EndToEndConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.Bowtie2ParametersChecker;
 import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -55,7 +56,7 @@ public class Bowtie2AlignSingleEndSamples {
 	private boolean saveAlignmentLog;
 	private FileOperationStatus status = new FileOperationStatus();
 	private Bowtie2EndToEndConfiguration configuration;
-	private String additionalCommandParameters;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT,
@@ -119,12 +120,23 @@ public class Bowtie2AlignSingleEndSamples {
 		allowNull = false,
 		order = 6,
 		advanced = true,
-		defaultValue = ""
+		defaultValue = "",
+		validateMethod = "validateCommandParameters"
 	)
-	public void setAdditionalCommandParameters(
-		String additionalCommandParameters
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(
+		String commandParameters
 	) {
-		this.additionalCommandParameters = additionalCommandParameters;
+		if(!Bowtie2ParametersChecker.validateAlignReadsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				"Bowtie2 command parameters not valid. Please, make sure you "
+				+ "have indicated proper Bowtie2 parameters without "
+				+ "indicating -x, -S, -1, -2 or -U.");
+		};
 	}
 
 	@Port(
@@ -155,10 +167,10 @@ public class Bowtie2AlignSingleEndSamples {
 	}
 
 	private String getCmdParams() {
-		if(additionalCommandParameters.isEmpty()) {
+		if (commandParameters.isEmpty()) {
 			return this.configuration.getParameter();
 		} else {
-			return this.additionalCommandParameters;
+			return this.commandParameters;
 		}
 	}
 

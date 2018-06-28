@@ -27,15 +27,18 @@ import java.awt.Window;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.dialog.wizard.WizardStep;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Bowtie2ReferenceGenomeIndexSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionCommandLineParametersStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardPresentationStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.BowtieStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultBowtieStringTieAndRDifferentialExpressionWizardStepProvider;
@@ -65,6 +68,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
+	private BowtieStringTieAndRDifferentialExpressionCommandLineParametersStep commandLineApplicationsParametersStep;
 
 	private DifferentialExpressionWorkflowConfiguration workflowConfiguration;
 
@@ -79,7 +83,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	 * @return a new {@code BowtieStringTieAndRDifferentialExpressionWizard}
 	 */
 	public static BowtieStringTieAndRDifferentialExpressionWizard getWizard(
-		Window parent, 
+		Window parent,
 		DifferentialExpressionWorkflowConfiguration configuration
 	) {
 		return new BowtieStringTieAndRDifferentialExpressionWizard(
@@ -132,7 +136,11 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 		workingDirectorySelectionStep =
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
-		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
+		commandLineApplicationsParametersStep =
+			(BowtieStringTieAndRDifferentialExpressionCommandLineParametersStep) getSteps().get(6);
+
+
+		((WizardSummaryStep) getSteps().get(7)).setWizardSummaryProvider(this);
 
 		this.setWorkflowConfiguration();
 	}
@@ -163,6 +171,9 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 
 			this.workingDirectorySelectionStep.setSelectedFile(
 				this.workflowConfiguration.getWorkingDirectory());
+
+			this.commandLineApplicationsParametersStep.setParametersMap(
+				this.workflowConfiguration.getCommandLineApplicationsParameters());
 		}
 	}
 
@@ -189,6 +200,7 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 			new SampleReadsSelectionStep(experimentalConditionsStep, 2, 4));
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
+		wizardSteps.add(new BowtieStringTieAndRDifferentialExpressionCommandLineParametersStep());
 		wizardSteps.add(new WizardSummaryStep());
 
 		return wizardSteps;
@@ -213,5 +225,10 @@ public class BowtieStringTieAndRDifferentialExpressionWizard
 	@Override
 	public File getWorkingDirectory() {
 		return workingDirectorySelectionStep.getSelectedFile();
+	}
+
+	@Override
+	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters() {
+		return this.commandLineApplicationsParametersStep.getParametersMap();
 	}
 }

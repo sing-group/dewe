@@ -181,8 +181,13 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 	private void launchWorkflow() {
 		Workbench.getInstance().executeOperation(
 				DIFFERENTIAL_EXPRESSION, null,
-				Arrays.asList(getReferenceGenome(), getSamples(),
-						getReferenceAnnotationFile(), getWorkingDirectory()));
+				Arrays.asList(
+					getReferenceGenome(), getSamples(),
+					getReferenceAnnotationFile(),
+					getCommandLineApplicationsParameters(),
+					getWorkingDirectory()
+			    )
+			);
 	}
 
 	@Override

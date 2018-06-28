@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,10 @@
 package org.sing_group.rnaseq.gui.components.wizard.steps;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.sing_group.rnaseq.api.controller.WorkflowController.Parameters;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
@@ -39,7 +42,8 @@ public class WizardSummaryStepTest {
 					StringBuilder sb = new StringBuilder();
 					sb.append(AbstractDifferentialExpressionWorkflow.getSummary(
 						getReferenceGenome(), getReferenceAnnotationFile(),
-						getWorkingDirectory(), getSamples()));
+						getWorkingDirectory(), getSamples(), getParametersMap())
+					);
 					return sb.toString();
 				}
 
@@ -59,6 +63,13 @@ public class WizardSummaryStepTest {
 					return TestUtils.createReferenceGenomeDatabaseManager()
 						.listIndexes().get(0);
 				}
+
+				private Map<Parameters, String> getParametersMap() {
+					Map<Parameters, String> parameters = new HashMap<>();
+					parameters.put(Parameters.BOWTIE2, "--sensitive");
+					return parameters;
+				}
+
 			});
 		TestUtils.showStepComponent(step);
 	}

@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.sing_group.rnaseq.core.controller;
 
 import java.io.File;
+import java.util.Map;
 
 import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
@@ -35,7 +36,7 @@ import org.sing_group.rnaseq.core.controller.helper.HisatStringTieAndRDifferenti
 
 /**
  * The default {@link WorkflowController} implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -45,29 +46,32 @@ public class DefaultWorkflowController implements WorkflowController {
 	@Override
 	public void runBowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome,
-		FastqReadsSamples reads, 
+		FastqReadsSamples reads,
 		File referenceAnnotationFile,
-		File workingDirectory, 
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
+		File workingDirectory,
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
 		BowtieStringTieAndRDifferentialExpression workflow =
 			new BowtieStringTieAndRDifferentialExpression(
-				referenceGenome, reads, 
-				referenceAnnotationFile, workingDirectory);
+				referenceGenome, reads,
+				referenceAnnotationFile,
+				commandLineApplicationsParameters,
+				workingDirectory);
 		workflow.runAnalysis(status);
 	}
 
 	@Override
 	public void runHisatStringTieAndRDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome,
-		FastqReadsSamples reads, 
+		FastqReadsSamples reads,
 		File referenceAnnotationFile,
-		File workingDirectory, 
+		File workingDirectory,
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
 		HisatStringTieAndRDifferentialExpression workflow =
 			new HisatStringTieAndRDifferentialExpression(
-				referenceGenome, reads, 
+				referenceGenome, reads,
 				referenceAnnotationFile, workingDirectory);
 		workflow.runAnalysis(status);
 	}

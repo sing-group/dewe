@@ -31,6 +31,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
@@ -43,15 +44,19 @@ public class DefaultDifferentialExpressionWorkflowConfiguration
 	private ReferenceGenomeIndex referenceGenome;
 	private FastqReadsSamples reads;
 	private File referenceAnnotationFile;
+	private Map<WorkflowController.Parameters, String> commandLineApplicationsParameters;
 	private File workingDirectory;
 
 	public DefaultDifferentialExpressionWorkflowConfiguration(
 		ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory
+		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
+		File workingDirectory
 	) {
 		this.referenceGenome = referenceGenome;
 		this.reads = reads;
 		this.referenceAnnotationFile = referenceAnnotationFile;
+		this.commandLineApplicationsParameters = commandLineApplicationsParameters;
 		this.workingDirectory = workingDirectory;
 	}
 
@@ -79,6 +84,15 @@ public class DefaultDifferentialExpressionWorkflowConfiguration
 		this.referenceAnnotationFile = referenceAnnotationFile;
 	}
 
+	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters() {
+		return this.commandLineApplicationsParameters;
+	}
+
+	public void setCommandLineApplicationsParameters(
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters) {
+		this.commandLineApplicationsParameters = commandLineApplicationsParameters;
+	}
+
 	public File getWorkingDirectory() {
 		return workingDirectory;
 	}
@@ -89,11 +103,14 @@ public class DefaultDifferentialExpressionWorkflowConfiguration
 
 	public static void persistWorkflowConfiguration(
 		ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory, File output
+		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
+		File workingDirectory, File output
 	) {
-		DefaultDifferentialExpressionWorkflowConfiguration object = 
+		DefaultDifferentialExpressionWorkflowConfiguration object =
 			new DefaultDifferentialExpressionWorkflowConfiguration(
-				referenceGenome, reads, referenceAnnotationFile, 
+				referenceGenome, reads, referenceAnnotationFile,
+				commandLineApplicationsParameters,
 				workingDirectory
 			);
 
@@ -115,8 +132,8 @@ public class DefaultDifferentialExpressionWorkflowConfiguration
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			DefaultDifferentialExpressionWorkflowConfiguration toret = 
-				(DefaultDifferentialExpressionWorkflowConfiguration) 
+			DefaultDifferentialExpressionWorkflowConfiguration toret =
+				(DefaultDifferentialExpressionWorkflowConfiguration)
 				ois.readObject();
 			ois.close();
 			fis.close();

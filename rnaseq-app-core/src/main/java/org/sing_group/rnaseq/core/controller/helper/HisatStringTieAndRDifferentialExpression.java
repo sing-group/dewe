@@ -26,6 +26,7 @@ import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialE
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.edgeRDifferentialExpressionAnalysis;
 
 import java.io.File;
+import java.util.Collections;
 
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
@@ -64,7 +65,7 @@ public class HisatStringTieAndRDifferentialExpression
 		File referenceAnnotationFile, File workingDirectory
 	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
-			workingDirectory);
+			Collections.emptyMap(), workingDirectory);
 		this.hisat2Controller =
 			DefaultAppController.getInstance().getHisat2Controller();
 	}

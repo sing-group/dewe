@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,11 @@ package org.sing_group.rnaseq.gui.components.wizard;
 import java.awt.Window;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.sing_group.gc4s.dialog.wizard.Wizard;
 import org.sing_group.gc4s.dialog.wizard.WizardStep;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow;
@@ -66,7 +68,8 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 		StringBuilder sb = new StringBuilder();
 		sb.append(AbstractDifferentialExpressionWorkflow.getSummary(
 			getReferenceGenome(), getReferenceAnnotationFile(),
-			getWorkingDirectory(), getSamples()));
+			getWorkingDirectory(), getSamples(), getCommandLineApplicationsParameters())
+		);
 		sb
 			.append(NEW_LINE)
 			.append(NEW_LINE)
@@ -101,4 +104,6 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 	 * @return the selected working directory
 	 */
 	public abstract File getWorkingDirectory();
+
+	public abstract Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters();
 }

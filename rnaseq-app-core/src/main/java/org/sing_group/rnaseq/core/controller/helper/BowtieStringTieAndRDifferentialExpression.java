@@ -26,15 +26,16 @@ import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialE
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.edgeRDifferentialExpressionAnalysis;
 
 import java.io.File;
+import java.util.Map;
 
 import org.sing_group.rnaseq.api.controller.Bowtie2Controller;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
-import org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2.DefaultBowtie2EndToEndConfiguration;
 
 /**
  * A concrete {@code AbstractDifferentialExpressionWorkflow} implementation to
@@ -62,10 +63,12 @@ public class BowtieStringTieAndRDifferentialExpression
 	 */
 	public BowtieStringTieAndRDifferentialExpression(
 		Bowtie2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory
+		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
+		File workingDirectory
 	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
-			workingDirectory);
+			commandLineApplicationsParameters, workingDirectory);
 		this.bowtie2Controller =
 			DefaultAppController.getInstance().getBowtie2Controller();
 	}
@@ -77,14 +80,16 @@ public class BowtieStringTieAndRDifferentialExpression
 			bowtie2Controller.alignReads(
 				(Bowtie2ReferenceGenomeIndex) referenceGenome,
 				sample.getReadsFile1(), sample.getReadsFile2().get(),
-				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE.getParameter(), output,
-				true);
+				commandLineApplicationsParameters.get(WorkflowController.Parameters.BOWTIE2), output,
+				true
+			);
 		} else {
 			bowtie2Controller.alignReads(
 				(Bowtie2ReferenceGenomeIndex) referenceGenome,
 				sample.getReadsFile1(),
-				DefaultBowtie2EndToEndConfiguration.DEFAULT_VALUE.getParameter(), output,
-				true);
+				commandLineApplicationsParameters.get(WorkflowController.Parameters.BOWTIE2), output,
+				true
+			);
 		}
 	}
 

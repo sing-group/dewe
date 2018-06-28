@@ -2,7 +2,7 @@
  * #%L
  * DEWE
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,12 @@ import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialE
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 
 import java.io.File;
+import java.util.Map;
 
 import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Bowtie2ReferenceGenomeIndex;
@@ -54,6 +56,7 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 	private FastqReadsSamples samples;
 	private File referenceAnnotationFile;
 	private File workingDirectory;
+	private Map<WorkflowController.Parameters, String> commandLineApplicationsParameters;
 
 	@Port(
 		direction = Direction.INPUT,
@@ -89,12 +92,25 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 		this.referenceAnnotationFile = referenceAnnotationFile;
 	}
 
+
+	@Port(
+		direction = Direction.INPUT,
+		name = "Command line applications parameters",
+		description = "Command line applications parameters",
+		allowNull = false,
+		order = 4
+	)
+	public void setCommandLineApplicationsParameters(
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters) {
+		this.commandLineApplicationsParameters = commandLineApplicationsParameters;
+
+	}
 	@Port(
 		direction = Direction.INPUT,
 		name = "Working directory",
 		description = "Working directory",
 		allowNull = false,
-		order = 4,
+		order = 5,
 		extras = "selectionMode=directories"
 	)
 	public void setWorkingDirectory(File workingDirectory) {
@@ -108,7 +124,9 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
  			DefaultAppController.getInstance().getWorkflowController()
 				.runBowtieStringTieAndRDifferentialExpression(
 					this.referenceGenome, this.samples,
-					this.referenceAnnotationFile, this.workingDirectory,
+					this.referenceAnnotationFile,
+					this.commandLineApplicationsParameters,
+					this.workingDirectory,
 					this.status
 				);
 			processOutputs();

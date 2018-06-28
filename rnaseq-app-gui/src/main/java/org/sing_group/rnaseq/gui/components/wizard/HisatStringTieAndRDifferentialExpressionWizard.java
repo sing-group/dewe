@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,16 @@ package org.sing_group.rnaseq.gui.components.wizard;
 import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.dialog.wizard.WizardStep;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.persistence.entities.DifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
@@ -76,10 +79,10 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 	 * @param parent the parent component of the wizard dialog
 	 * @param configuration the {@code DifferentialExpressionWorkflowConfiguration}
 	 *
-	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard} 
-	 */	
+	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard}
+	 */
 	public static HisatStringTieAndRDifferentialExpressionWizard getWizard(
-		Window parent, 
+		Window parent,
 		DifferentialExpressionWorkflowConfiguration configuration
 	) {
 		return new HisatStringTieAndRDifferentialExpressionWizard(
@@ -92,7 +95,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 	 * specified parent window dialog.
 	 *
 	 * @param parent the parent window dialog
-	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard} 
+	 * @return a new {@code HisatStringTieAndRDifferentialExpressionWizard}
 	 */
 	public static HisatStringTieAndRDifferentialExpressionWizard getWizard(
 		Window parent
@@ -119,10 +122,10 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 	private void init() {
 		genomeSelectionStep =
 			(Hisat2ReferenceGenomeIndexSelectionStep) getSteps().get(1);
-		
+
 		experimentalConditionsStep = (ExperimentalConditionsStep) getSteps()
 			.get(2);
-		
+
 		samplesSelectionStep =
 			(SampleReadsSelectionStep) getSteps().get(3);
 
@@ -133,7 +136,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
 		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
-		
+
 		this.setWorkflowConfiguration();
 	}
 
@@ -141,7 +144,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 		if (this.workflowConfiguration != null) {
 			if (this.workflowConfiguration.getReferenceGenome()
 				.isValidIndex()
-			) {			
+			) {
 				this.genomeSelectionStep.setSelectedReferenceGenomeIndex(
 					(Hisat2ReferenceGenomeIndex) this.workflowConfiguration
 						.getReferenceGenome(),
@@ -190,7 +193,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
 		wizardSteps.add(new WizardSummaryStep());
-		
+
 		return wizardSteps;
 	}
 
@@ -213,5 +216,10 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 	@Override
 	public File getWorkingDirectory() {
 		return workingDirectorySelectionStep.getSelectedFile();
+	}
+
+	@Override
+	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters() {
+		return Collections.emptyMap();
 	}
 }

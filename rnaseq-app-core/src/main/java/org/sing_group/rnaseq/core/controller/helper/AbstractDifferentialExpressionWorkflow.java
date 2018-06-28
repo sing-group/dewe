@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.FileAppender;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
@@ -82,6 +84,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	protected ReferenceGenomeIndex referenceGenome;
 	protected FastqReadsSamples reads;
 	protected File referenceAnnotationFile;
+	protected Map<WorkflowController.Parameters, String> commandLineApplicationsParameters;
 	protected File workingDirectory;
 	protected ImageConfigurationParameter imageConfiguration = DEFAULT_IMAGES_CONFIGURATION;
 	private FileAppender workflowLogFileAppender;
@@ -99,10 +102,12 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
 		File workingDirectory
 	) {
-		this(referenceGenome, reads, referenceAnnotationFile, workingDirectory,
-			DEFAULT_IMAGES_CONFIGURATION);
+		this(referenceGenome, reads, referenceAnnotationFile,
+			commandLineApplicationsParameters,
+			workingDirectory, DEFAULT_IMAGES_CONFIGURATION);
 	}
 
 	/**
@@ -121,12 +126,14 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
 		File workingDirectory,
 		ImageConfigurationParameter imageConfiguration
 	) {
 		this.referenceGenome = referenceGenome;
 		this.reads = reads;
 		this.referenceAnnotationFile = referenceAnnotationFile;
+		this.commandLineApplicationsParameters = commandLineApplicationsParameters;
 		this.workingDirectory = workingDirectory;
 		this.imageConfiguration = imageConfiguration;
 	}
@@ -354,7 +361,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		File destFile = new File(workingDirectory, "workflow.dewe");
 		DefaultDifferentialExpressionWorkflowConfiguration
 			.persistWorkflowConfiguration(referenceGenome,
-				reads, referenceAnnotationFile, workingDirectory, destFile
+				reads, referenceAnnotationFile,
+				commandLineApplicationsParameters, workingDirectory, destFile
 		);
 	}
 
@@ -370,7 +378,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 	private String getWorkflowDescription() {
 		return getSummary(referenceGenome, referenceAnnotationFile,
-			workingDirectory, reads);
+			workingDirectory, reads, commandLineApplicationsParameters);
 	}
 
 	private void createWorkflowLogger() {
@@ -407,7 +415,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 */
 	public static String getSummary(ReferenceGenomeIndex referenceGenome,
 		File referenceAnnotationFile, File workingDirectory,
-		FastqReadsSamples samples
+		FastqReadsSamples samples, Map<WorkflowController.Parameters, String> commandLineApplicationsParameters
 	) {
 		StringBuilder sb = new StringBuilder();
 		sb
@@ -428,7 +436,26 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			.append(TAB)
 			.append("- Conditions: ")
 			.append(getConditions(samples).stream().collect(joining(", ")))
-			.append(NEW_LINE)
+			.append(NEW_LINE);
+		
+		if(!commandLineApplicationsParameters.isEmpty()) {
+			sb
+				.append(NEW_LINE)
+				.append("Applications parameters: ")
+				.append(NEW_LINE);
+	
+			commandLineApplicationsParameters.forEach((k, v) -> {
+				sb
+					.append(TAB)
+					.append(TAB)
+					.append(k.getName())
+					.append(": ")
+					.append(v)
+					.append(NEW_LINE);
+			}); 
+		}
+
+		sb
 			.append(NEW_LINE)
 			.append("Experiment samples: ")
 			.append(NEW_LINE);
@@ -443,7 +470,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 *
 	 * @param samples a list of {@code FastqReadsSamples}
 	 * @param forceShowReadsFile2 whether reads file 2 value must be shown even
-	 * 		  when it may be not present (single-end sample) 
+	 * 		  when it may be not present (single-end sample)
 	 *
 	 * @return a summary with the specified samples
 	 */

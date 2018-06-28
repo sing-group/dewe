@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE API
+ * DEWE GUI
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,26 +20,26 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.persistence.entities;
+package org.sing_group.rnaseq.gui.components.parameters.event;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.Map;
+import java.util.EventListener;
 
-import org.sing_group.rnaseq.api.controller.WorkflowController;
-import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
+import org.sing_group.rnaseq.gui.components.parameters.CommandLineParameter;
 
-public interface DifferentialExpressionWorkflowConfiguration
-	extends Serializable {
-	public ReferenceGenomeIndex getReferenceGenome();
+/**
+ * The listener interface for receiving events from a command line applications
+ * parameters panel.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public interface CommandLineApplicationsParametersListener extends EventListener {
 
-	public FastqReadsSamples getReads();
-
-	public File getReferenceAnnotationFile();
-
-	public File getWorkingDirectory();
-
-	public Map<String, FastqReadsSamples> getExperimentalConditionsAndSamples();
-
-	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters();
+	/**
+	 * Produced when the value of the specified parameter changes.
+	 *
+	 * @param parameter the parameter that has been changed.
+	 */
+	public void parameterValueChanged(CommandLineParameter parameter);
 }

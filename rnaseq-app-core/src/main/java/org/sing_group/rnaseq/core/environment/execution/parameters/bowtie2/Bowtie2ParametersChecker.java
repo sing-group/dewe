@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE API
+ * DEWE Core
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,26 +20,27 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.api.persistence.entities;
+package org.sing_group.rnaseq.core.environment.execution.parameters.bowtie2;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.Map;
+/**
+ * A class that validates Bowtie2 command-line parameters.
+ *
+ * @author Hugo López-Fernández
+ * @author Aitor Blanco-Míguez
+ *
+ */
+public class Bowtie2ParametersChecker {
 
-import org.sing_group.rnaseq.api.controller.WorkflowController;
-import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
-
-public interface DifferentialExpressionWorkflowConfiguration
-	extends Serializable {
-	public ReferenceGenomeIndex getReferenceGenome();
-
-	public FastqReadsSamples getReads();
-
-	public File getReferenceAnnotationFile();
-
-	public File getWorkingDirectory();
-
-	public Map<String, FastqReadsSamples> getExperimentalConditionsAndSamples();
-
-	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters();
+	/**
+	 * Validates the list of command-line parameters.
+	 *
+	 * @param params the list of command-line parameters.
+	 * @return {@code true} if the list of parameters can be used to run Bowtie2
+	 * 		   and {@code false} otherwise.
+	 */
+	public static boolean validateAlignReadsParameters(String params) {
+		return !params.contains("-x ") && !params.contains("-S ")
+			&& !params.contains("-1 ") && !params.contains("-2 ")
+			&& !params.contains("-U ");
+	}
 }
