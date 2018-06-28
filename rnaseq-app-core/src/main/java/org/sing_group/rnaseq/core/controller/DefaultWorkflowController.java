@@ -66,13 +66,16 @@ public class DefaultWorkflowController implements WorkflowController {
 		Hisat2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
 		File workingDirectory,
 		OperationStatus status
 	) throws ExecutionException, InterruptedException {
 		HisatStringTieAndRDifferentialExpression workflow =
 			new HisatStringTieAndRDifferentialExpression(
 				referenceGenome, reads,
-				referenceAnnotationFile, workingDirectory);
+				referenceAnnotationFile, 
+				commandLineApplicationsParameters,
+				workingDirectory);
 		workflow.runAnalysis(status);
 	}
 }

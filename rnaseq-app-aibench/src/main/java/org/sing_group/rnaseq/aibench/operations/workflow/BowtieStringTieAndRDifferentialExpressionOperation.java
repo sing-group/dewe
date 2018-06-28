@@ -92,7 +92,6 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 		this.referenceAnnotationFile = referenceAnnotationFile;
 	}
 
-
 	@Port(
 		direction = Direction.INPUT,
 		name = "Command line applications parameters",
@@ -103,8 +102,8 @@ public class BowtieStringTieAndRDifferentialExpressionOperation {
 	public void setCommandLineApplicationsParameters(
 		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters) {
 		this.commandLineApplicationsParameters = commandLineApplicationsParameters;
-
 	}
+
 	@Port(
 		direction = Direction.INPUT,
 		name = "Working directory",

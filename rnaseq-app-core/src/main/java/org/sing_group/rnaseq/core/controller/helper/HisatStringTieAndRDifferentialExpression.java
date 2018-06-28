@@ -26,9 +26,10 @@ import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialE
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.edgeRDifferentialExpressionAnalysis;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.Map;
 
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
+import org.sing_group.rnaseq.api.controller.WorkflowController;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -57,15 +58,19 @@ public class HisatStringTieAndRDifferentialExpression
 	 * @param referenceGenome the reference genome to use in the analysis
 	 * @param reads the {@code FastqReadsSamples} to analyze
 	 * @param referenceAnnotationFile the reference annotation file
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the working directory to store the analysis
 	 * 		  results
 	 */
 	public HisatStringTieAndRDifferentialExpression(
 		Hisat2ReferenceGenomeIndex referenceGenome, FastqReadsSamples reads,
-		File referenceAnnotationFile, File workingDirectory
+		File referenceAnnotationFile, 
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters,
+		File workingDirectory
 	) {
 		super(referenceGenome, reads, referenceAnnotationFile,
-			Collections.emptyMap(), workingDirectory);
+			commandLineApplicationsParameters, workingDirectory);
 		this.hisat2Controller =
 			DefaultAppController.getInstance().getHisat2Controller();
 	}
@@ -78,11 +83,14 @@ public class HisatStringTieAndRDifferentialExpression
 			hisat2Controller.alignReads(
 				(Hisat2ReferenceGenomeIndex) referenceGenome,
 				sample.getReadsFile1(), sample.getReadsFile2().get(), true,
+				commandLineApplicationsParameters.get(WorkflowController.Parameters.HISAT2),
 				output, true);
 		} else {
 			hisat2Controller.alignReads(
 				(Hisat2ReferenceGenomeIndex) referenceGenome,
-				sample.getReadsFile1(), true, output, true);
+				sample.getReadsFile1(), true,
+				commandLineApplicationsParameters.get(WorkflowController.Parameters.HISAT2),
+				output, true);
 		}
 	}
 

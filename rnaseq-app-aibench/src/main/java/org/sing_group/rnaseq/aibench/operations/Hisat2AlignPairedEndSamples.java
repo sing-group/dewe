@@ -22,7 +22,6 @@
  */
 package org.sing_group.rnaseq.aibench.operations;
 
-import static org.sing_group.rnaseq.aibench.operations.util.OperationsUtils.getSamOutputFile;
 import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow.REFERENCE_GENOME;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.Hisat2AlignPairedEndSamplesParamsWindow.TRANSCRIPT_ASSEMBLERS_DESCRIPTION;
@@ -31,6 +30,7 @@ import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSampl
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2;
 import static org.sing_group.rnaseq.aibench.gui.dialogs.PairedEndReadsAlignSamplesParamsWindow.READS_FILE_2_DESCRIPTION;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_FASTQ_FILES;
+import static org.sing_group.rnaseq.aibench.operations.util.OperationsUtils.getSamOutputFile;
 
 import java.io.File;
 
@@ -38,6 +38,7 @@ import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.hisat2.Hisat2ParametersChecker;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -56,6 +57,7 @@ public class Hisat2AlignPairedEndSamples {
 	private File outputFile;
 	private boolean saveAlignmentLog;
 	private boolean dta;
+	private String commandParameters;
 	private FileOperationStatus status = new FileOperationStatus();
 
 	@Port(
@@ -124,10 +126,34 @@ public class Hisat2AlignPairedEndSamples {
 
 	@Port(
 		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters.",
+		allowNull = false,
+		order = 6,
+		advanced = true,
+		defaultValue = "",
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!Hisat2ParametersChecker.validateAlignReadsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				"HISAT2 command parameters not valid. Please, make sure you "
+				+ "have indicated proper Bowtie2 parameters without "
+				+ "indicating --dta, -x, -S, -1, -2 or -U.");
+		};
+	}
+
+	@Port(
+		direction = Direction.INPUT,
 		name = "Output file",
 		description = "Output file.",
 		allowNull = true,
-		order = 6,
+		order = 7,
 		extras = "selectionMode=files",
 		advanced = false
 	)
@@ -141,8 +167,8 @@ public class Hisat2AlignPairedEndSamples {
 		try {
 			this.status.setStage(outputFile.getName());
 			DefaultAppController.getInstance().getHisat2Controller().alignReads(
-				referenceGenome, readsFile1, readsFile2, dta, outputFile,
-				saveAlignmentLog);
+				referenceGenome, readsFile1, readsFile2, dta, commandParameters,
+				outputFile, saveAlignmentLog);
 			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {
 			Workbench.getInstance().error(e, e.getMessage());

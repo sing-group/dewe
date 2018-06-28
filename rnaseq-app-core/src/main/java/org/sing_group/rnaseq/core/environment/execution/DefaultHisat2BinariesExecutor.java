@@ -23,6 +23,8 @@
 package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -83,59 +85,68 @@ public class DefaultHisat2BinariesExecutor extends
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
-		File reads1, File reads2, boolean dta, File output
+		File reads1, File reads2, boolean dta, String params, File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads1, reads2, dta, output, null);
+		return alignReads(genome, reads1, reads2, dta, params, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
-		File reads, boolean dta, File output
+		File reads, boolean dta, String params, File output
 	) throws ExecutionException, InterruptedException {
-		return alignReads(genome, reads, dta, output, null);
+		return alignReads(genome, reads, dta, params, output, null);
 	}
 
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
-		File reads1, File reads2, boolean dta, File output, File alignmentLog
+		File reads1, File reads2, boolean dta, String params, File output,
+		File alignmentLog
 	) throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.add("--threads");
+		paramsList.add(getThreads());
+		paramsList.add(dta ? "--dta" : "");
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-x");
+		paramsList.add(genome.getQuotedReferenceGenomeIndex());
+		paramsList.add("-1");
+		paramsList.add(escapeWhiteSpaces(reads1));
+		paramsList.add("-2");
+		paramsList.add(escapeWhiteSpaces(reads2));
+		paramsList.add("-S");
+		paramsList.add(escapeWhiteSpaces(output));
+		
 		return executeCommand(
 			null,
 			alignmentLog,
 			LOG,
 			this.binaries.getAlignReads(),
-			"--threads",
-			getThreads(),
-			dta ? "--dta" : "",
-			"-x",
-			genome.getQuotedReferenceGenomeIndex(),
-			"-1",
-			escapeWhiteSpaces(reads1),
-			"-2",
-			escapeWhiteSpaces(reads2),
-			"-S",
-			escapeWhiteSpaces(output)
+			toParamArray(paramsList)
 		);
 	}
 	
 	@Override
 	public ExecutionResult alignReads(Hisat2ReferenceGenomeIndex genome,
-		File reads, boolean dta, File output, File alignmentLog
+		File reads, boolean dta, String params, File output, File alignmentLog
 	) throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.add("--threads");
+		paramsList.add(getThreads());
+		paramsList.add(dta ? "--dta" : "");
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-x");
+		paramsList.add(genome.getQuotedReferenceGenomeIndex());
+		paramsList.add("-U");
+		paramsList.add(escapeWhiteSpaces(reads));
+		paramsList.add("-S");
+		paramsList.add(escapeWhiteSpaces(output));
+		
 		return executeCommand(
 			null,
 			alignmentLog,
 			LOG,
 			this.binaries.getAlignReads(),
-			"--threads",
-			getThreads(),
-			dta ? "--dta" : "",
-			"-x",
-			genome.getQuotedReferenceGenomeIndex(),
-			"-U",
-			escapeWhiteSpaces(reads),
-			"-S",
-			escapeWhiteSpaces(output)
+			toParamArray(paramsList)
 		);
 	}
 }

@@ -105,5 +105,10 @@ public abstract class AbstractDifferentialExpressionWizard extends Wizard
 	 */
 	public abstract File getWorkingDirectory();
 
+	/**
+	 * Returns the map of {@code WorkflowController.Parameters}.
+	 * 
+	 * @return the map of {@code WorkflowController.Parameters}
+	 */
 	public abstract Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters();
 }

@@ -58,6 +58,8 @@ public class BowtieStringTieAndRDifferentialExpression
 	 * @param referenceGenome the reference genome to use in the analysis
 	 * @param reads the {@code FastqReadsSamples} to analyze
 	 * @param referenceAnnotationFile the reference annotation file
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the working directory to store the analysis
 	 * 		  results
 	 */

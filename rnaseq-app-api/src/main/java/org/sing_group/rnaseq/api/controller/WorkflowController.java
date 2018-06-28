@@ -41,7 +41,7 @@ import org.sing_group.rnaseq.api.progress.OperationStatus;
 public interface WorkflowController {
 	
 	public enum Parameters { 
-		BOWTIE2("Bowtie2");
+		BOWTIE2("Bowtie2"), HISAT2("Hisat2");
 		
 		private String name;
 
@@ -62,7 +62,7 @@ public interface WorkflowController {
 	 * @param reads the {@code FastqReadsSamples} list
 	 * @param referenceAnnotationFile the path to the reference annotation file
 	 * @param commandLineApplicationsParameters a map containing additional
-	 *        command-line parameters for the underlying software.
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the path to the working directory where the
 	 *        results are stored
 	 * @param status an {@code OperationStatus} object to monitor the analysis
@@ -87,6 +87,8 @@ public interface WorkflowController {
 	 * @param referenceGenome a {@code Hisat2ReferenceGenomeIndex} index
 	 * @param reads the {@code FastqReadsSamples} list
 	 * @param referenceAnnotationFile the path to the reference annotation file
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the path to the working directory where the
 	 *        results are stored
 	 * @param status an {@code OperationStatus} object to monitor the analysis
@@ -98,6 +100,7 @@ public interface WorkflowController {
 		Hisat2ReferenceGenomeIndex referenceGenome,
 		FastqReadsSamples reads,
 		File referenceAnnotationFile,
+		Map<Parameters, String> commandLineApplicationsParameters,
 		File workingDirectory,
 		OperationStatus status
 	)

@@ -25,7 +25,6 @@ package org.sing_group.rnaseq.gui.components.wizard;
 import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +40,7 @@ import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex
 import org.sing_group.rnaseq.gui.components.wizard.steps.DefaultHisatStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ExperimentalConditionsStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.Hisat2ReferenceGenomeIndexSelectionStep;
+import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionCommandLineParametersStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardPresentationStep;
 import org.sing_group.rnaseq.gui.components.wizard.steps.HisatStringTieAndRDifferentialExpressionWizardStepProvider;
 import org.sing_group.rnaseq.gui.components.wizard.steps.ReferenceAnnotationFileSelectionStep;
@@ -68,6 +68,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 	private SampleReadsSelectionStep samplesSelectionStep;
 	private ReferenceAnnotationFileSelectionStep referenceAnnotationFileSelectionStep;
 	private WorkingDirectorySelectionStep workingDirectorySelectionStep;
+	private HisatStringTieAndRDifferentialExpressionCommandLineParametersStep commandLineApplicationsParametersStep;
 
 	private DifferentialExpressionWorkflowConfiguration workflowConfiguration;
 
@@ -135,7 +136,10 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 		workingDirectorySelectionStep =
 			(WorkingDirectorySelectionStep) getSteps().get(5);
 
-		((WizardSummaryStep) getSteps().get(6)).setWizardSummaryProvider(this);
+		commandLineApplicationsParametersStep =
+			(HisatStringTieAndRDifferentialExpressionCommandLineParametersStep) getSteps().get(6);
+
+		((WizardSummaryStep) getSteps().get(7)).setWizardSummaryProvider(this);
 
 		this.setWorkflowConfiguration();
 	}
@@ -166,6 +170,9 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 
 			this.workingDirectorySelectionStep.setSelectedFile(
 				this.workflowConfiguration.getWorkingDirectory());
+
+			this.commandLineApplicationsParametersStep.setParametersMap(
+				this.workflowConfiguration.getCommandLineApplicationsParameters());
 		}
 	}
 
@@ -192,6 +199,7 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 			new SampleReadsSelectionStep(experimentalConditionsStep, 2, 4));
 		wizardSteps.add(new ReferenceAnnotationFileSelectionStep());
 		wizardSteps.add(new WorkingDirectorySelectionStep());
+		wizardSteps.add(new HisatStringTieAndRDifferentialExpressionCommandLineParametersStep());
 		wizardSteps.add(new WizardSummaryStep());
 
 		return wizardSteps;
@@ -220,6 +228,6 @@ public class HisatStringTieAndRDifferentialExpressionWizard
 
 	@Override
 	public Map<WorkflowController.Parameters, String> getCommandLineApplicationsParameters() {
-		return Collections.emptyMap();
+		return this.commandLineApplicationsParametersStep.getParametersMap();
 	}
 }

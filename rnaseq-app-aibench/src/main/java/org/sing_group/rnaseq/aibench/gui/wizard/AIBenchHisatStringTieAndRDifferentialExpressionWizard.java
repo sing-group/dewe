@@ -182,7 +182,11 @@ public class AIBenchHisatStringTieAndRDifferentialExpressionWizard
 		Workbench.getInstance().executeOperation(
 				DIFFERENTIAL_EXPRESSION, null,
 				Arrays.asList(getReferenceGenome(), getSamples(),
-						getReferenceAnnotationFile(), getWorkingDirectory()));
+						getReferenceAnnotationFile(),
+						getCommandLineApplicationsParameters(),
+						getWorkingDirectory()
+				)
+			);
 	}
 
 	@Override

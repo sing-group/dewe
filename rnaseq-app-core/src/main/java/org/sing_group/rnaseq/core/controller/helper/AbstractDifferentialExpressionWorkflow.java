@@ -96,6 +96,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 * @param referenceGenome the {@code ReferenceGenomeIndex}
 	 * @param reads the {@code FastqReadsSamples}
 	 * @param referenceAnnotationFile the reference annotation file
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the working directory
 	 */
 	public AbstractDifferentialExpressionWorkflow(
@@ -118,6 +120,8 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 * @param referenceGenome the {@code ReferenceGenomeIndex}
 	 * @param reads the {@code FastqReadsSamples}
 	 * @param referenceAnnotationFile the reference annotation file
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 * @param workingDirectory the working directory
 	 * @param imageConfiguration the {@code ImageConfigurationParameter} for
 	 * 		  generating the figures

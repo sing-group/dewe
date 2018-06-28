@@ -67,13 +67,14 @@ public interface Hisat2Controller {
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
-		File reads2, boolean dta, File output)
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads1, File reads2, boolean dta, String params, File output)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -83,13 +84,14 @@ public interface Hisat2Controller {
 	 * @param genome the {@code Hisat2ReferenceGenome} 
 	 * @param reads the single-end reads file
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
-		boolean dta, File output)
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads, boolean dta, String params, File output)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -103,15 +105,17 @@ public interface Hisat2Controller {
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @param saveAlignmentLog whether the alignment log must be stored or not.
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
-		File reads2, boolean dta, File output, boolean saveAlignmentLog)
-			throws ExecutionException, InterruptedException;
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads1, File reads2, boolean dta, String params, File output,
+		boolean saveAlignmentLog)
+		throws ExecutionException, InterruptedException;
 
 	/**
 	 * Aligns single-end reads in file {@code reads} using the
@@ -123,15 +127,17 @@ public interface Hisat2Controller {
 	 * @param genome the {@code Hisat2ReferenceGenome}
 	 * @param reads the single-end reads file
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @param saveAlignmentLog whether the alignment log must be stored or not.
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
-			boolean dta, File output, boolean saveAlignmentLog)
-			throws ExecutionException, InterruptedException;
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads, boolean dta, String params, File output,
+		boolean saveAlignmentLog)
+		throws ExecutionException, InterruptedException;
 
 	/**
 	 * Aligns paired-end reads in files {@code reads1} and {@code reads2} using the
@@ -143,15 +149,16 @@ public interface Hisat2Controller {
 	 * @param reads1 the first pair of reads
 	 * @param reads2 the second pair of reads
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @param alignmentLog the file to store the  {@code stderr} output
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads1,
-		File reads2, boolean dta, File output, File alignmentLog)
-			throws ExecutionException, InterruptedException;
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads1, File reads2, boolean dta, String params, File output,
+		File alignmentLog) throws ExecutionException, InterruptedException;
 
 	/**
 	 * Aligns single-end reads in files {@code reads} using the
@@ -162,13 +169,14 @@ public interface Hisat2Controller {
 	 * @param genome the {@code Hisat2ReferenceGenome} 
 	 * @param reads the single-end reads file
 	 * @param dta reports alignments tailored for transcript assemblers
+	 * @param params the list of command-line parameters
 	 * @param output the file to store the result of the alignment
 	 * @param alignmentLog the file to store the  {@code stderr} output
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system 
 	 *         binary
 	 */
-	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome, File reads,
-		boolean dta, File output, File alignmentLog)
-			throws ExecutionException, InterruptedException;
+	public abstract void alignReads(Hisat2ReferenceGenomeIndex genome,
+		File reads, boolean dta, String params, File output, File alignmentLog)
+		throws ExecutionException, InterruptedException;
 }
