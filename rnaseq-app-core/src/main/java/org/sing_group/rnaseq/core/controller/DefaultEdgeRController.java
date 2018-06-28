@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,8 @@ import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageC
 public class DefaultEdgeRController implements EdgeRController {
 	public static final String GENE_MAPPING_FILE = "GeneID_to_GeneName.txt";
 	public static final String READS_COUNT_FILE = "gene_read_counts_table_all.tsv";
-	public static final String OUTPUT_FILE_DE_GENES = "DE_genes.txt";
+	public static final String OUTPUT_FILE_DE_GENES = "DE_genes.tsv";
+	public static final String OUTPUT_FILE_DE_SIGNIFICANT_GENES = "DE_significant_genes.tsv";
 
 	private static final Collector<CharSequence, ?, String> JOINING =
 		Collectors.joining(" ");
@@ -119,18 +120,16 @@ public class DefaultEdgeRController implements EdgeRController {
 			DefaultAppController.getInstance().getHtseqController()
 				.countBamReverseExon(referenceAnnotationFile, getBamFiles(samples),
 					htseqDir, tmpGeneReadsFile);
-			
+
 			modifyReadsCountFile(tmpGeneReadsFile, samples, workingDir);
-			
+
 			geneIdToGeneNameMappings(referenceAnnotationFile, geneMappingFile);
-			
+
 			differentialExpression(workingDir);
 		} catch (IOException e) {
 			throw new ExecutionException(1,
 					"Error creating temporal HTSeq reads count file. Please, check error log.", "");
 		}
-
-		
 	}
 
 	public static void geneIdToGeneNameMappings(final File referenceAnnotationFile,
@@ -157,13 +156,14 @@ public class DefaultEdgeRController implements EdgeRController {
 		}
 		return bamFiles;
 	}
-	
-	private void modifyReadsCountFile(final File tmpGeneReadsFile, final EdgeRSamples samples, 
-	                                  final  File workingDir) throws ExecutionException{
+
+	private void modifyReadsCountFile(final File tmpGeneReadsFile,
+		final EdgeRSamples samples, final File workingDir)
+		throws ExecutionException {
 		try {
 			File geneReadsFile = new File(workingDir, READS_COUNT_FILE);
-			final List<String> rows = Files.readAllLines(Paths.get(tmpGeneReadsFile.getAbsolutePath()), 
-													     Charset.defaultCharset());	
+			final List<String> rows = Files.readAllLines(Paths.get(tmpGeneReadsFile.getAbsolutePath()),
+													     Charset.defaultCharset());
 			try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(geneReadsFile.getAbsolutePath())))) {
 				pw.println(getSamplesRow(samples));
 				rows.forEach(r -> pw.println(r));

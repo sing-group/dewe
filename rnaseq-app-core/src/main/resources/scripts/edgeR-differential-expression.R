@@ -90,10 +90,10 @@ o_sig <- order(as.numeric(mat_sig[,4]),decreasing=TRUE)
 mat_sig_order <- mat_sig[o_sig,]
 
 ## Save table of all genes
-write.table(mat_order, file="DE_genes.txt", quote=FALSE, row.names=FALSE, sep="\t")
+write.table(mat_order, file="DE_genes.tsv", quote=FALSE, row.names=FALSE, sep="\t")
 
 ## Save table of significant genes
-write.table(mat_sig_order, file="DE_significant_genes.csv", quote=FALSE, row.names=FALSE, sep="\t")
+write.table(mat_sig_order, file="DE_significant_genes.tsv", quote=FALSE, row.names=FALSE, sep="\t")
 
 ## Create figures
 image.format 	<- args[2]

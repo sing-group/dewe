@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ package org.sing_group.rnaseq.core.controller;
 
 import static java.util.Arrays.asList;
 import static org.sing_group.rnaseq.core.controller.DefaultEdgeRController.OUTPUT_FILE_DE_GENES;
+import static org.sing_group.rnaseq.core.controller.DefaultEdgeRController.OUTPUT_FILE_DE_SIGNIFICANT_GENES;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,14 +50,14 @@ public class DefaultEdgeRWorkingDirectoryController
 	private static final Logger LOGGER = LoggerFactory.getLogger(
 		DefaultEdgeRWorkingDirectoryController.class);
 	private static final List<String> VIEWABLE_WORKING_DIR_FILES = asList(
-		OUTPUT_FILE_DE_GENES);
+		OUTPUT_FILE_DE_GENES, OUTPUT_FILE_DE_SIGNIFICANT_GENES);
 
 	private File workingDirectory;
 
 	/**
 	 * Creates a new {@code DefaultEdgeRWorkingDirectoryController} for the
 	 * specified directory.
-	 * 
+	 *
 	 * @param workingDirectory the working directory to be controlled
 	 */
 	public DefaultEdgeRWorkingDirectoryController(File workingDirectory) {
@@ -66,6 +67,11 @@ public class DefaultEdgeRWorkingDirectoryController
 	@Override
 	public Optional<EdgeRGenes> getGenes() {
 		return loadGenes(getWorkingDirFile(OUTPUT_FILE_DE_GENES));
+	}
+
+	@Override
+	public Optional<EdgeRGenes> getSignificantGenes() {
+		return loadGenes(getWorkingDirFile(OUTPUT_FILE_DE_SIGNIFICANT_GENES));
 	}
 
 	private Optional<EdgeRGenes> loadGenes(File genesFile) {

@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ public class EdgeRResultsViewer extends JPanel {
 	private EdgeRWorkingDirectoryController workingDirectoryController;
 	private JTabbedPane tablesTabbedPane;
 	private EdgeRGenesTable genesTable;
+	private EdgeRGenesTable significantGenesTable;
 
 	/**
 	 * Creates a new {@code EdgeRResultsViewer} for viewing tables in the
@@ -79,6 +80,7 @@ public class EdgeRResultsViewer extends JPanel {
 		if(tablesTabbedPane == null) {
 			tablesTabbedPane = new JTabbedPane();
 			tablesTabbedPane.add("DE Genes", new JScrollPane(getGenesTable()));
+			tablesTabbedPane.add("DE Genes (p < 0.05)", new JScrollPane(getSignificantGenesTable()));
 		}
 		return tablesTabbedPane;
 	}
@@ -93,6 +95,18 @@ public class EdgeRResultsViewer extends JPanel {
 	private EdgeRGenes getGenes() {
 		return workingDirectoryController.getGenes()
 					.orElse(new DefaultEdgeRGenes());
+	}
+
+	private JComponent getSignificantGenesTable() {
+		if (significantGenesTable == null) {
+			significantGenesTable = new EdgeRGenesTable(getSignificantGenes());
+		}
+		return significantGenesTable;
+	}
+
+	private EdgeRGenes getSignificantGenes() {
+		return workingDirectoryController.getSignificantGenes()
+			.orElse(new DefaultEdgeRGenes());
 	}
 
 	private void checkMissingWorkingDirectoryFiles() {

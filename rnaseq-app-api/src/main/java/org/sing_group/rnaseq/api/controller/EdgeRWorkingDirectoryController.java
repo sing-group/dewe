@@ -2,7 +2,7 @@
  * #%L
  * DEWE API
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,15 @@ public interface EdgeRWorkingDirectoryController {
 	 * @return the {@code EdgeRGenes} list wrapped in an {@code Optional}
 	 */
 	public abstract Optional<EdgeRGenes> getGenes();
+
+	/**
+	 * If the genes table is present, then it returns the significant
+	 * {@code EdgeRGenes} list. Otherwise it returns an empty {@code Optional}.
+	 *
+	 * @return the significant {@code EdgeRGenes} list wrapped in an
+	 *         {@code Optional}
+	 */
+	public abstract Optional<EdgeRGenes> getSignificantGenes();
 
 	/**
 	 * Returns a list containing the names of the working directory files that
