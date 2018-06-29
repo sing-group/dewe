@@ -148,17 +148,22 @@ public class AIBenchBowtieStringTieAndRDifferentialExpressionWizard
 		Optional<File> configurationFile = getFile(parent, DEWE_EXTENSION);
 		if (configurationFile.isPresent()) {
 			try {
-				DifferentialExpressionWorkflowConfiguration config = DefaultDifferentialExpressionWorkflowConfiguration
-					.loadWorkflowConfiguration(configurationFile.get());
+				DifferentialExpressionWorkflowConfiguration config = 
+					DefaultDifferentialExpressionWorkflowConfiguration
+						.loadWorkflowConfiguration(configurationFile.get());
 
-			if (config.getReferenceGenome().getType()
-				.equals(Bowtie2ReferenceGenomeIndex.TYPE)) {
-				AIBenchBowtieStringTieAndRDifferentialExpressionWizard
-					.getWizard(Workbench.getInstance().getMainFrame(), config)
-					.setVisible(true);
-				return;
+				if (config.getReferenceGenome().getType()
+					.equals(Bowtie2ReferenceGenomeIndex.TYPE)) {
+					AIBenchBowtieStringTieAndRDifferentialExpressionWizard
+						.getWizard(Workbench.getInstance().getMainFrame(), config)
+						.setVisible(true);
+					return;
+				}
+			} catch (RuntimeException ex) {
+				JOptionPane.showMessageDialog(parent,
+					"Error executing the workflow. Please, check error log.",
+					"Workflow executione error", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch(RuntimeException ex) { }
 
 		JOptionPane.showMessageDialog(parent,
 			"The selected file does not contain the required information for this workflow.",

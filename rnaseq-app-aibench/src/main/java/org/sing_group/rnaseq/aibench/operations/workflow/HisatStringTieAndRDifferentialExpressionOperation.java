@@ -22,6 +22,7 @@
  */
 package org.sing_group.rnaseq.aibench.operations.workflow;
 
+import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.core.controller.helper.AbstractDifferentialExpressionWorkflow.getBallgownWorkingDir;
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.getEdgeRWorkingDir;
 
@@ -37,13 +38,13 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
-import org.slf4j.LoggerFactory;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.core.operation.annotation.Progress;
+import es.uvigo.ei.aibench.workbench.Workbench;
 
 @Operation(
 	name = "HISAT2, StringTie and R (ballgown/edgeR) differential expression",
@@ -128,8 +129,9 @@ public class HisatStringTieAndRDifferentialExpressionOperation {
 					this.workingDirectory,
 					this.status);
 			processOutputs();
+			invokeLater(this::succeed);
 		} catch (ExecutionException | InterruptedException e) {
-			LoggerFactory.getLogger(getClass()).error(e.getMessage());
+			Workbench.getInstance().error(e, e.getMessage());
 		}
 	}
 
@@ -147,6 +149,10 @@ public class HisatStringTieAndRDifferentialExpressionOperation {
 			);
 		Core.getInstance().getClipboard()
 			.putItem(edgeRDirectory, edgeRDirectory.getName());
+	}
+
+	private void succeed() {
+		Workbench.getInstance().info("Workflow successfully executed.");
 	}
 
 	@Progress(
