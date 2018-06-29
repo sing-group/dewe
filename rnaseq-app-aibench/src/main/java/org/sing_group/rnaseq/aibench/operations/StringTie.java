@@ -22,16 +22,18 @@
  */
 package org.sing_group.rnaseq.aibench.operations;
 
+import static javax.swing.SwingUtilities.invokeLater;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_BAM_FILES;
 import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GTF_FILES;
-
-import static javax.swing.SwingUtilities.invokeLater;
 
 import java.io.File;
 
 import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieBallgownParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieLimitToTranscriptsParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieParametersChecker;
 import org.sing_group.rnaseq.core.util.FileUtils;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -49,6 +51,7 @@ public class StringTie {
 	private File referenceAnnotationFile;
 	private File inputBam;
 	private File outputTranscripts;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -75,13 +78,36 @@ public class StringTie {
 	}
 
 	@Port(
+		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. "
+			+ StringTieParametersChecker.OBTAIN_TRANSCRIPTS_PARAMS,
+		allowNull = false,
+		order = 3,
+		advanced = true,
+		defaultValue = StringTieBallgownParameter.DEFAULT_VALUE + " " + StringTieLimitToTranscriptsParameter.DEFAULT_VALUE,
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!StringTieParametersChecker.validateObtainTranscriptsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				StringTieParametersChecker.OBTAIN_TRANSCRIPTS_ERROR);
+		};
+	}
+
+	@Port(
 		direction = Direction.INPUT, 
 		name = "Output transcripts file",
 		description = "Optionally, an output transcripts file (.gtf)." + 
 			"If not provided, it will be created in the same directory than "
 			+ "the input bam file",
 		allowNull = true,
-		order = 3,
+		order = 4,
 		extras="selectionMode=files"
 	)
 	public void setOutputTranscripts(File outputTranscripts) {
@@ -101,7 +127,7 @@ public class StringTie {
 			this.status.setStage(inputBam.getName());
 			DefaultAppController.getInstance().getStringTieController()
 				.obtainTranscripts(referenceAnnotationFile, inputBam,
-					outputTranscripts);
+					outputTranscripts, commandParameters);
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());

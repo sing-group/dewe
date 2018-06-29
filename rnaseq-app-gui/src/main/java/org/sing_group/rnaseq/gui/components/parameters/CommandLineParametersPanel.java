@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -41,7 +41,7 @@ import org.sing_group.rnaseq.gui.util.UISettings;
 
 /**
  * A panel to allow users introducing command-line parameters.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  * @see CommandLineParameter
@@ -54,9 +54,9 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 	private InputParametersPanel parametersPanel;
 
 	/**
-	 * Creates a new {@code CommandLineParametersPanel} for the specified 
+	 * Creates a new {@code CommandLineParametersPanel} for the specified
 	 * parameters.
-	 * 
+	 *
 	 * @param parameters a list of {@code CommandLineParameter}
 	 */
 	public CommandLineParametersPanel(List<CommandLineParameter> parameters) {
@@ -84,7 +84,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 	}
 
 	private InputParameter getInputParameter(CommandLineParameter param) {
-		JTextField tf = new JTextField(param.getValue(), 20);
+		JTextField tf = new JTextField(param.getValue(), 15);
 		tf.getDocument().addDocumentListener(new DocumentAdapter() {
 
 			@Override
@@ -111,7 +111,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 	}
 
 	private void notifyParameterChanged(CommandLineParameter param) {
-		for(CommandLineApplicationsParametersListener l : 
+		for(CommandLineApplicationsParametersListener l :
 			getListeners(CommandLineApplicationsParametersListener.class)
 		) {
 			l.parameterValueChanged(param);
@@ -121,7 +121,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 	/**
 	 * Returns {@code true} if all parameters are valid and {@code false}
 	 * otherwise.
-	 * 
+	 *
 	 * @return {@code true} if all parameters are valid and {@code false}
 	 * 		   otherwise.
 	 */
@@ -137,7 +137,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 
 	/**
 	 * Returns the value of the specified {@code CommandLineParameter}.
-	 *   
+	 *
 	 * @param parameter a {@code CommandLineParameter} that should have been
 	 *        used to construct the panel
 	 * @return the value of the specified parameter
@@ -149,7 +149,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 
 	/**
 	 * Sets the value for the specified parameter.
-	 * 
+	 *
 	 * @param parameter a {@code CommandLineParameter} that should have been
 	 *        used to construct the panel.
 	 * @param value the new parameter value
@@ -166,7 +166,7 @@ public class CommandLineParametersPanel extends CenteredJPanel {
 	/**
 	 * Adds the specified {@code CommandLineApplicationsParametersListener} for
 	 * receiving events from this component.
-	 * 
+	 *
 	 * @param l a {@code CommandLineApplicationsParametersListener}.
 	 */
 	public void addCommandLineParametersPanelListener(

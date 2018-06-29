@@ -38,6 +38,7 @@ import org.apache.log4j.FileAppender;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
 import org.sing_group.rnaseq.api.controller.WorkflowController;
+import org.sing_group.rnaseq.api.controller.WorkflowController.Parameters;
 import org.sing_group.rnaseq.api.entities.FastqReadsSample;
 import org.sing_group.rnaseq.api.entities.FastqReadsSamples;
 import org.sing_group.rnaseq.api.entities.alignment.AlignmentStatistics;
@@ -269,7 +270,11 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 
-			stringTieController.obtainLabeledTranscripts(referenceAnnotationFile, bam, outputTranscriptsfile, sample.getName());
+			stringTieController.obtainLabeledTranscripts(
+				referenceAnnotationFile, bam, outputTranscriptsfile,
+				sample.getName(),
+				commandLineApplicationsParameters.get(Parameters.STRINGTIE_OBTAIN_LABELED)
+			);
 			outputTranscriptsFiles.add(outputTranscriptsfile);
 
 			status.setStageProgress(status.getStageProgress() + stagePRogress);
@@ -278,7 +283,9 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 		status.setSubStage("Merge samples transcripts");
 		File mergedAnnotationFile = getMergedTranscriptsFile(workingDirectory);
 		stringTieController.mergeTranscripts(referenceAnnotationFile,
-			outputTranscriptsFiles, mergedAnnotationFile);
+			outputTranscriptsFiles, mergedAnnotationFile,
+			commandLineApplicationsParameters.get(Parameters.STRINGTIE_MERGE)
+		);
 		status.setStageProgress(status.getStageProgress() + stagePRogress);
 
 		for (FastqReadsSample sample : reads) {
@@ -287,7 +294,9 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			File bam = getBamFile(sample, workingDirectory);
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
-				outputTranscriptsfile);
+				outputTranscriptsfile,
+				commandLineApplicationsParameters.get(Parameters.STRINGTIE_OBTAIN)
+			);
 
 			status.setStageProgress(status.getStageProgress() + stagePRogress);
 		}

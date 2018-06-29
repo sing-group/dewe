@@ -54,11 +54,11 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void obtainLabeledTranscripts(File referenceAnnotationFile,
-		File inputBam, File outputTranscripts, String label)
+		File inputBam, File outputTranscripts, String label, String params)
 		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainLabeledTranscripts(
-				referenceAnnotationFile, inputBam, outputTranscripts, label);
+				referenceAnnotationFile, inputBam, outputTranscripts, label, params);
 
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),
@@ -68,11 +68,11 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void obtainTranscripts(File referenceAnnotationFile, File inputBam,
-		File outputTranscripts)
+		File outputTranscripts, String params)
 		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.obtainTranscripts(
-				referenceAnnotationFile, inputBam, outputTranscripts);
+				referenceAnnotationFile, inputBam, outputTranscripts, params);
 
 		fixStringTieTData(inputBam);
 
@@ -97,11 +97,11 @@ public class DefaultStringTieController implements StringTieController {
 
 	@Override
 	public void mergeTranscripts(File referenceAnnotationFile,
-		List<File> inputAnnotationFiles, File mergedAnnotationFile)
+		List<File> inputAnnotationFiles, File mergedAnnotationFile, String params)
 		throws ExecutionException, InterruptedException {
 		final ExecutionResult result =
 			this.stringTieBinariesExecutor.mergeTranscripts(
-				referenceAnnotationFile, inputAnnotationFiles, mergedAnnotationFile);
+				referenceAnnotationFile, inputAnnotationFiles, mergedAnnotationFile, params);
 
 		if (result.getExitStatus() != 0) {
 			throw new ExecutionException(result.getExitStatus(),

@@ -28,6 +28,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieParametersChecker;
 import org.sing_group.rnaseq.core.util.FileUtils;
 
 import es.uvigo.ei.aibench.core.Core;
@@ -43,6 +44,7 @@ public class StringTieLabeledBatch {
 	private File referenceAnnotationFile;
 	private File[] inputBamFiles;
 	private String label;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -69,13 +71,36 @@ public class StringTieLabeledBatch {
 	}
 
 	@Port(
+		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. "
+			+ StringTieParametersChecker.OBTAIN_LABELED_TRANSCRIPTS_PARAMS,
+		allowNull = false,
+		order = 3,
+		advanced = true,
+		defaultValue = "",
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!StringTieParametersChecker.validateObtainLabeledTranscriptsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				StringTieParametersChecker.OBTAIN_LABELED_TRANSCRIPTS_ERROR);
+		};
+	}
+
+	@Port(
 		direction = Direction.INPUT, 
 		name = "Label",
 		description = "Optionally, the label for the -l option of StringTie. "
 			+ "This label is the name prefix for output transcripts. "
 			+ "If not provided, it will be used the file name.",
 		allowNull = true,
-		order = 3
+		order = 4
 	)
 	public void setLabel(String label) {
 		this.label = label;
@@ -93,7 +118,7 @@ public class StringTieLabeledBatch {
 	}
 
 	private List<?> stringTieLabeledParams(File f) {
-		return Arrays.asList(this.referenceAnnotationFile, f, null, getLabel(f));
+		return Arrays.asList(this.referenceAnnotationFile, f, null, this.commandParameters, getLabel(f));
 	}
 
 	private String getLabel(File f) {

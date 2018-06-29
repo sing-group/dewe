@@ -31,6 +31,7 @@ import java.io.File;
 import org.sing_group.rnaseq.aibench.gui.util.FileOperationStatus;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieParametersChecker;
 import org.sing_group.rnaseq.core.util.FileUtils;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -49,6 +50,7 @@ public class StringTieLabeled {
 	private File inputBam;
 	private File outputTranscripts;
 	private String label;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -93,13 +95,36 @@ public class StringTieLabeled {
 	}
 
 	@Port(
+		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. "
+			+ StringTieParametersChecker.OBTAIN_LABELED_TRANSCRIPTS_PARAMS,
+		allowNull = false,
+		order = 4,
+		advanced = true,
+		defaultValue = "",
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!StringTieParametersChecker.validateObtainLabeledTranscriptsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				StringTieParametersChecker.OBTAIN_LABELED_TRANSCRIPTS_ERROR);
+		};
+	}
+
+	@Port(
 		direction = Direction.INPUT, 
 		name = "Label",
 		description = "Optionally, the label for the -l option of StringTie. "
 			+ "This label is the name prefix for output transcripts. "
 			+ "If not provided, it will be used the file name.",
 		allowNull = true,
-		order = 4
+		order = 5
 	)
 	public void setLabel(String label) {
 		this.label = label != null ? label : 
@@ -117,7 +142,7 @@ public class StringTieLabeled {
 			this.status.setStage(inputBam.getName());
 			DefaultAppController.getInstance().getStringTieController()
 				.obtainLabeledTranscripts(referenceAnnotationFile, inputBam,
-					outputTranscripts, label);
+					outputTranscripts, label, commandParameters);
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());

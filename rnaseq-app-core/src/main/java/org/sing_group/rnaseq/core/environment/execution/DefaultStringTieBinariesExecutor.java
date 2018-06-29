@@ -2,19 +2,19 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -25,6 +25,7 @@ package org.sing_group.rnaseq.core.environment.execution;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The default {@code StringTieBinaries} implementation.
- * 
+ *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
@@ -46,12 +47,12 @@ import org.slf4j.LoggerFactory;
 public class DefaultStringTieBinariesExecutor
 	extends AbstractBinariesExecutor<StringTieBinaries>
 	implements StringTieBinariesExecutor {
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultStringTieBinariesExecutor.class);  
-	
+	private final static Logger LOG = LoggerFactory.getLogger(DefaultStringTieBinariesExecutor.class);
+
 	/**
 	 * Creates a new {@code DefaultStringTieBinariesExecutor} instance to execute
 	 * the specified {@code StringTieBinaries}.
-	 * 
+	 *
 	 * @param binaries the {@code StringTieBinaries} to execute
 	 * @throws BinaryCheckException if any of the commands can't be executed
 	 */
@@ -74,44 +75,56 @@ public class DefaultStringTieBinariesExecutor
 
 	@Override
 	public ExecutionResult obtainLabeledTranscripts(File referenceAnnotationFile,
-			File inputBam, File outputTranscripts, String label)
+			File inputBam, File outputTranscripts, String label, String params)
 			throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-p");
+		paramsList.add(getThreads());
+		paramsList.add("-G");
+		paramsList.add(referenceAnnotationFile.getAbsolutePath());
+		paramsList.add("-l");
+		paramsList.add(label);
+		paramsList.add("-o");
+		paramsList.add(outputTranscripts.getAbsolutePath());
+		paramsList.add(inputBam.getAbsolutePath());
+
 		return executeCommand(
 			LOG,
 			this.binaries.getStringTie(),
-			"-p",
-			getThreads(),
-			"-G", 	referenceAnnotationFile.getAbsolutePath(),
-			"-l",	label,
-			"-o", 	outputTranscripts.getAbsolutePath(),
-			inputBam.getAbsolutePath()
+			toParamArray(paramsList)
 		);
 	}
 
 	@Override
 	public ExecutionResult obtainTranscripts(File referenceAnnotationFile,
-			File inputBam, File outputTranscripts)
-			throws ExecutionException, InterruptedException {
+		File inputBam, File outputTranscripts, String params)
+		throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.addAll(splitParams(params));
+		paramsList.add("-p");
+		paramsList.add(getThreads());
+		paramsList.add("-G");
+		paramsList.add(referenceAnnotationFile.getAbsolutePath());
+		paramsList.add("-o");
+		paramsList.add(outputTranscripts.getAbsolutePath());
+		paramsList.add(inputBam.getAbsolutePath());
+
 		return executeCommand(
 			LOG,
 			this.binaries.getStringTie(),
-			"-p",
-			getThreads(),
-			"-G", 	referenceAnnotationFile.getAbsolutePath(),
-			"-e",
-			"-B",
-			"-o", 	outputTranscripts.getAbsolutePath(),
-			inputBam.getAbsolutePath()
+			toParamArray(paramsList)
 		);
 	}
-	
+
 	@Override
 	public ExecutionResult mergeTranscripts(File referenceAnnotationFile,
-		List<File> inputAnnotationFiles, File mergedAnnotationFile)
-		throws ExecutionException, InterruptedException {
+		List<File> inputAnnotationFiles, File mergedAnnotationFile,
+		String params) throws ExecutionException, InterruptedException {
 		try {
-			return mergeTranscripts(referenceAnnotationFile, 
-				getMergedTxtFile(inputAnnotationFiles), mergedAnnotationFile);
+			return mergeTranscripts(referenceAnnotationFile,
+				getMergedTxtFile(inputAnnotationFiles),
+				mergedAnnotationFile, params);
 		} catch (IOException e) {
 			throw new ExecutionException(-1, e.getMessage());
 		}
@@ -140,17 +153,23 @@ public class DefaultStringTieBinariesExecutor
 
 	@Override
 	public ExecutionResult mergeTranscripts(File referenceAnnotationFile,
-			File mergeList, File mergedAnnotationFile)
-			throws ExecutionException, InterruptedException {
+		File mergeList, File mergedAnnotationFile, String params)
+		throws ExecutionException, InterruptedException {
+		List<String> paramsList = new LinkedList<>();
+		paramsList.addAll(splitParams(params));
+		paramsList.add("--merge");
+		paramsList.add("-p");
+		paramsList.add(getThreads());
+		paramsList.add("-G");
+		paramsList.add(referenceAnnotationFile.getAbsolutePath());
+		paramsList.add("-o");
+		paramsList.add(mergedAnnotationFile.getAbsolutePath());
+		paramsList.add(mergeList.getAbsolutePath());
+
 		return executeCommand(
 			LOG,
 			this.binaries.getStringTie(),
-			"--merge", 
-			"-p",
-			getThreads(),
-			"-G", 	referenceAnnotationFile.getAbsolutePath(),
-			"-o", 	mergedAnnotationFile.getAbsolutePath(),
-			mergeList.getAbsolutePath()
+			toParamArray(paramsList)
 		);
 	}
 }

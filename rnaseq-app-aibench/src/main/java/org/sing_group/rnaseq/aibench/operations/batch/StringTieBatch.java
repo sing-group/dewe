@@ -28,6 +28,10 @@ import static org.sing_group.rnaseq.aibench.gui.util.PortConfiguration.EXTRAS_GT
 import java.io.File;
 import java.util.Arrays;
 
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieBallgownParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieLimitToTranscriptsParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieParametersChecker;
+
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -40,6 +44,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 public class StringTieBatch {
 	private File referenceAnnotationFile;
 	private File[] inputBamFiles;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -52,13 +57,36 @@ public class StringTieBatch {
 	public void setReferenceAnnotationFile(File referenceAnnotationFile) {
 		this.referenceAnnotationFile = referenceAnnotationFile;
 	}
-	
+
+	@Port(
+		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. "
+			+ StringTieParametersChecker.OBTAIN_TRANSCRIPTS_PARAMS,
+		allowNull = false,
+		order = 2,
+		advanced = true,
+		defaultValue = StringTieBallgownParameter.DEFAULT_VALUE + " " + StringTieLimitToTranscriptsParameter.DEFAULT_VALUE,
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!StringTieParametersChecker.validateObtainTranscriptsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				StringTieParametersChecker.OBTAIN_TRANSCRIPTS_ERROR);
+		};
+	}
+
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Input bam files",
 		description = "The input bam files.",
 		allowNull = false,
-		order = 2,
+		order = 3,
 		extras = EXTRAS_BAM_FILES
 	)
 	public void setInputBamFile(File[] inputBamFiles) {
@@ -71,7 +99,7 @@ public class StringTieBatch {
 		for(final File f : inputBamFiles) {
 			Core.getInstance().executeOperation(
 				"operations.stringtie", null, 
-				Arrays.asList(new Object[]{this.referenceAnnotationFile, f, null})
+				Arrays.asList(new Object[]{this.referenceAnnotationFile, f, this.commandParameters, null})
 			);
 		}
 	}

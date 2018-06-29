@@ -30,6 +30,7 @@ import java.util.Arrays;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieParametersChecker;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
@@ -44,6 +45,7 @@ public class StringTieMerge {
 	private File referenceAnnotationFile;
 	private File[] inputAnnotationFiles;
 	private File outputTranscripts;
+	private String commandParameters;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -70,13 +72,36 @@ public class StringTieMerge {
 	}
 
 	@Port(
+		direction = Direction.INPUT,
+		name = "Command parameters",
+		description = "Additional command parameters. "
+			+ StringTieParametersChecker.MERGE_TRANSCRIPTS_PARAMS,
+		allowNull = false,
+		order = 3,
+		advanced = true,
+		defaultValue = "",
+		validateMethod = "validateCommandParameters"
+	)
+	public void setCommandParameters(String commandParameters) {
+		this.commandParameters = commandParameters;
+	}
+
+	public void validateCommandParameters(String commandParameters) {
+		if(!StringTieParametersChecker.validateMergeTranscriptsParameters(commandParameters)
+		) {
+			throw new IllegalArgumentException(
+				StringTieParametersChecker.MERGE_TRANSCRIPTS_ERROR);
+		};
+	}
+
+	@Port(
 		direction = Direction.INPUT, 
 		name = "Output transcripts file",
 		description = "Optionally, an output transcripts file (.gtf)." + 
 			"If not provided, it will be created in the same directory "
 			+ "than the reference annotation file with name mergedAnnotation.gtf",
 		allowNull = true,
-		order = 3,
+		order = 4,
 		extras = "selectionMode=files"
 	)
 	public void setOutputTranscripts(File outputTranscripts) {
@@ -95,7 +120,7 @@ public class StringTieMerge {
 			DefaultAppController.getInstance().getStringTieController()
 				.mergeTranscripts(referenceAnnotationFile,
 					Arrays.asList(this.inputAnnotationFiles),
-					outputTranscripts);
+					outputTranscripts, commandParameters);
 			invokeLater(this::succeed);
 		} catch (ExecutionException e) {
 			Workbench.getInstance().error(e, e.getMessage());
