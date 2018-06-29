@@ -72,9 +72,9 @@ public interface Bowtie2BinariesExecutor
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads1, File reads2, String params,
-		File output)
+	public abstract ExecutionResult alignReads(
+		Bowtie2ReferenceGenomeIndex genome, File reads1, File reads2,
+		String params, File output)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -93,10 +93,9 @@ public interface Bowtie2BinariesExecutor
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads, String params,
-		File output)
-		throws ExecutionException, InterruptedException;
+	public abstract ExecutionResult alignReads(
+		Bowtie2ReferenceGenomeIndex genome, File reads, String params,
+		File output) throws ExecutionException, InterruptedException;
 
 	/**
 	 * Aligns paired-end reads in files {@code reads1} and {@code reads2} using the
@@ -118,9 +117,9 @@ public interface Bowtie2BinariesExecutor
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads1, File reads2, String params,
-		File output, File alignmentLog)
+	public abstract ExecutionResult alignReads(
+		Bowtie2ReferenceGenomeIndex genome, File reads1, File reads2,
+		String params, File output, File alignmentLog)
 		throws ExecutionException, InterruptedException;
 
 	/**
@@ -142,8 +141,8 @@ public interface Bowtie2BinariesExecutor
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
-	public abstract ExecutionResult alignReads(Bowtie2ReferenceGenomeIndex genome,
-		File reads, String params,
+	public abstract ExecutionResult alignReads(
+		Bowtie2ReferenceGenomeIndex genome, File reads, String params,
 		File output, File alignmentLog)
 		throws ExecutionException, InterruptedException;
 }
