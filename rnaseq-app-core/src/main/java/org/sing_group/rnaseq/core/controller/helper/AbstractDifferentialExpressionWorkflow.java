@@ -51,6 +51,8 @@ import org.sing_group.rnaseq.core.controller.DefaultAppController;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultAlignmentStatistics;
 import org.sing_group.rnaseq.core.entities.alignment.DefaultSampleAlignmentStatistics;
 import org.sing_group.rnaseq.core.environment.execution.parameters.DefaultImageConfigurationParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieBallgownParameter;
+import org.sing_group.rnaseq.core.environment.execution.parameters.stringtie.StringTieLimitToTranscriptsParameter;
 import org.sing_group.rnaseq.core.io.alignment.DefaultAlignmentLogParser;
 import org.sing_group.rnaseq.core.persistence.entities.DefaultDifferentialExpressionWorkflowConfiguration;
 import org.sing_group.rnaseq.core.util.LoggingUtils;
@@ -295,7 +297,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			File outputTranscriptsfile = getTranscriptsFile(sample, workingDirectory);
 			stringTieController.obtainTranscripts(mergedAnnotationFile, bam,
 				outputTranscriptsfile,
-				commandLineApplicationsParameters.get(Parameters.STRINGTIE_OBTAIN)
+				getStringTieObtainParameters()
 			);
 
 			status.setStageProgress(status.getStageProgress() + stagePRogress);
@@ -306,6 +308,25 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 
 		status.setOverallProgress(status.getOverallProgress() + PROGRESS);
 		stepFinishedLog(STEP_STRINGTIE);
+	}
+
+	private String getStringTieObtainParameters() {
+		String parameters = commandLineApplicationsParameters
+			.get(Parameters.STRINGTIE_OBTAIN);
+
+		if (!parameters.contains(
+			StringTieBallgownParameter.getInstance().getParameter())) {
+			parameters = parameters
+				+ StringTieBallgownParameter.getInstance().getParameter();
+		}
+
+		if (!parameters.contains(StringTieLimitToTranscriptsParameter
+			.getInstance().getParameter())) {
+			parameters = parameters + StringTieLimitToTranscriptsParameter
+				.getInstance().getParameter();
+		}
+
+		return parameters;
 	}
 
 	private void differentialExpressionAnalysis(OperationStatus status)
