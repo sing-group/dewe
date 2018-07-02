@@ -33,6 +33,39 @@
 	</dependencies>
 
 	<extensions>
+    <extension
+      uid="aibench.core" name="aibench.core.operation-definition"
+      class="org.sing_group.rnaseq.aibench.operations.FastQc"
+    >
+    <operation-description
+      name="FastQC"
+      uid="operations.fastqc"
+      path="1@Quality control"
+    />
+    </extension>
+
+    <extension
+      uid="aibench.core" name="aibench.core.operation-definition"
+      class="org.sing_group.rnaseq.aibench.operations.TrimmomaticSingleEnd"
+    >
+    <operation-description
+      name="Single-end reads filtering"
+      uid="operations.trimmomatic.singleend"
+      path="1@Quality control/1@Trimmomatic"
+    />
+    </extension>
+
+    <extension
+      uid="aibench.core" name="aibench.core.operation-definition"
+      class="org.sing_group.rnaseq.aibench.operations.TrimmomaticPairedEnd"
+    >
+    <operation-description
+      name="Paired-end reads filtering"
+      uid="operations.trimmomatic.pairedend"
+      path="1@Quality control/2@Trimmomatic"
+    />
+    </extension>
+
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.genome.Bowtie2BuildIndex"
@@ -40,7 +73,7 @@
 			<operation-description
 				menuName="Bowtie2"
 				uid="operations.genome.bowtie2buildindex"
-				path="1@Genome/1@Build index"
+				path="2@Genome/1@Build index"
 			/>
 		</extension>
 
@@ -51,7 +84,7 @@
 			<operation-description
 				menuName="Bowtie2"
 				uid="operations.genome.bowtie2importindex"
-				path="1@Genome/2@Import index"
+				path="2@Genome/2@Import index"
 			/>
 		</extension>
 
@@ -62,7 +95,7 @@
 			<operation-description
 				menuName="HISAT2"
 				uid="operations.genome.hisat2buildindex"
-				path="1@Genome/1@Build index"
+				path="2@Genome/1@Build index"
 			/>
 		</extension>
 
@@ -73,7 +106,7 @@
 			<operation-description
 				menuName="HISAT2"
 				uid="operations.genome.hisat2importindex"
-				path="1@Genome/2@Import index"
+				path="2@Genome/2@Import index"
 			/>
 		</extension>
 
@@ -84,7 +117,7 @@
 			<operation-description
 				name="Bowtie2"
 				uid="operations.bowtie2alignpairedendsamples"
-        path="2@Align/1@Paired-end reads"
+        path="3@Align/1@Paired-end reads"
 			/>
 		</extension>
 
@@ -95,7 +128,7 @@
 			<operation-description
 				name="Bowtie2"
 				uid="operations.bowtie2alignsingleendsamples"
-        path="2@Align/2@Single-end reads"
+        path="3@Align/2@Single-end reads"
 			/>
 		</extension>
 
@@ -106,7 +139,7 @@
 			<operation-description
 				name="HISAT2"
 				uid="operations.hisat2alignpairedendsamples"
-        path="2@Align/1@Paired-end reads"
+        path="3@Align/1@Paired-end reads"
 			/>
 		</extension>
 
@@ -117,7 +150,7 @@
 			<operation-description
 				name="HISAT2"
 				uid="operations.hisat2alignsingleendsamples"
-        path="2@Align/2@Single-end reads"
+        path="3@Align/2@Single-end reads"
 			/>
 		</extension>
 
@@ -128,7 +161,7 @@
 			<operation-description
 				name="Convert sam to sorted bam"
 				uid="operations.samtoolsconvertsamtobam"
-				path="3@Convert/1@Samtools"
+				path="4@Convert/1@Samtools"
 			/>
 		</extension>
 
@@ -139,7 +172,7 @@
 			<operation-description
 				name="Batch convert sam to sorted bam"
 				uid="operations.operations.samtoolsbatchvonvertsamtobam"
-				path="3@Convert/2@Samtools"
+				path="4@Convert/2@Samtools"
 			/>
 		</extension>
 
@@ -150,7 +183,7 @@
 			<operation-description
 				menuName="Reconstruct transcripts"
 				uid="operations.stringtie"
-				path="4@Transcripts/1@StringTie"
+				path="5@Transcripts/1@StringTie"
 			/>
 		</extension>
 
@@ -161,7 +194,7 @@
 			<operation-description
 				menuName="Reconstruct labeled transcripts"
 				uid="operations.stringtielabeled"
-				path="4@Transcripts/1@StringTie"
+				path="5@Transcripts/1@StringTie"
 			/>
 		</extension>
 
@@ -172,7 +205,7 @@
 			<operation-description
 				menuName="Merge transcripts"
 				uid="operations.stringtiemerge"
-				path="4@Transcripts/2@StringTie"
+				path="5@Transcripts/2@StringTie"
 			/>
 		</extension>
 
@@ -183,7 +216,7 @@
 			<operation-description
 				menuName="Batch reconstruct transcripts"
 				uid="operations.stringtiebatch"
-				path="4@Transcripts/3@StringTie"
+				path="5@Transcripts/3@StringTie"
 			/>
 		</extension>
 
@@ -194,7 +227,7 @@
 			<operation-description
 				menuName="Batch reconstruct labeled transcripts"
 				uid="operations.stringtielabeledbatch"
-				path="4@Transcripts/3@StringTie"
+				path="5@Transcripts/3@StringTie"
 			/>
 		</extension>
 
@@ -205,7 +238,7 @@
 			<operation-description
 				name="Calculate reads counts using htseq-count"
 				uid="operations.htseqcountbam"
-				path="5@Reads/1@HtseqCount"
+				path="6@Reads/1@HtseqCount"
 			/>
 		</extension>
 
@@ -216,7 +249,7 @@
 			<operation-description
 				name="Differential expression analysis with Ballgown"
 				uid="operations.ballgowndifferentialexpressionanalysis"
-				path="6@Differential Expression"
+				path="7@Differential Expression"
 			/>
 		</extension>
 
@@ -227,7 +260,7 @@
 			<operation-description
 				name="Differential expression analysis with edgeR"
 				uid="operations.edgerdifferentialexpressionanalysis"
-				path="6@Differential Expression"
+				path="7@Differential Expression"
 			/>
 		</extension>
 
@@ -260,7 +293,7 @@
 			<operation-description
 				name="View Ballgown working directory"
 				uid="operations.viewballgownworkingdirectory"
-				path="7@View results"
+				path="8@View results"
 			/>
 		</extension>
 
@@ -271,41 +304,8 @@
 			<operation-description
 				name="View edgeR working directory"
 				uid="operations.viewedgerworkingdirectory"
-				path="7@View results"
+				path="8@View results"
 			/>
-		</extension>
-
-		<extension
-  		uid="aibench.core" name="aibench.core.operation-definition"
-		  class="org.sing_group.rnaseq.aibench.operations.FastQc"
-		>
-		<operation-description
-			name="FastQC"
-			uid="operations.fastqc"
-			path="8@Quality control"
-		/>
-		</extension>
-
-		<extension
-		  uid="aibench.core" name="aibench.core.operation-definition"
-		  class="org.sing_group.rnaseq.aibench.operations.TrimmomaticSingleEnd"
-		>
-		<operation-description
-			name="Single-end reads filtering"
-			uid="operations.trimmomatic.singleend"
-			path="8@Quality control/1@Trimmomatic"
-		/>
-		</extension>
-
-		<extension
-		  uid="aibench.core" name="aibench.core.operation-definition"
-		  class="org.sing_group.rnaseq.aibench.operations.TrimmomaticPairedEnd"
-		>
-		<operation-description
-			name="Paired-end reads filtering"
-			uid="operations.trimmomatic.pairedend"
-			path="8@Quality control/2@Trimmomatic"
-		/>
 		</extension>
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">

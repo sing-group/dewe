@@ -119,27 +119,49 @@ public class WorkflowCatalogPanel extends JPanel {
 		}
 
 		protected JComponent getButtonsPanel() {
-			JPanel buttonsPanel = new JPanel();
-			buttonsPanel.setBorder(createEmptyBorder(0, 10, 0, 10));
-			buttonsPanel.setOpaque(false);
-			buttonsPanel.setLayout(new BoxLayout(buttonsPanel, Y_AXIS));
-			buttonsPanel.add(new JButton(new AbstractAction("Run workflow") {
-				private static final long serialVersionUID = 1L;
+			if (workflow.isImportWorkflowOptionEnabled()
+				|| workflow.isRunWorkflowOptionEnabled()
+				|| !workflow.getAdditionalWorkflowActions().isEmpty()
+			) {
+				JPanel buttonsPanel = new JPanel();
+				buttonsPanel.setBorder(createEmptyBorder(0, 10, 0, 10));
+				buttonsPanel.setOpaque(false);
+				buttonsPanel.setLayout(new BoxLayout(buttonsPanel, Y_AXIS));
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					runWorkflow(workflow);
-				}
-			}));
-			buttonsPanel.add(new JButton(new AbstractAction("Import workflow") {
-				private static final long serialVersionUID = 1L;
+				if(workflow.isRunWorkflowOptionEnabled()) {
+					buttonsPanel.add(new JButton(
+						new AbstractAction("Run workflow") {
+							private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					importWorkflow(workflow);
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								runWorkflow(workflow);
+							}
+					}));
 				}
-			}));
-			return buttonsPanel;
+
+				if(workflow.isImportWorkflowOptionEnabled()) {
+					buttonsPanel.add(new JButton(
+						new AbstractAction("Import workflow") {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								importWorkflow(workflow);
+							}
+					}));
+				}
+
+				workflow.getAdditionalWorkflowActions().forEach(a -> {
+					buttonsPanel.add(new JButton(a));
+				});
+
+				return buttonsPanel;
+			} else {
+				JPanel toret = new JPanel();
+				toret.setOpaque(false);
+				return toret;
+			}
 		}
 	}
 

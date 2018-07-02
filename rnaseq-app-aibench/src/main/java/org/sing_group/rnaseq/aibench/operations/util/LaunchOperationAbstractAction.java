@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE GUI
+ * DEWE
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,18 +20,32 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.gui.util;
+package org.sing_group.rnaseq.aibench.operations.util;
 
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
+import es.uvigo.ei.aibench.workbench.Workbench;
 
 /**
- * A class with common user interface settings.
- *
+ * An {@code AbstractAction} that opens an AIBench operation.
+ * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class UISettings {
-	public static final Color COLOR_ERROR = Color.decode("#FF9494");
-	public static final Color COLOR_WARNING = Color.decode("#FFCC00");
+public class LaunchOperationAbstractAction extends AbstractAction {
+	private static final long serialVersionUID = 1L;
+	private String uid;
+
+	public LaunchOperationAbstractAction(String name, String uid) {
+		super(name);
+		this.uid = uid;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Workbench.getInstance().executeOperation(this.uid);
+	}
 }

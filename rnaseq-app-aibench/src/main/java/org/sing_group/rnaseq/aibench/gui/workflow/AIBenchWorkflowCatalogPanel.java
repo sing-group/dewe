@@ -42,6 +42,7 @@ public class AIBenchWorkflowCatalogPanel extends WorkflowCatalogPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static final List<WorkflowDescription> WORKFLOWS = asList(
+		new QualityControlFakeWorkflowDescription(),
 		new Bowtie2StringTieDifferentialExpressionAIBenchWorkflowDescription(),
 		new Hisat2StringTieDifferentialExpressionAIBenchWorkflowDescription()
 	);
