@@ -175,7 +175,7 @@ if(image.format == "jpeg") {
 hist_mat <- cbind(as.numeric(mat[,4]))
 
 # draw histogram
-hist(hist_mat, breaks=50, col=color, xlab=paste("log2(fold change)",et$comparison[2], "vs", et$comparison[1], sep=" "), main="Distribution of differential expression values", xlim=c(-limit, limit))
+hist(hist_mat, breaks=50, col=color, xlab=paste("log2(fold change)",et$comparison[2], "vs", et$comparison[1], sep=" "), main="Distribution of differential expression values")
 
 # Add vertical cut offs
 abline(v=c(-2,2), col="black", lwd=2, lty=2)

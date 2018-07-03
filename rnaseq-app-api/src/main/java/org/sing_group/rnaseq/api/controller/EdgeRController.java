@@ -27,6 +27,7 @@ import java.io.File;
 import org.sing_group.rnaseq.api.entities.edger.EdgeRSamples;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 
 /**
  * The interface for controlling the edgeR R package.
@@ -96,5 +97,57 @@ public interface EdgeRController {
 	 */
 	public abstract void differentialExpression(EdgeRSamples samples,
 		File referenceAnnotationFile, File workingDir)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential 
+	 * expression p-values values.
+	 * 
+	 * Please, note that {@code workingDirectory} must
+	 * contain the edgeR tables {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the edgeR data
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createDEpValuesDistributionFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential 
+	 * expression fold change values 
+	 * 
+	 * Please, note that {@code workingDirectory} must
+	 * contain the edgeR tables {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the edgeR data
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createDEfoldChangeValuesDistributionFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the volcano plot that combines the distribution 
+	 * of the p-values obtained after statistical tests with every single 
+	 * fold change.
+	 * 
+	 * Please, note that {@code workingDirectory} must
+	 * contain the edgeR tables {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the edgeR data
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createVolcanoFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
 		throws ExecutionException, InterruptedException;
 }

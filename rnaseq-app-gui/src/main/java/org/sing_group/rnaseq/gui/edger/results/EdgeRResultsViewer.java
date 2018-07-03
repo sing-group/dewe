@@ -26,20 +26,33 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import static org.sing_group.rnaseq.gui.util.ResultsViewerUtil.missingFilesMessage;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
+import org.sing_group.gc4s.dialog.WorkingDialog;
+import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.controller.EdgeRWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.edger.EdgeRGenes;
+import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.core.controller.DefaultEdgeRWorkingDirectoryController;
 import org.sing_group.rnaseq.core.entities.edgeR.DefaultEdgeRGenes;
+import org.sing_group.rnaseq.gui.components.configuration.FigureConfigurationDialog;
 import org.sing_group.rnaseq.gui.edger.EdgeRGenesTable;
 
 /**
@@ -73,7 +86,131 @@ public class EdgeRResultsViewer extends JPanel {
 	}
 
 	private void init() {
+		this.add(getToolbar(), BorderLayout.NORTH);
 		this.add(getTablesTabbedPane(), BorderLayout.CENTER);
+	}
+
+	private JComponent getToolbar() {
+		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
+		toolbar.setFloatable(false);
+		toolbar.setBorder(new EmptyBorder(5, 10, 5, 10));
+
+		toolbar.add(new JButton(getGenerateDEPvalDistFigure()));
+		toolbar.add(new JButton(getGenerateDEValsDistFigure()));
+		toolbar.add(new JButton(getGenerateVolcanoFigure()));
+		toolbar.add(Box.createHorizontalGlue());
+
+		return toolbar;
+	}
+
+	private Action getGenerateDEPvalDistFigure() {
+		return new ExtendedAbstractAction(
+			"DE p-values distribution",
+			Icons.ICON_IMAGE_24,
+			this::generateDEPvalDistributionFigure
+		);
+	}
+
+	private void generateDEPvalDistributionFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateDEPvalDistributionFigure(dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateDEPvalDistributionFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createDEpValuesDistributionFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateDEValsDistFigure() {
+		return new ExtendedAbstractAction(
+			"DE fold changes values distribution",
+			Icons.ICON_IMAGE_24,
+			this::generateDEValsDistributionFigure
+		);
+	}
+
+	private void generateDEValsDistributionFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateDEValsDistributionFigure(dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateDEValsDistributionFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createDEfoldChangeValuesDistributionFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateVolcanoFigure() {
+		return new ExtendedAbstractAction(
+			"Volcano plot",
+			Icons.ICON_IMAGE_24,
+			this::generateVolcanoFigure
+		);
+	}
+
+	private void generateVolcanoFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateVolcanoFigure(dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateVolcanoFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createVolcanoFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private void generateFigure(ImageConfigurationParameter imageConfiguration,
+		Consumer<ImageConfigurationParameter> method
+	) {
+		WorkingDialog dialog = new WorkingDialog(getDialogParent(),
+			"Generating figure", "Generating figure");
+		Thread dialogThread = new Thread(() -> {
+			dialog.setVisible(true);
+
+			method.accept(imageConfiguration);
+
+			dialog.finished("Finished");
+			dialog.dispose();
+		});
+		dialogThread.start();
+	}
+
+	private void showFigureError() {
+		JOptionPane.showMessageDialog(this,
+			"An error occurred generating the figure."
+			+ "Please, check the error log", "Error",
+			JOptionPane.ERROR_MESSAGE);
 	}
 
 	private JComponent getTablesTabbedPane() {
@@ -117,4 +254,9 @@ public class EdgeRResultsViewer extends JPanel {
 				"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
 }

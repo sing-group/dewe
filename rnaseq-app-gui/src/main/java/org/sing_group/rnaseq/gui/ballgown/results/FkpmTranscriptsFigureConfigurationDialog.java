@@ -24,6 +24,8 @@ package org.sing_group.rnaseq.gui.ballgown.results;
 
 import java.awt.Window;
 
+import org.sing_group.rnaseq.gui.components.configuration.FigureConfigurationDialog;
+
 /**
  * A dialog that allows users to configure the FKPM transcripts figure.
  *

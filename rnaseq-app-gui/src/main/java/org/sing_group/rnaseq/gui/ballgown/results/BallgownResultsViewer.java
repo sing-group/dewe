@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -57,6 +57,8 @@ import org.sing_group.gc4s.dialog.JProgressDialog;
 import org.sing_group.gc4s.dialog.WorkingDialog;
 import org.sing_group.gc4s.event.PopupMenuAdapter;
 import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.ui.menu.HamburgerMenu;
+import org.sing_group.gc4s.ui.menu.HamburgerMenu.Size;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.rnaseq.api.controller.BallgownWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.ballgown.BallgownGenes;
@@ -73,6 +75,7 @@ import org.sing_group.rnaseq.gui.ballgown.BallgownTranscriptsTable;
 import org.sing_group.rnaseq.gui.ballgown.ExportFilteredGenesTableDialog;
 import org.sing_group.rnaseq.gui.ballgown.ExportFilteredTranscriptsTableDialog;
 import org.sing_group.rnaseq.gui.ballgown.ExportTableDialog;
+import org.sing_group.rnaseq.gui.components.configuration.FigureConfigurationDialog;
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 /**
@@ -122,16 +125,25 @@ public class BallgownResultsViewer extends JPanel {
 	}
 
 	private JComponent getToolbar() {
+		HamburgerMenu figuresMenu = new HamburgerMenu(Size.SIZE16);
+		figuresMenu.add(getGenerateFkpmAcrossSamplesFigure());
+		figuresMenu.add(getGenerateGenesPvalDistFigure());
+		figuresMenu.add(getGenerateTranscriptsPvalDistFigure());
+		figuresMenu.add(getGenerateFoldChangesDistributionFigure());
+		figuresMenu.add(getGenerateVolcanoFigure());
+		figuresMenu.add(getGenerateFpkmConditionsCorrelationFigure());
+		figuresMenu.add(getGenerateFpkmConditionsDensityFigure());
+		figuresMenu.add(getGeneratePcaFigure());
+		figuresMenu.add(getGenerateHeatmapFigure());
+
 		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
 		toolbar.setFloatable(false);
 		toolbar.setBorder(new EmptyBorder(5, 10, 5, 10));
 
-		toolbar.add(new JButton(getGenerateFkpmAcrossSamplesFigure()));
-		toolbar.add(new JButton(getGenerateGenesPvalDistFigure()));
-		toolbar.add(new JButton(getGenerateTranscriptsPvalDistFigure()));
-		toolbar.add(Box.createHorizontalGlue());
 		toolbar.add(new JButton(getOpenGenesTableAction()));
 		toolbar.add(new JButton(getOpenTranscriptsTableAction()));
+		toolbar.add(Box.createHorizontalGlue());
+		toolbar.add(figuresMenu);
 
 		return toolbar;
 	}
@@ -202,6 +214,37 @@ public class BallgownResultsViewer extends JPanel {
 		});
 	}
 
+	private Action getGenerateFoldChangesDistributionFigure() {
+		return new ExtendedAbstractAction(
+			"DE fold changes values distribution",
+			Icons.ICON_IMAGE_24,
+			this::generateFoldChangesDistributionFigure
+		);
+	}
+
+	private void generateFoldChangesDistributionFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateFoldChangesDistributionFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateFoldChangesDistributionFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController
+					.createDEfoldChangeValuesDistributionFigure(imageConfiguration);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
 	private Action getGenerateTranscriptsPvalDistFigure() {
 		return new ExtendedAbstractAction(
 			"DE transcripts p-values distribution",
@@ -226,6 +269,156 @@ public class BallgownResultsViewer extends JPanel {
 		generateFigure(imageConfiguration, t -> {
 			try {
 				this.workingDirectoryController.createTranscriptsDEpValuesFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateVolcanoFigure() {
+		return new ExtendedAbstractAction(
+			"Volcano plot",
+			Icons.ICON_IMAGE_24,
+			this::generateVolcanoFigure
+		);
+	}
+
+	private void generateVolcanoFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateVolcanoFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateVolcanoFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createVolcanoFigure(imageConfiguration);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateFpkmConditionsCorrelationFigure() {
+		return new ExtendedAbstractAction(
+			"FPKMs conditions correlation",
+			Icons.ICON_IMAGE_24,
+			this::generateFpkmConditionsCorrelationFigure
+		);
+	}
+
+	private void generateFpkmConditionsCorrelationFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateFpkmConditionsCorrelationFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateFpkmConditionsCorrelationFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createFpkmConditionsCorrelationFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateFpkmConditionsDensityFigure() {
+		return new ExtendedAbstractAction(
+			"FPKMs conditions density",
+			Icons.ICON_IMAGE_24,
+			this::generateFpkmConditionsDensityFigure
+		);
+	}
+
+	private void generateFpkmConditionsDensityFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generateFpkmConditionsDensityFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generateFpkmConditionsDensityFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createFpkmConditionsDensityFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGeneratePcaFigure() {
+		return new ExtendedAbstractAction(
+			"Principal Component Analysis",
+			Icons.ICON_IMAGE_24,
+			this::generatePcaFigure
+		);
+	}
+
+	private void generatePcaFigure() {
+		FigureConfigurationDialog dialog = new FigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			generatePcaFigure(
+				dialog.getImageConfiguration());
+		}
+	}
+
+	private void generatePcaFigure(
+		ImageConfigurationParameter imageConfiguration) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createPcaFigure(t);
+			} catch (ExecutionException | InterruptedException e) {
+				showFigureError();
+			}
+		});
+	}
+
+	private Action getGenerateHeatmapFigure() {
+		return new ExtendedAbstractAction(
+			"Heatmap",
+			Icons.ICON_IMAGE_24,
+			this::generateHeatmaFigure
+		);
+	}
+
+	private void generateHeatmaFigure() {
+		HeatmapFigureConfigurationDialog dialog = new HeatmapFigureConfigurationDialog(
+			getDialogParent());
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			int numClusters = dialog.getClustersNumber();
+			generateHeatmaFigure(dialog.getImageConfiguration(), numClusters);
+		}
+	}
+
+	private void generateHeatmaFigure(
+		ImageConfigurationParameter imageConfiguration, int numClusters) {
+		generateFigure(imageConfiguration, t -> {
+			try {
+				this.workingDirectoryController.createHeatmapFigure(t, numClusters);
 			} catch (ExecutionException | InterruptedException e) {
 				showFigureError();
 			}

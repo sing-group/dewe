@@ -444,12 +444,15 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 	 * @param referenceAnnotationFile the reference annotation file
 	 * @param workingDirectory the working directory
 	 * @param samples a list of {@code FastqReadsSamples}
+	 * @param commandLineApplicationsParameters a map containing additional
+	 *        command-line parameters for the underlying software
 	 *
 	 * @return a summary containing all the provided information.
 	 */
 	public static String getSummary(ReferenceGenomeIndex referenceGenome,
 		File referenceAnnotationFile, File workingDirectory,
-		FastqReadsSamples samples, Map<WorkflowController.Parameters, String> commandLineApplicationsParameters
+		FastqReadsSamples samples,
+		Map<WorkflowController.Parameters, String> commandLineApplicationsParameters
 	) {
 		StringBuilder sb = new StringBuilder();
 		sb
@@ -471,13 +474,13 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 			.append("- Conditions: ")
 			.append(getConditions(samples).stream().collect(joining(", ")))
 			.append(NEW_LINE);
-		
+
 		if(!commandLineApplicationsParameters.isEmpty()) {
 			sb
 				.append(NEW_LINE)
 				.append("Applications parameters: ")
 				.append(NEW_LINE);
-	
+
 			commandLineApplicationsParameters.forEach((k, v) -> {
 				sb
 					.append(TAB)
@@ -486,7 +489,7 @@ public abstract class AbstractDifferentialExpressionWorkflow {
 					.append(": ")
 					.append(v)
 					.append(NEW_LINE);
-			}); 
+			});
 		}
 
 		sb

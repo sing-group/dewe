@@ -34,6 +34,8 @@ import java.util.Optional;
 
 import org.sing_group.rnaseq.api.controller.EdgeRWorkingDirectoryController;
 import org.sing_group.rnaseq.api.entities.edger.EdgeRGenes;
+import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.core.io.edger.EdgeRGenesTxtFileLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,5 +106,32 @@ public class DefaultEdgeRWorkingDirectoryController
 		}
 
 		return missingFiles;
+	}
+
+	@Override
+	public void createDEpValuesDistributionFigure(
+		ImageConfigurationParameter imageConfiguration
+	) throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getEdgeRController()
+			.createDEpValuesDistributionFigure(workingDirectory,
+				imageConfiguration);
+
+	}
+
+	@Override
+	public void createDEfoldChangeValuesDistributionFigure(
+		ImageConfigurationParameter imageConfiguration
+	) throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getEdgeRController()
+			.createDEfoldChangeValuesDistributionFigure(workingDirectory,
+				imageConfiguration);
+	}
+
+	@Override
+	public void createVolcanoFigure(
+		ImageConfigurationParameter imageConfiguration
+	) throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getEdgeRController()
+			.createVolcanoFigure(workingDirectory, imageConfiguration);
 	}
 }

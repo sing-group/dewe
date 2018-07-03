@@ -65,7 +65,19 @@ public class DefaultEdgeRController implements EdgeRController {
 		Collectors.joining(" ");
 	private static final String SCRIPT_DE_ANALYSIS = asString(
 		DefaultEdgeRController.class.getResourceAsStream(
-			"/scripts/edgeR-differential-expression.R")
+			"/scripts/edger/edgeR-differential-expression.R")
+		);
+	private static final String SCRIPT_FIGURE_DE_PVALUES_DISTRIBUTION = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/edger/figure-genes-DE-pValues-distribution.R")
+		);
+	private static final String SCRIPT_FIGURE_DE_FOLD_CHANGE_VALUES_DISTRIBUTION = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/edger/figure-DE-fold-change-values-distribution.R")
+		);
+	private static final String SCRIPT_FIGURE_VOLCANO = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/edger/figure-volcano.R")
 		);
 
 	private RBinariesExecutor rBinariesExecutor;
@@ -191,5 +203,53 @@ public class DefaultEdgeRController implements EdgeRController {
 		sb.append("_class ");
 		sb.append(samples.stream().map(EdgeRSample::getType).collect(JOINING));
 		return sb.toString();
+	}
+
+	@Override
+	public void createDEpValuesDistributionFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_DE_PVALUES_DISTRIBUTION);
+	}
+
+	@Override
+	public void createDEfoldChangeValuesDistributionFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_DE_FOLD_CHANGE_VALUES_DISTRIBUTION);
+	}
+
+	@Override
+	public void createVolcanoFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(
+			workingDirectory, imageConfiguration, SCRIPT_FIGURE_VOLCANO);
+	}
+
+	public void runFigureScript(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration, String script)
+			throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(script, "edger-figure-"),
+				workingDirectory.getAbsolutePath(),
+				imageConfiguration.getFormat().getExtension(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
+			);
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
 	}
 }

@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,30 @@ public class DefaultBallgownController implements BallgownController {
 		DefaultBallgownController.class.getResourceAsStream(
 			"/scripts/ballgown/figure-genes-DE-pValues-distribution.R")
 	);
+	public static final String SCRIPT_FIGURE_DE_FOLD_CHANGE_VALUES_DISTRIBUTION = asString(
+		DefaultBallgownController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-DE-fold-change-values-distribution.R")
+		);
+	private static final String SCRIPT_FIGURE_VOLCANO = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-volcano.R")
+		);
+	private static final String SCRIPT_FIGURE_FPKM_CONDITIONS_CORRELATION = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-fpkm-conditions-correlation.R")
+		);
+	private static final String SCRIPT_FIGURE_FPKM_CONDITIONS_DENSITY = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-fpkm-conditions-density.R")
+		);
+	private static final String SCRIPT_FIGURE_PCA = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-pca.R")
+		);
+	private static final String SCRIPT_FIGURE_HEATMAP = asString(
+		DefaultEdgeRController.class.getResourceAsStream(
+			"/scripts/ballgown/figure-heatmap.R")
+		);
 	public static final String SCRIPT_TABLE_GENES_SIG = asString(
 		DefaultBallgownController.class.getResourceAsStream(
 			"/scripts/ballgown/table-genes-sig.R")
@@ -156,75 +180,24 @@ public class DefaultBallgownController implements BallgownController {
 	public void createFpkmDistributionAcrossSamplesFigure(
 		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
-		ExecutionResult result;
-		try {
-			result = this.rBinariesExecutor.runScript(
-				asScriptFile(SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES, "ballgown-figure-"),
-				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().getExtension(),
-				String.valueOf(imageConfiguration.getWidth()),
-				String.valueOf(imageConfiguration.getHeight()),
-				String.valueOf(imageConfiguration.isColored()).toUpperCase()
-			);
-
-			if (result.getExitStatus() != 0) {
-				throw new ExecutionException(result.getExitStatus(),
-					"Error executing script. Please, check error log.", "");
-			}
-		} catch (IOException e) {
-			throw new ExecutionException(1,
-				"Error executing script. Please, check error log.", "");
-		}
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_FPKM_TRANSCRIPT_ACROSS_SAMPLES);
 	}
 
 	@Override
 	public void createGenesDEpValuesFigure(
 		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
-		ExecutionResult result;
-		try {
-			result = this.rBinariesExecutor.runScript(
-				asScriptFile(SCRIPT_FIGURE_GENES_DE_PVALUES, "ballgown-figure-"),
-				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().getExtension(),
-				String.valueOf(imageConfiguration.getWidth()),
-				String.valueOf(imageConfiguration.getHeight()),
-				String.valueOf(imageConfiguration.isColored()).toUpperCase()
-			);
-
-			if (result.getExitStatus() != 0) {
-				throw new ExecutionException(result.getExitStatus(),
-					"Error executing script. Please, check error log.", "");
-			}
-		} catch (IOException e) {
-			throw new ExecutionException(1,
-				"Error executing script. Please, check error log.", "");
-		}
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_GENES_DE_PVALUES);
 	}
 
 	@Override
 	public void createTranscriptsDEpValuesFigure(
 		File workingDirectory, ImageConfigurationParameter imageConfiguration
 	) throws ExecutionException, InterruptedException {
-		ExecutionResult result;
-		try {
-			result = this.rBinariesExecutor.runScript(
-				asScriptFile(SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES, "ballgown-figure-"),
-				workingDirectory.getAbsolutePath(),
-				imageConfiguration.getFormat().getExtension(),
-				String.valueOf(imageConfiguration.getWidth()),
-				String.valueOf(imageConfiguration.getHeight()),
-				String.valueOf(imageConfiguration.isColored()).toUpperCase()
-			);
-
-			if (result.getExitStatus() != 0) {
-				throw new ExecutionException(result.getExitStatus(),
-					"Error executing script. Please, check error log.", "");
-			}
-		} catch (IOException e) {
-			throw new ExecutionException(1,
-				"Error executing script. Please, check error log.", "");
-		}
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_TRANSCRIPTS_DE_PVALUES);
 	}
 
 	@Override
@@ -269,6 +242,30 @@ public class DefaultBallgownController implements BallgownController {
 				workingDirectory.getAbsolutePath(),
 				transcriptId,
 				sampleName,
+				imageConfiguration.getFormat().getExtension(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase()
+			);
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
+	}
+
+	public void runFigureScript(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration, String script)
+			throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(script, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
 				imageConfiguration.getFormat().getExtension(),
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
@@ -357,5 +354,71 @@ public class DefaultBallgownController implements BallgownController {
 
 	private String exportFilteredTranscriptsTableName(double pValue) {
 		return "user-tables/transcript_results_sig_" + pValue + ".tsv";
+	}
+
+	@Override
+	public void createDEfoldChangeValuesDistributionFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_DE_FOLD_CHANGE_VALUES_DISTRIBUTION);
+	}
+
+	@Override
+	public void createVolcanoFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_VOLCANO);
+	}
+
+	@Override
+	public void createFpkmConditionsCorrelationFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_FPKM_CONDITIONS_CORRELATION);
+	}
+
+	@Override
+	public void createFpkmConditionsDensityFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_FPKM_CONDITIONS_DENSITY);
+	}
+
+	@Override
+	public void createPcaFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		runFigureScript(workingDirectory, imageConfiguration,
+			SCRIPT_FIGURE_PCA);
+	}
+
+	@Override
+	public void createHeatmapFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration, int numClusters
+	) throws ExecutionException, InterruptedException {
+		ExecutionResult result;
+		try {
+			result = this.rBinariesExecutor.runScript(
+				asScriptFile(SCRIPT_FIGURE_HEATMAP, "ballgown-figure-"),
+				workingDirectory.getAbsolutePath(),
+				imageConfiguration.getFormat().getExtension(),
+				String.valueOf(imageConfiguration.getWidth()),
+				String.valueOf(imageConfiguration.getHeight()),
+				String.valueOf(imageConfiguration.isColored()).toUpperCase(),
+				String.valueOf(numClusters)
+			);
+
+			if (result.getExitStatus() != 0) {
+				throw new ExecutionException(result.getExitStatus(),
+					"Error executing script. Please, check error log.", "");
+			}
+		} catch (IOException e) {
+			throw new ExecutionException(1,
+				"Error executing script. Please, check error log.", "");
+		}
 	}
 }

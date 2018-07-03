@@ -2,7 +2,7 @@
  * #%L
  * DEWE API
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -120,6 +120,7 @@ public interface BallgownController {
 
 	/**
 	 * Creates the figure of the FPKM distribution across the samples.
+	 *
 	 * Please, note that {@code workingDirectory} must
 	 * contain the Ballgown data structure file created when
 	 * {@code differentialExpression} is used.
@@ -138,6 +139,7 @@ public interface BallgownController {
 	/**
 	 * Creates the figure of the overall distribution of differential expression
 	 * P values for genes.
+	 *
 	 * Please, note that {@code workingDirectory} must
 	 * contain the Ballgown data structure file created when
 	 * {@code differentialExpression} is used.
@@ -156,6 +158,7 @@ public interface BallgownController {
 	/**
 	 * Creates the figure of the overall distribution of differential expression
 	 * P values for transcripts.
+	 *
 	 * Please, note that {@code workingDirectory} must
 	 * contain the Ballgown data structure file created when
 	 * {@code differentialExpression} is used.
@@ -201,5 +204,120 @@ public interface BallgownController {
 	 */
 	public abstract File exportFilteredTranscriptsTable(File workingDirectory,
 		double pValue)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the overall distribution of differential
+	 * expression fold change values
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createDEfoldChangeValuesDistributionFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the volcano plot that combines the distribution
+	 * of the p-values obtained after statistical tests with every single
+	 * fold change.
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createVolcanoFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the FPKMs correlation between the two conditions.
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createFpkmConditionsCorrelationFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the FPKMs correlation between the two conditions
+	 * represented as density plot.
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createFpkmConditionsDensityFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the principal component analysis.
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createPcaFigure(
+		File workingDirectory, ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
+
+	/**
+	 * Creates the figure of the heatmap. The number of clusters must be equal
+	 * or greater than 1 ({@code numClusters = 1} means that no clusters are
+	 * specified in R).
+	 *
+	 * Please, note that {@code workingDirectory} must
+	 * contain the Ballgown data structure file created when
+	 * {@code differentialExpression} is used.
+	 *
+	 * @param workingDirectory directory that contains the Ballgown data
+	 *        structure
+	 * @param imageConfiguration the {@code ImageConfigurationParameter}
+	 * @param numClusters the number of clusters in the heatmap
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system
+	 *         binary
+	 */
+	public abstract void createHeatmapFigure(File workingDirectory,
+		ImageConfigurationParameter imageConfiguration, int numClusters)
 		throws ExecutionException, InterruptedException;
 }

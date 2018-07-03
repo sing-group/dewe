@@ -2,7 +2,7 @@
  * #%L
  * DEWE GUI
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.gui.ballgown.results;
+package org.sing_group.rnaseq.gui.components.configuration;
 
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -28,12 +28,10 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.JPanel;
 
 import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
-import org.sing_group.rnaseq.gui.components.configuration.ImageConfigurationPanel;
-
 import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 
 /**
- * A dialog that allows users to configure a Ballgown figure.
+ * A dialog that allows users to configure a R figure.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
@@ -45,7 +43,7 @@ public class FigureConfigurationDialog
 
 	private ImageConfigurationPanel imageConfigurationPanel;
 
-	protected FigureConfigurationDialog(Window parent) {
+	public FigureConfigurationDialog(Window parent) {
 		super(parent);
 	}
 

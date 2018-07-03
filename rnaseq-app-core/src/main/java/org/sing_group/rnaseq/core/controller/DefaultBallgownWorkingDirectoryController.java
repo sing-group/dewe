@@ -2,7 +2,7 @@
  * #%L
  * DEWE Core
  * %%
- * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
+ * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola,
  * 			Borja Sánchez, and Anália Lourenço
  * %%
  * This program is free software: you can redistribute it and/or modify
@@ -71,7 +71,7 @@ public class DefaultBallgownWorkingDirectoryController
 	/**
 	 * Creates a new {@code DefaultBallgownWorkingDirectoryController} for the
 	 * specified directory.
-	 * 
+	 *
 	 * @param workingDirectory the working directory to be controlled
 	 */
 	public DefaultBallgownWorkingDirectoryController(File workingDirectory) {
@@ -246,5 +246,56 @@ public class DefaultBallgownWorkingDirectoryController
 		}
 
 		return missingFiles;
+	}
+
+	@Override
+	public void createDEfoldChangeValuesDistributionFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createDEfoldChangeValuesDistributionFigure(
+				workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createVolcanoFigure(
+		ImageConfigurationParameter imageConfiguration
+	) throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createVolcanoFigure(workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createFpkmConditionsCorrelationFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createFpkmConditionsCorrelationFigure(
+				workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createFpkmConditionsDensityFigure(
+		ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createFpkmConditionsDensityFigure(
+				workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createPcaFigure(ImageConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createPcaFigure(workingDirectory, imageConfiguration);
+	}
+
+	@Override
+	public void createHeatmapFigure(
+		ImageConfigurationParameter imageConfiguration, int numClusters)
+		throws ExecutionException, InterruptedException {
+		DefaultAppController.getInstance().getBallgownController()
+			.createHeatmapFigure(
+				workingDirectory, imageConfiguration, numClusters);
 	}
 }
