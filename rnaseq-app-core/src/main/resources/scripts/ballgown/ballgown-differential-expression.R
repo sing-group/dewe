@@ -344,6 +344,16 @@ if(!all(is.na(sigpi))){
 	   anno_colors  <- list(group = group)
 	   pheatmap(as.matrix(sig_gene_expression), kmeans_k = NA, scale = "row", clustering_distance_rows = "correlation", clustering_method = "complete",annotation_col = phenotype_table , main="Significant genes", filename=paste(workingDirectory, 'heatmap.', image.format, sep=""), width=image.width*0.0033333333333333335, height=image.height*0.0033333333333333335, fontsize=image.width*10/3100, treeheight_row=image.width*50/3100, treeheight_col=image.width*50/3100, color=gray.colors(20, start = 0.9, end = 0.2, gamma = 2.2, alpha = NULL), annotation_colors = anno_colors)
 	}
+}
+	
+if(image.format == "jpeg") {
+	jpeg(paste(workingDirectory, 'pca.jpeg',sep=""), width = image.width, height = image.height)
+} else if(image.format == "tiff") {
+	tiff(paste(workingDirectory, 'pca.tiff',sep=""), width = image.width, height = image.height)
+} else if(image.format == "png") {
+	png(paste(workingDirectory, 'pca.png',sep=""), width = image.width, height = image.height)
+}
+if(!all(is.na(sigpi))){
 	
 	## PCA plot samples
 	# transpose the data and compute principal components
@@ -353,15 +363,7 @@ if(!all(is.na(sigpi))){
 	pca_data_perc <- round(100*pca_data$sdev^2/sum(pca_data$sdev^2),1)
 	
 	# Extract 1 and 2 principle components and create a data frame with sample names, first and second principal components and group information
-	df_pca_data <- data.frame(PC1 = pca_data$x[,1], PC2 = pca_data$x[,2], sample = colnames(sig_gene_expression), condition = pheno_data$type)
-	
-	if(image.format == "jpeg") {
-		jpeg(paste(workingDirectory, 'pca.jpeg',sep=""), width = image.width, height = image.height)
-	} else if(image.format == "tiff") {
-		tiff(paste(workingDirectory, 'pca.tiff',sep=""), width = image.width, height = image.height)
-	} else if(image.format == "png") {
-		png(paste(workingDirectory, 'pca.png',sep=""), width = image.width, height = image.height)
-	} 
+	df_pca_data <- data.frame(PC1 = pca_data$x[,1], PC2 = pca_data$x[,2], sample = colnames(sig_gene_expression), condition = pheno_data$type) 
 	
 	if(image.color){
 	  ggplot(df_pca_data, aes(PC1,PC2, color = condition))+
@@ -376,10 +378,10 @@ if(!all(is.na(sigpi))){
 	  scale_colour_grey(start = 0, end = 0.5)+
 	  theme_bw()
 	}
-	
-	dev.off()
 
 }
+	
+dev.off()
 
 ## Exit the R session
 quit(save="no")
