@@ -49,6 +49,6 @@ public class DefaultFastQcEnvironment implements FastQcEnvironment {
 
 	@Override
 	public String getDefaultFastQc() {
-		return "fastqc-wrapper";
+		return "fastqc";
 	}
 }

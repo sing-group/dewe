@@ -23,6 +23,9 @@
 package org.sing_group.rnaseq.core.environment.execution;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
@@ -72,12 +75,15 @@ public class DefaultFastQcBinariesExecutor
 	@Override
 	public ExecutionResult fastqc(File[] reads, File outputDir)
 		throws ExecutionException, InterruptedException {
+		List<String> parameters = new LinkedList<>();
+		parameters.add("--outdir");
+		parameters.add(outputDir.getAbsolutePath());
+		parameters.addAll(Arrays.asList(toFilesParameter(reads)));
+
 		return executeCommand(
 			LOG,
 			this.binaries.getFastQc(),
-			"--outdir",
-			outputDir.getAbsolutePath(),
-			toFilesParameter(reads)
+			toParamArray(parameters)
 		);
 	}
 
@@ -91,12 +97,12 @@ public class DefaultFastQcBinariesExecutor
 			);
 	}
 
-	private String toFilesParameter(File[] reads) {
-		StringBuilder toret = new StringBuilder();
-		for (File f : reads) {
-			toret.append(f.getAbsolutePath()).append(" ");
+	private String[] toFilesParameter(File[] reads) {
+		String[] toret = new String[reads.length];
+		for (int i = 0; i < reads.length; i++) {
+			toret[i] = reads[i].getAbsolutePath();
 		}
 
-		return toret.toString();
+		return toret;
 	}
 }
