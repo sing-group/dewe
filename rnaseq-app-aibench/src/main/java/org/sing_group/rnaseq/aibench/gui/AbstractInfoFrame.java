@@ -28,10 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,9 +50,6 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-
-import org.jdesktop.swingx.JXHyperlink;
-import org.jdesktop.swingx.action.AbstractActionExt;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
 
@@ -116,27 +110,18 @@ public abstract class AbstractInfoFrame extends JDialog {
 
 		final JLabel lblLogo = new JLabel(
 				group.getLogo(), SwingConstants.CENTER);
-		final JXHyperlink link = new JXHyperlink(
-				new URLLinkAction(group.getLink()));
-
-		link.setHorizontalAlignment(SwingConstants.CENTER);
-		link.setFocusable(false);
+		final JLabel lblLink = new JLabel(
+			group.getLink(), SwingConstants.CENTER);
 
 		fixSize(lblLogo, FRAME_WIDTH, IMAGE_HEIGHT);
 		Stream.of(group.getDescription()).forEach(
 				label -> fixSize(label, FRAME_WIDTH, LINE_HEIGHT));
-		fixSize(link, FRAME_WIDTH, LINE_HEIGHT);
+		fixSize(lblLink, FRAME_WIDTH, LINE_HEIGHT);
 
 		toret.add(lblLogo);
 		Stream.of(group.getDescription()).forEach(toret::add);
-		toret.add(link);
+		toret.add(lblLink);
 
-		lblLogo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				AbstractInfoFrame.openURL(group.getLink());
-			}
-		});
 		return toret;
 	}
 
@@ -185,18 +170,6 @@ public abstract class AbstractInfoFrame extends JDialog {
 		component.setMinimumSize(size);
 		component.setMaximumSize(size);
 		component.setSize(size);
-	}
-
-	private final static class URLLinkAction extends AbstractActionExt {
-		private static final long serialVersionUID = 1L;
-
-		public URLLinkAction(String url) {
-			super(url);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			AbstractInfoFrame.openURL(this.getName());
-		}
 	}
 
 	public static void openURL(String url) {
