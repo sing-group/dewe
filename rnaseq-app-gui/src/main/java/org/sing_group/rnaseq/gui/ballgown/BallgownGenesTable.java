@@ -23,8 +23,8 @@
 package org.sing_group.rnaseq.gui.ballgown;
 
 import static javax.swing.JOptionPane.showMessageDialog;
-import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
-import static org.sing_group.jsparklines_factory.builders.JSparklinesBarChartTableCellRendererBuilderFactory.newMaximumBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.builders.JSparklinesBarChartTableCellRendererBuilderFactory.newMaximumBarChartRenderer;
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.MAXIMUM_FOLD_CHANGE;
 import static org.sing_group.rnaseq.gui.ballgown.BallgownTableSettings.ROW_COUNT_SORT_LIMIT;
 

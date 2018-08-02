@@ -103,9 +103,8 @@
 		<swingx.version>1.6.5-1</swingx.version>
 		<log4j.version>1.2.12</log4j.version>
 		<slf4j.version>1.7.22</slf4j.version>
-		<gc4s.version>1.1.0</gc4s.version>
+		<gc4s.version>1.2.0</gc4s.version>
 		<sing.commons.csv.version>1.2.0</sing.commons.csv.version>
-		<jsparklines-factory.version>0.1.0</jsparklines-factory.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
@@ -171,14 +170,8 @@
 			</dependency>
 			<dependency>
 				<groupId>org.sing_group</groupId>
-				<artifactId>jsparklines-factory</artifactId>
-				<version>${jsparklines-factory.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.swinglabs</groupId>
-						<artifactId>swingx</artifactId>
-					</exclusion>
-				</exclusions>
+				<artifactId>gc4s-jsparklines-factory</artifactId>
+				<version>${gc4s.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>

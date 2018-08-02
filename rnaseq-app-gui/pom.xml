@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.sing_group</groupId>
-			<artifactId>jsparklines-factory</artifactId>
+			<artifactId>gc4s-jsparklines-factory</artifactId>
 		</dependency>
 	</dependencies>
 </project>

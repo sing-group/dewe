@@ -22,8 +22,8 @@
  */
 package org.sing_group.rnaseq.gui.edger;
 
-import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxMinValuesBarChartRenderer;
-import static org.sing_group.jsparklines_factory.builders.JSparklinesBarChartTableCellRendererBuilderFactory.newMaximumBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.JSparklinesBarChartTableCellRendererFactory.createMaxMinValuesBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.builders.JSparklinesBarChartTableCellRendererBuilderFactory.newMaximumBarChartRenderer;
 import static org.sing_group.rnaseq.gui.edger.EdgeRTableSettings.MAXIMUM_FOLD_CHANGE;
 import static org.sing_group.rnaseq.gui.edger.EdgeRTableSettings.ROW_COUNT_SORT_LIMIT;
 
