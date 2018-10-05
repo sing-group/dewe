@@ -74,8 +74,10 @@ if(!all(is.na(sigpi))){
 	sig_tn_de <- sigp[sigde,]
 	
 	sig_gene_expression=gene_expression[rownames(gene_expression) %in% sig_tn_de$id,]
-	#remove tumor and normal columns
-	sig_gene_expression <- sig_gene_expression[,-c(7:8)]
+	#remove control and threatment/disease columns
+	last <- dim(sig_gene_expression)[2]
+	last_ <- last-1
+	sig_gene_expression <- sig_gene_expression[,-c(last_:last)]
 	 
 	# for pheatmap function, column names and row names of data and pdata mush be identical# change the row names
 	phenotype_table <- data.frame(id=pheno_data$id, group=pheno_data$type)
