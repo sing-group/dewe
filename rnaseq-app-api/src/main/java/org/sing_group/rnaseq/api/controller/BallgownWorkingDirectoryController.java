@@ -336,11 +336,12 @@ public interface BallgownWorkingDirectoryController {
 	 *
 	 * @param imageConfiguration the {@code ImageConfigurationParameter}
 	 * @param numClusters the number of clusters in the heatmap
+	 * @param logFC the log(FC) filtering value
 	 * @throws ExecutionException if an error occurs during the execution
 	 * @throws InterruptedException if an error occurs executing the system
 	 *         binary
 	 */
 	public abstract void createHeatmapFigure(
-		ImageConfigurationParameter imageConfiguration, int numClusters)
+		ImageConfigurationParameter imageConfiguration, int numClusters, double logFC)
 		throws ExecutionException, InterruptedException;
 }

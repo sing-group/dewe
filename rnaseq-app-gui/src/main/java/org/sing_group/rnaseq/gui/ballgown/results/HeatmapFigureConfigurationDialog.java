@@ -50,6 +50,7 @@ public class HeatmapFigureConfigurationDialog extends FigureConfigurationDialog 
 
 	private JCheckBox clustersCheckBox;
 	private JSpinner clustersSpinner;
+	private JSpinner logFCSpinner;
 
 	public HeatmapFigureConfigurationDialog(Window parent) {
 		super(parent);
@@ -59,10 +60,29 @@ public class HeatmapFigureConfigurationDialog extends FigureConfigurationDialog 
 	protected JPanel getInputComponentsPane() {
 		JPanel superPanel = super.getInputComponentsPane();
 		JPanel toret = new JPanel(new BorderLayout());
-		toret.add(superPanel, BorderLayout.CENTER);
+		toret.add(superPanel, BorderLayout.PAGE_START);
+		toret.add(getLogFCSelectionPanel(), BorderLayout.CENTER);
 		toret.add(getClusterNumberSelectionPanel(), BorderLayout.SOUTH);
 		return toret;
 	}
+
+	private Component getLogFCSelectionPanel() {
+		logFCSpinner = new JSpinner(
+			new SpinnerNumberModel(1.0, 0.0, Integer.MAX_VALUE, 0.1));
+		logFCSpinner.setEnabled(true);
+		JLabel logFCText = new JLabel("Log(FC) filter");
+		JLabel infoLabel = new JLabel(Icons.ICON_INFO_2_16);
+		infoLabel.setToolTipText("Log(FC) filtering value for "
+				+ "displayed genes.");;
+		
+		JPanel panel = new JPanel(new GridLayout(1, 3));
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		panel.add(logFCText);
+		panel.add(logFCSpinner);
+		panel.add(infoLabel);
+		return panel;
+	}
+	
 
 	private Component getClusterNumberSelectionPanel() {
 		clustersCheckBox = new JCheckBox("Clusters?", false);
@@ -89,5 +109,9 @@ public class HeatmapFigureConfigurationDialog extends FigureConfigurationDialog 
 	public int getClustersNumber() {
 		return this.clustersCheckBox.isSelected()
 			? (Integer) clustersSpinner.getValue() : 1;
+	}
+
+	public double getLogFC() {
+		return (Double) logFCSpinner.getValue();
 	}
 }

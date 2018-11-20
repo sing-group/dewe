@@ -410,15 +410,16 @@ public class BallgownResultsViewer extends JPanel {
 
 		if (!dialog.isCanceled()) {
 			int numClusters = dialog.getClustersNumber();
-			generateHeatmaFigure(dialog.getImageConfiguration(), numClusters);
+			double logFC = dialog.getLogFC();
+			generateHeatmaFigure(dialog.getImageConfiguration(), numClusters, logFC);
 		}
 	}
 
 	private void generateHeatmaFigure(
-		ImageConfigurationParameter imageConfiguration, int numClusters) {
+		ImageConfigurationParameter imageConfiguration, int numClusters, double logFC) {
 		generateFigure(imageConfiguration, t -> {
 			try {
-				this.workingDirectoryController.createHeatmapFigure(t, numClusters);
+				this.workingDirectoryController.createHeatmapFigure(t, numClusters, logFC);
 			} catch (ExecutionException | InterruptedException e) {
 				showFigureError();
 			}

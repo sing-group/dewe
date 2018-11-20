@@ -5,6 +5,7 @@
 ##  4.- the height of the images
 ##  5.- color: TRUE for colored images and FALSE for grayscale images
 ##  6.- the number of clusters for the heatmap
+##  7.- the log(fc) filtering value
 
 library(ballgown)
 library(genefilter)
@@ -66,9 +67,8 @@ if(!all(is.na(sigpi))){
 	# Extract p-significant genes in a separate object
 	sigp <- results_genes[sigpi,]
 	
-	# Identify the statistically significant genes (rows) that are upregulated/ ##
-	## downregulated by 4 fold
-	sigde <- which(abs(sigp[,"logfc"]) >= 2)
+	# Identify the statistically significant genes (rows) that are upregulated/downregulated
+	sigde <- which(abs(sigp[,"logfc"]) >= as.numeric(args[7]))
 	
 	# Extract and store the statistically significant genes (rows) that are upregulated/ downregulated by 4 fold
 	sig_tn_de <- sigp[sigde,]
@@ -92,12 +92,12 @@ if(!all(is.na(sigpi))){
 	
 	# draw heatmap
 	if(image.color){
-	  pheatmap(as.matrix(sig_gene_expression), kmeans_k = clusters, scale = "row", clustering_distance_rows = "correlation", clustering_method = "complete",annotation_col = phenotype_table , main="Significant genes", filename=paste(imagesDirectory, 'heatmap_color.', image.format, sep=""), width=image.width*0.0033333333333333335, height=image.height*0.0033333333333333335, fontsize=image.width*10/3100, treeheight_row=image.width*50/3100, treeheight_col=image.width*50/3100) 
+	  pheatmap(as.matrix(sig_gene_expression), kmeans_k = clusters, scale = "row", clustering_distance_rows = "correlation", clustering_method = "complete",annotation_col = phenotype_table , main="Significant genes", filename=paste(imagesDirectory, 'heatmap_color-logFC',args[7],'.', image.format, sep=""), width=image.width*0.0033333333333333335, height=image.height*0.0033333333333333335, fontsize=image.width*10/3100, treeheight_row=image.width*50/3100, treeheight_col=image.width*50/3100) 
 	}else{
 	   group        <- c("gray20", "gray80")
 	   names(group) <- c(toString(conditions[1]), toString(conditions[2]))
 	   anno_colors  <- list(group = group)
-	   pheatmap(as.matrix(sig_gene_expression), kmeans_k = clusters, scale = "row", clustering_distance_rows = "correlation", clustering_method = "complete",annotation_col = phenotype_table , main="Significant genes", filename=paste(imagesDirectory, 'heatmap.', image.format, sep=""), width=image.width*0.0033333333333333335, height=image.height*0.0033333333333333335, fontsize=image.width*10/3100, treeheight_row=image.width*50/3100, treeheight_col=image.width*50/3100, color=gray.colors(20, start = 0.9, end = 0.2, gamma = 2.2, alpha = NULL), annotation_colors = anno_colors)
+	   pheatmap(as.matrix(sig_gene_expression), kmeans_k = clusters, scale = "row", clustering_distance_rows = "correlation", clustering_method = "complete",annotation_col = phenotype_table , main="Significant genes", filename=paste(imagesDirectory, 'heatmap-logFC',args[7],'.', image.format, sep=""), width=image.width*0.0033333333333333335, height=image.height*0.0033333333333333335, fontsize=image.width*10/3100, treeheight_row=image.width*50/3100, treeheight_col=image.width*50/3100, color=gray.colors(20, start = 0.9, end = 0.2, gamma = 2.2, alpha = NULL), annotation_colors = anno_colors)
 	}
 }
 

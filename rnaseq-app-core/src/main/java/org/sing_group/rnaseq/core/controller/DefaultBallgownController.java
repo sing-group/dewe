@@ -398,7 +398,7 @@ public class DefaultBallgownController implements BallgownController {
 
 	@Override
 	public void createHeatmapFigure(File workingDirectory,
-		ImageConfigurationParameter imageConfiguration, int numClusters
+		ImageConfigurationParameter imageConfiguration, int numClusters, double logFC
 	) throws ExecutionException, InterruptedException {
 		ExecutionResult result;
 		try {
@@ -409,7 +409,8 @@ public class DefaultBallgownController implements BallgownController {
 				String.valueOf(imageConfiguration.getWidth()),
 				String.valueOf(imageConfiguration.getHeight()),
 				String.valueOf(imageConfiguration.isColored()).toUpperCase(),
-				String.valueOf(numClusters)
+				String.valueOf(numClusters),
+				String.valueOf(logFC)
 			);
 
 			if (result.getExitStatus() != 0) {

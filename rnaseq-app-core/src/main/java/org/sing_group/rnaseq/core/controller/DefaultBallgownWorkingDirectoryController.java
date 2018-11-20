@@ -292,10 +292,10 @@ public class DefaultBallgownWorkingDirectoryController
 
 	@Override
 	public void createHeatmapFigure(
-		ImageConfigurationParameter imageConfiguration, int numClusters)
+		ImageConfigurationParameter imageConfiguration, int numClusters, double logFC)
 		throws ExecutionException, InterruptedException {
 		DefaultAppController.getInstance().getBallgownController()
 			.createHeatmapFigure(
-				workingDirectory, imageConfiguration, numClusters);
+				workingDirectory, imageConfiguration, numClusters, logFC);
 	}
 }
