@@ -131,6 +131,20 @@ public interface AppController {
 	public abstract TrimmomaticController getTrimmomaticController();
 
 	/**
+	 * Returns the {@code PathfindRController}.
+	 *
+	 * @return the {@code PathfindRController}
+	 */
+	public abstract PathfindRBallgownController getPathfindRBallgownController();
+	
+	/**
+	 * Returns the {@code PathfindRController}.
+	 *
+	 * @return the {@code PathfindRController}
+	 */
+	public abstract PathfindREdgeRController getPathfindREdgeRController();
+
+	/**
 	 * Returns the {@code ReferenceGenomeIndexDatabaseManager}.
 	 *
 	 * @return the {@code ReferenceGenomeIndexDatabaseManager}

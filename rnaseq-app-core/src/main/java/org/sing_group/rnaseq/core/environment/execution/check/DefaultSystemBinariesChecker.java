@@ -111,10 +111,11 @@ public class DefaultSystemBinariesChecker implements SystemBinariesChecker {
 		}
 	}
 
+	//Older version is 12
 	@Override
 	public void checkSed() throws BinaryCheckException {
 		String runCommand = this.binaries.getSed() + " --version";
-		checkCommand(runCommand, 12);
+		checkCommand(runCommand, 11);
 	}
 
 	@Override

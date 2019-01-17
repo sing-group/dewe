@@ -308,6 +308,28 @@
 			/>
 		</extension>
 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.PathfindROverBallgown"
+		>
+			<operation-description
+				name="Pathways enrichment with PathfindR over Ballgown results"
+				uid="operations.pathfindrballgown"
+				path="9@Pathway enrichment"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.PathfindROverEdgeR"
+		>
+			<operation-description
+				name="Pathways enrichment with PathfindR over edgeR results"
+				uid="operations.pathfindredger"
+				path="9@Pathway enrichment"
+			/>
+		</extension>
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
 				name="Ballgown working directory view"
@@ -318,6 +340,11 @@
 				name="EdgeR working directory view"
 				datatype="org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory"
 				class="org.sing_group.rnaseq.aibench.views.EdgeRWorkingDirectoryView"
+			/>
+			<view
+				name="PathfindR working directory view"
+				datatype="org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory"
+				class="org.sing_group.rnaseq.aibench.views.PathfindRWorkingDirectoryView"
 			/>
 		</extension>
 

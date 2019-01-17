@@ -31,6 +31,8 @@ import org.sing_group.rnaseq.api.controller.EdgeRController;
 import org.sing_group.rnaseq.api.controller.FastQcController;
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.controller.HtseqController;
+import org.sing_group.rnaseq.api.controller.PathfindRBallgownController;
+import org.sing_group.rnaseq.api.controller.PathfindREdgeRController;
 import org.sing_group.rnaseq.api.controller.RController;
 import org.sing_group.rnaseq.api.controller.SamtoolsController;
 import org.sing_group.rnaseq.api.controller.StringTieController;
@@ -91,6 +93,8 @@ public class DefaultAppController implements AppController {
 	private DefaultHisat2Controller hisat2Controller;
 	private DefaultFastQcController fastQcController;
 	private DefaultTrimmomaticController trimmomaticController;
+	private DefaultPathfindRBallgownController pathfindRBallgownController;
+	private DefaultPathfindREdgeRController pathfindREdgeRController;
 
 	/**
 	 * Returns the singleton {@code DefaultAppController} instance.
@@ -120,6 +124,8 @@ public class DefaultAppController implements AppController {
 		this.setWorkflowController();
 		this.setFastQcController();
 		this.setTrimmomaticController();
+		this.setPathfindRBallgownController();
+		this.setPathfindREdgeRController();
 	}
 
 	private void setBowtie2Controller() throws BinaryCheckException {
@@ -223,6 +229,20 @@ public class DefaultAppController implements AppController {
 	) throws BinaryCheckException {
 		return new DefaultTrimmomaticBinariesExecutor(trimmomaticBinaries);
 	}
+	
+	private void setPathfindRBallgownController() throws BinaryCheckException {
+		this.pathfindRBallgownController = new DefaultPathfindRBallgownController();
+		this.pathfindRBallgownController.setRBinariesExecutor(
+			this.createRBinariesExecutor(this.environment.getRBinaries())
+		);
+	}
+	
+	private void setPathfindREdgeRController() throws BinaryCheckException {
+		this.pathfindREdgeRController = new DefaultPathfindREdgeRController();
+		this.pathfindREdgeRController.setRBinariesExecutor(
+			this.createRBinariesExecutor(this.environment.getRBinaries())
+		);
+	}
 
 	@Override
 	public Bowtie2Controller getBowtie2Controller() {
@@ -323,6 +343,16 @@ public class DefaultAppController implements AppController {
 	@Override
 	public ReferenceGenomeIndexDatabaseManager getReferenceGenomeDatabaseManager() {
 		return this.environment.getReferenceGenomeDatabaseManager();
+	}
+
+	@Override
+	public PathfindRBallgownController getPathfindRBallgownController() {
+		return this.pathfindRBallgownController;
+	}
+
+	@Override
+	public PathfindREdgeRController getPathfindREdgeRController() {
+		return this.pathfindREdgeRController;
 	}
 
 	@Override
