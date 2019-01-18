@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE
+ * DEWE API
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,32 +20,20 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.views;
-
-import org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory;
-import org.sing_group.rnaseq.gui.pathviewr.results.PathfindRResultsViewer;
+package org.sing_group.rnaseq.api.environment;
 
 /**
- * An AIBench view for the {@code PathfindRWorkingDirectory} that extends the
- * {@code PathfindRResultsViewer} component.
- *
+ * The interface that defines the IGV Broser environment.
+ * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class PathfindRWorkingDirectoryView extends PathfindRResultsViewer {
-	private static final long serialVersionUID = 1L;
-
+public interface IGVBrowserEnvironment {
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectoryView} for the specified
-	 * {@code PathfindRWorkingDirectory}.
-	 *
-	 * @param pathfindRWorkingDirectory the {@code PathfindRWorkingDirectory} to
-	 *        view.
+	 * Returns the default name of the igv command.
+	 * 
+	 * @return the default name of the igv command
 	 */
-	public PathfindRWorkingDirectoryView(
-			PathfindRWorkingDirectory pathfindRWorkingDirectory
-	) {
-		super(pathfindRWorkingDirectory.getWorkingDirectory());
-	}
+	public abstract String getDefaultIGV();
 }

@@ -39,19 +39,19 @@ import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
 	structure = Structure.COMPLEX,
 	namingMethod = "getName",
 	renameable = true,
-	clipboardClassName = "pathfindR working directory",
+	clipboardClassName = "DE overlaps working directory",
 	autoOpen = true
 )
-public class PathfindRWorkingDirectory {
+public class BallgownEdgeROverlapsWorkingDirectory {
 	private File workingDirectory;
 
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectory} with the specified
+	 * Creates a new {@code BallgownEdgeROverlapsWorkingDirectory} with the specified
 	 * {@code workingDirectory}.
 	 *
 	 * @param workingDirectory the file that represents the working directory
 	 */
-	public PathfindRWorkingDirectory(File workingDirectory) {
+	public BallgownEdgeROverlapsWorkingDirectory(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
 	}
 

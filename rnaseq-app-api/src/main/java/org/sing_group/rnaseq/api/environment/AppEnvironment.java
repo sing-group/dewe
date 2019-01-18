@@ -28,6 +28,7 @@ import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
@@ -105,6 +106,13 @@ public interface AppEnvironment {
 	 * @return the {@code TrimmomaticBinaries}
 	 */
 	public abstract TrimmomaticBinaries getTrimmomaticBinaries();
+
+	/**
+	 * Returns the {@code IGVBrowserBinaries}.
+	 *
+	 * @return the {@code IGVBrowserBinaries}
+	 */
+	public abstract IGVBrowserBinaries getIGVBrowserBinaries();
 
 	/**
 	 * Returns the {@code ReferenceGenomeIndexDatabaseManager}.

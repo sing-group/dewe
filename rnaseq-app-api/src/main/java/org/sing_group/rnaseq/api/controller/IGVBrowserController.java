@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE
+ * DEWE API
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,32 +20,35 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.views;
+package org.sing_group.rnaseq.api.controller;
 
-import org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory;
-import org.sing_group.rnaseq.gui.pathviewr.results.PathfindRResultsViewer;
+import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
+import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecutor;
 
 /**
- * An AIBench view for the {@code PathfindRWorkingDirectory} that extends the
- * {@code PathfindRResultsViewer} component.
- *
+ * The interface for controlling IGV Browser commands.
+ * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class PathfindRWorkingDirectoryView extends PathfindRResultsViewer {
-	private static final long serialVersionUID = 1L;
+public interface IGVBrowserController {
+	/**
+	 * Sets the {@code IGVBrowserBinariesExecutor} that should be used to execute
+	 * IGV Browser commands.
+	 * 
+	 * @param executor the {@code IGVBrowserBinariesExecutor}
+	 */	
+	public abstract void setIGVBrowserBinariesExecutor(
+			IGVBrowserBinariesExecutor executor);
 
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectoryView} for the specified
-	 * {@code PathfindRWorkingDirectory}.
-	 *
-	 * @param pathfindRWorkingDirectory the {@code PathfindRWorkingDirectory} to
-	 *        view.
-	 */
-	public PathfindRWorkingDirectoryView(
-			PathfindRWorkingDirectory pathfindRWorkingDirectory
-	) {
-		super(pathfindRWorkingDirectory.getWorkingDirectory());
-	}
+	 * Opens the IGV Browser in a new window.
+	 * 
+	 * @throws ExecutionException if an error occurs during the execution
+	 * @throws InterruptedException if an error occurs executing the system 
+	 *         binary
+	 */	
+	public abstract void igvBrowser()
+		throws ExecutionException, InterruptedException;
 }

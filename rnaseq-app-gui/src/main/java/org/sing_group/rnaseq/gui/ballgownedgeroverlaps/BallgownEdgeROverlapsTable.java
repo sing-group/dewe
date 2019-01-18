@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE
+ * DEWE GUI
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,32 +20,31 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.views;
+package org.sing_group.rnaseq.gui.ballgownedgeroverlaps;
 
-import org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory;
-import org.sing_group.rnaseq.gui.pathviewr.results.PathfindRResultsViewer;
+import org.jdesktop.swingx.JXTable;
+import org.sing_group.rnaseq.api.entities.ballgownedgeroverlaps.BallgownEdgeROverlaps;
 
 /**
- * An AIBench view for the {@code PathfindRWorkingDirectory} that extends the
- * {@code PathfindRResultsViewer} component.
+ * A table for displaying a {@code  BallgownEdgeROverlaps} list using a
+ * {@code  PathfindRPathwaysTableModel}. 
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
- *
+ * @see BallgownEdgeROverlaps
+ * @see BallgownEdgeROverlapsTableModel
+ * @see BallgownEdgeROverlapsTableSettings
  */
-public class PathfindRWorkingDirectoryView extends PathfindRResultsViewer {
+public class BallgownEdgeROverlapsTable extends JXTable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectoryView} for the specified
-	 * {@code PathfindRWorkingDirectory}.
+	 * Creates a new {@code BallgownEdgeROverlapsTable} for the specified {@code overlaps}
+	 * list.
 	 *
-	 * @param pathfindRWorkingDirectory the {@code PathfindRWorkingDirectory} to
-	 *        view.
+	 * @param pathways the {@code BallgownEdgeROverlaps} list.
 	 */
-	public PathfindRWorkingDirectoryView(
-			PathfindRWorkingDirectory pathfindRWorkingDirectory
-	) {
-		super(pathfindRWorkingDirectory.getWorkingDirectory());
+	public BallgownEdgeROverlapsTable(BallgownEdgeROverlaps overlaps) {
+		super(new BallgownEdgeROverlapsTableModel(overlaps));
 	}
 }

@@ -29,6 +29,7 @@ import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpr
 import java.io.File;
 import java.util.Map;
 
+import org.sing_group.rnaseq.aibench.datatypes.BallgownEdgeROverlapsWorkingDirectory;
 import org.sing_group.rnaseq.aibench.datatypes.BallgownWorkingDirectory;
 import org.sing_group.rnaseq.aibench.datatypes.EdgeRWorkingDirectory;
 import org.sing_group.rnaseq.aibench.gui.util.AIBenchOperationStatus;
@@ -38,6 +39,7 @@ import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.persistence.entities.Hisat2ReferenceGenomeIndex;
 import org.sing_group.rnaseq.api.progress.OperationStatus;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
+import org.sing_group.rnaseq.core.controller.helper.BallgownEdgeROverlapsAnalysis;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
@@ -149,6 +151,14 @@ public class HisatStringTieAndRDifferentialExpressionOperation {
 			);
 		Core.getInstance().getClipboard()
 			.putItem(edgeRDirectory, edgeRDirectory.getName());
+		
+		BallgownEdgeROverlapsWorkingDirectory ballgownEdgeROverlapsDirectory =
+			new BallgownEdgeROverlapsWorkingDirectory(
+				BallgownEdgeROverlapsAnalysis.getOverlapsWorkingDir(this.workingDirectory)
+			);
+		Core.getInstance().getClipboard()
+			.putItem(ballgownEdgeROverlapsDirectory, 
+					 ballgownEdgeROverlapsDirectory.getName());
 	}
 
 	private void succeed() {

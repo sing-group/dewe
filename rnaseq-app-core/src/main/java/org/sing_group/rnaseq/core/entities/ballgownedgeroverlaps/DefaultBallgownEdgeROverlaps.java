@@ -1,6 +1,6 @@
 /*
  * #%L
- * DEWE
+ * DEWE Core
  * %%
  * Copyright (C) 2016 - 2018 Hugo López-Fernández, Aitor Blanco-García, Florentino Fdez-Riverola, 
  * 			Borja Sánchez, and Anália Lourenço
@@ -20,32 +20,40 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.aibench.views;
+package org.sing_group.rnaseq.core.entities.ballgownedgeroverlaps;
 
-import org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory;
-import org.sing_group.rnaseq.gui.pathviewr.results.PathfindRResultsViewer;
+import java.util.Collection;
+import java.util.LinkedList;
+
+import org.sing_group.rnaseq.api.entities.ballgownedgeroverlaps.BallgownEdgeROverlap;
+import org.sing_group.rnaseq.api.entities.ballgownedgeroverlaps.BallgownEdgeROverlaps;
+import org.sing_group.rnaseq.api.entities.edger.EdgeRGenes;
 
 /**
- * An AIBench view for the {@code PathfindRWorkingDirectory} that extends the
- * {@code PathfindRResultsViewer} component.
+ * The default {@code PathfindRPathways} implementation.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
- *
+ * @see EdgeRGenes
  */
-public class PathfindRWorkingDirectoryView extends PathfindRResultsViewer {
+public class DefaultBallgownEdgeROverlaps extends LinkedList<BallgownEdgeROverlap>
+	implements BallgownEdgeROverlaps {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectoryView} for the specified
-	 * {@code PathfindRWorkingDirectory}.
+	 * Creates a new {@code DefaultBallgownEdgeROverlaps} with the specified initial
+	 * {@code overlaps}.
 	 *
-	 * @param pathfindRWorkingDirectory the {@code PathfindRWorkingDirectory} to
-	 *        view.
+	 * @param overlaps a collection of {@code BallgownEdgeROverlap}s
 	 */
-	public PathfindRWorkingDirectoryView(
-			PathfindRWorkingDirectory pathfindRWorkingDirectory
-	) {
-		super(pathfindRWorkingDirectory.getWorkingDirectory());
+	public DefaultBallgownEdgeROverlaps(Collection<BallgownEdgeROverlap> overlaps) {
+		super(overlaps);
+	}
+
+	/**
+	 * Creates an empty {@code DefaultBallgownEdgeROverlaps}.
+	 */
+	public DefaultBallgownEdgeROverlaps() {
+		super();
 	}
 }

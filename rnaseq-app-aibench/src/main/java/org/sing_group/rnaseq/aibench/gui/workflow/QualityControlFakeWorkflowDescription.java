@@ -41,7 +41,7 @@ public class QualityControlFakeWorkflowDescription
 	implements AIBenchWorkflowDescription {
 	private static final String FAST_QC = "operations.fastqc";
 	private static final String TRIMMOMATIC_SE = "operations.trimmomatic.singleend";
-	private static final String TRIMMOMATIC_PE = "operations.trimmomatic.PAIREDend";
+	private static final String TRIMMOMATIC_PE = "operations.trimmomatic.pairedend";
 
 	@Override
 	public void launchWorkflowWizard() { }

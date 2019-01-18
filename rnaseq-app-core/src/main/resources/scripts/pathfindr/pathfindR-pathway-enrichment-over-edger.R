@@ -25,7 +25,6 @@ if(substring(outputDirectory, nchar(outputDirectory)) != "/") {
 tsv <- read.table(file = paste(workingDirectory,"DE_significant_genes.tsv", sep=""), sep = "\t", header = TRUE)
 deleted <- tsv[, -1]
 reordered <- deleted[, c(1,3,2)]
-reordered[, 2] <- log(reordered[2], 2)
 
 human <- as.logical(args[3]);
 

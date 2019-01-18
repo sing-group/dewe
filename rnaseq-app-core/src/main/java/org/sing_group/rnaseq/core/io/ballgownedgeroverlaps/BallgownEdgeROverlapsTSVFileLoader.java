@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package org.sing_group.rnaseq.core.io.pathfindr;
+package org.sing_group.rnaseq.core.io.ballgownedgeroverlaps;
 
 import static es.uvigo.ei.sing.commons.csv.io.CsvReader.CsvReaderBuilder.newCsvReaderBuilder;
 
@@ -30,90 +30,74 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 
-import org.sing_group.rnaseq.api.entities.pathfindr.PathfindRPathway;
-import org.sing_group.rnaseq.api.entities.pathfindr.PathfindRPathways;
-import org.sing_group.rnaseq.core.entities.pathfindr.DefaultPathfindRPathway;
-import org.sing_group.rnaseq.core.entities.pathfindr.DefaultPathfindRPathways;
+import org.sing_group.rnaseq.api.entities.ballgownedgeroverlaps.BallgownEdgeROverlap;
+import org.sing_group.rnaseq.api.entities.ballgownedgeroverlaps.BallgownEdgeROverlaps;
+import org.sing_group.rnaseq.core.entities.ballgownedgeroverlaps.DefaultBallgownEdgeROverlap;
+import org.sing_group.rnaseq.core.entities.ballgownedgeroverlaps.DefaultBallgownEdgeROverlaps;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvData;
 import es.uvigo.ei.sing.commons.csv.entities.CsvEntry;
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 
 /**
- * A class to load a pathways TSV file into a {@code PathfindRPathways} list. 
+ * A class to load a pathways TSV file into a {@code BallgownEdgeROverlaps} list. 
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class PathfindRPathwaysTSVFileLoader {
+public class BallgownEdgeROverlapsTSVFileLoader {
 	private static final CsvFormat CSV_FORMAT =
 		new CsvFormat("\t", '.', true, "\n");
 
 	/**
-	 * Reads the specified genes TSV file and returns a {@code PathfindRPathways}
+	 * Reads the specified genes TSV file and returns a {@code BallgownEdgeROverlaps}
 	 * list.
 	 *
-	 * @param pathwaysFile the genes TSV file
+	 * @param overlapsFile the genes TSV file
 	 *
-	 * @return the {@code PathfindRPathways} list
+	 * @return the {@code BallgownEdgeROverlaps} list
 	 * @throws IOException if an error occurs when reading the file
 	 */
-	public static PathfindRPathways loadFile(File pathwaysFile) throws IOException {
-		PathfindRPathways pathways = new DefaultPathfindRPathways();
-		BufferedReader br = new BufferedReader(new FileReader(pathwaysFile));   
+	public static BallgownEdgeROverlaps loadFile(File overlapsFile) throws IOException {
+		BallgownEdgeROverlaps overlaps = new DefaultBallgownEdgeROverlaps();
+		BufferedReader br = new BufferedReader(new FileReader(overlapsFile));   
 		String line = br.readLine();
 		if (line != null && !line.startsWith("\"\"")) {
-			pathways = parsePathways(newCsvReaderBuilder()
+			overlaps = parsePathways(newCsvReaderBuilder()
 					.withFormat(CSV_FORMAT)
 					.withHeader()
-				.build().read(pathwaysFile));
+				.build().read(overlapsFile));
 		}
 		br.close();
-		return pathways;
+		return overlaps;
 	}
 
-	private static PathfindRPathways parsePathways(CsvData csvPathwaysData)
+	private static BallgownEdgeROverlaps parsePathways(CsvData csvOverlapsData)
 		throws IOException {
-		PathfindRPathways pathways = new DefaultPathfindRPathways();
-		for (CsvEntry entry : csvPathwaysData) {
-			pathways.add(parsePathway(entry, csvPathwaysData.getFormat()));
+		BallgownEdgeROverlaps overlaps = new DefaultBallgownEdgeROverlaps();
+		for (CsvEntry entry : csvOverlapsData) {
+			overlaps.add(parseOverlap(entry, csvOverlapsData.getFormat()));
 		}
-		return pathways;
+		return overlaps;
 	}
 
-	private static PathfindRPathway parsePathway(CsvEntry csvPathwayEntry,
+	private static BallgownEdgeROverlap parseOverlap(CsvEntry csvOverlapEntry,
 		CsvFormat csvFormat) throws IOException {
 		try {
-			return new DefaultPathfindRPathway(
-				csvPathwayEntry.get(0),
-				csvPathwayEntry.get(1),
-				asDouble(csvPathwayEntry.get(2), csvFormat),
-				asInteger(csvPathwayEntry.get(3), csvFormat),
-				asDouble(csvPathwayEntry.get(4), csvFormat),
-				asDouble(csvPathwayEntry.get(5), csvFormat),
-				csvPathwayEntry.get(6),
-				csvPathwayEntry.get(7),
-				asInteger(csvPathwayEntry.get(8), csvFormat),
-				csvPathwayEntry.get(9)
+			return new DefaultBallgownEdgeROverlap(
+					csvOverlapEntry.get(0),
+				asDouble(csvOverlapEntry.get(1), csvFormat),
+				asDouble(csvOverlapEntry.get(3), csvFormat),
+				asDouble(csvOverlapEntry.get(2), csvFormat),
+				asDouble(csvOverlapEntry.get(4), csvFormat)
 			);
 		} catch (IOException e) {
-			throw new IOException("Can't parse number at entry " + csvPathwayEntry,
+			throw new IOException("Can't parse number at entry " + csvOverlapEntry,
 				e);
 		}
 	}
 	
-
-
-	private static int asInteger(String string, CsvFormat format)
-		throws IOException {		
-		try {
-			return Integer.parseInt(string);
-		} catch (NumberFormatException e) {
-			throw new IOException("Can't parse number " + string, e);
-		}		
-	}
-
 	private static double asDouble(String string, CsvFormat format)
 		throws IOException {
 		if (string.equals("NA")) {

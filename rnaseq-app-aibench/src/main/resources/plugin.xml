@@ -330,6 +330,17 @@
 			/>
 		</extension>
 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.IGVBrowser"
+		>
+			<operation-description
+				name="Visualisation of RNA-seq signal with IGV"
+				uid="operations.igvbrowser"
+				path="10@RNA-seq signal"
+			/>
+		</extension>
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
 				name="Ballgown working directory view"
@@ -345,6 +356,11 @@
 				name="PathfindR working directory view"
 				datatype="org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory"
 				class="org.sing_group.rnaseq.aibench.views.PathfindRWorkingDirectoryView"
+			/>
+			<view
+				name="DE overlaps working directory view"
+				datatype="org.sing_group.rnaseq.aibench.datatypes.BallgownEdgeROverlapsWorkingDirectory"
+				class="org.sing_group.rnaseq.aibench.views.BallgownEdgeROverlapsWorkingDirectoryView"
 			/>
 		</extension>
 

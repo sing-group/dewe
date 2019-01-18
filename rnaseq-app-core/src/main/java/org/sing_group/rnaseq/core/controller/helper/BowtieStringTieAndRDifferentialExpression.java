@@ -23,6 +23,7 @@
 package org.sing_group.rnaseq.core.controller.helper;
 
 import static org.sing_group.rnaseq.core.controller.helper.BallgownDifferentialExpressionAnalysis.ballgownDifferentialExpressionAnalysis;
+import static org.sing_group.rnaseq.core.controller.helper.BallgownEdgeROverlapsAnalysis.ballgownEdgerROverlapAnalysis;
 import static org.sing_group.rnaseq.core.controller.helper.EdgeRDifferentialExpressionAnalysis.edgeRDifferentialExpressionAnalysis;
 
 import java.io.File;
@@ -102,10 +103,13 @@ public class BowtieStringTieAndRDifferentialExpression
 		status.setSubStage("Ballgown");
 		ballgownDifferentialExpressionAnalysis(
 			reads, workingDirectory, imageConfiguration);
-		status.setStageProgress(0.5f);
+		status.setStageProgress(0.3f);
 		status.setSubStage("EdgeR");
 		edgeRDifferentialExpressionAnalysis(
 			reads, referenceAnnotationFile, workingDirectory);
+		status.setStageProgress(0.6f);
+		status.setSubStage("DE overlap");
+		ballgownEdgerROverlapAnalysis(workingDirectory);
 		status.setStageProgress(1f);
 	}
 }

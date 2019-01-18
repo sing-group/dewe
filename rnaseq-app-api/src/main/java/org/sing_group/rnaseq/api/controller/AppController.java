@@ -131,18 +131,32 @@ public interface AppController {
 	public abstract TrimmomaticController getTrimmomaticController();
 
 	/**
-	 * Returns the {@code PathfindRController}.
+	 * Returns the {@code PathfindRBallgownController}.
 	 *
-	 * @return the {@code PathfindRController}
+	 * @return the {@code PathfindRBallgownController}
 	 */
 	public abstract PathfindRBallgownController getPathfindRBallgownController();
 	
 	/**
-	 * Returns the {@code PathfindRController}.
+	 * Returns the {@code PathfindREdgeRController}.
 	 *
-	 * @return the {@code PathfindRController}
+	 * @return the {@code PathfindREdgeRController}
 	 */
 	public abstract PathfindREdgeRController getPathfindREdgeRController();
+	
+	/**
+	 * Returns the {@code IGVBrowserController}.
+	 *
+	 * @return the {@code IGVBrowserController}
+	 */
+	public abstract IGVBrowserController getIGVBrowserController();
+	
+	/**
+	 * Returns the {@code DEOverlapsController}.
+	 *
+	 * @return the {@code DEOverlapsController}
+	 */
+	public abstract DEOverlapsController getDEOverlapsController();
 
 	/**
 	 * Returns the {@code ReferenceGenomeIndexDatabaseManager}.

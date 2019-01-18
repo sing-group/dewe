@@ -22,30 +22,30 @@
  */
 package org.sing_group.rnaseq.aibench.views;
 
-import org.sing_group.rnaseq.aibench.datatypes.PathfindRWorkingDirectory;
-import org.sing_group.rnaseq.gui.pathviewr.results.PathfindRResultsViewer;
+import org.sing_group.rnaseq.aibench.datatypes.BallgownEdgeROverlapsWorkingDirectory;
+import org.sing_group.rnaseq.gui.ballgownedgeroverlaps.results.BallgownEdgeROverlapsViewer;
 
 /**
- * An AIBench view for the {@code PathfindRWorkingDirectory} that extends the
- * {@code PathfindRResultsViewer} component.
+ * An AIBench view for the {@code BallgownEdgeROverlapsWorkingDirectory} that extends the
+ * {@code BallgownEdgeROverlapsViewer} component.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class PathfindRWorkingDirectoryView extends PathfindRResultsViewer {
+public class BallgownEdgeROverlapsWorkingDirectoryView extends BallgownEdgeROverlapsViewer {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new {@code PathfindRWorkingDirectoryView} for the specified
-	 * {@code PathfindRWorkingDirectory}.
+	 * Creates a new {@code BallgownEdgeROverlapsWorkingDirectoryView} for the specified
+	 * {@code BallgownEdgeROverlapsWorkingDirectory}.
 	 *
-	 * @param pathfindRWorkingDirectory the {@code PathfindRWorkingDirectory} to
-	 *        view.
+	 * @param ballgownEdgeROverlapsWorkingDirectory the 
+	 * 	      {@code BallgownEdgeROverlapsWorkingDirectory} to view.
 	 */
-	public PathfindRWorkingDirectoryView(
-			PathfindRWorkingDirectory pathfindRWorkingDirectory
+	public BallgownEdgeROverlapsWorkingDirectoryView(
+			BallgownEdgeROverlapsWorkingDirectory ballgownEdgeROverlapsWorkingDirectory
 	) {
-		super(pathfindRWorkingDirectory.getWorkingDirectory());
+		super(ballgownEdgeROverlapsWorkingDirectory.getWorkingDirectory());
 	}
 }
