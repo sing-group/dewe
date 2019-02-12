@@ -310,6 +310,28 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.ViewPathfindRWorkingDirectory"
+		>
+			<operation-description
+				name="View pathfindR working directory"
+				uid="operations.viewpathfindrworkingdirectory"
+				path="8@View results"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="org.sing_group.rnaseq.aibench.operations.ViewBallgownEdgeROverlapsWorkingDirectory"
+		>
+			<operation-description
+				name="View DE overlaps working directory"
+				uid="operations.viewballgownedgeroverlapsworkingdirectory"
+				path="8@View results"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="org.sing_group.rnaseq.aibench.operations.PathfindROverBallgown"
 		>
 			<operation-description

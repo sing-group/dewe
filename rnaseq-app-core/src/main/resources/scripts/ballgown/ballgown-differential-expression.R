@@ -53,7 +53,7 @@ save(bg, file=paste(workingDirectory, 'bg.rda',sep=""))
 
 ## Save the FPKM+1 table containing all genes and transcripts
 fpkm.table <- getFpkmPlus1(bg)
-write.table(fpkm.table, row.names = FALSE, paste("fpkm-plus-1", ".tsv",sep=""), sep="\t")
+##write.table(fpkm.table, row.names = FALSE, paste("fpkm-plus-1", ".tsv",sep=""), sep="\t")
 
 ## Perform differential expression (DE) analysis with no filtering
 results_transcripts = stattest(bg, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
@@ -78,17 +78,23 @@ results_transcripts = data.frame(geneNames=ballgown::geneNames(bg_filt), geneIDs
 results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes,bg_filt_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
+tmp_genes <- results_genes[,-6]
+tmp_genes <- tmp_genes[!duplicated(tmp_genes), ]
+
 ## Output the filtered list of genes and transcripts and save to tab delimited files
 write.table(results_transcripts, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_transcript_results_filtered.tsv",sep=""), sep="\t")
-write.table(results_genes[,-6], row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_filtered.tsv",sep=""), sep="\t")
+write.table(tmp_genes, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_filtered.tsv",sep=""), sep="\t")
 
 ## Identify the significant genes with p-value < 0.05
 sig_transcripts = subset(results_transcripts,results_transcripts$pval<0.05)
 sig_genes = subset(results_genes,results_genes$pval<0.05)
 
+tmp_genes <- sig_genes[,-6]
+tmp_genes <- tmp_genes[!duplicated(tmp_genes), ]
+
 ## Output the significant gene results to a pair of tab delimited files
 write.table(sig_transcripts, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_transcript_results_sig.tsv",sep=""), sep="\t")
-write.table(sig_genes[,-6], row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_sig.tsv",sep=""), sep="\t")
+write.table(tmp_genes, row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_sig.tsv",sep=""), sep="\t")
 
 ## Output the FPKM+1 tables associated to the significant results tables
 write.table(fpkm.table[as.numeric(as.character(sig_genes[,6])),], row.names = FALSE, paste(workingDirectory, phenoDataPrefix,"_gene_results_sig_fpkm_plus_1.tsv",sep=""), sep="\t")

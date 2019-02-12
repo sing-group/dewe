@@ -44,6 +44,7 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 	)
 public class PathfindROverEdgeR {
 	private File directory;
+	private File outputDir;
 	private boolean humanGeneSymbols;
 	private DefaultPathfindRGeneSets geneSets;
 	private DefaultPathfindRClusteringMethod clusteringMethod;
@@ -103,16 +104,30 @@ public class PathfindROverEdgeR {
 			DefaultPathfindRClusteringMethod clusteringMethod
 	) {
 		this.clusteringMethod = clusteringMethod;
-		runOperation();
+	}	
+	
+	@Port(
+		direction = Direction.INPUT,
+		name = "Output folder",
+		description = "The folder where the pathfindR results will be stored.",
+		allowNull = true,
+		order = 5,
+		extras = "selectionMode=directories",
+		advanced = true
+	)
+	public void setOutputFolder(File outputDir) {
+		this.outputDir = outputDir == null ? this.directory : outputDir;
+
+		this.runOperation();
 	}
 	
 	private void runOperation() {
 		try {
-			File outputDir = new File(directory.toString()+"/pathfindr");
-			if(! outputDir.exists())
-				outputDir.mkdir();
+			File outputDirectory = new File(this.outputDir.toString()+"/pathfindr");
+			if(! outputDirectory.exists())
+				outputDirectory.mkdir();
 			DefaultAppController.getInstance().getPathfindREdgeRController()
-				.pathwaysEnrichment(directory, outputDir, humanGeneSymbols, 
+				.pathwaysEnrichment(directory, outputDirectory, humanGeneSymbols, 
 						            geneSets.getParameter(), clusteringMethod.getParameter());
 			invokeLater(this::succeed);
 			processOutputs();
@@ -124,9 +139,9 @@ public class PathfindROverEdgeR {
 	}
 
 	private void processOutputs() {
-		File outputDir = new File(directory.toString()+"/pathfindr");
+		File outputDirectory = new File(this.outputDir.toString()+"/pathfindr");
 		PathfindRWorkingDirectory pathfindRDirectory =
-				new PathfindRWorkingDirectory(outputDir);
+				new PathfindRWorkingDirectory(outputDirectory);
 		Core.getInstance().getClipboard()
 			.putItem(pathfindRDirectory, pathfindRDirectory.getName());
 	}
@@ -134,7 +149,7 @@ public class PathfindROverEdgeR {
 	private void succeed() {
 		Workbench.getInstance().info(
 			"Succeed: PathfindR results can be found at " +
-			this.directory.getAbsolutePath() + "."
+			this.outputDir.getAbsolutePath() + "."
 		);
 	}
 }
