@@ -22,40 +22,42 @@
  */
 package org.sing_group.rnaseq.core.environment.execution;
 
-import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
+import java.io.File;
+
+import org.sing_group.rnaseq.api.environment.binaries.IgvBrowserBinaries;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
-import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.IgvBrowserBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.check.BinaryCheckException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The default {@code FastQcBinariesExecutor} implementation.
+ * The default {@code IgvBrowserBinariesExecutor} implementation.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class DefaultIGVBrowserBinariesExecutor
-	extends AbstractBinariesExecutor<IGVBrowserBinaries>
-	implements IGVBrowserBinariesExecutor {
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultIGVBrowserBinariesExecutor.class);
+public class DefaultIgvBrowserBinariesExecutor
+	extends AbstractBinariesExecutor<IgvBrowserBinaries>
+	implements IgvBrowserBinariesExecutor {
+	private final static Logger LOG = LoggerFactory.getLogger(DefaultIgvBrowserBinariesExecutor.class);
 
 	/**
-	 * Creates a new {@code DefaultIGVBrowserBinariesExecutor} instance to execute
-	 * the specified {@code IGVBrowserBinaries}.
+	 * Creates a new {@code DefaultIgvBrowserBinariesExecutor} instance to execute
+	 * the specified {@code IgvBrowserBinaries}.
 	 *
-	 * @param binaries the {@code IGVBrowserBinaries} to execute
+	 * @param binaries the {@code IgvBrowserBinaries} to execute
 	 * @throws BinaryCheckException if any of the commands can't be executed
 	 */
-	public DefaultIGVBrowserBinariesExecutor(IGVBrowserBinaries binaries)
+	public DefaultIgvBrowserBinariesExecutor(IgvBrowserBinaries binaries)
 		throws BinaryCheckException {
 		this.setBinaries(binaries);
 	}
 
 	@Override
-	public void setBinaries(IGVBrowserBinaries binaries)
+	public void setBinaries(IgvBrowserBinaries binaries)
 		throws BinaryCheckException {
 		super.setBinaries(binaries);
 		this.checkBinaries();
@@ -63,7 +65,9 @@ public class DefaultIGVBrowserBinariesExecutor
 
 	@Override
 	public void checkBinaries() throws BinaryCheckException {
-		//DefaultFastQcBinariesChecker.checkAll(binaries);
+		if(!new File(this.binaries.getIgvBrowser()).exists()) {
+			throw new BinaryCheckException("Binary " + this.binaries.getIgvBrowser() + " does not exist.");
+		}
 	}
 
 	@Override
@@ -71,7 +75,8 @@ public class DefaultIGVBrowserBinariesExecutor
 		throws ExecutionException, InterruptedException {
 			return executeCommand(
 				LOG,
-				this.binaries.getIGVBrowser()
+				false,
+				this.binaries.getIgvBrowser()
 			);
 	}
 }

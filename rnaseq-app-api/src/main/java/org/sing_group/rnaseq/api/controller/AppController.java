@@ -145,11 +145,11 @@ public interface AppController {
 	public abstract PathfindREdgeRController getPathfindREdgeRController();
 	
 	/**
-	 * Returns the {@code IGVBrowserController}.
+	 * Returns the {@code IgvBrowserController}.
 	 *
-	 * @return the {@code IGVBrowserController}
+	 * @return the {@code IgvBrowserController}
 	 */
-	public abstract IGVBrowserController getIGVBrowserController();
+	public abstract IgvBrowserController getIgvBrowserController();
 	
 	/**
 	 * Returns the {@code DEOverlapsController}.

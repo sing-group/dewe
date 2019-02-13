@@ -22,17 +22,17 @@
  */
 package org.sing_group.rnaseq.api.environment.execution;
 
-import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.IgvBrowserBinaries;
 
 /**
- * The interface for running FastQC binaries.
+ * The interface for running IGV Browser binaries.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface IGVBrowserBinariesExecutor
-	extends BinariesExecutor<IGVBrowserBinaries> {
+public interface IgvBrowserBinariesExecutor
+	extends BinariesExecutor<IgvBrowserBinaries> {
 
 	/**
 	 * Opens the IGV Browser in a new window.

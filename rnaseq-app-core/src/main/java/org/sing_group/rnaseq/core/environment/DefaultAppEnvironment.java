@@ -34,7 +34,7 @@ import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
-import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.IgvBrowserBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
@@ -44,7 +44,7 @@ import org.sing_group.rnaseq.core.environment.binaries.DefaultBowtie2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultFastQcBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHisat2Binaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultHtseqBinaries;
-import org.sing_group.rnaseq.core.environment.binaries.DefaultIGVBrowserBinaries;
+import org.sing_group.rnaseq.core.environment.binaries.DefaultIgvBrowserBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultRBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultSamtoolsBinaries;
 import org.sing_group.rnaseq.core.environment.binaries.DefaultStringTieBinaries;
@@ -77,7 +77,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	private DefaultHisat2Binaries hisat2Binaries;
 	private DefaultFastQcBinaries fastQcBinaries;
 	private DefaultTrimmomaticBinaries trimmomaticBinaries;
-	private DefaultIGVBrowserBinaries igvBrowserBinaries;
+	private DefaultIgvBrowserBinaries igvBrowserBinaries;
 	private DefaultReferenceGenomeIndexDatabaseManager referenceGenomeDatabaseManager;
 
 	/**
@@ -112,7 +112,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 				Hisat2Binaries.BASE_DIRECTORY_PROP,
 				FastQcBinaries.BASE_DIRECTORY_PROP,
 				TrimmomaticBinaries.BASE_DIRECTORY_PROP,
-				IGVBrowserBinaries.BASE_DIRECTORY_PROP,
+				IgvBrowserBinaries.BASE_DIRECTORY_PROP,
 				PROP_DATABASES_DIR,
 				PROP_NUM_THREADS
 		}) {
@@ -153,8 +153,8 @@ public class DefaultAppEnvironment implements AppEnvironment {
 			this._getProperty(TrimmomaticBinaries.BASE_DIRECTORY_PROP)
 		);
 		
-		this.igvBrowserBinaries = new DefaultIGVBrowserBinaries(
-			this._getProperty(IGVBrowserBinaries.BASE_DIRECTORY_PROP)	
+		this.igvBrowserBinaries = new DefaultIgvBrowserBinaries(
+			this._getProperty(IgvBrowserBinaries.BASE_DIRECTORY_PROP)	
 		);
 
 		try {
@@ -254,7 +254,7 @@ public class DefaultAppEnvironment implements AppEnvironment {
 	}
 
 	@Override
-	public IGVBrowserBinaries getIGVBrowserBinaries() {
+	public IgvBrowserBinaries getIgvBrowserBinaries() {
 		return igvBrowserBinaries;
 	}
 

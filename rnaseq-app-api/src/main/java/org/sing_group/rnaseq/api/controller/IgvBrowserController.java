@@ -23,7 +23,7 @@
 package org.sing_group.rnaseq.api.controller;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
-import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.IgvBrowserBinariesExecutor;
 
 /**
  * The interface for controlling IGV Browser commands.
@@ -32,15 +32,15 @@ import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecuto
  * @author Aitor Blanco-Míguez
  *
  */
-public interface IGVBrowserController {
+public interface IgvBrowserController {
 	/**
-	 * Sets the {@code IGVBrowserBinariesExecutor} that should be used to execute
+	 * Sets the {@code IgvBrowserBinariesExecutor} that should be used to execute
 	 * IGV Browser commands.
 	 * 
-	 * @param executor the {@code IGVBrowserBinariesExecutor}
+	 * @param executor the {@code IgvBrowserBinariesExecutor}
 	 */	
-	public abstract void setIGVBrowserBinariesExecutor(
-			IGVBrowserBinariesExecutor executor);
+	public abstract void setIgvBrowserBinariesExecutor(
+			IgvBrowserBinariesExecutor executor);
 
 	/**
 	 * Opens the IGV Browser in a new window.

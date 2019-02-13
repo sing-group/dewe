@@ -23,17 +23,17 @@
 package org.sing_group.rnaseq.api.environment;
 
 /**
- * The interface that defines the IGV Broser environment.
+ * The interface that defines the IGV Browser environment.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public interface IGVBrowserEnvironment {
+public interface IgvBrowserEnvironment {
 	/**
 	 * Returns the default name of the igv command.
 	 * 
 	 * @return the default name of the igv command
 	 */
-	public abstract String getDefaultIGV();
+	public abstract String getDefaultIgv();
 }

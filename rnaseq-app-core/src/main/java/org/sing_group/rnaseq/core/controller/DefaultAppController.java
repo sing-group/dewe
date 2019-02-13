@@ -32,7 +32,7 @@ import org.sing_group.rnaseq.api.controller.EdgeRController;
 import org.sing_group.rnaseq.api.controller.FastQcController;
 import org.sing_group.rnaseq.api.controller.Hisat2Controller;
 import org.sing_group.rnaseq.api.controller.HtseqController;
-import org.sing_group.rnaseq.api.controller.IGVBrowserController;
+import org.sing_group.rnaseq.api.controller.IgvBrowserController;
 import org.sing_group.rnaseq.api.controller.PathfindRBallgownController;
 import org.sing_group.rnaseq.api.controller.PathfindREdgeRController;
 import org.sing_group.rnaseq.api.controller.RController;
@@ -46,7 +46,7 @@ import org.sing_group.rnaseq.api.environment.binaries.Bowtie2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.FastQcBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.Hisat2Binaries;
 import org.sing_group.rnaseq.api.environment.binaries.HtseqBinaries;
-import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
+import org.sing_group.rnaseq.api.environment.binaries.IgvBrowserBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.RBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.SamtoolsBinaries;
 import org.sing_group.rnaseq.api.environment.binaries.StringTieBinaries;
@@ -56,7 +56,7 @@ import org.sing_group.rnaseq.api.environment.execution.Bowtie2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.FastQcBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.Hisat2BinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.HtseqBinariesExecutor;
-import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.IgvBrowserBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.SamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.api.environment.execution.StringTieBinariesExecutor;
@@ -68,7 +68,7 @@ import org.sing_group.rnaseq.core.environment.execution.DefaultBowtie2BinariesEx
 import org.sing_group.rnaseq.core.environment.execution.DefaultFastQcBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHisat2BinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultHtseqBinariesExecutor;
-import org.sing_group.rnaseq.core.environment.execution.DefaultIGVBrowserBinariesExecutor;
+import org.sing_group.rnaseq.core.environment.execution.DefaultIgvBrowserBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultRBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultSamtoolsBinariesExecutor;
 import org.sing_group.rnaseq.core.environment.execution.DefaultStringTieBinariesExecutor;
@@ -100,7 +100,7 @@ public class DefaultAppController implements AppController {
 	private DefaultTrimmomaticController trimmomaticController;
 	private DefaultPathfindRBallgownController pathfindRBallgownController;
 	private DefaultPathfindREdgeRController pathfindREdgeRController;
-	private DefaultIGVBrowserController igvBrowserController;
+	private DefaultIgvBrowserController igvBrowserController;
 	private DefaultDEOverlapsController deOverlapsController;
 
 	/**
@@ -133,7 +133,7 @@ public class DefaultAppController implements AppController {
 		this.setTrimmomaticController();
 		this.setPathfindRBallgownController();
 		this.setPathfindREdgeRController();
-		this.setIGVBrowserController();
+		this.setIgvBrowserController();
 		this.setDEOverlapsController();
 	}
 
@@ -253,17 +253,17 @@ public class DefaultAppController implements AppController {
 		);
 	}
 		
-	private void setIGVBrowserController() throws BinaryCheckException {
-		this.igvBrowserController = new DefaultIGVBrowserController();
-		this.igvBrowserController.setIGVBrowserBinariesExecutor(
-			this.createIGVBrowserBinariesExecutor(this.environment.getIGVBrowserBinaries())
+	private void setIgvBrowserController() throws BinaryCheckException {
+		this.igvBrowserController = new DefaultIgvBrowserController();
+		this.igvBrowserController.setIgvBrowserBinariesExecutor(
+			this.createIgvBrowserBinariesExecutor(this.environment.getIgvBrowserBinaries())
 		);
 	}
 
-	private IGVBrowserBinariesExecutor createIGVBrowserBinariesExecutor(
-			IGVBrowserBinaries igvBrowserBinaries
+	private IgvBrowserBinariesExecutor createIgvBrowserBinariesExecutor(
+		IgvBrowserBinaries igvBrowserBinaries
 	) throws BinaryCheckException {
-		return new DefaultIGVBrowserBinariesExecutor(igvBrowserBinaries);
+		return new DefaultIgvBrowserBinariesExecutor(igvBrowserBinaries);
 	}
 	
 	private void setDEOverlapsController() throws BinaryCheckException {
@@ -385,7 +385,7 @@ public class DefaultAppController implements AppController {
 	}
 
 	@Override
-	public IGVBrowserController getIGVBrowserController() {
+	public IgvBrowserController getIgvBrowserController() {
 		return this.igvBrowserController;
 	}
 

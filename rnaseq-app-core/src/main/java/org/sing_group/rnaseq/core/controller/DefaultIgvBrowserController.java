@@ -22,35 +22,34 @@
  */
 package org.sing_group.rnaseq.core.controller;
 
-import org.sing_group.rnaseq.api.controller.IGVBrowserController;
+import org.sing_group.rnaseq.api.controller.IgvBrowserController;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.ExecutionResult;
-import org.sing_group.rnaseq.api.environment.execution.IGVBrowserBinariesExecutor;
+import org.sing_group.rnaseq.api.environment.execution.IgvBrowserBinariesExecutor;
 
 /**
- * The default {@code IGVBrowserController} implementation.
+ * The default {@code IgvBrowserController} implementation.
  *
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class DefaultIGVBrowserController implements IGVBrowserController {
-	private IGVBrowserBinariesExecutor igvBrowserBinariesExecutor;
+public class DefaultIgvBrowserController implements IgvBrowserController {
+	private IgvBrowserBinariesExecutor igvBrowserBinariesExecutor;
 
 	@Override
-	public void setIGVBrowserBinariesExecutor(IGVBrowserBinariesExecutor executor) {
+	public void setIgvBrowserBinariesExecutor(IgvBrowserBinariesExecutor executor) {
 		this.igvBrowserBinariesExecutor = executor;
 	}
 
 	@Override
-	public void igvBrowser()
-		throws ExecutionException, InterruptedException {
-			final ExecutionResult result = 
-					this.igvBrowserBinariesExecutor.igvBrowser();
+	public void igvBrowser() throws ExecutionException, InterruptedException {
+		final ExecutionResult result = this.igvBrowserBinariesExecutor
+			.igvBrowser();
 
-			if (result.getExitStatus() != 0) {
-				throw new ExecutionException(result.getExitStatus(),
-					"Error executing IGV Browser. Please, check error log.", "");
-			}
+		if (result.getExitStatus() != 0) {
+			throw new ExecutionException(result.getExitStatus(),
+				"Error executing IGV Browser. Please, check error log.", "");
+		}
 	}
 }

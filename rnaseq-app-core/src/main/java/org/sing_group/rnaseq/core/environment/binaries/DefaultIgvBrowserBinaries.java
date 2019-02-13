@@ -26,8 +26,8 @@ import static org.sing_group.rnaseq.core.util.FileUtils.getAbsolutePath;
 
 import java.io.File;
 
-import org.sing_group.rnaseq.api.environment.binaries.IGVBrowserBinaries;
-import org.sing_group.rnaseq.core.environment.DefaultIGVBrowserEnvironment;
+import org.sing_group.rnaseq.api.environment.binaries.IgvBrowserBinaries;
+import org.sing_group.rnaseq.core.environment.DefaultIgvBrowserEnvironment;
 
 /**
  * The default {@code IGVBrowserBinaries} implementation.
@@ -36,7 +36,7 @@ import org.sing_group.rnaseq.core.environment.DefaultIGVBrowserEnvironment;
  * @author Aitor Blanco-Míguez
  *
  */
-public class DefaultIGVBrowserBinaries implements IGVBrowserBinaries {
+public class DefaultIgvBrowserBinaries implements IgvBrowserBinaries {
 	private File baseDirectory;
 	private String igvBroser;
 
@@ -46,7 +46,7 @@ public class DefaultIGVBrowserBinaries implements IGVBrowserBinaries {
 	 * 
 	 * @param baseDirectoryPath the directory where the binaries are located
 	 */
-	public DefaultIGVBrowserBinaries(String baseDirectoryPath) {
+	public DefaultIgvBrowserBinaries(String baseDirectoryPath) {
 		this.setBaseDirectory(baseDirectoryPath);
 	}
 
@@ -60,16 +60,16 @@ public class DefaultIGVBrowserBinaries implements IGVBrowserBinaries {
 		this.baseDirectory = path;
 
 		this.igvBroser = getAbsolutePath(
-			this.baseDirectory, defaultIGVBrowser()
+			this.baseDirectory, defaultIgvBrowser()
 		);
 	}
 
-	private String defaultIGVBrowser() {
-		return DefaultIGVBrowserEnvironment.getInstance().getDefaultIGV();
+	private String defaultIgvBrowser() {
+		return DefaultIgvBrowserEnvironment.getInstance().getDefaultIgv();
 	}
 
 	@Override
-	public String getIGVBrowser() {
+	public String getIgvBrowser() {
 		return this.igvBroser;
 	}
 }

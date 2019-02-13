@@ -22,9 +22,12 @@
  */
 package org.sing_group.rnaseq.aibench.operations;
 
+import javax.swing.SwingUtilities;
+
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.core.controller.DefaultAppController;
 
+import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
@@ -34,20 +37,26 @@ import es.uvigo.ei.aibench.workbench.Workbench;
 		name = "IGV browser",
 		description = "Visualisation of RNA-seq signal using IGV."
 	)
-public class IGVBrowser {
+public class IgvBrowser {
 
 	@Port(
 		direction = Direction.OUTPUT,
 		order = 1
 	)
 	public void runOperation() {
-		try {
-			DefaultAppController appController = DefaultAppController.getInstance();
-			appController.getIGVBrowserController().igvBrowser();
-		} catch (ExecutionException e) {
-			Workbench.getInstance().error(e, e.getMessage());
-		} catch (InterruptedException e) {
-			Workbench.getInstance().error(e, e.getMessage());
-		}
+		SwingUtilities.invokeLater(() -> {
+			new Thread(() -> {
+				try {
+					Core.getInstance().disableOperation("operations.igvbrowser");
+					DefaultAppController appController = DefaultAppController.getInstance();
+					appController.getIgvBrowserController().igvBrowser();
+					Core.getInstance().enableOperation("operations.igvbrowser");
+				} catch (ExecutionException e) {
+					Workbench.getInstance().error(e, e.getMessage());
+				} catch (InterruptedException e) {
+					Workbench.getInstance().error(e, e.getMessage());
+				}
+			}).start();
+		});
 	}
 }

@@ -22,33 +22,33 @@
  */
 package org.sing_group.rnaseq.core.environment;
 
-import org.sing_group.rnaseq.api.environment.IGVBrowserEnvironment;
+import org.sing_group.rnaseq.api.environment.IgvBrowserEnvironment;
 
 /**
- * The default {@code IGVBrowserEnvironment} implementation.
+ * The default {@code IgvBrowserEnvironment} implementation.
  * 
  * @author Hugo López-Fernández
  * @author Aitor Blanco-Míguez
  *
  */
-public class DefaultIGVBrowserEnvironment implements IGVBrowserEnvironment {
+public class DefaultIgvBrowserEnvironment implements IgvBrowserEnvironment {
 
-	private static DefaultIGVBrowserEnvironment INSTANCE;
+	private static DefaultIgvBrowserEnvironment INSTANCE;
 
 	/**
-	 * Returns the {@code DefaultIGVBrowserEnvironment} singleton instance.
+	 * Returns the {@code DefaultIgvBrowserEnvironment} singleton instance.
 	 * 
-	 * @return the {@code DefaultIGVBrowserEnvironment} singleton instance
+	 * @return the {@code DefaultIgvBrowserEnvironment} singleton instance
 	 */
-	public static DefaultIGVBrowserEnvironment getInstance() {
+	public static DefaultIgvBrowserEnvironment getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new DefaultIGVBrowserEnvironment();
+			INSTANCE = new DefaultIgvBrowserEnvironment();
 		}
 		return INSTANCE;
 	}
 
 	@Override
-	public String getDefaultIGV() {
+	public String getDefaultIgv() {
 		return "igv.sh";
 	}
 }

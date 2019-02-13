@@ -26,7 +26,6 @@ import java.io.File;
 
 import org.sing_group.rnaseq.api.environment.execution.ExecutionException;
 import org.sing_group.rnaseq.api.environment.execution.RBinariesExecutor;
-import org.sing_group.rnaseq.api.environment.execution.parameters.ImageConfigurationParameter;
 import org.sing_group.rnaseq.api.environment.execution.parameters.VennDiagramConfigurationParameter;
 
 /**
@@ -60,8 +59,7 @@ public interface DEOverlapsController {
 	public abstract void ballgownEdgerROverlaps(File workingDir, File outputDir)
 		throws ExecutionException, InterruptedException;
 
-
 	public void createBallgownEdgerRVennDiagram(File workingDirectory,
-			VennDiagramConfigurationParameter imageConfiguration)
-		throws ExecutionException, InterruptedException ;
+		VennDiagramConfigurationParameter imageConfiguration)
+		throws ExecutionException, InterruptedException;
 }

@@ -29,14 +29,14 @@ package org.sing_group.rnaseq.api.environment.binaries;
  * @author Aitor Blanco-Míguez
  *
  */
-public interface IGVBrowserBinaries extends Binaries {
-	public final static String FASTQC_PREFIX = "igv.";
-	public final static String BASE_DIRECTORY_PROP = FASTQC_PREFIX + "binDir";
+public interface IgvBrowserBinaries extends Binaries {
+	public final static String IGV_BROWSER_PREFIX = "igv.";
+	public final static String BASE_DIRECTORY_PROP = IGV_BROWSER_PREFIX + "binDir";
 
 	/**
 	 * Returns a string with the full path to the IGV command.
 	 *  
 	 * @return a string with the full path to the IGV command
 	 */
-	public abstract String getIGVBrowser();
+	public abstract String getIgvBrowser();
 }

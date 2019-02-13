@@ -52,6 +52,9 @@ import org.sing_group.rnaseq.core.persistence.DefaultReferenceGenomeIndexDatabas
 import org.sing_group.rnaseq.gui.util.CommonFileChooser;
 
 import es.uvigo.ei.aibench.TextAreaAppender;
+import es.uvigo.ei.aibench.core.Core;
+import es.uvigo.ei.aibench.core.clipboard.ClipboardItem;
+import es.uvigo.ei.aibench.core.clipboard.ClipboardListener;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
@@ -139,6 +142,21 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 			Workbench.getInstance().error("Environment not available.");
 		}
 		this.updateReferenceGenomeManagerComponent();
+
+		Core.getInstance().getClipboard().addClipboardListener(new ClipboardListener() {
+
+			@Override
+			public void elementRemoved(ClipboardItem item) {
+			}
+
+			@Override
+			public void elementAdded(ClipboardItem item) {
+				if (item.getUserData().getClass().equals(Class.class)) {
+					Core.getInstance().getClipboard()
+						.removeClipboardItem(item);
+				}
+			}
+		});
 	}
 
 	public void updateReferenceGenomeManagerComponent() {

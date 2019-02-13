@@ -354,7 +354,7 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="org.sing_group.rnaseq.aibench.operations.IGVBrowser"
+			class="org.sing_group.rnaseq.aibench.operations.IgvBrowser"
 		>
 			<operation-description
 				name="Visualisation of RNA-seq signal with IGV"
